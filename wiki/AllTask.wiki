@@ -1,7 +1,7 @@
 =请各位自行将自己的名字填入下表=
 
 ==工作安排：==
- * Subversion FAQ：zhaozhi.1983@gmail.com
+ * Subversion FAQ：zhaozhi.1983@gmail.com,myplaylife@gmail.com
  * TortoiseSVN FAQ：Neil.Creater@gmail.com
  * 使用Subversion进行版本控制：daijun@gmail.com,videomailweb@gmail.com
  * TortoiseSVN手册：alex.zhu.az<AT>g m a i l. c o m
