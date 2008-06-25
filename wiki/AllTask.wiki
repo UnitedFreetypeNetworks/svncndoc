@@ -1,0 +1,11 @@
+=请各位自行将自己的名字填入下表=
+
+==工作安排：==
+ * Subversion FAQ：zhaozhi.1983@gmail.com
+ * TortoiseSVN FAQ：Neil.Creater@gmail.com
+ * 使用Subversion进行版本控制：daijun@gmail.com
+ * TortoiseSVN手册：
+ * Submerged中文版：
+ * TortoiseSVN Blog中文版：
+
+其它请自行添加：
