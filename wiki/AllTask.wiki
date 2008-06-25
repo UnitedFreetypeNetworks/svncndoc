@@ -5,7 +5,7 @@
  * TortoiseSVN FAQ：Neil.Creater@gmail.com
  * 使用Subversion进行版本控制：daijun@gmail.com
  * TortoiseSVN手册：
- * Submerged中文版：
+ * Submerged中文版：lsidss@gmail.com
  * TortoiseSVN Blog中文版：
 
 其它请自行添加：
