@@ -314,42 +314,26 @@ shops for real work.在那之后，有两年多的时间被用来进行Bug追踪(bugfixing)和增强稳
 
 
 <div class="h3" id="interop" title="interop">
-<h3>What is Subversion's client/server
-    interoperability policy?</h3>
+<h3>Subversion的客户端/服务器协同工作的策略是怎样的？</h3>
 
-<p>The client and server are designed to work as long as they aren't
- more than one major release version apart.  For example, any 1.X
- client will work with a 1.Y server.  However, if the client and
- server versions don't match, certain features may not be available.</p>
+<p>客户端和服务器被设计成只要他们相互之间没有超过一个主要的发行版本，就可以协调工作。例如任何一个1.x的客户端都可以和一个1.y的服务器协调工作。然而，如果客户端和服务器的版本不相匹配，某些特性可能不能使用。</p>
 
-<p>See the client/server interoperability policy is documented in the
-"Compatibility" section of the <a href="hacking.html">Hacker's Guide
-to Subversion</a>.</p>
+<p>客户端和服务器之间的兼容性策略记录在<a href="hacking.html">Hacker's Guide
+to Subversion</a>的“兼容性”一节里面.</p>
 
 </div>
 
 
 <div class="h3" id="portability" title="portability">
-<h3>What operating systems does Subversion run
-    on?</h3>
+<h3>Subversion可以运行在哪些操作系统上？</h3>
 
-<p>All modern flavors of Unix, Win32, BeOS, OS/2, MacOS X.</p>
+<p>所有现代风格的操作系统，比如Unix, Win32, BeOS, OS/2, MacOS X.</p>
 
-<p>Subversion is written in ANSI C and uses APR, the <a
-href="http://apr.apache.org">Apache Portable Runtime</a> library, as a
-portability layer.  The Subversion client will run anywhere APR runs,
-which is most places.  The Subversion server (i.e., the repository
-side) is the same, except that it will not host a Berkeley DB repository
-on Win9x platforms (Win95/Win98/WinME), because Berkeley DB has
-shared-memory segment problems on Win9x.  FSFS repositories
-(introduced in version 1.1) do not have this restriction; however, due
-to a limitation in Win9x's file-locking support, they also don't work
-in Win9x.</p>
+<p>Subversion是用ANSI C来写的，并且使用了APR,<a
+href="http://apr.apache.org">Apache Portable Runtime</a>库,作为一个轻量的层。Subversion的客户端将可以运行在任何APR运行的地方，这是最主要的地方。这和Subversion服务器(例如, the repository
+side)是相同的,除非是在Berkeley DB的Win9x(Win95/Win98/WinME)作为平台的主机上,因为Berkeley DB在Win9x平台上共享存储器片段问题。FSFS版本库(才版本1.1中有介绍)没有这种限制；然而由于Win9x对文件锁定的支持限制，他们仍然不能在Win9x的平台上工作。</p>
 
-<p>To reiterate, the Subversion client can be run on any platform
-where APR runs. The Subversion server can also be run on any
-platform where APR runs, but cannot host a repository on
-Win95/Win98/WinMe.</p>
+<p>重申一下，Subversion客户端可以运行在任何APR所运行的平台.Subversion服务器也可以运行在任何APR平台所能运行的平台，但是不能让Win95/Win98/WinMe作为平台的主机</p>
 
 </div>
 
