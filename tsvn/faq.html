@@ -31,18 +31,18 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </script>
 
 <div class="h2"><!-- no 'id' or 'title' attribute for TOC -->
-<h2>Table of Contents</h2>
+<h2>目录</h2>
 
-<h4>Installation &amp; Upgrade:</h4>
+<h4>安装 &amp; 升级</h4>
 <ul>
-<li><a href="#uninstallfirst">When upgrading TortoiseSVN, do I have to uninstall the existing version first?</a></li>
-<li><a href="#adminpriv">Do I need Admin privileges to install TortoiseSVN?</a></li> 
-<li><a href="#installsubversion">Do I need to install Subversion before I can use TortoiseSVN?</a></li>
-<li><a href="#uninstall">How do I uninstall TortoiseSVN?</a></li>
-<li><a href="#msidisabled">MSI installation is disabled on my machine. Is there a .exe installer?</a></li> 
-<li><a href="#whymsi">Why are you using MSI instead of an exe or no installer at all?</a></li>
-<li><a href="#installerror">The installer aborts with an error message</a></li>
-<li><a href="#nomenus">After installing, TortoiseSVN does not show up, no context menus are available</a></li>
+<li><a href="#uninstallfirst">在升级 TortoiseSVN 之前, 是否需要卸载已安装的版本？</a></li>
+<li><a href="#adminpriv">安装 TortoiseSVN 是否需要管理员权限？</a></li> 
+<li><a href="#installsubversion">在使用 TortoiseSVN 之前，是否需要安装 Subversion ？</a></li>
+<li><a href="#uninstall">怎样卸载 TortoiseSVN？</a></li>
+<li><a href="#msidisabled">我的电脑上关闭了 MSI 安装模式。 是否有 .exe 安装文件？</a></li> 
+<li><a href="#whymsi">为什么使用 MSI 代替其他安装方式？</a></li>
+<li><a href="#installerror">安装终止的错误信息</a></li>
+<li><a href="#nomenus">安装完成后，TortoiseSVN 不能显示，没有可以使用的菜单</a></li>
 </ul>
 
 <h4>Overlay icons:</h4>
@@ -111,70 +111,63 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 
 <div class="h3" id="uninstallfirst" title="uninstallfirst">
-<h3>When upgrading TortoiseSVN, do I have to uninstall the existing version first?</h3>
-<p>No. You can just install the new version over the old one. The installer will take 
-care of uninstalling the old version first automatically. But you must reboot your 
-computer after the installer finishes! Or at least you have to log off and log on again.</p>
+<h3>在升级 TortoiseSVN 之前, 是否需要卸载已安装的版本？</h3>
+<p>不。你只需要用新的版本覆盖旧的版本即可。安装程序会自动卸载旧的版本。
+但是，你必须在安装完成以后重启计算机！或者注销以后重新登录操作系统。</p>
 </div>
 
 <div class="h3" id="adminpriv" title="adminpriv">
-<h3>Do I need Admin privileges to install TortoiseSVN?</h3>
-<p>Yes, you need to have Admin privileges to install TortoiseSVN, or at least
-have the rights to install <em>with</em> Admin privileges.</p>
-<p>But after TortoiseSVN has been installed, you can use it without having
-Admin privileges.</p>
+<h3>安装 TortoiseSVN 是否需要管理员权限？ </h3>
+<p>是，你不得不使用管理员账号去安装 TortoiseSVN，或者你<em> 具有 </em>管理员的安装权限。</p>
+<p>但当 TortoiseSVN 安装完成以后，就不再需要管理员权限了。</p>
 </div>
 
 <div class="h3" id="installsubversion" title="installsubversion">
-<h3>Do I need to install Subversion before I can use TortoiseSVN?</h3>
-<p>No. TortoiseSVN comes with everything you need to access a repository. 
-Only if you want to set up a server then you will need the Subversion package.</p>
+<h3>在使用 TortoiseSVN 之前，是否需要安装 Subversion ？</h3>
+<p>不，TortoiseSVN 具有所有访问版本库的能力。仅当你需要创建版本库的时候才需要安装 Subversion。</p>
 </div>
 
 <div class="h3" id="uninstall" title="uninstall">
-<h3>How do I uninstall TortoiseSVN?</h3>
-<p>Simply uninstall from Add/Remove Programs in the Windows control panel. 
-This does not affect your repositories or working copies at all.</p>
+<h3>怎样卸载 TortoiseSVN？</h3>
+<p>在控制面板中的添加或删除程序里选择删除即可。
+这个操作完全不会影响到你的版本库或者工作拷贝。</p>
 </div>
 
 <div class="h3" id="msidisabled" title="msidisabled">
-<h3>MSI installation is disabled on my machine. Is there a .exe installer?</h3>
-<p>An exe installation file wouldn't help. If msi installation is really disabled 
-on your machine, then you don't have ADMIN privileges either. And you would need 
-those to install TortoiseSVN (shell extensions require ADMIN rights to install).
-But first make sure that msi installation is really disabled - that can only be 
-if your domain administrator disabled it.</p>
+<h3>我的电脑上关闭了 MSI 安装模式。 是否存在 .exe 安装文件？</h3>
+<p>exe的安装文件对此也无能为力。如果你的机器已经禁止了msi安装，那么你也应该是没有管理员权限，这是安装TortoiseSVN的必要条件（安装的shell扩展需要管理员权限）。你首先要做的就是确保msi安装是否已经被关闭 - 这只能是你的域管理员屏蔽了这个能力。</p>
 </div>
 
 <div class="h3" id="whymsi" title="whymsi">
-<h3>Why are you using MSI instead of an exe or no installer at all?</h3>
-<p>There are several reasons why we use MSI as our installer instead of something else:</p>
+<h3>为什么使用 MSI 代替其他安装方式？</h3>
+<p>我们使用 MSI 代替其他安装方式有如下一些原因：</p>
 <ul>
-<li>It's open. Everybody can see what we're doing by using msi tools like Orca.</li>
-<li>It's easy to adjust an existing msi for your special needs if you like. There are tools with which you can edit an msi manually. You can't do that with an exe installer.</li>
-<li>It runs with SYSTEM privileges, not just as e.g. Administrator. That's important because TortoiseSVN is a shell extension which requires us to create and modify registry keys which aren't accessible to user accounts (this is especially important on Vista with UAC enabled).</li>
-<li>It's easy to distribute an msi to multiple computers/users in a domain via GPO's. All other installers would require a domain admin to first 'wrap' that installer inside an msi to do that.</li>
-<li>msi is the standard and recommended way of installing windows applications. It's even <b>required</b> now to get the "Certified for Vista" logo from Microsoft.</li>
-<li>There's a great open source tool for creating msi files: <a href="http://wix.sourceforge.net">WiX</a> which we use.</li>
-<li>msi takes care of reference counting of installed modules which prevents the so called <a href="http://en.wikipedia.org/wiki/DLL_hell">dll hell</a>.</li>
-<li>an installer is required since we have to <b>register</b> TortoiseSVN with the shell. A simple exe for you to run wouldn't work.</li>
+<li>它是开放的。所有人都可以通过 msi 工具（比如Orca）看到我们做了些什么.</li>
+<li>可以根据你的需求非常简单的调整已经存在 MSI 文件。有很多工具可以让你手工修改MSI文件。但你不能对 exe 安装文件做同样的事。</li>
+<li>它需要系统管理员权限才能运行，并不仅是系统管理员账号。这是非常重要的，因为 TortoiseSVN 是一个 shell 扩展，它需要我们去创建或者修改注册表的键值，
+普通用户并没有权限做到这一点（特别是在打开UAC的Vista上）。</li>
+<li>可以非常简单的通过 GPO 分发 MSI 给同一个域上的不同用户或主机。 所有的其他安装方式都需要系统管理员先进行 '打包' 操作, 而MSI自己已经做好了这一切。</li>
+<li>MSI 是一个安装 Windows 应用程序的标准和推荐的方法。它现在更是从 Microsoft 取得 "Vista认证"。</li>
+<li>这里有一个非常强大的创建 MSI 文件的开源软件工具: <a href="http://wix.sourceforge.net">WiX</a> 这也是我们正在使用的。</li>
+<li>MSI 非常小心的处理安装模块的引用计数以避免所谓的 <a href="http://en.wikipedia.org/wiki/DLL_hell">dll hell</a>.</li>
+<li>我们不得不通过安装包注册包括 shell 扩展的 TortoiseSVN。一个简单的 exe 文件根本不可能做到这一点。</li>
 </ul>
 </div>
 
 <div class="h3" id="installerror" title="installerror">
-<h3>The installer aborts with an error message</h3>
-<p>There are several reasons why the installation cannot succeed:</p>
+<h3>安装终止的错误信息</h3>
+<p>有许多原因可能导致安装不成功:</p>
 <ul>
-<li><em>&quot;This installation package is not supported by this processor type. Contact your product vendor.&quot;</em> This means you are trying to install the 64-bit version of TortoiseSVN on a normal 32-bit operating system. You need to download and use the correct msi file for your OS. For normal 32-bit OS, make sure the msi file does not have an <em>x64</em> in it.</li>
-<li><em>&quot;The installer was interrupted before TortoiseSVN could be installed. You need to restart the installer to try again&quot;</em>Then the user SYSTEM doesn't have read/execution rights in the folder where the installer msi is located. Either move the msi file to another location or give the user SYSTEM read and execution rights.</li>
-<li><em>&quot;The windows installer service could not be accessed&quot;</em> This can occur if you are running Windows in safe mode, or if the windows installer is not correctly installed. For this kind of error message, please check out the Microsoft Knowledgebase article <a href='http://support.microsoft.com/default.aspx?scid=kb;en-us;q315346'>Q315346</a> (basically, check that the folder where the msi is stored isn't encrypted or compressed)</li>
-<li><em>&quot;The system can not open the device of file specified&quot;</em>, followed usually by <em>&quot;The installer has encountered an unexpected error installing this package. This may indicate a problem with this package. The error code is 2755&quot;</em>. This can happen if:
+<li><em>&quot;This installation package is not supported by this processor type. Contact your product vendor.&quot;</em> 这是说你试图将64位的 TortoiseSVN 安装到32位的操作系统上。你需要下载和使用正确的 MSI 文件。对于32位的操作系统，请确定 MSI 文件并没有 <em>x64</em> 在里面。</li>
+<li><em>&quot;The installer was interrupted before TortoiseSVN could be installed. You need to restart the installer to try again&quot;</em>然后用户在 MSI 文件的位置就丢掉正确的读和运行的权限。也不能把 MSI 文件移动到其他的地方或者给用户 SYSTEM 读和运行的权限</li>
+<li><em>&quot;The windows installer service could not be accessed&quot;</em> 这个可能在你运行 Windows 安全模式的时候出现，或者说 windows installer 没有被正确的安装。对于这种类型的错误信息，请核实 Microsoft Knowledgebase 的文章 <a href='http://support.microsoft.com/default.aspx?scid=kb;en-us;q315346'>Q315346</a> (基本上确定 MSI 文件夹没有加密或者被压缩即可)</li>
+<li><em>&quot;The system can not open the device of file specified&quot;</em>, 紧接着通常是 <em>&quot;The installer has encountered an unexpected error installing this package. This may indicate a problem with this package. The error code is 2755&quot;</em>. 出现这种错误信息需要:
 	<ul>
-	<li>The installation does not have access to the Temp directory or if the default Temp directory of the machine is not clean or does not have enough space to run the setup.</li>
-	<li>The installation is being run over a terminal Server via a mapped network drive.</li>
-	<li>The installation is unable to create or write to the Installer directory in a Windows NT system environment.</li>
+	<li>安装程序没有权限访问临时文件夹，或者系统设定的临时文件夹没有清理，或者说没有足够的空间来完成安装。</li>
+	<li>安装程序映射网络驱动器的时候溢出终端服务器</li>
+	<li>安装程序没有对 Windows 环境变量设置的安装目录创建和写的权限。</li>
 	</ul>
-	To solve this problem, clear the temp folder, move the installer msi file to your local harddrive where the user SYSTEM has full access rights. The following knowledge base articles may help:
+	要解决这个问题，清空临时文件夹，将 MSI 文件移动到有完整权限的系统硬盘上。下面的这些文档可能会有些帮助:
 	<ul>
 	<li><a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;220780">220780</a> OFF2000: Setup Error 2755 with Earlier Office Version Installed</li>
 	<li><a href="http://support.microsoft.com/default.aspx?scid=kb;en-us;217714">217714</a> OFF2000: Setup Appears to Stop Responding, Followed by Internal Error 2336 or 2755</li>
@@ -187,9 +180,9 @@ if your domain administrator disabled it.</p>
 </div>
 
 <div class="h3" id="nomenus" title="nomenus">
-<h3>After installing, TortoiseSVN does not show up, no context menus are available</h3>
-<p>Make sure you have installed the x64 version of TortoiseSVN if you're using XP or Vista 64-bit. Since the explorer on those OS versions is a 64-bit application, it can not load the 32-bit version of TortoiseSVN.</p>
-<p>You can still keep the 32-bit version of TortoiseSVN installed on those OS versions though: it will show up in the 32-bit applications file-open/save dialogs of those applications.</p>
+<h3>安装完成后，TortoiseSVN 不能显示，没有可以使用的菜单</h3>
+<p>如果你使用64位的 XP 或者 Vista，请确定你已经安装了x64版本的 TortoiseSVN。因为这些操作系统上的资源管理器是64位的应用程序，它不能加载32位的TortoiseSVN.</p>
+<p>虽然你可以在这些64位操作系统上安装32位的 TortoiseSVN，但是它将显示32位应用的 file-open/save 会话。</p>
 </div>
 
 </div>
