@@ -8,7 +8,7 @@
  * Submerged中文版：lsidss@gmail.com
  * TortoiseSVN Blog中文版：racoonwise@gmail.com, laiqinyi@gmail.com
  * design.html : luovel1983@gmail.com
- * tools_contrib.html : 
+ * tools_contrib.html : luovel983@gmail.com
 
 新增加了官方网站的design.html与tools_contrib.html翻译，虽然比较偏，但是可以让你了解很多人不了解得秘密，已经添加到了：http://svncndoc.googlecode.com/svn/trunk/faq/source
 其它请自行添加：
