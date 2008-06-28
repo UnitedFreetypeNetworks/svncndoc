@@ -17,20 +17,16 @@
 
 <h1>Subversion Tools and Contrib</h1>
 
-<p>The directories 'tools' and 'contrib' in the Subversion repository
-   contain code that works with Subversion but that Subversion doesn't
-   depend on for normal operations.
+<p>在subverion的工作目录下包含有tools和contrib两个子目录，
+其下的代码都是与subversion的功能实现相关的，但是subversion的常规运行并不依赖于它们。
 </p>
-<p>The files in 'tools' are maintained collectively by the Subversion
-   project, and are under the same open source copyright as Subversion itself.
+<p>在tools子目录下面的文件都是由subversion项目一起维护的，而且和subversion本身一起受开源代码的版权保护。
 </p>
-<p>Code in contrib/ is open source, but may have a different license or
-   copyright holder than Subversion itself.  The Subversion project does
-   not maintain these programs, but merely distributes them for our
-   users' convenience.
+<p>在contrib子目录下的代码都是开源代码，但是可能持有和subversion本身不同的许可证或版权。
+subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
 </p>
 
-<p>The code is grouped into the following subdirectories:</p>
+<p>代码被分组保存在以下的子目录中：</p>
 
 <ul>
   <li><a href="#backup">backup</a></li>
@@ -46,7 +42,7 @@
 </ul>
 
 
-<h2>Index by keyword</h2>
+<h2>关键字索引</h2>
 
 <ul>
   <li><strong>apache</strong><ul>
@@ -212,8 +208,8 @@
   <h3><a name="hot_backup_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/backup/hot-backup.py.in">hot-backup.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/backup">tools/backup</a>)</h3>
-  <p>Perform a "hot" backup of a Berkeley DB repository.
-     (and clean old logfiles after backup completes.)
+  <p>在SVN系统运行中，对Berkeley DB类型的版本库进行备份。
+     (而且在备份结束后清除掉所有旧的日志文件。)
   </p>
 </div>
 
@@ -224,8 +220,8 @@
   <h3><a name="erase_all_text_data_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/bdb/erase-all-text-data.py">erase-all-text-data.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/bdb">tools/bdb</a>)</h3>
-  <p>Erases the text of every file in a BDB repository.</p>
-  <p>Related files:
+  <p>删除一个BDB版本库中所有文件的内容。</p>
+  <p>相关文件：
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/skel.py">skel.py</a>
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/svnfs.py">svnfs.py</a>
   </p>
@@ -234,8 +230,8 @@
   <h3><a name="svn_bdb_view_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/bdb/svn-bdb-view.py">svn-bdb-view.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/bdb">tools/bdb</a>)</h3>
-  <p>A pretty-printer for Subversion BDB repository databases.</p>
-  <p>Related files:
+  <p>一个输出美观的查看器，用来查看SVN BDB版本库的数据库内容。</p>
+  <p>相关文件：
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/skel.py">skel.py</a>
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/svnfs.py">svnfs.py</a>
   </p>
@@ -249,7 +245,7 @@
      the reps table as necessary to locate the data (e.g. does a table
      scan).
   </p>
-  <p>Related files:
+  <p>相关文件：
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/skel.py">skel.py</a>
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/svnfs.py">svnfs.py</a>
   </p>
@@ -263,21 +259,18 @@
   <h3><a name="mirror_dir_through_svn_cgi"
     href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/mirror_dir_through_svn.cgi">mirror_dir_through_svn.cgi</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi">contrib/cgi</a>)</h3>
-  <p>This CGI script mirrors a source directory to a target directory using
-     a Subversion repository as an intermediary.  It's written as a CGI
-     script so that remote users making changes to a WebDAV folder can tell
-     the server to mirror the WebDAV folder contents to another directory
-     on the system.  See the example usage story below.
+  <p>这个CGI脚本的作用是通过一个SVN的版本库作为中介，把一个源子目录映射到一个目标子目录做以一个镜像。之所以写成
+     CGI的脚本格式，就是为了当远程用户在对一个WebDAV文件夹作了修改的时候，服务器能够相应将WebDAV文件夹的当前内容
+     在系统的另外一个子目录中做一个镜像备份。请看下文的用例示范。
   </p>
-  <p>See also <a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/mirror_dir_through_svn.README">mirror_dir_through_svn.README</a></p>
+  <p>同时请看 <a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/mirror_dir_through_svn.README">mirror_dir_through_svn.README</a></p>
 
 
   <h3><a name="tweak_log_cgi"
     href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/tweak-log.cgi">tweak-log.cgi</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi">contrib/cgi</a>)</h3>
-  <p>It sure would be nice to be able to change the log messages on
-     committed revisions of the Subversion repository via the web.  This
-     is a quick attempt at making that happen.
+  <p>如果能够通过web网页访问来修改所提交的svn版本库的修订版本的修改日志，那肯定是一件非常让人开心的事情。
+     这个文件的作用就是快速实现这个功能。
   </p>
 </div>
 
