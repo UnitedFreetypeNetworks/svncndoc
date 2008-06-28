@@ -45,11 +45,11 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <li><a href="#nomenus">安装完成后，TortoiseSVN 不能显示，没有可以使用的菜单</a></li>
 </ul>
 
-<h4>Overlay icons:</h4>
+<h4>覆盖图标:</h4>
 <ul>
-<li><a href="#ovlnotshowing">Why don't the icon overlays appear?</a></li>
-<li><a href="#ovlnotall">The overlay icons appear, but not all of them!</a></li>
-<li><a href="#ovlonlylocal">Why are the icons only visible on local and not on network drives?</a></li>
+<li><a href="#ovlnotshowing">为什么没有覆盖图标?</a></li>
+<li><a href="#ovlnotall">不是所有的图标都被覆盖！</a></li>
+<li><a href="#ovlonlylocal">为什么图标只在当地显示而不显示与网络驱动器？</a></li>
 <li><a href="#ovlsubst">Why are the overlay icons on SUBSTed drives messed up?</a></li>
 <li><a href="#ovlwrong">Why are the overlays showing the wrong status?</a></li>
 <li><a href="#ovlmessed">Why do the overlay icons sometimes change to random graphics?</a></li>
@@ -189,41 +189,33 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 
 
 <div class="h2" id="overlay-icons" title="overlay-icons">
-<h2>Overlay icons</h2>
+<h2>覆盖图标</h2>
 <p/>
 
 <div class="h3" id="ovlnotshowing" title="ovlnotshowing">
-<h3>Why don't the icon overlays appear?</h3>
+<h3>为什么没有覆盖图标?</h3>
 <ul>
-<li>You rebooted your PC of course after the installation? If you haven't please do so now. TortoiseSVN is a windows Explorer Shell extension and will be loaded together with Explorer.</li>
-<li>Go to the settings of TSVN and activate the icon overlays for at least the fixed drives. The installer does this automatically for the <em>current</em> user (can't do it for other users...) but since you are using TSVN as a different user than you installed it you need to set this manually.</li>
+<li>你是否在安装之后重启电脑? 你竟然现在都还没重启. TortoiseSVN 是 windows 资源管理器的 Shell 扩展, 他将会和资源管理器一起启动.</li>
+<li>去 TSVN 的设置界面然后至少要激活图标覆盖的修改驱动功能. 安装程序会自动为<em>当前</em>用户激活图标覆盖功能(不会自动为其他用户激活。。。) 但是由于你不是通过安装用户来使用 TSVN，所以你需要手工激活图标覆盖功能.</li>
 </ul>
 </div>
 
 <div class="h3" id="ovlnotall" title="ovlnotall">
-<h3>The overlay icons appear, but not all of them!</h3>
+<h3>不是所有的图标都被覆盖！</h3>
 <p>
-You may find that not all of these icons are used on your system. This is because 
-the number of overlays allowed by Windows is limited to 15. Windows uses 4 of 
-those, and the remaining 11 can be used by other applications. If you are also 
-using TortoiseCVS, then there are not enough overlay slots available, so 
-TortoiseSVN tries to be a "Good Citizen (TM)"? and limits its use of overlays 
-to give other apps a chance.</p>
+你或许会发现在你的系统上不是所有的图标都被使用。这是因为Windows只允许最多15个图标被覆盖。Windows使用了其中4个，剩下的11则被其他的应用程序所使用。如果你同事在使用 TortoiseCVS，那么就不会有足够的位置，那么 TortoiseSVN 设法做一个“好公民（TM）”？限制了图标的使用把跟多的机会留给其他的应用。</p>
 <ul>
-<li>Normal, Modified and Conflicted are always loaded and visible.</li>
-<li>Deleted is loaded if possible, but falls back to Modified if there are not enough slots.</li>
-<li>ReadOnly is loaded if possible, but falls back to Normal if there are not enough slots.</li>
-<li>Locked is only loaded if there are less than 13 overlays already loaded. It falls back to Normal if there are not enough slots.</li>
-<li>Added is only loaded if there are less than 14 overlays already loaded. It falls back to Modified if there are not enough slots.</li>
+<li>一般来说，修改和冲突总是被加载和可看见的。</li>
+<li>如果可能，删除会被加载，但如果没有足够的位置会使用修改状态。</li>
+<li>如果可能，只读会被加载，但如果没有足够的位置会使用一般状态。</li>
+<li>只有少于加载13个图标覆盖，锁定才会被加载。否则会使用一般状态.</li>
+<li>只有少于加载13个图标覆盖，添加才会被加载。否则会使用修改状态</li>
 </ul>
 </div>
 
 <div class="h3" id="ovlonlylocal" title="ovlonlylocal">
-<h3>Why are the icons only visible on local and not on network drives?</h3>
-<p>Go to the Settings -> Look and Feel -> Icon Overlays and check the drive 
-types for which you want to see overlay icons. Be aware that enabling overlays 
-for network drives will <b>slow down</b> not only TortoiseSVN but the whole system.
-</p>
+<h3>为什么图标只在当地显示而不显示与网络驱动器？</h3>
+<p>Go to the Settings -> Look and Feel -> Icon Overlays 为你想看到的覆盖图标检查驱动器类型。要注意到，使用图标覆盖会使整个系统都<b>慢下来</b>，不仅仅是TortoiseSVN。</p>
 </div>
 
 <div class="h3" id="ovlsubst" title="ovlsubst">
