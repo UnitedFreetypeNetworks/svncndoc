@@ -50,9 +50,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <li><a href="#ovlnotshowing">为什么没有覆盖图标?</a></li>
 <li><a href="#ovlnotall">不是所有的图标都被覆盖！</a></li>
 <li><a href="#ovlonlylocal">为什么图标只在当地显示而不显示与网络驱动器？</a></li>
-<li><a href="#ovlsubst">Why are the overlay icons on SUBSTed drives messed up?</a></li>
-<li><a href="#ovlwrong">Why are the overlays showing the wrong status?</a></li>
-<li><a href="#ovlmessed">Why do the overlay icons sometimes change to random graphics?</a></li>
+<li><a href="#ovlsubst">为什么图标覆盖会在SUBSTed驱动器上被弄乱?</a></li>
+<li><a href="#ovlwrong">为什么图标覆盖显示错误状态?</a></li>
+<li><a href="#ovlmessed">为什么图标覆盖有时会变成一个随即图案？</a></li>
 </ul>
 
 <h4>General questions:</h4>
@@ -209,7 +209,7 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <li>如果可能，删除会被加载，但如果没有足够的位置会使用修改状态。</li>
 <li>如果可能，只读会被加载，但如果没有足够的位置会使用一般状态。</li>
 <li>只有少于加载13个图标覆盖，锁定才会被加载。否则会使用一般状态.</li>
-<li>只有少于加载13个图标覆盖，添加才会被加载。否则会使用修改状态</li>
+<li>只有少于加载14个图标覆盖，添加才会被加载。否则会使用修改状态</li>
 </ul>
 </div>
 
@@ -219,61 +219,38 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 </div>
 
 <div class="h3" id="ovlsubst" title="ovlsubst">
-<h3>Why are the overlay icons on SUBSTed drives messed up?</h3>
-<p>If your working copy is on a SUBST drive the icons might be mixed up.</p>
-<p>The problem arises because the cache tries to fetch the status for two "different" 
-locations at the same time, but those locations are actually the same so there 
-are two status fetchings for the same working copy at the same time.</p>
-<p>There is an easy way to solve this: just exclude the original path from 
-showing overlays (settings->icon overlays->exclude paths).</p>
-<p>For example, if you have mapped \\station\folder\wc to g: then put "\\station\folder\wc*" as the exclude pattern.</p>
+<h3>为什么图标覆盖会在SUBSTed驱动器上被弄乱?</h3>
+<p>如果你的工作拷贝在SUBST驱动器上，图标可能会被弄乱。</p>
+<p>出现这个错误是因为缓存会设法在同一时间在两个不同位置读取状态。但是这些位置事实上却是相同的，所以在同一时间的相同工作拷贝读取了两个状态。</p>
+<p>这里有一个简单的办法解决这一问题：只需要在显示覆盖图标的位置排除掉原始目录(settings->icon overlays->exclude paths).</p>
+<p>比如说，如果你映射\\station\folder\wc 到 g: ，将"\\station\folder\wc*" 位置加入排除模式。</p>
 </div>
 
 <div class="h3" id="ovlwrong" title="ovlwrong">
-<h3>Why are the overlays showing the wrong status?</h3>
-<p>Sometimes you find that the overlays don't reflect the real status of files 
-and/or folders. Usually, hitting the F5 key is enough to make the overlays appear 
-correctly (you might have to wait a few seconds until the cache has fetched the 
-status again).</p>
-<p>The treeview on the left side of the explorer is a whole other story. It won't 
-update the overlays, no matter how many times you hit the F5 key. That's a problem 
-with the explorer and outside of TortoiseSVN's reach.</p>
-<p>A short explanation: The treeview always shows the whole explorer tree, 
-including network drives and other namespace extensions. Since these can be very 
-slow (e.g. slow network drives), the explorer tree doesn't ask the overlay 
-extensions for updated overlays all the time. Even if you tell the explorer 
-that a folder has changed and it should update the overlays accordingly, it 
-doesn't do so. It first checks itself if the folder really has changed and only 
-updates the overlays if it thinks the folder really has changed.</p>
-<p>Now, since the Subversion status of a folder has nothing to do with the folder 
-itself, the folder itself never really changes (only some file inside the .svn folder, 
-but not the folder itself), explorer therefore doesn't update the overlays.</p>
-<p>There are some tricks and workarounds to make the explorer refresh the overlays
-even on the left treeview, but those are tricks and workarounds, which 
-obviously don't work all the time.</p>
-<p>There's one trick that usually works, but it is slow and TortoiseSVN can't 
-use that trick on-the-fly - it just would slow down the system too much. But you 
-can trigger that trick manually by executing the 'cleanup' command on the root of 
-your working copy. After the cleanup command has finished, you have to wait a 
-few seconds for the treeview to update the overlay icons.</p>
+<h3>为什么图标覆盖显示错误状态?</h3>
+<p>有些时候你发现图标覆盖并不能反映文件或者文件夹的正确状态。通常，敲击F5便足以使图标回到正确的状态（你可能不得不等上几秒，直到缓存重新找到正确的状态）。</p>
+<p>资源管理器左边的树状图是一个完整的其他故事。他不会更新图标，不管你敲击多少次F5。这是因为资源管理器并不能让TortoiseSVN访问。</p>
+<p>一个简单的说明：树状图的显示始终来自于整个资源管理器，包括网路驱动器和其他的命名空间的扩展，由于这些会非常缓慢（比如一个慢的网络驱动器），资源管理器不能一直请求图标覆盖更新图标，即使你告诉资源管理器文件夹已经修改，应该依照图标覆盖来更新图标，它仍然不会工作。首先检查文件夹是否真的已经修改，如果资源管理器认为文件夹真的已经修改，才会更新这些图标。</p>
+<p>现在，由于文件夹的Subversion状态和它自身状态没有关系，文件夹自身并没有被真正的修改（修改的是一些在.svn文件夹里的文件），因此资源管理器并不能更新图标。</p>
+<p>这里有一些让资源管理器甚至是资源管理器左侧的文件树刷新图标的小技巧和应急方案，但这些技巧和应急方案显然不能实施可可都工作。</p>
+<p>一个通常使用的小技巧，但是它很慢，TortoiseSVN也不能立刻使用，它将使得整个系统缓慢许多。但是你可以通过工作拷贝管理员账号使用'cleanup'命令手动激活。当清除命令执行完成以后，你不得不等待几秒让目录树更新这些图标。</p>
 </div>
 
 <div class="h3" id="ovlmessed" title="ovlmessed">
-<h3>Why do the overlay icons sometimes change to random graphics?</h3>
-<p>
-The Windows icon cache is a fairly buggy creature. You can solve this in one of the following ways:</p>
+<h3>为什么图标覆盖有时会变成一个随即图案？</h3>
+<p>Windows图标缓存有很多bug。可以使用下面的方法解决这个问题：</p>
 <ul>
-<li>Install Microsoft's <a href='http://www.microsoft.com/ntworkstation/downloads/powertoys/networking/nttweakui.asp'>TweakUI</a> and run the option to rebuild icons.</li>
-<li>Or increase the icon cache size. Go to <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer</code> and add a new String Value called <code>Max Cached Icons</code>. The default value is 500 - try increasing it to 2048 (see <a href='http://support.microsoft.com/support/kb/articles/Q132/6/68.asp'>Q132668</a> in the Microsoft knowledge base for more details). </li>
-<li>Or delete the file called ShellIconCache in your Windows directory. And reboot.</li>
-<li>With TortoiseSVN 1.3.0 and later, you can also rebuild the icon cache by calling TortoiseProc from the command line like this <code>TortoiseProc.exe /command:rebuildiconcache</code></li>
+<li>安装 Microsoft's <a href='http://www.microsoft.com/ntworkstation/downloads/powertoys/networking/nttweakui.asp'>TweakUI</a> 通过选项来重新创建图表。</li>
+<li>或者增加图标缓存。到 <code>HKEY_LOCAL_MACHINE\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer</code> 增加一个新的字符串 <code>Max Cached Icons</code>。他的默认值为 500 - 尝试增加到 2048 (see <a href='http://support.microsoft.com/support/kb/articles/Q132/6/68.asp'>Q132668</a> in the Microsoft knowledge base). </li>
+<li>或者在Windows目录下删除ShellIconCache文件。然后重启计算机。</li>
+<li>TortoiseSVN 1.3.0 以后的版本，你可以在命令行调用TortoiseProc重建图标缓存，<code>TortoiseProc.exe /command:rebuildiconcache</code></li>
 </ul>
 </div>
 
 </div>
 
 <div class="h2" id="general-questions" title="general-questions">
-<h2>Overlay icons</h2>
+<h2>General questions:</h2>
 <p/>
 
 <div class="h3" id="hundredcpu" title="hundredcpu">
