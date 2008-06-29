@@ -373,32 +373,24 @@ href="http://svnbook.red-bean.com/html-chunk/ch06.html">第六章</a>
 
 
 <div class="h3" id="need-apache" title="need-apache">
-<h3>Does this mean I have to set up Apache to
-use Subversion?</h3>
+<h3>是否意味着我必须首先安装Apache才能使用Subversion？</h3>
 
-<p>The short answer:  no.</p>
+<p>简而言之：不必。</p>
 
-<p>The long answer:  if you just want to access a repository, then you
- only need to build a Subversion client.  If you want to <b>host</b> a
- networked repository, then you need to set up either Apache2 or an
- "svnserve" server.</p>
+<p>详细的回答是：如果你仅仅是想曲访问一个版本库，你仅仅需要构建一个Subversion的客户端。如果你想拥有一个网络的版本库，那么你需要安装Apache2或者一个“svnserve”服务器。</p>
 
-<p>For more details about setting up a network accessible Subversion
-server, see <a
-href="http://svnbook.red-bean.com/html-chunk/ch06.html">chapter 6</a>
-in the Subversion book.</p>
+<p>关于安装一个可以访问的Subversion服务器的详细信息，请参阅：Subversion手册 <a
+href="http://svnbook.red-bean.com/html-chunk/ch06.html">第六章</a>
+</p>
 
 </div>
 
 
 
 <div class="h3" id="multiple-apachim" title="multiple-apachim">
-<h3>I run Apache 1.x right now, and can't
-switch to Apache 2.0 just to serve Subversion repositories.
-Does that mean I can't run a Subversion server?</h3>
+<h3>我现在所运行的是Apache 1.x，但是我不能仅仅为了支持Subversion版本库而将其转换成Apache 2.0。这是否意味着我不能使用Subversion服务器？</h3>
 
-<p>No, you can run <b>svnserve</b> as a Subversion server.  It works
-extremely well.</p>
+<p>不毕，你可以用<b>svnserve</b>作为Subversion的服务器。它可以很好的工作。</p>
 
 <p>If you want WebDAV and all the other "goodies" that come with the
 Apache server, then yes, you'll need Apache 2.0.  It's always an
@@ -424,9 +416,7 @@ there.  We're trying to replace CVS.  See the first question.</p>
 
 
 <div class="h3" id="globalrev" title="globalrev">
-<h3>Why does the entire repository share the 
-    same revision number? I want each of my projects to have their
-    own revision numbers.</h3>
+<h3>为什么全部的库都使用相同的版本号码？我想让我的每一个工程都有其自己的版本号码。</h3>
 <p>
 The global revision number attached to the repository as a whole is
 meaningless from a user's perspective. It's an internal mechanism that
@@ -500,7 +490,7 @@ CVS.</p>
 
 
 <div class="h3" id="release" title="release">
-<h3>When's the next release?</h3>
+<h3>下一个版本什么时候发布？</h3>
 
 <p>See our status page, <a
 href="http://subversion.tigris.org/project_status.html">
@@ -510,12 +500,11 @@ http://subversion.tigris.org/project_status.html</a>.</p>
 
 
 <div class="h3" id="symlinks" title="symlinks">
-<h3>Does Subversion support symlinks?</h3>
+<h3>Subversion是否支持symlinks?</h3>
 
-<p>Subversion 1.1 (and later) has the ability to put a symlink under
-version control, via the usual <tt>svn add</tt> command.</p>
+<p>Subversion 1.1 (和后续版本)已经可以把一个symlink置于版本控制之中，通过一个常用的<tt>svn add</tt>命令</p>
 
-<p>Details: the Subversion repository has no internal concept of a
+<p>Details: the 版本库 has no internal concept of a
 symlink.  It stores a "versioned symlink" as an ordinary file with an
 'svn:special' property attached.  The svn client (on unix) sees the
 property and translates the file into a symlink in the working copy.
@@ -526,51 +515,45 @@ translation: the object appears as a normal file.</p>
 
 
 <div class="h3" id="logo" title="logo">
-<h3>I need a high resolution version of the Subversion logo,
-    where can I get it?</h3>
+<h3>我需要一个高分辨率的Subversion Logo,从哪里可以得到它呢？</h3>
 
-<p>Vectorized versions of the Subversion logo are available in the <a
-href="http://svn.collab.net/repos/svn/trunk/www">logo directory of the www
-tree</a> of the <a href="http://svn.collab.net/repos/svn/trunk">Subversion
-repository</a>.</p>
+<p>可用的矢量Subversion logo在 <a href="http://svn.collab.net/repos/svn/trunk">Subversion
+版本库</a>的<a
+href="http://svn.collab.net/repos/svn/trunk/www">www文件夹</a>下可以得到。</p>
 
-<p>Specifically, an <a
+<p>特别的是，<a
 href="http://svn.collab.net/repos/svn/trunk/www/logo/subversion_logo.eps">EPS
-version</a>, as well as an <a
+版本</a>,和一个<a
 href="http://svn.collab.net/repos/svn/trunk/www/logo/subversion_logo.ai">Adobe
-Illustrator document</a> are available.</p>
+插图文档</a>也是可用的。</p>
 
 </div>
 
 
 <div class="h3" id="more-information" title="more-information">
-<h3>I have other questions.  Where can I get more information?</h3>
+<h3>我还有其他的一些问题，我从哪里可以得到更多的信息呢？</h3>
 
-<p>If you don't find an answer after browsing this FAQ, there are several
-other resources available:</p>
+<p>如果你在阅读这个常见问题回答之后，没有找到你问题的答案，那么你还有其他的几个资源可以利用：</p>
 <ul>
-  <li><a href="http://svnbook.red-bean.com">The Subversion Book</a></li>
+  <li><a href="http://svnbook.red-bean.com">Subversion手册</a></li>
   <li><a href="http://subversion.tigris.org/servlets/ProjectMailingListList">The
-       Subversion Users mailing list</a> (<a
+       Subversion用户邮件列表</a> (<a
        href="mailto:users@subversion.tigris.org"
        >users@subversion.tigris.org</a>)
        &mdash; note that the list is <a href="#moderation">moderated</a>, so
        there may be a delay before your post shows up</li>
-  <li><a href="http://svn.haxx.se/users/">The Subversion Users list
-       archives</a></li>
-  <li>IRC on channel #svn on irc.freenode.net</li>
-  <li><a href="http://www.svnforum.org/">svnforum.org</a>, an unofficial
-  web-based forum with approximately the same target audience as the mailing
-  list</li>
+  <li><a href="http://svn.haxx.se/users/">Subversion用户信息列表。</a></li>
+  <li>在线聊天系统（IRC）在 #svn on irc.freenode.net频道上面。</li>
+  <li><a href="http://www.svnforum.org/">svnforum.org</a>一个非官方基于网络的论坛，针对的读者和邮件列表近似。</li>
 </ul>
 
 </div>
 
 
 <div class="h3" id="moderation" title="moderation">
-<h3>Why isn't my post showing up on the mailing list?</h3>
+<h3>为什么我的邮件没有显示在邮件列表上？</h3>
 
-<p>Our mailing lists are moderated to prevent spam from getting
+<p>我们的邮件列表Our mailing lists are moderated to prevent spam from getting
 through, so your first post to any list may be delayed, until the
 moderator has a chance to let it through.  Once that post is allowed
 through, all subsequent posts from the same address are automatically
