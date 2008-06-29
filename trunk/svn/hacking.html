@@ -55,7 +55,7 @@ $LastChangedDate: 2008-06-10 10:56:53 +0800 (星期二, 10 六月 2008) $
 <li><a href="#crediting">记录贡献者信息</a></li>
 <li><a href="#patches">补丁提交指导方针</a></li>
 <li><a href="#filing-issues">填写bugs / issues</a></li>
-<li><a href="#issue-triage">填写bugs / issues</a></li>
+<li><a href="#issue-triage">Issue分级</a></li>
 <li><a href="#commit-access">提交权限</a></li>
 <li><a href="#lightweight-branches">使用轻量级分支</a></li>
 <li><a href="#configury">在unix下配置和构建代码</a></li>
@@ -263,78 +263,70 @@ to ask for review on the developer mailing list.</p>
 
 
 <div class="h2" id="directory-layout" title="directory-layout">
-<h2>Directory layout</h2>
+<h2>目录结构</h2>
 
-<p>A rough guide to the source tree:</p>
+<p>源代码树的简要指南:</p>
 
 <ul>
 <li><p><tt>doc/</tt><br />
-    User and Developer documentation.</p>
+    用户和开发者文档.</p>
 </li>
 <li><p><tt>www/</tt><br />
-    Subversion web pages (live content at
+    Subversion的web页面 (最新内容在
       <a href="http://subversion.tigris.org/"
       >http://subversion.tigris.org/</a>).</p>
 </li>
 <li><p><tt>tools/</tt><br />
-    Stuff that works with Subversion, but that Subversion doesn't
-    depend on.  Code in tools/ is maintained collectively by the
-    Subversion project, and is under the same open source copyright as
-    Subversion itself.</p>
+    同Subversion一起的资料，但Subversion不依赖于这些，在tools/ 目录的代码
+    也被Subversion工程维护着，和Subversion自己有相同的开源版权.</p>
 </li>
 <li><p><tt>contrib/</tt><br />
-    Stuff that works with Subversion, but that Subversion doesn't
-    depend on, and that is maintained by individuals who may or may
-    not participate in Subversion development.  Code in contrib/ is
-    open source, but may have a different license or copyright holder
-    than Subversion itself.</p>
+    同Subversion一起的工具，但Subversion不依赖于这些, 这些被独立维护，而不参与Subversion的开发。
+    在contrib/目录下的代码是开源的，但可能与Subversion有不同的许可协议或版权保留.</p>
 </li>
 <li><p><tt>packages/</tt><br />
-    Stuff to help packaging systems, like rpm and dpkg.</p>
+    帮助打包系统的资料, 例如 rpm 和 dpkg.</p>
 </li>
 <li><p><tt>subversion/</tt><br />
-    Source code to Subversion itself (as opposed to external
-    libraries).</p>
+    Subversion自己的源代码 (相对与其他外部库来说).</p>
 </li>
 <li><p><tt>subversion/include/</tt><br />
-    Public header files for users of Subversion libraries.</p>
+    使用Subversion库的公共头文件.</p>
 </li>
 <li><p><tt>subversion/include/private/</tt><br />
-    Private header files shared internally by Subversion libraries.</p>
+    Subversion库内部共享的私有头文件.</p>
 </li>
 <li><p><tt>subversion/libsvn_fs/</tt><br />
-    The versioning "filesystem" API.</p>
+    "filesystem" API的版本.</p>
 </li>
 <li><p><tt>subversion/libsvn_repos/</tt><br />
-    Repository functionality built around the `libsvn_fs' core.</p>
+    构建存储功能所需要的`libsvn_fs'核心.</p>
 </li>
 <li><p><tt>subversion/libsvn_delta/</tt><br />
-    Common code for tree deltas, text deltas, and property deltas.</p>
+   代码树的累加备份，注释的累加备份，属性的累加备份代码.</p>
 </li>
 <li><p><tt>subversion/libsvn_wc/</tt><br />
-    Common code for working copies.</p>
+    工作拷贝的共用代码.</p>
 </li>
 <li><p><tt>subversion/libsvn_ra/</tt><br />
-    Common code for repository access.</p>
+    仓库存取的公用代码.</p>
 </li>
 <li><p><tt>subversion/libsvn_client/</tt><br />
-    Common code for client operations.</p>
+    客户端操作的公用代码.</p>
 </li>
 <li><p><tt>subversion/svn/</tt><br />
-    The command line client.</p>
+    客户端的命令行程序.</p>
 </li>
 <li><p><tt>subversion/tests/</tt><br />
-    Automated test suite.</p>
+    自动测试套件.</p>
 </li>
 <li><p><tt>apr/</tt><br />
-    Apache Portable Runtime library.  (Note: This is not in the same
-    repository as Subversion.  Read INSTALL for instructions on how to
-    get it if you don't already have it.)</p>
+    Apache便携式运行时库.  (注意: 这些不在Subversion的代码库中，
+    如果你还没有这些代码，阅读INSTALL来获取如何得到这些代码.)</p>
 </li>
 <li><p><tt>neon/</tt><br />
-    Neon library from Joe Orton.  (Note: This is not in the same
-    repository as Subversion.  Read INSTALL for instructions on how to
-    get it if you don't already have it.)</p>
+    从Joe Orton这里得到Neon库.  (注意: 这些代码不在Subversion的代码库中，
+    如果你还没有这些代码，阅读INSTALL来获取如何得到这些代码.)</p>
 </li>
 </ul>
 
