@@ -392,15 +392,8 @@ href="http://svnbook.red-bean.com/html-chunk/ch06.html">第六章</a>
 
 <p>不毕，你可以用<b>svnserve</b>作为Subversion的服务器。它可以很好的工作。</p>
 
-<p>If you want WebDAV and all the other "goodies" that come with the
-Apache server, then yes, you'll need Apache 2.0.  It's always an
-option to run Apache 2.0 on a different port while continuing to run
-Apache 1.x on port 80.  Different versions of Apache can happily
-coexist on the same machine.  Just change the <tt>Listen</tt>
-directive in httpd.conf from "<tt>Listen&nbsp;80</tt>" to
-"<tt>Listen&nbsp;8080</tt>" or whatever port number you want, and make
-sure to specify that port when you publish your repository URL (e.g.,
-<tt>http://svn.mydomain.com:8080/repos/blah/trunk/</tt>).</p>
+<p>在使用Apache server时，如果你想使用分布式创作和版本管理协议（WebDAV）和所有其他一些好的功能特性，那么是的，你需要Apache 2.0。但是不管怎样，当你继续在80端口运行Apache1.0的时候，你总是可以在另外一个不同的端口运行Apache2.0。不同版本的Apache可以在同一台机器上很好的和平相处。仅仅需要在改变httpd.conf文件中把<tt>Listen</tt>指令从80改成8080，或者其他你想要改成的端口。然后确保在你公布版本库的URL的时候加以说明：
+(例如，<tt>http://svn.mydomain.com:8080/repos/blah/trunk/</tt>)。</p>
 
 </div>
 
@@ -408,9 +401,7 @@ sure to specify that port when you publish your repository URL (e.g.,
 <div class="h3" id="feature-x" title="feature-x">
 <h3>Why don't you do X, just like SCM system Y?</h3>
 
-<p>We aren't attempting to break new ground in SCM systems, nor are we
-attempting to imitate all the best features of every SCM system out
-there.  We're trying to replace CVS.  See the first question.</p>
+<p>我们从来没有试图在SCM系统上推到重来，开辟出一个新的天地，也没有试图完全模仿每一个SCM系统的好的特性。我们只是要取代CVS。请参阅我们的第一个问题。</p>
 
 </div>
 
@@ -418,21 +409,11 @@ there.  We're trying to replace CVS.  See the first question.</p>
 <div class="h3" id="globalrev" title="globalrev">
 <h3>为什么全部的库都使用相同的版本号码？我想让我的每一个工程都有其自己的版本号码。</h3>
 <p>
-The global revision number attached to the repository as a whole is
-meaningless from a user's perspective. It's an internal mechanism that
-accomplishes the goal of the underlying schema design. It just so
-happens to be exposed so that the user's interface can sometimes be a
-little more convenient than always having to type obnoxiously long
-date/time strings.
+一般来说从用户角度来看，在版本库上使用全局的版本号码是没有什么太大意义的。这是为了实现一些潜在的设计目标的内部机制。它和自然的被暴露出来，使得用户接口有时候看起来和不得不使用一些长的令人讨厌的时间日期的字符串一样，有些不方便。
 </p>
 
-<p>
-The revision number is only relevant to the repository, and user
-convenience. It has <b>no</b> impact on any other factor of what you
-store in the repository.  Repository revision number bumps aren't
-nearly useful enough to be an accurate indication of the real rate of
-change of a given code base.  There are other more complicated ways to
-get a much better picture of a code-base's rate of change.
+<p>版本号码是唯一和版本库以及用户易用性相关的。它对你所在版本库中存储的东西 <b>没有</b>任何其他方面的影响。
+版本库版本号码的冲突对于精确标识代码实际变化速率几乎没有什么用处。还有更多其他复杂的方式可以更好的来描绘代码的变化速率。
 </p>
 
 </div>
