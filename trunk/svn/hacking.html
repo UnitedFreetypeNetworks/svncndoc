@@ -334,20 +334,16 @@ to ask for review on the developer mailing list.</p>
 
 
 <div class="h2" id="coding-style" title="coding-style">
-<h2>Coding style</h2>
+<h2>代码风格</h2>
 
-<p>Subversion uses ANSI C, and follows the GNU coding standards,
-except that we do not put a space between the name of a function and
-the opening parenthesis of its parameter list.  Emacs users can just
-load svn-dev.el to get the right indentation behavior (most source
-files here will load it automatically, if `enable-local-eval' is set
-appropriately).</p>
+<p>Subversion使用ANSI C, 遵从GNU编码标准,
+除了我们我们不在函数名和参数列表的左括号之间没有空格，Emacs的用户可以只
+加载svn-dev.el ，就得到正确的添加空格行为
+ (如果'enable-local-eval'被设置，许多源文件将自动的采用这个行为).</p>
 
-<p>Read <a href="http://www.gnu.org/prep/standards.html"
->http://www.gnu.org/prep/standards.html</a> for a full description of
-the GNU coding standards.  Below is a short example demonstrating the
-most important formatting guidelines, including our
-no-space-before-param-list-paren exception:</p>
+<p>阅读<a href="http://www.gnu.org/prep/standards.html"
+>http://www.gnu.org/prep/standards.html</a>，这是GNU编码标准的全部描述. 
+ 下面例子演示了很多重要的格式指导，包括我们的在参数列表和括号之间没有空格:</p>
 
 <pre>
    char *                                     /* func type on own line */
@@ -369,11 +365,11 @@ no-space-before-param-list-paren exception:</p>
    }
 </pre>
 
-<p>In general, be generous with parentheses even when you're sure
-about the operator precedence, and be willing to add spaces and
-newlines to avoid "code crunch".  Don't worry too much about vertical
-density; it's more important to make code readable than to fit that
-extra line on the screen.</p>
+<p>
+通常，当你确定了操作符的优先级后，在使用括号方面要大方。
+而且需要增加空格和新行来避免"code crunch" 
+不要太担心代码的垂直密度；
+代码的可读性比代码在屏幕上少占一行更重要.</p>
 
 </div>
 
