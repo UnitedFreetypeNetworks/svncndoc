@@ -420,21 +420,13 @@ href="http://svnbook.red-bean.com/html-chunk/ch06.html">第六章</a>
 
 
 <div class="h3" id="changesets" title="changesets">
-<h3>Does Subversion have Changesets?</h3>
+<h3>Subversion是否有一个变更集?</h3>
 
-<p>The question is a bit loaded, because everyone seems to have a
-slightly different definition of "changeset", or a least a slightly
-different expectation of what it means for a version control system to
-have "changeset features".</p>
+<p>这个问题有些麻烦，因为好像每个人对变更集的定义多少有些不同，或者至少对版本控制系统的变更集特性多少有些不同的期望。</p>
 
-<p>For the purposes of this discussion, here's a simple definition of
-changeset: it's a collection of changes with a unique name.  The
-changes might include textual edits to file contents, modifications to
-tree structure, or tweaks to metadata.  In more common speak, a
-changeset is just a patch with a name you can refer to.</p>
+<p>基于这个讨论的目的，这里对变更集有一个简单的定义：它是所有改变的唯一的名字的集合，这些改变可能包括对文件内容句法的编辑，目录结构的改变，或者是一些元数据的重新组合。更加通常的理解，一个结果集仅仅是一个你所能进行参阅的补丁的名字。 </p>
 
-<p>Subversion manages versioned trees as first order objects (the
-repository is an array of trees), and the changesets are things that
+<p>Subversion manages versioned trees as first order objects (版本库是一组目录树), and the changesets are things that
 are derived (by comparing adjacent trees.)  Systems like Arch or
 Bitkeeper are built the other way around: they're designed to manage
 changesets as first order objects (the repository is a bag of
