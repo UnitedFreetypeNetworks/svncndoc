@@ -48,11 +48,9 @@
 
 <h4>How-to:</h4>
 <ul>
-<li><a href="#co-svn">How do I check out the Subversion code?</a></li>
-<li><a href="#repository">How do I create a repository?  How do I
-    import data into it?</a></li> 
-<li><a href="#cvs2svn">How do I convert an existing CVS repository
-    into a Subversion repository?</a></li>
+<li><a href="#co-svn">怎么样检出Subversion版本库里的代码？</a></li>
+<li><a href="#repository">怎么样创建一个版本库？怎样将数据导入到版本库中？</a></li> 
+<li><a href="#cvs2svn">怎么样将已经存在于CVS版本库中的代码转换并导入到Subversion版本库中？</a></li>
     <li><a href="#proxy">What if I'm behind a proxy?</a></li>
 <li><a href="#paranoid">My admins don't want me to have a HTTP server for
     Subversion.  What can I do if I still want remote usage?</a></li> 
@@ -431,25 +429,12 @@ Bitkeeper被从相反的方向来进行构建：他们被设计用以对象最初的次序来管理变更集  (版
 
 <p>从根本上来说，两者都不够好： 争论至少可以追溯到三十年以前。两种设计方式或好或坏都是对两种不同类型的软件开发而言。现在我们不打算讨论这些，然而这里我将说明你能用Subversion来做什么。</p>
 
-<p>用Subversion，用一个全局的版本编号N来命名版本库目录树：这是说版本库是经过第N次提交。 a global revision number 'N' names a tree in the
-repository: it's the way the repository looked after the Nth commit.
-It's also the name of an implicit changeset: if you compare tree N
-with tree N-1, you can derive the exact patch that was committed.</p>
+<p>用Subversion，用一个全局的版本编号N来命名版本库目录树：这是说版本库是经过第N次提交。它还包括一些不明显的变更集：如果你比较目录树N和目录树N-1，你将得到提交时的详细信息。
+</p>
 
-<p>For this reason, it's easy to think of "revision N" as not just a
-tree, but a changeset as well.  If you use an issue tracker to manage
-bugs, you can use the revision numbers to refer to particular patches
-that fix bugs -- for example, "this issue was fixed by revision 9238."
-Somebody can then run 'svn log -r9238' to read about the exact
-changeset which fixed the bug, and run 'svn diff -r9237:9238' to see
-the patch itself.  And svn's merge command also uses revision numbers.
-You can merge specific changesets from one branch to another by naming
-them in the merge arguments: 'svn merge -r9237:9238 branchURL' would
-merge changeset #9238 into your working copy.</p>
+<p>因此，可以很容易的想到，版本N不仅仅是一个变更集。如果你用一个事件追踪去管理bug，你可以用版本号码去引用特殊的补丁，这些补丁很适合bug。例如，”这个事件被稳定在9238版本。“一些人可能运行‘svn log -r9238’来阅读对应Bug的补丁信息，运行‘svn diff -r9237:9238’来查看补丁本身的信息。Svn的合并命令也是利用了版本号码。你可以把一个分支明确的合并到另一个分支的结果集，通过命名它们。合并参数：‘svn merge -r9237:9238 branchURL’将合并结果集＃9238到你的工作拷贝。</p>
 
-<p>This is nowhere near as complicated as a system built around
-changesets as primary objects, but it's still a vast convenience over
-CVS.</p>
+<p>这对于一个以构建结构集为主要目标来的系统来说，绝对不是很复杂的，但是它已经比CVS方便许多了。</p>
 
 </div>
 
