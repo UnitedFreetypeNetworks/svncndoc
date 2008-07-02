@@ -58,9 +58,9 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <h4>一般问题：</h4>
 <ul>
 <li><a href="#hundredcpu">鼠标右键点击文件时CPU占用100％</a></li>
-<li><a href="#repoonshare">是否可以创建一个当地的文件库到网络文件夹？</a></li>
-<li><a href="#reponoserver">Can I keep my repository on a network share instead of setting up a server?</a></li>
-<li><a href="#listparentpath">Can I get a list of all the repositories on my Server?</a></li>
+<li><a href="#repoonshare">我是否可以创建一个当地的文件库到网络文件夹？</a></li>
+<li><a href="#reponoserver">我是否可以将文件库保存在网络共享驱动器来代替创建服务器？</a></li>
+<li><a href="#listparentpath">我是否可以从文件库服务器上得到所有的文件列表？</a></li>
 <li><a href="#multiclients">Can I use different Subversion clients with the same working copy?</a></li>
 <li><a href="#eol">Can TortoiseSVN convert line breaks in text files on the fly?</a></li>
 <li><a href="#propconflict">How do I find out what the conflict is when it is in a directory's property list?</a></li>
@@ -259,10 +259,10 @@ src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
 <p>XP包含了一个已知的bug，当你在特定的配置文件下访问上下文菜单会引起cpu占用上升到100%。这个bug会使文件复制暂停，使网络连接缓慢，流媒体（audio，video）扭曲。
 为了工作在包含这个bug的环境下，你需要通过以下操作禁止图形界面的传输效果：</p>
 <ol>
-<li>打开控制面板的显示菜单</li>
+<li>控制面板->显示</li>
 <li>选择外表栏</li>
-<li>点击效果，然后清空"Use the following transition effect for menus and tooltips"栏</li>
-<li>点击确定关闭所有的对话栏。</li>
+<li>点击效果，然后清空“为菜单和工具提示使用以下过渡效果”栏</li>
+<li>点击确定关闭所有的对话框。</li>
 </ol>
 <p>
 另一种解决方法是在点击右键显示上下文菜单前点击一次左键。
@@ -299,42 +299,25 @@ BDB要求文件系统运行在严格的POSIX语义环境，更重要的是，直
 </div>
 
 <div class="h3" id="reponoserver" title="reponoserver">
-<h3>Can I keep my repository on a network share instead of setting up a server?</h3>
-<p>If you need multiple computers to access the repository, you can in theory create 
-an FSFS repository (<strong>but not a BDB repository</strong>) on a network share 
-and access it using file:// protocol.
-In practice this is <strong>not</strong> recommended for three very good reasons:</p>
+<h3>是否可以将文件库保存在网络共享驱动器来代替创建服务器？</h3>
+<p>如果你需要多个电脑访问文件库，在理论上你可以创建FSFS文件库(<strong>但不能是BDB文件库</strong>)在网络共享驱动器上，通过已下格式访问file:// protocol。事实上这里有三个不推荐的原因：</p>
 <ol>
-<li>You are giving direct write access to all users, so they could accidentally 
-delete or corrupt the repository file system.</li>
-<li>Not all network file sharing protocols support the locking that Subversion requires. 
-One day you will find your repository has been subtly corrupted.</li>
-<li>You have to set the access permissions in just the right way. 
-SAMBA is particularly difficult in this respect.</li>
+<li>你将给所有用户直接访问权限，所以他们会有可能偶然的删除或者破换文件库文件系统。</li>
+<li>并不是所有的网络共享协议都支持Subversion要求的锁定。总有一天你会发现你的文件库被悄悄的破坏。</li>
+<li>你不得不设置正确的访问权限，SAMBA在这一点上特别难以满足。</li>
 </ol> 
-<p>By far the best way is to set up a real server process (such as Apache or svnserve), 
-store the repository on a local filesystem which the server can access, and make the 
-repository server available over a network. It is easier than you might think. 
+<p>更好的办法是创建一个真正的服务器进程（像Apache，svnserve），存储文件库到当地的文件系统上，使文件库服务器可以在网络上有效，可以被访问。这也许会比你想的要简单。
 <a title='Chapter 6. Server Configuration' href='http://svnbook.red-bean.com/en/1.4/svn.serverconfig.html'>Chapter 6, Server Configuration</a> 
-in the Subversion Book covers this process in detail.</p>
+在Subversion书上有详细的方法说明。</p>
 </div>
 
 <div class="h3" id="listparentpath" title="listparentpath">
-<h3>Can I get a list of all the repositories on my Server?</h3>
-<p>With TortoiseSVN and the command line Client: No.</p>
-<p>With a web browser: Yes</p>
-<p>A lot of people would agree that the TSVN repository browser would be a much 
-more useful tool if you could just point it at your versioning server and it 
-would show you whatever available repositories it had. Same story, albeit to a 
-lesser degree, with the command-line 'svn' client. Doing a 'svn ls' or 
-equivalent and being able to see what repositories and projects are hosted on a 
-specific versioning system would be very useful.</p>
-<p>Unfortunately, this is a limitation in the Subversion libraries that both the 
-command-line client and TortoiseSVN uses. It does not have the capability to 
-arbitrarily enumerate repositories on a server.</p>
-<p>Some might even argue that the lack of this feature is incitement for end 
-users to just jumble everything into one big repository, when it would be more 
-appropriate to split things up.</p>
+<h3>我是否可以从文件库服务器上得到所有的文件列表？</h3>
+<p>通过TortoiseSVN和命令行客户端: 不行。</p>
+<p>通过网页浏览器：可以。</p>
+<p>许多人总是认为TSVN文件库浏览器是一个非常有用的工具，如果你仅仅是指定你的版本服务器，它将为你显示它所包含的所有文件库，而不管文件库是否可用。同样的，svn命令行客户端尽管处于次要地位。做一个‘svn ls’或者同样的操作，便可以看到具体版本系统的文件库和项目被访问，拿是非常有用的。</p>
+<p>不幸的是，命令行和TortoiseSVN的使用在Subversion库中是非常局限的。他们没有足够的能力任意的列举出一个服务器上的版本库。</p>
+<p>一些呼吁甚至是争吵，这种缺少的特征刺激了一些极端的客户将所有的混乱的东西加到一个大的文件库中，这时，更好的办法是将他们分开。</p>
 </div>
 
 <div class="h3" id="multiclients" title="multiclients">
