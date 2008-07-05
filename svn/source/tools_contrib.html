@@ -524,28 +524,27 @@ subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="check_license_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/check-license.py">check-license.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>Check if a file has the proper license in it.</p>
+  <p>检查一个文件中是否有正确的许可证。</p>
 
 
   <h3><a name="contribulyze_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/contribulyze.py">contribulyze.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>Some Subversion project log messages include parseable data to help
-     track who's contributing what. This script collects that data.
+  <p>一些subversion的项目的日志信息里面包含
+     某些数据，可以解析跟踪出哪些用户对该项目做出过修改。这个脚本就是用来收集这些数据的。
   </p>
 
 
   <h3><a name="datecheck_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/datecheck.py">datecheck.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>This is a debugging script to test date-ordering in an SVN repository.</p>
+  <p>这个一个调试脚本用来测试一个SVN版本库的时间排序。</p>
 
 
   <h3><a name="gcov_patch"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/gcov.patch">gcov.patch</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>This patch can be used to generate a report showing what C source
-     lines are executed when the testsuite is run.
+  <p>这个补丁是用来生成一个报告文件，显示当测试组件在运行的时候那些行的C代码执行到了。
   </p>
 
 
@@ -577,19 +576,19 @@ subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="ff2csv_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/iz/ff2csv.py">ff2csv.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev/iz">tools/dev/iz</a>)</h3>
-  <p>Transform find-fix.py output into Excellable csv.</p>
+  <p>把find-fix.py的输出转换成excel可以打开的csv文件格式。</p>
 
 
   <h3><a name="find_fix_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/iz/find-fix.py">find-fix.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev/iz">tools/dev/iz</a>)</h3>
-  <p>Produce a find/fix report for Subversion's IZ database.</p>
+  <p>为subversion的IZ数据库生成一个查找/修复报告文件。</p>
 
 
   <h3><a name="run_queries_sh"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/iz/run-queries.sh">run-queries.sh</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev/iz">tools/dev/iz</a>)</h3>
-  <p>Run some IssueZilla queries.</p>
+  <p>Run some IssueZilla queries.运行某些IssueZilla查询命令。</p>
 
 
   <h3><a name="lock_check_py"
@@ -650,74 +649,63 @@ subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="scramble_tree_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/scramble-tree.py">scramble-tree.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>Makes multiple random file changes to a directory tree, for testing.</p>
+  <p>用于测试，对一个目录树进行随机的多个文件的修改。</p>
 
 
   <h3><a name="stress_pl"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/stress.pl">stress.pl</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>A script that allows some simple testing of Subversion, in
-     particular concurrent read, write and read-write access by the 'svn'
-     client. It can also create working copy trees containing a large
-     number of files and directories. All repository access is via the
-     'svnadmin' and 'svn' commands.
+  <p>一个用来对subversion服务器进行简单测试的脚本，主要是模拟多个svn客户端同时进行读、写或者又读又写访问的情况。
+     它还可以产生一个包含有大量文件和目录的工作拷贝树。所有的版本库访问都是通过svnadmin和svn命令实现。
   </p>
 
 
   <h3><a name="svn_dev_el"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/svn-dev.el">svn-dev.el</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>Emacs Lisp help for writing Subversion code. This file contains
-     some elisp functions which could be helpful to employ while working
-     on Subversion.
+  <p>代码时候用的Emacs Lisp的辅助文件。它包含有一些在使用subversion时候很有用的elisp函数。
   </p>
 
 
   <h3><a name="svn_dev_vim"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/svn-dev.vim">svn-dev.vim</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>This file sets vim up to use subversion's coding style. It can be
-     applied on a per buffer basis with :source svn-dev.vim, or can be
-     source from ~/.vimrc to apply settings to all files vim uses. For
-     other variation try :help autocmd.
+  <p>这个文件是用来在vim中装入subversion的编码风格，它可以在每一个vim程序底部的
+     命令行中用:source svn-dev.vim打开，也可以在~/.vimrc设置，作用于今后vim处理的所有文件。其他用法请参看:help autocmd。
   </p>
 
 
   <h3><a name="svn_merge_revs_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/svn-merge-revs.py">svn-merge-revs.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>This script is meant to ease the pain of merging and
-     reviewing revision(s) on a release branch (although it can be used to
-     merge and review revisions from any line of development to another).
+  <p>这个脚本用来帮助一个发行版本分支的合并和版本查看（尽管它也可以用在任意的开发分支之间）。
   </p>
 
 
   <h3><a name="trails_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/trails.py">trails.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>A program for analyzing Subversion trail usage statistics.</p>
+  <p>A program for analyzing Subversion trail usage statistics.一个用来分析subversion跟踪命令使用统计结果的程序。</p>
 
 
   <h3><a name="verify_history_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/verify-history.py">verify-history.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>This program is used to verify the FS history code.</p>
+  <p>这个程序是用来校验FS的历史代码。</p>
 
 
   <h3><a name="warn_ignored_err_sh"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/warn-ignored-err.sh">warn-ignored-err.sh</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>Insert or remove the GCC attribute "warn_unused_result" on each function
-     that returns a Subversion error, in the specified files or, by default,
-     *.h and *.c in the ./subversion and ./tools trees.
+  <p>从每一个返回subversion错误值的函数中插入或者移除GCC的“warn_unused_result”属性，
+     通常作用于指定的文件，默认是./subversion和./tools目录树中所有扩展名为*.h和*.c的文件。
   </p>
 
 
   <h3><a name="which_error_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/dev/which-error.py">which-error.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/dev">tools/dev</a>)</h3>
-  <p>Print semantic Subversion error code names mapped from their numeric
-     error code values.
+  <p>根据错误代码编号值打印出与之对应的subversion错误代码名称。
   </p>
 </div>
 
