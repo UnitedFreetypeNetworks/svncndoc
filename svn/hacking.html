@@ -375,19 +375,16 @@ to ask for review on the developer mailing list.</p>
 
 
 <div class="h2" id="secure-coding" title="secure-coding">
-<h2>Secure coding guidelines</h2>
+<h2>安全编码指导方针</h2>
 
-<p>Just like almost any other programming language, C has undesirable
-features which enables an attacker to make your program fail in
-predictable ways, often to the attacker's benefit. The goal of these
-guidelines is to make you aware of the pitfalls of C as they apply to
-the Subversion project.  You are encouraged to keep these pitfalls in
-mind when reviewing code of your peers, as even the most skilled and
-paranoid programmers make occasional mistakes.</p>
+<p>几乎像其他任何编程语言，C语言有一些不好的特性，这可以使攻击者以预定的方式
+使你程序运行失败，来使攻击者受益。
+这些指导方针的目标是使你知道C中的陷阱，从而可以应用到Subversion工程。
+当你审查代码时，我们鼓励你记住这些陷阱，因为即使是最熟练和细心的程序员也可能偶尔犯错误。</p>
 
-<p>Input validation is the act of defining legal input and rejecting
-everything else. The code must perform input validation on all
-untrusted input. </p>
+<p>输入确认是接受合法的输入，拒绝任何其他输入，
+代码在所有不可信赖的输入上必须执行输入确认。
+</p>
 
 <p>Security boundaries:</p>
 
@@ -406,47 +403,40 @@ invoked with improper values. </p>
 
 <p>[### todo: need some examples from Subversion here...]</p>
 
-<p>String operations:</p>
+<p>字符串操作:</p>
 
-<p>Use the string functions provided in apr_strings.h instead of
-standard C library functions that write to strings.  The APR functions
-are safer because they do bounds-checking and dest allocation
-automatically.  Although there may be circumstances where it's
-theoretically safe to use plain C string functions (such as when you
-already know the lengths of the source and dest), please use the APR
-functions anyway, so the code is less brittle and more reviewable.</p>
+<p>使用apr_strings.h提供的字符串函数而不要使用标准C库的函数来写字符串，
+APR函数由于做了边界检查和目标地址的自动分配，所以是安全的。
+虽然在某些情况下使用C字符串函数是安全的(例如当你已经知道了字符串源和
+目的地长度),但不论什么情况还是使用APR函数，这样代码更友好，更容易检查。
+</p>
 
-<p>Password storage:</p>
+<p>密码存储:</p>
 
-<p>Help users keep their passwords secret: When the client reads or
-writes password locally, it should ensure that the file is mode
-0600. If the file is readable by other users, the client should exit
-with a message that tells the user to change the filemode due to the
-risk of exposure.</p>
+<p>帮助用户保密密码：当客户端读写密码时，应当保证文件的读写权限是0600,
+如果这个文件可以被其他用户读取，客户端应当退出，并且告诉用户由于泄露的
+危险而需要改变文件的模式.</p>
 
 </div>
 
 
 <div class="h2" id="destruction-of-stacked-resources"
      title="destruction-of-stacked-resources">
-<h2>Destruction of stacked resources</h2>
+<h2>栈资源的释放</h2>
 
-<p>Some resources need destruction to ensure correct functioning of the
-application.  Such resources include files, especially since open
-files cannot be deleted on Windows.</p>
+<p>为了确保程序的正确功能，一些资源需要释放。
+这些资源包括文件，尤其是在Windows下打开的不能被删除的文件。</p>
 
-<p>When writing an API which creates and returns a stream, in the
-background this stream may be stacked on a file or other stream.  To
-ensure correct destruction of the resources the stream is built upon,
-it must correctly call the destructors of the stream(s) it is built
-upon (owns).</p>
+<p>当写一个创建并返回一个流的API时，在这个流的背后是文件或者其他类型的流。
+为了确保构建这个流上的资源被正确的释放，必须正确的调用构建这个流的资源的销毁函数。
+</p>
 
-<p>At first in <a href="http://svn.haxx.se/dev/archive-2005-12/0487.shtml">
+<p>第一个在 <a href="http://svn.haxx.se/dev/archive-2005-12/0487.shtml">
 http://svn.haxx.se/dev/archive-2005-12/0487.shtml</a>
-and later in <a href="http://svn.haxx.se/dev/archive-2005-12/0633.shtml">
-http://svn.haxx.se/dev/archive-2005-12/0633.shtml</a> this
-was discussed in more general terms for files, streams, editors and
-window handlers.</p>
+最后的在<a href="http://svn.haxx.se/dev/archive-2005-12/0633.shtml">
+http://svn.haxx.se/dev/archive-2005-12/0633.shtml</a> 
+这些讨论一个对于文件，流，编辑器，和窗口句柄等来说，更通用的条款。
+</p>
 
 <p>As Greg Hudson put it:</p>
 
