@@ -1,51 +1,40 @@
 <chapter id="design">
-  <title>Design</title>
+  <title>设计</title>
 
   <section id="goals">
-    <title>Goals</title>
+    <title>目标</title>
 
     <para>
-       The goals of &devel-product-name; are:
+       &devel-product-name;目标是:
       <itemizedlist spacing="compact">
 	<listitem>
 	  <para>
-	    <emphasis role=bold>To solve the integration problem once
-	    and for all</emphasis>.
+	    <emphasis role=bold>一次解决所有的整合问题</emphasis>。
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Provide synchronous verification checks of SCM actions
-	    against the bug-tracking system.
+	    在Bug跟踪系统里提供SCM动作的同步确认检查。
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Provide a flexible architecture that can be deployed
-	    across the public Internet with reasonable
-	    security. Permit integrating repositories hosted by
-	    multiple SCM systems in separate networks, against a
-	    single, publicly accessible bug-tracking system, for use
-	    with multiple mobile developers.
+	    提供一个灵活的架构，能够架设在有安全保证的公共网络上。能够整合网络中不同SCM系统的版本库，对应一个单一的，公共进入的Bug跟踪系统，为不同地域的开发者使用。
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Define an SCM to bug-tracking integration interface and
-	    mechanism that will permit integration of any SCM system
-	    with any bug-tracking system.
+	    定义一个SCM和Bug跟踪系统的整合接口和架构，可以允许任何一个SCM系统和Bug跟踪系统的整合。
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Integrate most popular free SCM systems, such as CVS,
-	    Subversion, and Arch.
+	    整合最流行的开源SCM系统，如CVS,Subversion和Arch。
 	  </para>
 	</listitem>
 	<listitem>
 	  <para>
-	    Integrate most popular free bug-tracking systems, such as
-	    Bugzilla and Mantis.
+	    整合最流行的开源Bug跟踪系统，如Bugzilla和Mantis。
 	  </para>
 	</listitem>
       </itemizedlist>
@@ -55,23 +44,15 @@
   </section>
 
   <section id="system-architecture">
-    <title>System Architecture</title>
+    <title>系统架构</title>
 
     <para>
-      &devel-product-name; is developed as a client/server
-      solution. As shown in <xref linkend="fig-system-architecture">,
-      it consists of a set of SCM system hooks that capture standard
-      SCM events, a generic mechanism of handling these events on the
-      machine hosting an SCM repository, a server daemon onto which
-      integration requests corresponding to these events are
-      transported, a generic mechanism of handling these requests, and
-      functionality that can process these requests per bug-tracking
-      system.
+      &devel-product-name;是一个C/S结构。如图<xref linkend="fig-system-architecture">,它包含一个SCM系统的钩子--用来捕获标准的SCM事件，一个通用的结构在SCM版本库的机器上来处理这些事件，一个服务器进程来传输这些相应事件的整合请求，一个通用的结构来处理这些请求，最后还有一个功能就是针对每一个不同的Bug跟踪系统来处理这些请求。
     </para>
     
     <figure id="fig-system-architecture">
       <title>
-	System architecture.
+	系统架构.
       </title>
       <mediaobject>
 	<imageobject>
@@ -91,13 +72,7 @@
     </figure>
     
     <para>
-      When various SCM events occur, such as committing software
-      changes or labeling a repository, they are captured using hooks
-      installed by &devel-product-name;. Before the event's activity
-      is allowed to proceed, various verification checks are performed
-      as described in <xref linkend="verification-checks">. These
-      checks are synchronous; when an error is detected, the event's
-      activity is stopped.
+      当各种各样的SCM事件发生的时候，如提交软件修改或者标记一个版本库，他们会被Scmbug安装的钩子捕获。在这些事件活动允许继续进行之前，各种确认检查会被像在<xref linkend="verification-checks">中描述的一样执行。这些检查是同步的;当错误发生时，事件活动将被终止。
     </para>
   
   </section>
@@ -107,26 +82,15 @@
   <section id="related-systems">
 
     <title>
-      Related Systems
+      相关的系统
     </title>
     
     <para>
-      &devel-product-name; is not original work. Most of the
-      integration features separating it from related systems were
-      first conceived and implemented by John C. Quillan for CVS and
-      Bugzilla. The distinguishing features of his work are the
-      synchronous nature of the verification checks, and a <xref
-      linkend="vdd" endterm="vdd-short"> tool similar to the one
-      described in <xref linkend="vdd">. His work was never publicly
-      released. &devel-product-name; attempts to continue a
-      redesigned, clean-room implementation of that work, supporting a
-      wider variety of SCM and bug-tracking systems.
+      &devel-product-name;不是最初的工作。大多数整合特性分布在各种相关的系统中，这些特性最初是由John C. Quillan在CVS和Bugzilla中构思和实现的。他工作不同的特性是确认检查的同步和一个与<xref linkend="vdd">描述的相似的工具<xref linkend="vdd" endterm="vdd-short">。他的工作从来没有攻来的发不过。Scmbug尝试继续一个重新设计的，简单实现的，支持更多种SCM和Bug跟踪系统的工具。
     </para>
 
     <para>
-      Other systems that integrate SCM with bug-tracking are described
-      below. Along with Quillan's work, these solutions are unsuitable
-      for certain development environments.
+      其他整合SCM和Bug跟踪系统的系统如下。与Quillan's的工作一样，这些解决方案都不适合特定的开发环境。
     </para>
 
 
@@ -135,24 +99,13 @@
       <title>Bugzilla Email Gateway</title>
 
       <para>
-	SCM systems can integrate their actions with Bugzilla using
-	the Bugzilla email gateway. Hook scripts installed in an SCM
-	system can email the results of the system's actions to an
-	email account configured to parse the email and process it
-	accordingly. An example of such a configuration is available
-	from <ulink
+	SCM系统能够用Bugzilla email gateway整合Bugzilla。安装在SCM系统中的钩子脚本能够把系统的行为发邮件通知给配置好的账户并且相应的处理它。相应的例子请看<ulink
 	url="http://www.einval.com/~steve/software/cvs-bugzilla/">
-	<citetitle>Steve McIntyre's</citetitle></ulink> web page.
+	<citetitle>Steve McIntyre's</citetitle></ulink>。
       </para>
 
       <para>
-	This approach is not synchronous. For example, if a user
-	accidentally commits against the wrong bug number, or a bug
-	against which he is not the owner, the SCM system will proceed
-	with the commit action regardless, without giving the user the
-	option to correct his actions. Additionally, if the email
-	gateway is not active, the developer will not be immediately
-	aware that integration failed.
+	这个方法不是同步的。比如，如果一个用户意外的提交了一个错误的bug号，或者不属于他的bug，SCM系统同样会处理这个提交，不给他选择去修改。另外，如果emai gateway不是活动的，开发者将不会立即知道整合失败。
       </para>
 
     </section>
@@ -163,44 +116,21 @@
       <title>CVSZilla</title>
       
       <para>
-	Tony Garnock-Jones' <ulink
+	Tony Garnock-Jones的<ulink
 	url="http://homepages.kcbbs.gen.nz/~tonyg/">
-	<citetitle>CVSZilla</citetitle></ulink> integrates SCM events
-	produced by CVS with Bugzilla. It also extends CVS to give
-	rudimentary support to "change-sets", or "transactions".
+	<citetitle>CVSZilla</citetitle></ulink>把CVS和Bugzilla整合在一起。它还把CVS扩展成可以支持“change-sets”，或者“transactions”。
       </para>
       
       <para>
-	CVSZilla does not support integration of events produced by
-	any SCM system in a generic way. It modifies the Bugzilla
-	schema and does not work with future versions of
-	Bugzilla. Finally, it assumes that the TCP port used by MySQL
-	is accessible from the machine hosting the CVS repository.
+	CVSZilla不支持SCM系统在通用模式下的整合。它需要修改Bugzilla的模式并且不支持将来版本的Bugzilla。最后，它假设MySQL用的TCP端口是可以被CVS版本库的机器访问的。
       </para>
 
       <para>
-	The last assumption does not always hold true, especially when
-	a bug-tracking system is used to track development of mobile
-	developers (laptop users), needing the flexibility to work
-	both locally and remotely, on multiple projects, across
-	different organizational units. Experience has shown that this
-	is a common scenario in organizations with limited hardware,
-	software, or labor resources, such as an academic environment.
+	最后的假设不总是正确的，尤其是当bug跟踪系统被用来跟踪移动开发者（笔记本用户）的开发时，需要灵活的使本地和远程在多个项目，跨不同的组织单位都能工作。经验表明在一个有限的硬件，软件，人力资源环境下--就像在一个学院里，这样的情景是经常发生的。
       </para>
 
       <para>
-	For example, imagine integrating CVS actions from a repository
-	hosted on a personal laptop with a Bugzilla instance that
-	needs to be publicly accessible from the Internet. This same
-	bug-tracking system is used for collaboration with other
-	mobile developers of a different organization on a joint
-	project hosted on a third machine. Integration over the public
-	Internet is not possible without opening the MySQL database
-	port Bugzilla uses. Opening this port is unnecessarily
-	insecure, exposing access to other applications hosted on the
-	same database system. The &devel-product-name; daemon exposes
-	the minimum required integration interface between an SCM
-	system and a bug-tracking system.
+	例如，想像一个人的笔记本上装有CVS版本库和需要从互联网公共接入的Bugzilla。这个相同的bug跟踪系统还用来和搭建在第三台机器上其他不同组织的项目合作。通过互联网整合是不可能不打开Bugzilla用的MySQL端口。打开这个端口就会存在安全隐患，把在相同机器上其他应用程序暴露在不安全的环境下。&devel-product-name;后台进程只暴露整合需要的最小接口。
       </para>
 
     </section>
@@ -208,21 +138,14 @@
 
     
     <section id="other-integration-systems">
-      <title>Other Integration Systems</title>
+      <title>其他整合系统</title>
       
       <para>
-	Commercial products concentrate only on integrating a
-	particular SCM system with a particular bug-tracking system,
-	in a proprietary way. They do not attempt to define a public
-	SCM to bug-tracking integration interface, and solve the
-	integration problem once and for all.
+	商业产品只集中在某一种特别的SCM系统和某一种特别的bug跟踪系统，以一种专有的方式。他们不会定义一个公用的SCM到bug跟踪系统的整合接口，不会一次解决整合的所有问题。
       </para>
 
       <para>
-	&devel-product-name; is an effort for defining an SCM to
-	bug-tracking integration interface and mechanism that will
-	permit integration of any SCM system with any bug-tracking
-	system.
+	&devel-product-name;努力定义一种SCM到bug跟踪系统整合接口和结构，可以允许把任何SCM系统和任何的bug跟踪系统整合起来。
       </para>
       
     </section>
