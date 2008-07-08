@@ -1,13 +1,10 @@
 <chapter id="introduction">
-  <title>Introduction</title>
+  <title>介绍</title>
 
   <section id="what-is-product">
-    <title>What Is It?</title>
+    <title>Scmbug是什么？</title>
     <para>
-      &devel-product-name; is a system that integrates software
-      configuration management with bug-tracking. It is implemented in
-      Perl and has been successfully deployed on UNIX-like and Windows
-      systems. It is pronounced
+      &devel-product-name; 是一个把scm和bug跟踪工具整合起来的系统。 它用Perl来实现并且已经成功支持UNIX和Windows系统。 它的发音是
       <emphasis>&devel-product-name-pronounce</emphasis>.
     </para>
   </section>
@@ -16,63 +13,41 @@
 
 
   <section id="why-scm">
-    <title>Why Use An SCM System?</title>
+    <title>为什么使用SCM系统?</title>
 
     <para>
-      Those who do not use a software configuration management (SCM)
-      system do not maintain a history of modifications performed to
-      their software. When bugs creep in their software, they do not
-      have adequate information on how changes to source code came
-      about.
+      那些不用软件配置管理(SCM)系统的人，他们不能够保持一个他们软件修改的历史记录。当bug慢慢的在他们的软件里蔓延到时候，他们也没有足够的信息去了解代码做过哪些修改。
     </para>
 
     <para>
-      SCM systems, or even simple source code version control systems,
-      make sure that a record of all changes and enhancements to the
-      software is maintained. They provide a method of creating,
-      storing, and labeling software changes.
+      SCM系统，或者是简单的代码版本控制系统，可以确保记录所有的对于代码的修改和改进。他们提供一种建立，存储，标记软件修改的方法。
     </para>
 
 
   </section>
 
   <section id="why-bugtracking">
-    <title>Why Use A Bug-tracking System?</title>
+    <title>为什么使用Bug跟踪系统?</title>
                                                                                 
     <para>
-      Those who do not use a bug-tracking system tend to rely on
-      shared lists, email, spreadsheets and/or Post-It notes to
-      monitor the status of defects. This procedure is usually
-      error-prone and tends to cause those bugs judged least
-      significant by developers to be dropped or ignored.
+      那些不使用Bug跟踪系统的人倾向于使用共享列表，邮件，电子表格和便签去监视defect到状态。这个程序通常易于出错，并且容易使那些不太重要的bug被开发者删掉或忽略。
     </para>
                                                                                 
     <para>
-      Integrated defect-tracking systems make sure that nothing gets
-      swept under the carpet; they provide a method of creating,
-      storing, arranging and processing defect reports and enhancement
-      requests.
+      整合的Bug跟踪系统可以确保没有bug可以被忽略掉；他们提供一个建立，存储，排序，集成bug报表和更强的要求到方法。
     </para>
 
   </section>
 
   <section id="why-scm-bugtracking-integration">
-    <title>Why Integrate SCM With Bug-tracking?</title>
+    <title>为什么整合SCM和Bug跟踪?</title>
 
     <para>
-      SCM systems maintain software changes. Bug-tracking systems
-      maintain lists of software enhancements and defects. By
-      examining a log of software changes, it is uncertain
-      <emphasis>why</emphasis> the changes occurred. By examining a log
-      of defect reports, it is uncertain <emphasis>what</emphasis>
-      changed in software in response to the defects.
+      SCM系统维护软件的修改记录。Bug跟踪系统维护软件的增强和bug列表。通过检查大量的软件修改记录，你不能确定<emphasis>为什么</emphasis>发生这些修改。通过检查大量的bug报表，你也不能确定对应的bug在软件里具体的修改了<emphasis>什么</emphasis>。
     </para>
 
     <para>
-      Integration of SCM with bug-tracking ties the reason
-      <emphasis>why</emphasis> a feature/defect was developed/fixed
-      with <emphasis>what</emphasis> software changes occurred in the
-      SCM system to accomplish this.
+      整合SCM和Bug跟踪系统就是基于这个原因，把新特性/Bug<emphasis>为什么</emphasis>要开发/修改和在SCM系统里具体的修改了<emphasis>什么</emphasis>对应起来。
     </para>
 
  </section>
