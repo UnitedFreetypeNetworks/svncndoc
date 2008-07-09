@@ -1,86 +1,61 @@
 <chapter id="about">
-  <title>About</title>
+  <title>关于</title>
 
  <section id="copyright">
-    <title>Copyright Information</title>
+    <title>版权信息</title>
 
     <para>
-      This document is copyright (C) 2004 by the various
-      &devel-product-name; contributors who wrote it. It is licensed
-      under the GNU Free Documentation License.
+      这个文档的版权属于Scmbug的贡献者们。已授权在GUN自由文档许可证。
     </para>
 
     <blockquote>
       <para>
-        Permission is granted to copy, distribute and/or modify this
-        document under the terms of the GNU Free Documentation
-        License, Version 1.1 or any later version published by the
-        Free Software Foundation; with no Invariant Sections, no
-        Front-Cover Texts, and with no Back-Cover Texts. A copy of the
-        license is included in <xref linkend="gfdl">.
+        你可以拷贝，发布或者修改这个文档在GNU自由文档许可证1.1或者更高版本的条款下；没有不变的段落，没有封面，也没有封底。许可证的拷贝参见<xref linkend="gfdl">.
       </para>
     </blockquote>
 
     <para>
-      &devel-product-name; is free software, licensed under the GNU
-      General Public License.
+      &devel-product-name;是免费软件，授权在GNU通用公共许可证。
     </para>
 
     
     <blockquote>
       <para>
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License as
-	published by the Free Software Foundation; either version 2 of
-	the License, or (at your option) any later version.
+	这个程序是自由的软件;你可以重新发布或者修改它在遵循自由软件基金会发布的GNU通用公共许可证的条款下;版本2或者是更高。
       </para>
 
       <para>
-	This program is distributed in the hope that it will be
-	useful, but WITHOUT ANY WARRANTY; without even the implied
-	warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-	PURPOSE.  See the GNU General Public License for more details.
+	这个程序的发布是希望它对你有用，但是没有任何保证;甚至没有商品性能保证或是适合特殊的目的。看GNU通用公共许可证来了解更多。
       </para>
 
       <para>
-	You should have received a copy of the GNU General Public
-	License along with this program; if not, write to the Free
-	Software Foundation, Inc., 59 Temple Place - Suite 330,
-	Boston, MA 02111-1307, USA.
+	你应该在得到这个程序的时候同时得到一份GNU通用公共许可证的拷贝;如果没有，写信到自由软件基金会，59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
       </para>
     </blockquote>
 
   </section>
 
   <section id="disclaimer">
-    <title>Disclaimer</title>
+    <title>免费声明</title>
 
     <para>
-      No liability for the contents of this document can be accepted.
-      Follow the instructions herein at your own risk.
+      此文档不承担任何责任，按照指示您自己承担风险。
     </para>
 
   </section>
 
   <section id="acknowledgements">
-    <title>Acknowledgments</title>
+    <title>感谢</title>
 
     <para>
-      The excellent
-      <ulink url="http://www.bugzilla.org/docs/tip/html">
-	<citetitle>Bugzilla Guide</citetitle></ulink> served as an
-      example in preparation of this document. Content and structural
-      document elements were reused from this guide. The <ulink
+      优秀的<ulink url="http://www.bugzilla.org/docs/tip/html">
+	<citetitle>Bugzilla Guide</citetitle></ulink>为本文档提供了极好的模板。内容和文档结构都是从这份文档中来。<ulink
       url="http://www.tldp.org/LDP/LDP-Author-Guide/html/index.html">
-      <citetitle>LDP Author Guide</citetitle></ulink> also served as a
-      good example.
+      <citetitle>LDP Author Guide</citetitle></ulink>也提供了很好的例子。
     </para>
 
     <para>
-      Development of this system benefited from invaluable insight on
-      SCM and bug-tracking issues, along with feedback, from John
-      C. Quillan, Mark S. Reibert, Dave Swegen, the Bugzilla
-      developers, and the Subversion developers.
+      这个系统的开发得益于对SCM和bug跟踪系统的无价洞察力，感谢John C.Quillan,Mark S.Reibert,Dave Swegen,Bugzilla开发者和Subversion开发者的反馈帮助。
     </para>
 
   </section>
