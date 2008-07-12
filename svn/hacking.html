@@ -191,57 +191,49 @@ href="http://svn.collab.net/repos/svn/trunk/subversion/libsvn_ra_svn/protocol"
 
 
 <div class="h2" id="code-to-read" title="code-to-read">
-<h2>Code to read</h2>
+<h2>如何读代码</h2>
 
-<p>Before you can contribute code, you'll need to familiarize yourself
-with the existing code base and interfaces.</p>
+<p>在你贡献代码之前，你需要熟悉现有的代码和接口.</p>
 
-<p>Check out a copy of Subversion (anonymously, if you don't yet have
-an account with commit access)&nbsp;&mdash;&nbsp;so you can look at
-the code.</p>
+<p>签出subversion的代码 (如果你还没有提交权限的帐户, 你
+可以使用匿名用户) — 这样你就可以看代码了.</p>
 
-<p>Within 'subversion/include/' are a bunch of header files with huge
-doc comments.  If you read through these, you'll have a pretty good
-understanding of the implementation details.  Here's a suggested
-perusal order:</p>
+<p>在目录'subversion/include/'里 是大量的带有大量文档注释的头文件。  
+如果你仔细阅读这些，你将对实现细节有一个很好的理解，这里是建议阅读顺序:</p>
 
 <ol>
-<li><p>the basic building blocks:  svn_string.h, svn_error.h, svn_types.h</p>
+<li><p>最基本的功能块: svn_string.h, svn_error.h, svn_types.h</p>
 </li>
-<li><p>useful utilities:  svn_io.h, svn_path.h, svn_hash.h, svn_xml.h</p>
+<li><p>有用的公用程序:  svn_io.h, svn_path.h, svn_hash.h, svn_xml.h</p>
 </li>
-<li><p>the critical interface:  svn_delta.h</p>
+<li><p>关键的接口:  svn_delta.h</p>
 </li>
-<li><p>client-side interfaces:  svn_ra.h, svn_wc.h, svn_client.h</p>
+<li><p>客户端的接口:  svn_ra.h, svn_wc.h, svn_client.h</p>
 </li>
-<li><p>the repository and versioned filesystem:  svn_repos.h, svn_fs.h</p>
+<li><p>仓库和版本的文件系统:  svn_repos.h, svn_fs.h</p>
 </li>
 </ol>
 
-<p>Subversion tries to stay portable by using only ANSI/ISO C and by
-using the Apache Portable Runtime (APR) library.  APR is the
-portability layer used by the Apache httpd server, and more
-information can be found at <a href="http://apr.apache.org/"
->http://apr.apache.org/</a>.</p>
+<p>Subversion只使用ANSI/ISO C和Apache运行时库(ARP)来尽量保持简单，
+ APR是Apache的httd服务器使用的轻便的一层工具库，可以在
+  <a href="http://apr.apache.org/"
+>http://apr.apache.org/</a>看到详细的信息.</p>
 
-<p>Because Subversion depends so heavily on APR, it may be hard to
-understand Subversion without first glancing over certain header files
-in APR (look in 'apr/include/'):</p>
+<p>由于Subversion非常依赖APR, 所以如果没有阅某些APR头文件，就难于
+理解Subversion (头文件在'apr/include/'):
+</p>
 
 <ul>
-<li><p>memory pools:  apr_pools.h</p></li>
-<li><p>filesystem access:  apr_file_io.h</p></li>
-<li><p>hashes and arrays:  apr_hash.h, apr_tables.h</p></li>
+<li><p>内存池:  apr_pools.h</p></li>
+<li><p>文件系统存取  apr_file_io.h</p></li>
+<li><p>散列和数组:  apr_hash.h, apr_tables.h</p></li>
 </ul>
 
-<p>Subversion also tries to deliver reliable and secure software. This
-can only be achieved by developers who understand secure programming
-in the C programming language. Please see 'notes/assurance.txt' for
-the full rationale behind this.  Specifically, you should make it a
-point to carefully read David Wheeler's Secure Programming (as
-mentioned in 'notes/assurance.txt'). If at any point you have
-questions about the security implications of a change, you are urged
-to ask for review on the developer mailing list.</p>
+<p>Subversion也尽力交付一个可靠的和安全的软件。 这是可以理解c语言安
+全编程的开发人员才可以获得. 请参考'notes/assurance.txt' 获得这后面的
+全部依据。 具体来说，你应当仔细读取《 David Wheeler's Secure Programming》
+ ('notes/assurance.txt').如果你对安全编程的任意一点有疑问，我们鼓励你在开
+ 发者的邮件列表中探讨.</p>
 
 </div>
 
