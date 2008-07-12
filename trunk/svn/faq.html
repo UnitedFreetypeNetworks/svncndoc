@@ -46,7 +46,7 @@
 <li><a href="#moderation">为什么我的邮件没有显示在邮件列表上？</a></li>
 </ul>
 
-<h4>How-to:</h4>
+<h4>如何使用：</h4>
 <ul>
 <li><a href="#co-svn">怎么样检出Subversion版本库里的代码？</a></li>
 <li><a href="#repository">怎么样创建一个版本库？怎样将数据导入到版本库中？</a></li> 
@@ -54,77 +54,48 @@
     <li><a href="#proxy">What if I'm behind a proxy?</a></li>
 <li><a href="#paranoid">My admins don't want me to have a HTTP server for
     Subversion.  What can I do if I still want remote usage?</a></li> 
-<li><a href="#multi-proj">How do I manage several different projects
-    under Subversion?</a></li>
-<li><a href="#multi-merge">How do I merge two completely separate repositories?</a></li>
-<li><a href="#nfs">Should I store my repository / working copy on a
-    NFS server?</a></li>
-<li><a href="#bdblogs">Why is my repository taking up so much disk space?</a></li>
-<li><a href="#reposperms">How do I set repository permissions correctly?</a></li>
-<li><a href="#readonly">Why do read-only operations still need repository write access?</a></li>
-<li><a href="#removal">How do I completely remove a file from the repository's history?</a></li>
-<li><a href="#change-log-msg">How do I change the log message for a revision
-    after it's been committed?</a></li>
-<li><a href="#patch">How do I submit a patch for Subversion?</a></li>
-<li><a href="#in-place-import">How can I do an in-place 'import'
-    (i.e. add a tree to Subversion such that the original data becomes
-    a working copy directly)?</a></li> 
+<li><a href="#multi-proj">如何在同一个不同的版本库里管理几个不同的工程？</a></li>
+<li><a href="#multi-merge">我如何合并两个完全分开的版本库？</a></li>
+<li><a href="#nfs">我应该如何在一个NFS服务器上存储我的版本库和一个工作拷贝呢？</a></li>
+<li><a href="#bdblogs">为何我的版本库占去这么多的磁盘空间？</a></li>
+<li><a href="#reposperms">我如何恰当的设置我的版本库的权限呢？</a></li>
+<li><a href="#readonly">为何只读的操作仍然需要版本库的写访问？</a></li>
+<li><a href="#removal">如何完全的从版本历史库里面删除一个文件？</a></li>
+<li><a href="#change-log-msg">当我向服务器提交一个版本之后，如何改变日志信息？</a></li>
+<li><a href="#patch">怎么样向版本库提交一个补丁？</a></li>
+<li><a href="#in-place-import">我如何在恰当的导入数据（例如：向Subversion添加一个目录结构，比如直接的让一些元数据成为工作拷贝）？</a></li> 
 <li><a href="#dumpload">What is this "dump/load cycle" people
     sometimes talk about when upgrading a Subversion server?</a></li> 
-<li><a href="#sspi">How do I allow clients to authenticate against a
-    Windows domain controller using SSPI Authentication?</a></li>
-<li><a href="#adm-dir">I don't like the ".svn" directory name, and
-    prefer "SVN" or something else.  How do I change it?</a></li>
-<li><a href="#case-change">How do I change the case of a filename?</a></li>
-<li><a href="#merge-using-tags">I can't use tags to merge changes from a 
-    branch into the trunk like I used to with CVS, can I?</a></li>
-<li><a href="#version-value-in-source">Why doesn't the $Revision$
-  keyword do what I want?  It expands to the file's last-changed
-  revision, but I want something that will expand to the file's
-  current revision.</a></li>
-<li><a href="#log-in-source">Does Subversion have a keyword which behaves
-  like $Log$ in CVS?</a></li>
-<li><a href="#ignore-commit">I have a file in my project that every
-developer must change, but I don't want those local mods to ever be
-committed.  How can I make 'svn commit' ignore the file?</a></li>
-<li><a href="#ssh-auth-cache">When I access a repository using
-svn+ssh, my password is not cached in ~/.subversion/auth/.  How do
-I avoid having to type it so often?</a></li>
-<li><a href="#ssh-svnserve-location">My
-<tt>svnserve</tt> binary is in a directory that isn't on my
-users' default <tt>PATH</tt>s, they use svn+ssh, and I can't figure
-out how to modify their <tt>PATH</tt> so that they can run <tt>svnserve</tt>.</a></li>
+<li><a href="#sspi">我如何允许一个客户端有效的拒绝一个使用SSPI验证的Windows域控制者？</a></li>
+<li><a href="#adm-dir">我不喜欢“.svn”这样的目录名字，而喜欢“SVN”或者其他一些目录名，我该如何改变呢？</a></li>
+<li><a href="#case-change">我应该如何更改一个case的文件名字？</a></li>
+<li><a href="#merge-using-tags">我在从一个分支合并到trunk时，不能使用标签，就像以前使用CVS一样，我该怎么办呢？</a></li>
+<li><a href="#version-value-in-source">为什么$Revision$这个命令关键字作用不是我想要的？它扩展到文件的上次修订版本，但是我有时候我只想扩展到文件的当前版本就好了。</a></li>
+<li><a href="#log-in-source">Subversion是否有一个功能类似CVS的$Log$命令关键字呢？</a></li>
+<li><a href="#ignore-commit">在我的工程里有一个文件，每个人都必须改变它，但是我不希望他们本地的but I don't want those local mods to ever be
+committed.  我该如何执行'svn commit'以忽略这个文件？</a></li>
+<li><a href="#ssh-auth-cache">当我通过svn+ssh来访问一个版本库的时候，我的密码没有被缓存在~/.subversion/auth/.我改如何避免每次都要键入密码？</a></li>
+<li><a href="#ssh-svnserve-location">我的
+<tt>svnserve</tt> 二进制 is in a directory that不是我的 isn't on my
+users' default <tt>PATH</tt>s, 他们通过svn+ssh，并且我不能够估计出how to modify their <tt>PATH</tt>所以他们可以运行<tt>svnserve</tt>.</a></li>
 <li><a href="#ssh-authorized-keys-trick">
-I want to allow access via svn+ssh://, but am paranoid.  I hate the
-idea of giving each user a login; I would then have to worry about
-what they are, and are not, allowed to access on my machine.
+我希望被允许通过svn+ssh://来访问版本库， but am paranoid. 我讨厌分配给每一个用户一个登录帐号的方法。我将担心what they are, and are not, allowed to access on my machine.
 </a></li>
-<li><a href="#auto-props">How can I set certain properties on
-everything in the repository?  Also, how can I make sure that every
-new file coming into the repository has these properties?</a></li>
-<li><a href="#svn-editor">How do I handle spaces in the editor path?</a></li>
-<li><a href="#divining-bdb-version">How do I determine which version of
-Berkeley DB a repository is using?</a></li>
-<li><a href="#website-auto-update">I'm managing a website in my
-repository.  How can I make the live site automatically update after
-every commit?</a></li>
-<li><a href="#single-file-checkout">How do I check out a single
-file?</a></li>
-<li><a href="#wc-change-detection">How do I detect adds, deletes,
-copies and renames in a working copy after they've already
-happened?</a></li>
-<li><a href="#svnserve-win-service">How do I run svnserve as a service
-on Windows?</a></li>
-<li><a href="#bdb-fsfs-convert">How do I convert my repository from using BDB
-to FSFS or from FSFS to BDB?</a></li>
-<li><a href="#binary-files">How does Subversion handle binary files?</a></li>
-<li><a href="#terse-diff">How can I make <tt>svn diff</tt> show me
-    just the names of the changed files, not their contents?</a></li>
+<li><a href="#auto-props">我怎么才能设置版本库所有都有一个正确的属性设置？另外，我该如何确定每一个添加到版本库里的新文件都有正确的属性？</a></li>
+<li><a href="#svn-editor">我在编辑路径上如何处理空白？</a></li>
+<li><a href="#divining-bdb-version">我该如何才能决定正在使用的版本库是哪个版本？</a></li>
+<li><a href="#website-auto-update">我在我的版本库理管理了一个网站。我如何才能使得在我每次提交代码之后站点也可以自动更新？</a></li>
+<li><a href="#single-file-checkout">我如何检出一个单独的文件？</a></li>
+<li><a href="#wc-change-detection">我如何才能在一切都发生了之后知道工作区里的一些添加，删除，拷贝，重命名操作？</a></li>
+<li><a href="#svnserve-win-service">我在Windows平台上如何运行svnserve来作为一个服务器？</a></li>
+<li><a href="#bdb-fsfs-convert">我如何转换我的版本库，从BDB到或者FSFS到BDB？</a></li>
+<li><a href="#binary-files">版本库如何处理二进制文件？</a></li>
+<li><a href="#terse-diff">我如何执行<tt>svn diff</tt>仅仅来展示被改变的文件的名字,而不是连内容也显示出来？</a></li>
 <li>
-  <a href="#sorry-no-globbing">How can I use wildcards or globbing to move many files at once?</a>
+  <a href="#sorry-no-globbing">我能否用通配符或者点符号来一次性移动多个文件？</a>
 </li>
-<li><a href="#vendor-branch">How can I maintain a modified version  (a
-    "vendor branch") of third-party software using Subversion?</a></li>
+<li><a href="#vendor-branch">我如何用Subversion维护一个第三方不断修正的软件呢？(a
+    "vendor分支")？</a></li>
 </ul>
 
 <h4>Troubleshooting:</h4>
