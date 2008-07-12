@@ -456,33 +456,25 @@ to do so.</p>
 
 
 <div class="h2" id="documenting" title="documenting">
-<h2>Documentation</h2>
+<h2>文档</h2>
 
 <div class="h3" id="document-everything" title="document-everything">
-<h3>Document Everything</h3>
-<p>Every function, whether public or internal, must start out with a
-documentation comment that describes what the function does.  The
-documentation should mention every parameter received by the function,
-every possible return value, and (if not obvious) the conditions under
-which the function could return an error.</p>
+<h3>文档化任何资料</h3>
+<p>任何函数，无论是公有的还是内部的，都必须以文档开始，来描述这个函数是做什么的
+文档应当提到被函数接收的每一个参数，每一个可能的返回值，以及在什么情况下返回一个错误.</p>
 
-<p>For internal documentation put the parameter names in upper case
-in the doc string, even when they are not upper case in the actual
-declaration, so that they stand out to human readers.</p>
+<p>内部文档参数应当大些开头，即使他们在实际声明中没有大写，因为这样可以方便人们的可读性
+</p>
 
-<p>For public or semi-public API functions, the doc string should go
-above the function in the .h file where it is declared; otherwise, it
-goes above the function definition in the .c file.</p>
+<p>对于公有的或者半公有的API函数，文档应当在声明他的.h文件中，
+否则就应当在定义他的.c文件中。</p>
 
-<p>For structure types, document each individual member of the structure as
-well as the structure itself.</p>
+<p>对于结构类型，应当像记录结构本身一样记录每一个独立的成员的文档.</p>
 
-<p>For actual source code, internally document chunks of each function, so
-that an someone familiar with Subversion can understand the algorithm being
-implemented.  Do not include obvious or overly verbose documentation; the
-comments should help understanding of the code, not hinder it.</p>
+<p>对于实际的代码，每一个函数的内部文档是相当的长，所以一些熟悉Subversion的人可以理解正在实施中的算法。
+不要包含明显的或过长的文档，注释应当帮助理解代码，而不是妨碍理解。</p>
 
-<p>For example:</p>
+<p>例如:</p>
 <pre>
   <span style="color: red;">/*** How not to document.  Don't do this. ***/</span>
 
@@ -499,7 +491,7 @@ comments should help understanding of the code, not hinder it.</p>
   }
 </pre>
 
-<p>Instead, document decent sized chunks of code, like this:</p>
+<p>不要像上面那样，文档应当和代码大小适合，应该像下面这样:</p>
 <pre>
       /* Transmit the segment (if its within the scope of our concern). */
       SVN_ERR(maybe_crop_and_send_segment(segment, start_rev, end_rev,
@@ -525,10 +517,10 @@ comments should help understanding of the code, not hinder it.</p>
         }
 </pre>
 
-<p>Read over the Subversion code to get an overview of how documentation looks
-in practice; in particular, see 
+<p>再次阅读Subversion代码，在实践中得到如何写很好的注释，
+尤其是看 
 <a href="http://svn.collab.net/repos/svn/trunk/subversion/include/">
-subversion/include/*.h</a> for doxygen examples.
+subversion/include/*.h</a> 头文件的例子.
 </p>
 
 </div>
