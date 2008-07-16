@@ -17,16 +17,16 @@
 
 <h1>Subversion Tools and Contrib</h1>
 
-<p>在subverion的工作目录下包含有tools和contrib两个子目录，
-其下的代码都是与subversion的功能实现相关的，但是subversion的常规运行并不依赖于它们。
+<p>在subverion仓库目录包含有tools和contrib两个子目录，
+其中的代码都是与subversion的功能实现相关，但是subversion的常规操作并不依赖于它们。
 </p>
-<p>在tools子目录下面的文件都是由subversion项目一起维护的，而且和subversion本身一起受开源代码的版权保护。
+<p>在tools子目录下面的文件都是由subversion项目共同维护的，和subversion使用相同的开源版权。
 </p>
-<p>在contrib子目录下的代码都是开源代码，但是可能持有和subversion本身不同的许可证或版权。
-subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
+<p>在contrib/子目录下的代码都是开源代码，但是可能持有和subversion本身不同的许可证或版权。
+subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
 </p>
 
-<p>代码被分组保存在以下的子目录中：</p>
+<p>代码按照以下子目录分组：</p>
 
 <ul>
   <li><a href="#backup">backup</a></li>
@@ -240,10 +240,7 @@ subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="whatis_rep_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/bdb/whatis-rep.py">whatis-rep.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/bdb">tools/bdb</a>)</h3>
-  <p>Print a description (including data, path, and revision) of the
-     specified node reps in a Subversion filesystem.  Walks as much of
-     the reps table as necessary to locate the data (e.g. does a table
-     scan).
+  <p>打印Subversion文件系统中某个节点变化的描述信息（包含数据，路经和修订版本），会根据定位数据（例如做一个表扫描）的需要尽可能多的扫描变更数据库表。
   </p>
   <p>相关文件：
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/skel.py">skel.py</a>
@@ -259,9 +256,7 @@ subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="mirror_dir_through_svn_cgi"
     href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/mirror_dir_through_svn.cgi">mirror_dir_through_svn.cgi</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi">contrib/cgi</a>)</h3>
-  <p>这个CGI脚本的作用是通过一个SVN的版本库作为中介，把一个源子目录映射到一个目标子目录做以一个镜像。之所以写成
-     CGI的脚本格式，就是为了当远程用户在对一个WebDAV文件夹作了修改的时候，服务器能够相应将WebDAV文件夹的当前内容
-     在系统的另外一个子目录中做一个镜像备份。请看下文的用例示范。
+  <p>这个CGI脚本通过一个SVN的版本库作为中介，把一个源目录镜像到一个目标目录。它以CGI的脚本写成，这样当远程用户在对一个WebDAV文件夹作了修改的时候，服务器能够将相应的WebDAV文件夹的内容镜像到系统的另外一个子目录。请看下文的用例示范。
   </p>
   <p>同时请看 <a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/mirror_dir_through_svn.README">mirror_dir_through_svn.README</a></p>
 
@@ -269,7 +264,7 @@ subversion项目本身并不包括这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="tweak_log_cgi"
     href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/tweak-log.cgi">tweak-log.cgi</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi">contrib/cgi</a>)</h3>
-  <p>如果能够通过web网页访问来修改所提交的svn版本库的修订版本的修改日志，那肯定是一件非常让人开心的事情。
+  <p>如果能够通过web网页访问来修改所提交的svn版本库的修订版本日志，那肯定是一件非常让人开心的事情。
      这个文件的作用就是快速实现这个功能。
   </p>
 </div>
