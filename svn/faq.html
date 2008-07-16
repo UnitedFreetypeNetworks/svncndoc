@@ -98,23 +98,15 @@ users' default <tt>PATH</tt>s, 他们通过svn+ssh，并且我不能够估计出how to modify 
     "vendor分支")？</a></li>
 </ul>
 
-<h4>Troubleshooting:</h4>
+<h4>疑难解答：</h4>
 <ul>
-<li><a href="#stuck-bdb-repos">My repository seems to get stuck all the
-    time, giving me errors about needing recovery (DB_RUNRECOVERY).
-    What could be the cause?</a></li>
-<li><a href="#bdb-recovery">Every time I try to access
-    my repository, the process just hangs.  Is my repository
-    corrupt?</a></li>
-<li><a href="#bdb-cannot-allocate-memory">My repository keeps giving
-    errors saying "Cannot allocate memory".  What should I do?</a></li>
-<li><a href="#wedged-wc">Every time I try to run a svn
-    command, it says my working copy is locked.  Is my working copy
-    corrupt?</a></li>
-<li><a href="#wc-out-of-date">I'm trying to commit, but Subversion says my
-    working copy is out of date?</a></li>
-<li><a href="#obstructed-add">I've contributed a patch to a project and the patch added a new file.
-Now <tt>svn update</tt> does not work.</a></li>
+<li><a href="#stuck-bdb-repos">我的版本库看起来一直to get stuck，一直报一个需要重新恢复(DB_RUNRECOVERY)的错误。可能导致这个问题的是什么？
+    </a></li>
+<li><a href="#bdb-recovery">每次我想访问我的版本库，进程就挂掉了。我的版本库坏掉了吗？</a></li>
+<li><a href="#bdb-cannot-allocate-memory">我的版本库一直有一个错误，说是"Cannot allocate memory".我该怎么办？</a></li>
+<li><a href="#wedged-wc">每次试图运行一个svn命令，它都说我的工作拷贝是被锁住的。是我版本库坏掉了吗？</a></li>
+<li><a href="#wc-out-of-date">我试图去提交，但是Subversion说我的工作拷贝是过时的。</a></li>
+<li><a href="#obstructed-add">我向我的工程里添加了一个补丁，这个补丁是一个新加的文件，现在<tt>svn update</tt> 不能工作了。</a></li>
 <li><a href="#unrecognized-url-error">I just built the distribution
     binary, and when I try to check out Subversion, I get an error
     about an "Unrecognized URL scheme."  What's up with that?</a></li>
