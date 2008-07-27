@@ -1,45 +1,45 @@
 <chapter id="tools">
-  <title>���ɹ���</title>
-  <titleabbrev id="tools-short">���ɹ���</titleabbrev>
+  <title>集成工具</title>
+  <titleabbrev id="tools-short">集成工具</titleabbrev>
 
   <section id="glue">
-    <title>���ϰ�װ��</title>
-    <titleabbrev id="glue-installer-short">���ϰ�װ��</titleabbrev>
+    <title>整合安装器</title>
+    <titleabbrev id="glue-installer-short">整合安装器</titleabbrev>
 
     <para>
-      ��һ��SCM����,ʹ��
-      <filename>&devel-product-name-lower;_install_glue.pl</filename> ����
-      ���м������ϰ�װ. �ⲻ�ᵼ�����е�SCMϵͳ���ñ���д
+      在一个SCM库中,使用
+      <filename>&devel-product-name-lower;_install_glue.pl</filename> 命令
+      进行集成整合安装. 这不会导致已有的SCM系统调用被重写
     </para>
 
     <para>
-      <filename>--binary-paths</filename>����ѡ��Ӧ������һ��·��
-      �б������������м��ɹ����Լ�SCMϵͳ��Ҫ�Ķ������ļ����⽫������
-      �¹���
+      <filename>--binary-paths</filename>配置选项应该设置一套路径
+      列表，它包括所有集成工具以及SCM系统需要的二进制文件。这将包含以
+      下工具
       <filename>&devel-config-general-binary-diff;</filename>,
       <filename>&devel-config-general-binary-xsltproc;</filename>,
       <filename>&devel-config-general-binary-docbook2pdf;</filename>,
       <filename>&devel-config-general-binary-docbook2html;</filename>
-      �Լ�SCMϵͳ�Ķ������ļ���<filename>--bug</filename>����ѡ��Ӧ�����ó�
-      bug�������е�һ��bug id���Ա������ϰ�װ���̵ļ�¼��
+      以及SCM系统的二进制文件。<filename>--bug</filename>配置选项应该设置成
+      bug跟踪器中的一个bug id，以便于整合安装过程的记录。
     </para>
 
     <tip>
       <para>
-         �����ж������ļ���Ŀ¼������<filename>--binary-paths</filename>���ǿ�ȡ�ķ�����
-         �����Ϊÿһ���������ļ�����·����������Windows��ʹ��Subversion, ��Ҫ�����
-         ���ļ�֧�� (���磺.dll�ļ�)���Ǳ������ڴ�Ŷ������ļ���Ŀ¼�С�
+         将含有二进制文件的目录设置在<filename>--binary-paths</filename>中是可取的方法，
+         以替代为每一个二进制文件设置路径。例如在Windows下使用Subversion, 需要额外的
+         库文件支持 (例如：.dll文件)它们被保存在存放二进制文件的目录中。
       </para>
     </tip>
 
     <para>
-	  ��<xref
-      linkend="fig-glue-installer-example-subversion">��չʾ��һ����
-      UNIX�����¶�Subversion�����ϰ�װ������.
+	  在<xref
+      linkend="fig-glue-installer-example-subversion">中展示了一个在
+      UNIX环境下对Subversion库整合安装的例子.
     </para>
 
     <figure id="fig-glue-installer-example-subversion">
-      <title>��UNIX�����¶�Subversioin������ϰ�װ.</title>
+      <title>在UNIX环境下对Subversioin库的整合安装.</title>
         <screen>
 <prompt>$</prompt> <command>&devel-product-name-lower;_install_glue.pl --scm=Subversion --product=TestProduct \
   --repository=file:///tmp/testrepository --bug=770 --binary-paths=/bin,/usr/bin \
@@ -66,13 +66,13 @@ Check everything there before I commit or hit Ctrl-C to exit
 
     <note>
       <para>
-      	��Windows�����£��ṩ����װ�����·����Ӧ����<emphasis role="bold">б��(/)
-        </emphasis>�ָ<xref
-        linkend="fig-glue-installer-example-cvsnt-windows">չʾ��һ����Windows���������а�װ�����ӡ�
+      	在Windows环境下，提供给安装程序的路径，应该用<emphasis role="bold">斜杠(/)
+        </emphasis>分割。<xref
+        linkend="fig-glue-installer-example-cvsnt-windows">展示了一个在Windows环境下运行安装的例子。
       </para>
 
       <figure id="fig-glue-installer-example-cvsnt-windows">
-        <title>��Windows�����¶�CVSNT������ϰ�װ.</title>
+        <title>在Windows环境下对CVSNT库的整合安装.</title>
           <screen>
 <prompt>C:\Program Files\Scmbug\bin></prompt> <command>&devel-product-name-lower;_install_glue.pl --scm=CVS --product=sdvel \
 --repository=c:/cvsroot --bug=22 --daemon=192.168.136.140 \
@@ -85,34 +85,34 @@ Check everything there before I commit or hit Ctrl-C to exit
     <section id="glue-cvs">
       <title>CVS</title>
       <para>
-	�������ϳ�����԰�װ�ڱ��أ�Ҳ���԰�װ��Զ��CVS�⡣
+	集成整合程序可以安装在本地，也可以安装到远程CVS库。
       </para>
 
       <para>
-	��װ��ɺ�,
+	安装完成后,
 	<filename>&lt;CVS_REPOSITORY_PATH&gt;/CVSROOT/etc/&devel-product-name-lower;/glue.conf</filename>
-	�ļ��������������õ���Ϣ��
+	文件保存有整合配置的信息。
       </para>
 
       <warning>
         <para>
-	   CVSNT����ֻ��������<filename>:pserver:</filename>�Ż���Ч��
-	   һ����<filename>:local:</filename>��ͷ��<filename>CVSROOT</filename>�ǲ��ܹ����ġ�
-	   ������Ϊʹ��CVSNT����<filename>CVSROOT</filename>������һ��ðʧ�ķ�������Ȼ����ĳЩ
-	   ���÷�����չ�������������������͡�ĳЩ���ɵ���ʹ�������ֱ�����չ�����ҵ���ָ���˴����·����
+	   CVSNT集成只有配置了<filename>:pserver:</filename>才会生效。
+	   一个以<filename>:local:</filename>开头的<filename>CVSROOT</filename>是不能工作的。
+	   这是因为使用CVSNT处理<filename>CVSROOT</filename>变量是一种冒失的方法。显然对于某些
+	   配置方法扩展并抱含了这种配置类型。某些集成调用使用了这种变量扩展，并且导致指向了错误的路径。
         </para>
       </warning>
 
       <warning>
         <para>
-           ������һ�����ʱ��CVSNTʹ����������<filename>Name</filename> ��
-           <filename>Root</filename>�������ǽ���ʹ��<filename>CVSROOT</filename>������
-           ��ִ�е���ʱ, ����CVSNT��<filename>CVSROOT</filename>��ͬ������<filename>Name</filename>��
-	   ȱʡ�����,����CVSNT��<filename>Name</filename>�����̷������<filename>Name</filename>û�б�����
-	   ȫ·������ô���ý�����ִ�С���������<filename>$CVSROOT</filename>���漰��·�����������ڡ�<xref linkend="fig-nameroot-invalid">
-           ��һ������ȷ��<filename>Name/Root</filename>����ʵ����<xref linkend="fig-nameroot-valid">��һ����ȷ��<filename>Name/Root</filename> 
-	   ����ʵ����
-	  <title>CVSNT�в���ȷ��<filename>Name/Root</filename>����</title>
+           当配置一个库的时候，CVSNT使用两个变量<filename>Name</filename> 和
+           <filename>Root</filename>，而不是仅仅使用<filename>CVSROOT</filename>变量。
+           当执行调用时, 设置CVSNT的<filename>CVSROOT</filename>等同于设置<filename>Name</filename>。
+	   缺省情况下,设置CVSNT的<filename>Name</filename>忽略盘符。如果<filename>Name</filename>没有被设置
+	   全路径，那么调用将不会执行。这是由于<filename>$CVSROOT</filename>中涉及的路径根本不存在。<xref linkend="fig-nameroot-invalid">
+           是一个不正确的<filename>Name/Root</filename>配置实例。<xref linkend="fig-nameroot-valid">是一个正确的<filename>Name/Root</filename> 
+	   配置实例。
+	  <title>CVSNT中不正确的<filename>Name/Root</filename>配置</title>
 	  <programlisting>
 Name: /Projects
 Root: C:/cvsrepos/Projects
@@ -120,7 +120,7 @@ Root: C:/cvsrepos/Projects
         </figure>
 
         <figure id="fig-nameroot-valid">
-	  <title>CVSNT����ȷ��<filename>Name/Root</filename>����</title>
+	  <title>CVSNT中正确的<filename>Name/Root</filename>配置</title>
 	  <programlisting>
 Name: C:/cvsrepos/Projects
 Root: C:/cvsrepos/Projects
@@ -130,13 +130,13 @@ Root: C:/cvsrepos/Projects
 
 
         <para>
-           ����<filename>Name</filename>��<filename>Root</filename>��Ƚ������
-	   <xref linkend="fig-nameequalroot-warning">���档<emphasis>����������</emphasis>
-           �ƺ�ֻ����Щ�ͻ��˲��ܽ���<filename>CVSROOT</filename>�е��̷����µġ������Ŀ���
-	   ��������UNIX�ͻ��ˣ�����ǡ����������ˣ���ô������ѡ�������<filename>Name</filename>�����̷���
-	   �����ֹ��༭һ������ȫ·���ĵ����ļ���
+           设置<filename>Name</filename>与<filename>Root</filename>相等将会产生
+	   <xref linkend="fig-nameequalroot-warning">警告。<emphasis>兼容性问题</emphasis>
+           似乎只是有些客户端不能解析<filename>CVSROOT</filename>中的盘符导致的。如果你的开发
+	   环境包括UNIX客户端，并且恰巧问题出现了，那么你有种选择就是让<filename>Name</filename>不带盘符，
+	   并且手工编辑一个带有全路径的调用文件。
         <figure id="fig-nameequalroot-warning">
-	  <title>CVSNT���浱��<filename>Root</filename>��ֵ��<filename>Name</filename>ʱ</title>
+	  <title>CVSNT警告当把<filename>Root</filename>赋值给<filename>Name</filename>时</title>
 	  <programlisting>
 Using drive letters in repository names can create compatibility problems with
 Unix clients and is not recommended. Are you sure you want to continue ?
@@ -146,17 +146,17 @@ Unix clients and is not recommended. Are you sure you want to continue ?
       </warning>
 
       <para>
-	CVS��һ����Ҫȱ���������ܹ�����ԭ�Ӵ��䡣����һ���������ǣ�ʹ��
-        ͬһ����־��Ϣ�����ļ��ύ������������Ŀ¼ʱ������һ�廯�Ķ�����
-        �����ͳ�ʹ����ͬ����־��Ϣ��֮���ظ�����־��Ϣ�ͻ���뵽bug����ϵͳ�С�
-        &devel-product-name;����������ķ����ǣ�ʹ��<filename>&devel-config-cvshook-commitinfo;</filename>��
-        <filename>&devel-config-cvshook-loginfo;</filename>�������������ύ�������·������ͳһ��¼��־��Ϣ��bug
-        ����ϵͳ��һ��һ�廯�Ķ�������������÷����ǿ�ѡ�ģ������ǿ���ͨ��ʹ�����������ļ��е�<filename>consolidate_cvs_messages</filename>
-        ���������ã���<xref linkend="fig-consolidate-cvs-messages">��ʾ��Ȼ����ActiveState��ActivePerlû�����<ulink
-        url="&devel-product-bugtracker;/show_bug.cgi?id=1074"><filename>getppid()</filename></ulink>������
-        ��Windowsϵͳ������&devel-product-name;��Ҫ��<filename>consolidate_cvs_messages</filename>���óɲ�����״̬��
+	CVS的一个主要缺点是它不能够进行原子传输。它的一个副作用是：使用
+        同一个日志信息，将文件提交到两个独立的目录时，两个一体化的动作，
+        被解释成使用相同的日志信息。之后，重复的日志信息就会进入到bug跟踪系统中。
+        &devel-product-name;解决这个问题的方法是：使用<filename>&devel-config-cvshook-commitinfo;</filename>和
+        <filename>&devel-config-cvshook-loginfo;</filename>调用来决定是提交到分离的路径并且统一记录日志信息到bug
+        跟踪系统（一个一体化的动作）。这个配置方法是可选的，并且是可以通过使用整合配置文件中的<filename>consolidate_cvs_messages</filename>
+        变量来设置，如<xref linkend="fig-consolidate-cvs-messages">所示。然而，ActiveState和ActivePerl没有完成<ulink
+        url="&devel-product-bugtracker;/show_bug.cgi?id=1074"><filename>getppid()</filename></ulink>方法。
+        在Windows系统下运行&devel-product-name;需要将<filename>consolidate_cvs_messages</filename>设置成不可用状态。
         <figure id="fig-consolidate-cvs-messages">
-        <title>����ͳһ��CVS��Ϣ</title>
+        <title>配置统一的CVS信息</title>
         <programlisting>
 # This applies only to CVS. When a commit affects more than
 # one directory, multiple duplicate log comments are inserted,
@@ -175,28 +175,28 @@ consolidate_cvs_messages => 1
       <title>Subversion</title>
 
       <para>
-        Subversion�ⲻ֧��Զ�̵ļ������ϰ�װ�����ذ�װ�ǿ��Խ��еġ�
+        Subversion库不支持远程的集成整合安装。本地安装是可以进行的。
       </para>
 
       <para>
-	��װ��,���ļ�
+	安装后,此文件
 	<filename>&lt;SVN_REPOSITORY_PATH&gt;/hooks/etc/&devel-product-name-lower;/glue.conf</filename>
-	�����м���������Ϣ��
+	保存有集成配置信息。
       </para>
 
       <para>
-        Subversion�������ύ�ʹ�����ǩ���֦����ֻ��<ulink
-	url="http://svnbook.red-bean.com/svnbook/ch04s07.html"><citetitle>����</citetitle></ulink>
-	Ϊ�û��ֹ�����������<filename>/trunk</filename>, <filename>/tags</filename>��
-	<filename>/branches</filename>�Ķ���Ŀ¼����Ҫ����һ����ǩ���֧ʱ�� Subversion��������Ĵ���������ʹ��<filename>/tags</filename>
-	����<filename>/branches</filename>Ŀ¼�е�<filename>'svn copy'</filename>����һ������(main trunk)�ĸ��������������Subversion��ʾ
-        filename>&devel-config-activity-verify;</filename>�����⣬��ô���Ϲ����о�Ҫ�ֹ��������⡣��Ҫ���������Ҫ���<filename>/tags</filename>����
-	<filename>/branches</filename>Ŀ¼�и��ӵ���Ŀ¼�����Ǳ����������������ļ���<filename>label_directories</filename>�����У���<xref linkend="fig-label-directories">
-        ��ʾ��
+        Subversion不区分提交和创建标签或分枝。它只是<ulink
+	url="http://svnbook.red-bean.com/svnbook/ch04s07.html"><citetitle>解释</citetitle></ulink>
+	为用户手工创建了名叫<filename>/trunk</filename>, <filename>/tags</filename>和
+	<filename>/branches</filename>的顶级目录。当要创建一个标签或分支时， Subversion采用下面的处理方法：使用<filename>/tags</filename>
+	或者<filename>/branches</filename>目录中的<filename>'svn copy'</filename>创建一个主干(main trunk)的副本。这样，如果Subversion暗示
+        filename>&devel-config-activity-verify;</filename>有问题，那么整合过程中就要手工发现问题。想要发现问题就要检查<filename>/tags</filename>或者
+	<filename>/branches</filename>目录中附加的子目录。它们被定义在整合配置文件的<filename>label_directories</filename>变量中，如<xref linkend="fig-label-directories">
+        所示。
       </para>
 
       <figure id="fig-label-directories">
-	<title>����Subversion���Ŀ¼</title>
+	<title>定义Subversion标记目录</title>
 	<programlisting>
 # This applies only to Subversion. It is recommended that tags
 # are stored in the 'tags' directory, and branches in the
@@ -209,13 +209,13 @@ label_directories => [
       </figure>
 
       <para>
-        �򵥵�˵, Subversion����֪���������ߺͷ�֧���������<filename>/trunk</filename>��
-        �ύ��һϵ�еı�������Ϲ��̾ͱ����ֹ���������ύ���������������������ļ���<filename>main_trunk_directories</filename>
-        �����У���<xref linkend="fig-main-trunk-directories">��ʾ��
+        简单的说, Subversion并不知道开发主线和分支的区别。如果<filename>/trunk</filename>下
+        提交了一系列的变更，整合过程就必须手工决定如何提交。它被定义在整合配置文件的<filename>main_trunk_directories</filename>
+        变量中，如<xref linkend="fig-main-trunk-directories">所示。
       </para>
 
       <figure id="fig-main-trunk-directories">
-	<title>����Subversion����trunkĿ¼</title>
+	<title>定义Subversion的主trunk目录</title>
 	<programlisting>
 # This applies only to Subversion. It is recommended that the
 # main trunk work is stored in the 'trunk' directory.
@@ -227,8 +227,8 @@ main_trunk_directories => [
 
       <note>
         <para>
-	  <filename>trunk</filename>,<filename>tags</filename>,��<filename>branches</filename>����һ��Ҫ�ڿ�ĸ�Ŀ¼�д�����
-          ����ʹ��<filename>product_name_definition</filename>��������һ��������Ŀ¼�ṹ����<xref linkend="fig-product-name-definition-auto">��ʾ��
+	  <filename>trunk</filename>,<filename>tags</filename>,和<filename>branches</filename>并非一定要在库的根目录中创建。
+          可以使用<filename>product_name_definition</filename>变量定义一个很灵活的目录结构，如<xref linkend="fig-product-name-definition-auto">所示。
         </para>
       </note>
 
@@ -242,44 +242,44 @@ main_trunk_directories => [
 
   <section id="vdd">
     <title>
-      �汾�����ĵ�������
+      版本描述文档产生器
     </title>
-    <titleabbrev id="vdd-short">VDD������</titleabbrev>
+    <titleabbrev id="vdd-short">VDD产生器</titleabbrev>
 
     <para>
-      SCM�����bug���ټ��ɺ󣬵�һ���ض��汾�������б��(���ֱ���Ǹ���Դ��һ��ı��)
-      ����һ���汾����б�����Ϊ���ܡ�
+      SCM变更与bug跟踪集成后，当一个特定版本的软件有变更(这种变更是高于源码一层的变更)
+      产生一个版本变更列表将成为可能。
     </para>
 
     <para>
-      <filename>ChangeLog</filename>��Ϣ������SCMϵͳ�ϸ�����ģ��������CVS��ʹ��
-      <glossterm linkend="glossary-cvs2cl">cvs2cl</glossterm>����һ���������SVN��ʹ��
-      <filename>'svn log'</filename>����һ������һ���������꾡������ϸ��¼�������ײ�ı����
-      ���ǿ�����Ա������Ȥ�ġ������û���˵�����ǽ������¼������������Ȥ�����⣬����һ��ȱ���ύ�Ķ��ֱ����
-      ��ʹ�ĵ�����߳����⽫�����൱���ʱ�������ͣ�һ��ȱ���Ƿ������ˣ�������α������ġ�
+      <filename>ChangeLog</filename>信息是遵照SCM系统严格产生的，这就像在CVS中使用
+      <glossterm linkend="glossary-cvs2cl">cvs2cl</glossterm>产生一个报告或在SVN在使用
+      <filename>'svn log'</filename>产生一个报告一样，它很详尽。它详细记录了软件底层的变更，
+      这是开发人员所感兴趣的。对于用户来说，他们仅仅对新加入的特征感兴趣。此外，对于一个缺陷提交的多种变更，
+      将使文档变的冗长。这将花费相当多的时间来解释，一个缺陷是否被修正了，或者如何被修正的。
     </para>
 
     <para>
-      ȡ����֮��һ��VDD�����ڸ���һ���ܽ���ĳЩ����/ȱ�ݵ�Ӱ���Լ�������ԭ��ʹ��bug����ϵͳ����Ϣ���档
-      ���ṩ��һЩ���õ���Ϣ���磺���״̬��bug��ӵ���ߣ����ض��Լ����ȼ�����Ҳ��������SCMϵͳ�ĵײ�ÿһ��bug��
-       ����<emphasis>ʲô</emphasis>�ı䣬����Ч��������ϸ�����SCMϵͳ������<filename>ChangeLog</filename>�ĵ���
-      û�а�SCM��bug���������ǲ����ܲ����ײ��꾡�ĵ��ġ�
+      取而代之，一个VDD报告在更高一层总结了某些特征/缺陷的影响以及产生的原因，使用bug跟踪系统的信息报告。
+      它提供了一些有用的信息例如：解决状态，bug的拥有者，严重度以及优先级。它也报告了在SCM系统的底层每一个bug发
+       生了<emphasis>什么</emphasis>改变，这有效地替代了严格依据SCM系统产生的<filename>ChangeLog</filename>文档。
+      没有把SCM和bug跟踪相结合是不可能产生底层详尽文档的。
     </para>
 
     <para>
-      ��������SCM��ʶ��(��ǩ���֧��)���˹��߽���ѯ������SCMϵͳ�б�Ӧ�õ�ʱ��Ρ�Ȼ������ѯbug����ϵͳ�˶�ʱ���е�
-     bug���ٲ������档һ��VDD���Է�ӳ���������Ŷ�����Щ����û�м��뵽SCM��־�У����磺ĳ�־���û�ܼ�ʱ����ĳһ������
-     ����ĳЩbugΪ<envar>WONTFIX</envar>����Ҳ������ʾ�����ڵİ汾�м����bug����һ��û����Ч���������û�ȥ������Щ
-     ȱ�ݡ�
+      赋于两个SCM标识名(标签或分支名)，此工具将查询它们在SCM系统中被应用的时间段。然后它查询bug跟踪系统此段时间中的
+     bug，再产生报告。一个VDD可以反映出，开发团队有那些东西没有加入到SCM日志中，例如：某种决定没能即时添加某一特征，
+     决定某些bug为<envar>WONTFIX</envar>。它也可以显示在早期的版本中加入的bug但是一真没有奏效，提醒新用户去发现这些
+     缺陷。
     </para>
 
     <para>
-      һ��VDD����ʹ��<filename>&devel-product-name-lower;_vdd_generator.pl</filename>�������ɡ���<xref
-      linkend="fig-vdd-generator">��ʾ������һ��vdd�����ӡ�
+      一个VDD可以使用<filename>&devel-product-name-lower;_vdd_generator.pl</filename>命令生成。如<xref
+      linkend="fig-vdd-generator">所示，产生一个vdd的例子。
     </para>
 
     <figure id="fig-vdd-generator">
-      <title>����һ���汾�����ĵ�</title>
+      <title>产生一个版本描述文档</title>
         <screen>
 <prompt>$</prompt> <command>&devel-product-name-lower;_vdd_generator.pl --scm=Subversion --product=TestProduct \
   --repository=file:///tmp/testrepository --from=tags/SCMBUG_RELEASE_0-8-1 \
@@ -288,8 +288,8 @@ main_trunk_directories => [
     </figure>
 
     <para>
-      �˹����������һ���ļ����ϡ�������һ��XML�ļ��������VDD��ѯ�Ľ����Ҳ����ʹ��XSLT�����ļ�ת����һ��Docbook 4.2 SGML
-      �ļ�����󣬴�SGML�ļ�����ʹ��Docbook���߲���PDF��HTML�������
+      此工具输出的是一个文件集合。产生的一个XML文件里包含了VDD查询的结果。也可以使用XSLT将此文件转换成一个Docbook 4.2 SGML
+      文件。最后，此SGML文件可以使用Docbook工具产生PDF和HTML的输出。
     </para>
 
   </section>
@@ -298,34 +298,34 @@ main_trunk_directories => [
 
   <section id="merger">
     <title>
-      �ϲ�
+      合并
     </title>
-    <titleabbrev id="merger-short">�ϲ�</titleabbrev>
+    <titleabbrev id="merger-short">合并</titleabbrev>
 
-  <para>��<ulink
-    url="http://bugzilla.mkgnu.net/show_bug.cgi?id=545">�ƻ�</ulink>
-    �ṩ�˽����е�bug�б��ϲ���һ��������ʶ�Ĺ��ߡ�
+  <para>此<ulink
+    url="http://bugzilla.mkgnu.net/show_bug.cgi?id=545">计划</ulink>
+    提供了将已有的bug列表合并成一个给定标识的工具。
   </para>
 
-  <para>�����Ķ��bug���Ժϲ���һ����ʶʹ��<filename>&devel-product-name-lower;_merge.pl</filename>���
-  �ϲ����������ͣ�
+  <para>产生的多个bug可以合并成一个标识使用<filename>&devel-product-name-lower;_merge.pl</filename>命令。
+  合并有两种类型：
   </para>
 
   <itemizedlist spacing="compact">
     <listitem>
       <para>
-	<emphasis role="bold">����һ���Ѵ��ڵı�ǩ����������е�bug����ϲ�������Ӧ��һ���±�ǩ��
-	�û��ṩһ��<filename>--base-label</filename>ѡ���Ϊ��ЩӦ����ָ��bug id�ı������һ����ʶ��
-        ���ǻ��������ʶ����ʱ��֧��������������Щbug�����Ӧ���������֧�ϡ������������ͱ�<filename>--target-label</filename>
-        ָ������������ʶ��������ʱ�ķ�֧��ɾ����
+	<emphasis role="bold">基于一个已存在的标签，将代码库中的bug变更合并，并且应用一个新标签：
+	用户提供一个<filename>--base-label</filename>选项，它为那些应用于指定bug id的变更设置一个标识。
+        于是基于这个标识的临时分支被创建，并且那些bug变更被应用于这个分支上。这样，代码库就被<filename>--target-label</filename>
+        指定的名字所标识，并且临时的分支被删除。
       </para>
 
       <para>
-        ��<xref linkend="fig-merger-based-on-tag">��ʾ���ϲ�һ�������Ѵ��ڱ�ǩ��bug�����
+        如<xref linkend="fig-merger-based-on-tag">所示，合并一个基于已存在标签的bug变更。
       </para>
 
       <figure id="fig-merger-based-on-tag">
-        <title>�ϲ�һ�������Ѵ��ڱ�ǩ��bug���.</title>
+        <title>合并一个基于已存在标签的bug变更.</title>
           <screen>
 <prompt>$</prompt> <command>&devel-product-name-lower;_merge.pl --scm=Subversion --product=TestProduct \
   --repository=file:///tmp/testrepository --base-label=tags/SOMEPRODUCT_RELEASE_1-3-0 \
@@ -335,17 +335,17 @@ main_trunk_directories => [
     </listitem>
     <listitem>
       <para>
-        <emphasis role="bold">��һ���Ѵ��ڵķ�֧��ֱ�Ӻϲ�bug�����
-        �û��ṩһ��<filename>--base-label</filename>ѡ���Ϊ��Щ��Ҫ�ϲ���bug id�����б���ָ����һ����ʶ
-        (ͨ����һ����֧����һ����������)����Щ���ֱ��ʹ�������ʶ��<filename>--target-label</filename>ѡ�����֧�֡�
+        <emphasis role="bold">在一个已存在的分支中直接合并bug变更：
+        用户提供一个<filename>--base-label</filename>选项，它为那些需要合并的bug id更新列表们指定了一个标识
+        (通常是一个分支或是一个开发主线)。那些变更直接使用这个标识。<filename>--target-label</filename>选项将不被支持。
       </para>
 
       <para>
-        ��<xref linkend="fig-merger-directly-in-branch">��ʾ��һ��ֱ��ʹ���Ѵ��ڷ�֧�ϲ�bug���µ����ӡ�
+        如<xref linkend="fig-merger-directly-in-branch">所示，一个直接使用已存在分支合并bug更新的例子。
       </para>
 
       <figure id="fig-merger-directly-in-branch">
-        <title>ֱ��ʹ���Ѵ��ڷ�֧�ϲ�bug����</title>
+        <title>直接使用已存在分支合并bug更新</title>
           <screen>
 <prompt>$</prompt> <command>&devel-product-name-lower;_merge.pl --scm=Subversion --product=TestProduct \
   --repository=file:///tmp/testrepository \
@@ -359,12 +359,12 @@ main_trunk_directories => [
 
   <section id ="web-reports">
     <title>
-       Web����
+       Web报表
     </title>
-    <titleabbrev id="web-reports-short">Web����</titleabbrev>
+    <titleabbrev id="web-reports-short">Web报表</titleabbrev>
 
     <para>
-       ����ͼ�λ����ɹ��ߣ���������׵õ�һ��web������
+       访问图形化集成工具，将会很容易得到一组web报表。
     </para>
 
   </section>
