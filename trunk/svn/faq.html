@@ -2047,34 +2047,28 @@ identical files.</p>
 time, giving me errors about needing recovery (DB_RUNRECOVERY). What
 could be the cause?</h3>
 
-<p>The Berkeley DB database in your repository is sensitive to
-interruptions.  If a process accessing the database exits without
-"cleanly" closing the environment, then the database is left in an
-inconsistent state.  Common causes of this include:</p>
+<p>版本库使用的Berkeley DB数据库来存储数据，而后者很容易被破环。
+如果进程退出时没有正常关闭数据库，那么数据库就处在非正常状态中。
+常见的原因可能是：</p>
 
 <ul>
-  <li>the process exiting when it hits a permission problem</li>
-  <li>the process crashing/segfaulting</li>
-  <li>the process being forcibly killed</li>
-  <li>running out of disk space</li>
+  <li>进程遇到访问权限问题而退出时</li>
+  <li>进程崩溃或段错误</li>
+  <li>进程被强制杀死</li>
+  <li>磁盘空间用尽</li>
 </ul>
 
-<p>For most of these cases, you should run "svnadmin recover", which
-rewinds the repository back to a consistent state; see <a
-href="#bdb-recovery">this question</a> for details.  Note that running
-out of disk space, combined with frequent checkouts or updates, can
-cause the repository to crash in a way where recovery is not possible
-(so keep backups).</p>
+<p>多数情况下，你可以执行"svnadmin recover", 这个命令可以将版本库回退到
+上一个正常状态，<ahref="#bdb-recovery">详细解释请见</a>。注意，当频繁
+checkout和update且磁盘空间用尽的时候，可能导致版本库处于无法回复的状态
+（所以请多做备份）。</p>
 
-<p>Segfaults, forced killings, and running out of disk space are
-pretty rare.  Permission problems are far more common: one process
-accesses the repository and accidentally changes ownership or
-permissions, then another process tries to access and chokes on the
-permissions.</p>
+<p>进程崩溃，被杀死以及磁盘空间用尽都是极端情况。访问权限问题可能是更
+常见的原因：当一个进程访问版本库且改变了版本库的所有者或访问权限，那么
+另一个访问这个版本库的进程可能被阻塞在访问权限上。</p>
 
-<p>The best way to prevent this is to get your repository permissions
-and ownership set up correctly.  See <a href="#reposperms">here</a>
-for our recommendations.</p>
+<p>避免这种情况出现的最好办法是正确设置你的版本库的所有者和权限。
+<a href="#reposperms">更多信息请见</a>。</p>
 
 </div>
 
@@ -2084,45 +2078,33 @@ for our recommendations.</p>
 <h3>Every time I try to access my repository, the
 process just hangs. Is my repository corrupt?</h3>
 
-<p>
-Your repository is not corrupt, nor is your data lost. If your process
-accesses the repository directly (mod_dav_svn, svnlook, svnadmin, or
-if you access a `file://' URL), then it's using Berkeley DB to access
-your data.  Berkeley DB is a journaling system, meaning that it logs
-everything it is about to do before it does so.  If your process is
-interrupted (Control-C, or segfault), then a lockfile is left behind,
-along with a logfile describing unfinished business.  Any other
-process that attempts to access the database will just hang, waiting
-for the lockfile to disappear.  To awaken your repository, you need to
-ask Berkeley DB to either finish the work, or rewind the database to a
-previous state that is known to be consistent.</p>
+<p>你的版本库没有坏掉，数据也没有丢失。当你的进程直接访问版本库
+(mod_dav_svn, svnlook, svnadmin, 或通过`file://')的时候，进程将
+直接调用Berkeley DB程序库来访问版本库。Berkekey DB包含日志系统，
+也就是说所有的操作在执行前都被记录在日志中。当你的进程崩溃
+(Control-C,或段错误），遗留下文件锁，它记录了所有未完成操作的信息。
+此时所有试图访问数据库的进程将因为要访问文件锁而被挂起。要想解除文件锁，
+你可以调用Berkeley DB来完成所有未完成的操作或者回退到前一个正常状态。</p>
 
-<p><b><span style="color: red">WARNING:</span> you can seriously corrupt
-your repository if you run recover and another process accesses the
-repository.</b></p>
+<p><b><span style="color: red">警告:</span>版本库可能被严重损坏，当一个进程
+正在访问版本库，而你又试图恢复版本库的时候。</b></p>
 
-<p>Make absolutely sure you disable all access to the repository before
-doing this (by shutting down Apache, removing executable permissions from
-'svn').  Make sure you run this command as the user that owns and manages
-the database, and not as root, else it will leave root-owned files in the
-db directory which cannot be opened by the non-root user that manages the
-database, which is typically either you or your Apache process.  Also be
-sure to have the correct umask set when you run recover, since failing to
-do so will lock out users that are in the group allowed to access the
-repository.</p>
+<p>在你恢复数据库之前，请确保没有其他进程在访问版本库(关闭Apache, 去掉'svn'的执行权限)
+。请确保你是正确的用户（数据库的拥有者和管理者的用户），而不是root用户。
+否则数据库将只能被root用户访问，而其他用户（你自己或Apache）将无法对数据库进行操作。
+同时，还要确保umask被正确设置，否则其他隶属与可以访问该数据库的组的用户可能无法
+对数据库进行操作。</p>
 
 <p>
-Simply run:</p>
+执行:</p>
 
 <pre>
    svnadmin recover /path/to/repos
 </pre>
 
-<p>Once the command has completed, check the permissions in the
-<code>db</code> directory of the repository.</p>
+<p>当命令执行完毕, 检查版本库<code>db</code>目录的访问权限</p>
 
-<p>Sometimes "svnadmin&nbsp;recover" doesn't work.  You may see it
-give errors like this:</p>
+<p>有时"svnadmin&nbsp;recover"会失败，错误信息如下:</p>
 
 <pre>
   Repository lock acquired.
@@ -2133,7 +2115,7 @@ give errors like this:</p>
   svnadmin: bdb: PANIC: fatal region error detected; run recovery
 </pre>
 
-<p>or like this:</p>
+<p>或者:</p>
 
 <pre>
   Repository lock acquired.
@@ -2153,30 +2135,23 @@ give errors like this:</p>
   [...]
 </pre>
 
-<p>In that case, try Berkeley DB's native <b>db_recover</b> utility
-(see <a href="http://www.oracle.com/technology/documentation/berkeley-db/db/utility/db_recover.html"
->db_recover documentation</a>).  It
-usually lives in a "bin/" subdirectory of the Berkeley DB installation,
-for example if you installed Berkeley DB from source, it might be
-<tt>/usr/local/BerkeleyDB.4.2/bin/db_recover</tt>; or on systems where
-Berkeley DB comes prepackaged it might just be
-<tt>/usr/bin/db_recover</tt>.  If you have multiple versions of
-Berkeley DB installed, make sure that the version of db_recover you
-use matches the version of Berkeley DB with which your repository was
-created.</p>
+<p>这种情况下可以试试Berkeley DB的工具<b>db_recover</b>
+(参见<a href="http://www.oracle.com/technology/documentation/berkeley-db/db/utility/db_recover.html"
+>db_recover文档</a>).这个命令通常在Berkeley DB安装目录的子目录"bin/"中,
+例如你从源代码安装的Berkeley DB,命令可能是
+<tt>/usr/local/BerkeleyDB.4.2/bin/db_recover</tt>;或在某些系统中预安装的Berkeley DB，可能是
+<tt>/usr/bin/db_recover</tt>.如果你的系统中安装了多个版本的
+Berkeley DB,请确保使用匹配版本库的Berkeley DB版本</p>
 
-<p>Run db_recover with the "-c" ("catastrophic recovery") flag.  You
-can also add "-v" for verbosity, and "-h" with an argument telling it
-what db environment to recover (so you don't have to cd into that
-directory).  Thus:</p>
+<p>执行db_recover，附带参数"-c" ("灾难恢复").你还可以附带
+"-v"来看到执行的详细信息, "-h"指定被恢复的数据库。例如:</p>
 
 <pre>
    db_recover -c -v -h /path/to/repos/db
 </pre>
 
-<p>Run this command as the same user that owns the repository, and
-again, make absolutely sure that no other processes are accessing the
-repository while you do this (e.g., shut down svnserve or Apache).</p>
+<p>用版本库的拥有者的帐号执行这个命令，同时，请绝对确保没有其他进程在
+访问版本库。(例如，关闭svnserve或).</p>
 
 </div>
 
@@ -2185,9 +2160,8 @@ repository while you do this (e.g., shut down svnserve or Apache).</p>
 <h3>My repository keeps giving errors saying "Cannot allocate memory".
      What should I do?</h3>
 
-<p>If you're using http:// access, "<b>Cannot allocate memory</b>"
-errors show up in the httpd error log and look something like
-this:</p>
+<p>如果你通过http://来访问版本库，"<b>Cannot allocate memory</b>"应该出现在httpd
+服务器的日志中，像如下这样:</p>
 
 <blockquote>
 <pre>
@@ -2204,15 +2178,12 @@ File exists: Could not open the requested SVN filesystem  [500, #160029]
 </pre>
 </blockquote>
 
-<p>It usually means that a Berkeley DB repository has run out of
-database locks (this does not happen with FSFS repositories).  It
-shouldn't happen in the course of normal operations, but if it does,
-the solution is to run database recovery as described <a
-href="#bdb-recovery">here</a>.  If it happens often, you probably need
-to raise the default lock parameters (<tt>set_lk_max_locks</tt>,
-<tt>set_lk_max_lockers</tt>, and <tt>set_lk_max_objects</tt>) in the
-db/DB_CONFIG file.  When changing DB_CONFIG in an existing repository,
-remember to run recovery afterwards.</p>
+<p>这通常表示Berkeley DB版本库用光了所有数据库锁（FSFS版本库不会出现这种情况）
+。通常的运行过程中不应该出现这种情况，如果确实出现了，解决办法是用本文中
+描述的方法来<a href="#bdb-recovery">恢复数据库</a>。如果这种情况时常发生，
+你很可能应该提高db/DB_CONFIG文件中锁设置(<tt>set_lk_max_locks</tt>,
+<tt>set_lk_max_lockers</tt>, and <tt>set_lk_max_objects</tt>)
+的默认值。改变已存在的版本库的DB_CONFIG配置后，记得恢复数据库。</p>
 
 </div>
 
@@ -2222,16 +2193,12 @@ remember to run recovery afterwards.</p>
 working copy is locked. Is my working copy corrupt?</h3>
 
 <p>
-Your working copy is not corrupt, nor is your data lost.  Subversion's
-working copy is a journaling system, meaning that it logs everything it
-is about to do before it does so.  If the svn client program is
-interrupted violently (segfault or killed, not with Control-C), then
-one or more lockfiles are left behind, along with logfiles describing
-unfinished business.  (The `svn status' command will show an 'L' next
-to locked directories.)  Any other process that attempts to access the
-working copy will fail when it sees the locks.  To awaken your working
-copy, you need to tell the svn client to finish the work.  Simply
-run:</p>
+你的工作拷贝没有坏掉，数据也没有丢失。Subversion的工作拷贝是一个
+日志系统，所有的操作在执行之前都被记录在日志中。如果svc客户端程序被
+强制中止(段错误或杀进程，不包括Control-C)，会有多个文件锁遗留下来，记录了
+未完成的操作。('svn status'命令会在被是锁定目录后显示'L'。)其他
+试图访问工作拷贝的进程看到这些锁后会返回操作失败。想解锁你的工作拷贝，需要
+让svn客户端完成未完的操作。执行:</p>
 
 <pre>
 svn cleanup working-copy
