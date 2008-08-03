@@ -127,69 +127,49 @@ users' default <tt>PATH</tt>s, 他们通过svn+ssh，并且我不能够估计出how to modify 
     那个地方出错了呢？</a></li>
 <li><a href="#no-copy-history">我想查看一些我的文件的旧的版本，但是SVN有时候会说"path not found"。该怎么办呢？</a></li> 
 <li><a href="#digest-auth">为什么Why doesn't HTTP Digest auth work?</a></li>
-<li><a href="#xlc-compile">Compiling with xlc on AIX, I get compilation
-    errors.  What's wrong?</a></li>
-<li><a href="#nonrecursive-checkout">I checked out a directory
-    non-recursively (with -N), and now I want to make certain
-    subdirectories "appear".  But <tt>svn up subdir</tt> doesn't
-    work.</a></li>
-<li><a href="#mod_dav_svn-win32">I am trying to use mod_dav_svn
-    with Apache on Win32 and I'm getting an error saying that the 
-    module cannot be found, yet the mod_dav_svn.so file is right 
-    there in <tt>\Apache\modules.</tt></a></li>
-<li><a href="#hook-debugging">Why aren't my repository hooks working?</a></li>
+<li><a href="#xlc-compile">在AIX上用xlc编辑文件，出现了一些编辑错误？怎么回事呢？</a></li>
+<li><a href="#nonrecursive-checkout">我检出了一个目录，现在我想确定一下它的子文件夹"appear"。但是<tt>svn up subdir</tt>不起作用。</a></li>
+<li><a href="#mod_dav_svn-win32">我试图在Win32平台Apache服务器上用mod_dav_svn，但是我得到一个错误说module不能被发现，然而 mod_dav_svn.so文件正确的处在
+   <tt>\Apache\modules.</tt></a></li>
+<li><a href="#hook-debugging">为什么我的版本库挂起了？</a></li>
 <li><a href="#diff-cmd">Why does my --diff-cmd complain about '-u'?
-    I tried to override it with --extensions, but it's not working.</a></li>
-<li><a href="#plaintext-passwords">Ahhh!  I just discovered that my
-    Subversion client is caching passwords in plain-text on disk!
+    我想用--extensions去覆盖它，但是这样不起作用。</a></li>
+<li><a href="#plaintext-passwords">Ahhh!我发现我的Subversion客户端在磁盘上以纯文本的形式保存了密码. 
     AHHH!</a></li>
-<li><a href="#bdb41-tabletype-bug">I'm getting the error "svn: bdb: call
+<li><a href="#bdb41-tabletype-bug">我得到一个错误："svn: bdb: call
     implies an access method which is inconsistent with previous
-    calls". How do I fix this?</a></li>
+    calls"。我该如何解决它呢？</a></li>
 <li><a href="#hotcopy-large-repos">I can't hotbackup my repository, svnadmin
     fails on files larger than 2Gb!</a></li>
-<li><a href="#hidden-log">I cannot see the log entry for the file
-    I just committed.  Why?</a></li>
-<li><a href="#bdb43-upgrade">After upgrading to Berkeley DB
-    4.3 or later, I'm seeing repository errors.</a></li>
-<li><a href="#tiger-apr-0.9.6">Why do I get occasional, seemingly
-    inconsistent errors when checking out over http:// from a repository
-    running on MacOS X 10.4 (Tiger)?</a></li>
-<li><a href="#debian-libtool">I can't build Subversion from working
-    copy source on Debian GNU/Linux; I get errors at the final link
-    stage.  What's wrong?</a></li>
-<li><a href="#freebsd-listen-host">I'm using FreeBSD, and I've started
-  svnserve, but it doesn't seem to be listening on port 3690.</a></li>
-<li><a href="#already-under-version-control">I can't add a directory
-    because Subversion says it's "already under version control".</a></li>
-<li><a href="#slow-private-svnserve">Accessing non-public repositories
-    via svnserve is really slow sometimes.</a></li>
+<li><a href="#hidden-log">我不能够看到我刚刚提交的文件的日志记录。为什么呢？</a></li>
+<li><a href="#bdb43-upgrade">升级到Berkeley DB
+    4.3或者更新之后，我发现版本库出问题了.</a></li>
+<li><a href="#tiger-apr-0.9.6">当我在运行在MacOS X 10.4 (Tiger)的平台上，通过http://版本库检出的时候，为什么我偶尔会得到一些意外的错误？</a></li>
+<li><a href="#debian-libtool">我不能构建Subversion，我的工作拷贝源码在Debian GNU/Linux上，我得到了一些错误; I get errors at the final link
+    stage.为什么呢？</a></li>
+<li><a href="#freebsd-listen-host">我使用FreeBSD，并且我启动了svnserve，但是它开起来好像不能监听到3690端口。</a></li>
+<li><a href="#already-under-version-control">我不能添加一个目录因为Subversion说“它已经处于版本控制了”。</a></li>
+<li><a href="#slow-private-svnserve">有时候通过svnserve访问一个非公开的版本库实在是太慢了。</a></li>
 <li><a href="#ssl-negotiation-error">When performing Subversion
-    operations involving a lot of data over SSL, I get the error
-    <tt>SSL negotiation failed: SSL error: decryption failed or bad
+    operations involving a lot of data over SSL,我碰到一个错误<tt>SSL negotiation failed: SSL error: decryption failed or bad
     record mac</tt>.</a></li>
-<li><a href="#broken-subclipse">I get an error that says "This client is too
+<li><a href="#broken-subclipse">我碰到一个错误说："This client is too
     old".</a></li>
 <li><a href="#switch-problems">Why doesn't <tt>svn switch</tt> work
     in some cases?</a></li>
-<li><a href="#long-paths">In Windows, when doing an update with the
-    command-line client, I get an error saying "The
-    system cannot find the path specified" and suggesting that my
-    working copy might be corrupt.  But I can update with TortoiseSVN
-    just fine.  What's going on?</a></li>
-<li><a href="#working-copy-format-change">I got an error saying "This
-    client is too old to work with working copy '...' ".  How can I
-    fix it without upgrading Subversion?</a></li>
-<li><a href="#relocation-against-local-symbol">I got an error saying
+<li><a href="#long-paths">在Windows平台上，当我通过客户端的命令行执行更新操作时，我碰到一个错误说："The
+    system cannot find the path specified" 并且提示说我的工作拷贝可能出错了。但是我能通过TortoiseSVN正常更新呀，这是怎么回事呢？
+    </a></li>
+<li><a href="#working-copy-format-change">我碰到一个错误说： "This
+    client is too old to work with working copy '...' ".我如何不要upgrading Subversion就能解决？</a></li>
+<li><a href="#relocation-against-local-symbol">当我在64位Linux上构建一个Neon库时发生一个错误说：
     "relocation R_X86_64_32 against `a local symbol' can not be used
-    when making a shared object" when building the Neon library on 64-bit
-    Linux.</a></li>
+    when making a shared object" </a></li>
 </ul>
 
-<h4>Developer questions:</h4>
+<h4>开发者问题</h4>
 <ul>
-<li><a href="#ramdisk-tests">How do I run the regression tests in a
-    RAM disk?</a></li>
+<li><a href="#ramdisk-tests">我如何在在RAM上进行一个regression tests？</a></li>
 <li><a href="#dynamic-exe-debugging">How do I run a debugger on
     dynamic Subversion binaries without having to install
     them?</a></li>
@@ -198,15 +178,14 @@ users' default <tt>PATH</tt>s, 他们通过svn+ssh，并且我不能够估计出how to modify 
     source?</a></li>
 </ul>
 
-<h4>References:</h4>
+<h4>说明:</h4>
 <ul>
-<li><a href="#http-methods">What are all the HTTP methods Subversion 
-    uses?</a></li>
-<li><a href="#bikeshed">What's a 'bikeshed'?</a></li> 
-<li><a href="#pronounce">How do you pronounce "Subversion"?</a></li> 
-<li><a href="#baton">What's a 'baton'?</a></li> 
-<li><a href="#def-wedged-repository">What do you mean when you say that
-    repository is 'wedged'?</a></li>
+<li><a href="#http-methods">Subversion用到的所有的HTTP方法是什么？ 
+    </a></li>
+<li><a href="#bikeshed">什么是'bikeshed'?</a></li> 
+<li><a href="#pronounce">你是怎样读"Subversion"的？</a></li> 
+<li><a href="#baton">什么是'baton'?</a></li> 
+<li><a href="#def-wedged-repository">当你说版本库是'wedged'的时候，是什么意思？</a></li>
 </ul>
 
 </div>
