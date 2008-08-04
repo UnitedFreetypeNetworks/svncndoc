@@ -483,25 +483,19 @@ href="http://lev.serebryakov.spb.ru/refinecvs/"
 
 
 <div class="h3" id="proxy" title="proxy">
-<h3>What if I'm behind a proxy?</h3>
+<h3>我必须通过代理访问网络,我该怎么办?</h3>
 
-<p>The Subversion client can go through a proxy, if you configure it
-to do so.  First, edit your "servers" configuration file
-to indicate which proxy to use. The files location depends on your
-operating system. On Linux or Unix it is located in the directory
-"~/.subversion". On Windows it is in "%APPDATA%\Subversion". (Try
-"echo %APPDATA%", note this is a hidden directory.)</p>
+<p>Subversion支持通过代理访问网络.首先,修改配置文件中的"servers"部分,
+并指定你的代理服务器.配置文件所在目录在不同的操作系统上可能不同.在Linux或
+Unix系统中,通常是~/.subversion.在Windows系统中,通常是"%APPDATA%\Subversion".
+(执行"echo %APPDATA%"显示目录的具体路径, 注意这是一个隐藏目录.)</p>
 
-<p>There are comments in the file explaining what to do.  If you don't
-have that file, get the latest Subversion client and run any command;
-this will cause the configuration directory and template files to be
-created.</p>
+<p>配置文件中的注释描述了配置文件书写的格式.如果配置文件还不存在,取得最新版的svn,
+并执行任何svn命令,这将创建配置文件模板及其相应的目录.</p>
 
-<p>Next, you need to make sure the proxy server itself supports all
-the HTTP methods Subversion uses.  Some proxy servers do not support
-these methods by default: PROPFIND, REPORT, MERGE, MKACTIVITY,
-CHECKOUT.  In general, solving this depends on the particular proxy
-software.  For Squid, the config option is</p>
+<p>其次,请确认你的代理服务器支持所有Subversion必须的HTTP方法.有些代理
+服务器默认不支持以下发放: PROPFIND, REPORT, MERGE, MKACTIVITY,
+CHECKOUT.解决本法依赖于你使用的代理服务器软件.对于Squid, 配置选项如下</p>
 
 <pre>
    #  TAG: extension_methods
@@ -513,34 +507,28 @@ software.  For Squid, the config option is</p>
    extension_methods REPORT MERGE MKACTIVITY CHECKOUT
 </pre>
 
-<p>(Squid 2.4 and later already knows about PROPFIND.)</p>
+<p>(Squid 2.4及其之后的版本支持PROPFIND.)</p>
 
-<p>See also "<a href="#http-methods">What are all the HTTP methods
-Subversion uses?</a>" for advice on additional HTTP methods to allow
-through your proxy.</p>
+<p>参见"<a href="#http-methods">Subversion必须的HTTP方法是哪些??</a>"来配置
+代理服务器来支持HTTP方法.</p>
 
-<p>If it's difficult or impossible to get the proxy to allow
-Subversion traffic, but you want to check out the Subversion sources,
-you may be able to go around the proxy.  Some proxies that filter port
-80 nevertheless allow anything on port 81.  For this reason, the
-<tt>svn.collab.net</tt> repository server listens on port 81 as well
-as on port 80.  Try:</p>
+<p>如果让代理服务器支持Subversion访问网络很困难甚至是不可能的话,而你只想checkout
+ Subversion的源代码,你可以绕过代理服务器.一些代理服务器封锁了80端口,如果是这样
+的话,可以通过81端口访问<tt>svn.collab.net</tt>代码库服务器.执行:</p>
 
 <pre>
    svn checkout http://svn.collab.net:81/repos/svn/trunk subversion
 </pre>
 
-<p>and maybe the proxy will let you through.  Another strategy is to
-attempt the checkout over SSL, which many proxies allow:</p>
+<p>可能代理服务器会放行.另一个办法是通过SSL来checkout,SSL被大部分代理服务器所支持:</p>
 
 <pre>
    svn checkout https://svn.collab.net/repos/svn/trunk subversion
 </pre>
 
-<p>Of course, your svn client will have to have been built with ssl
-support; just pass <tt>--with-ssl</tt> to Subversion's
-<tt>./configure</tt> script.  You can check to see whether the 'https'
-scheme is supported by running <tt>svn --version</tt>.</p>
+<p>当然,你的svn客户端应该支持ssl.在编译源代码的时候,在<tt>./configure</tt>时添加
+<tt>--with-ssl</tt>选项.执行<tt>svn --version</tt>可以知道你的
+svn是否支持'https'.</p>
 
 </div>
 
@@ -2307,24 +2295,17 @@ Repository URLs</a>.</p>
 
   
 <div class="h3" id="vs-asp-net" title="vs-asp-net">
-<h3>VS.NET/ASP.NET seems to have a problem with
-    the ".svn" directory name.  What should I do?</h3>
+<h3>VS.NET/ASP.NET似乎不能处理".svn"目录名.我该怎么办?</h3>
 
-<p>VS.Net has a subsystem called ASP.Net, which uses WebDAV to do
-remote publishing through IIS.  This subsystem rejects any pathname
-that starts with ".".  This causes a problem when you try to remotely
-publish a Subversion working copy, because of the ".svn"
-subdirectories.  The error message says something like "unable to
-read project information".</p>
+<p>VS.Net有一个ASP.Net子系统,它使用WebDAV来通过IIS来远程发布.这个子系统
+剔除了所有以"."开头的目录.在你试图远程发布你的工作目录的时候,".svn"将导致问题.
+错误信息类似"unable to read project information".</p>
 
-<p>To work around this, set the environment variable
-SVN_ASP_DOT_NET_HACK to any value&nbsp;&mdash;&nbsp;this will tell
-Windows clients to use "_svn" as a directory name in your working
-copy.  See <a
+<p>要想绕过这个问题,设置环境变量SVN_ASP_DOT_NET_HACK为任意值 &nbsp;&mdash;&nbsp;
+ 这将告诉Windows clients在你的工作拷贝中使用"_svn"作为目录名.参见<a
 href="http://subversion.tigris.org/svn_1.3_releasenotes.html#_svn-hack"
->the relevant section of the Subversion 1.3 release notes</a> for more=
-details, and see <a href="#adm-dir">this question</a> for other ways to
-customize the administrative directory name.</p>
+>Subversion 1.3 release notes的相关章节</a>来取得更多信息,参见
+<a href="#adm-dir">这个问题</a>来用其他方法配置管理目录名.</p>
 
 </div>
 
