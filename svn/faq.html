@@ -1894,26 +1894,25 @@ option.
 </div>
 
 <div class="h3" id="sorry-no-globbing" title="sorry-no-globbing">
-<h3>How can I use wildcards or globbing to move many files at once?</h3>
+<h3>我如何使用通配符（wildcards）或者点号来一次性移动我的文件？</h3>
 <p>
-You want to do something like
+你或许是想做这样一些事情
 </p>
 <pre>
 svn mv svn://server/trunk/stuff/* svn://server/trunk/some-other-dir
 </pre>
 <p>
-but it fails with 
+但是却失败了 
 </p>
 <pre>
 svn: Path 'svn://server/trunk/stuff/*' does not exist in revision 123
 </pre>
 <p>
-... or some other inscrutable error message.
+... 或者还有其他一些看起来不可理解的错误信息。
 </p>
 
 <p>
-The short, unhappy answer is: there's no built-in way to do this; many
-commands, like <tt>mv</tt>, refuse to take an arbitrary number of
+简而言之，不幸的是：Subversion没有内置这样的方法来进行这样一种操作；许多其他的命令 ，像是 <tt>mv</tt>， refuse to take an arbitrary number of
 arguments ... and in any case, Subversion doesn't expand wildcards like
 "*" the way the shell does.
 </p>
@@ -1962,32 +1961,23 @@ multiple files at once.
 </div>
 
 <div class="h3" id="vendor-branch" title="vendor-branch">
-<h3>How can I maintain a modified version (a "vendor branch") of
-third-party software using Subversion?</h3>
+<h3>我如何用Subversion维护一个由第三方不断修正版本的软件呢？(a
+    "vendor分支")？</h3>
 
-<p>People frequently want to use Subversion to track their local
-changes to third-party code, even across upgrades from the
-third-party&nbsp;&mdash;&nbsp;that is, they want to maintain their own
-divergent branch, while still incorporating new releases from the
-upstream source.  This is commonly called a <em>vendor branch</em>
-(the term long predates Subversion), and the techniques for
-maintaining one in Subversion are <a
+<p>人们通常希望使用Subversion去跟踪他们的变化的第三方代码，甚至从第三的代码进行升级，换句话说，他们想维护他们自己的一个分支，与此同时仍然希望从上游的代码并入新的发布。这通常被叫做<em>vendor branch</em>
+(the term long predates Subversion), 并且这项技术也是Subversion之一，在 <a
 href="http://svnbook.red-bean.com/en/1.4/svn-book.html#svn.advanced.vendorbr"
->described here</a>.</p>
+>有详细的描述</a>.</p>
 
-<p>If the vendor code is hosted in a remote Subversion repository,
-then you can use <a href="http://piston.rubyforge.org/">Piston</a> to
-manage your copy of the vendor's code.</p>
+<p>如果vendor代码是远程的主机上的Subversion版本库，你可以使用<a href="http://piston.rubyforge.org/">Piston</a>来
+管理你的vendor's code拷贝.</p>
 
-<p>As a last resort, if using <tt>svn_load_dirs.pl</tt> is taking too
-much time or you're looking for the lazy solution, see also Jon
-Stevens' step-by-step explanation at <a
+<p>最后，如果使用<tt>svn_load_dirs.pl</tt>花太多时间的话，或者你正在寻找一个lazy solution，则可以参考Jon
+Stevens' step-by-step的介绍<a
 href="http://lookfirst.com/2007/11/subversion-vendor-branches-howto.html"
->Subversion Vendor Branches Howto</a>.  This solution does not make
-use of the space saving features in the Subversion backend when you
-copy new code over old code; in this solution, each import of a vendor
-code gets an entire new copy and there is no space savings for
-identical files.</p>
+>如何使用Subversion Vendor Branches</a>。这种解决方案在你拷贝新的代码去覆盖旧的代码的时候并不能 This solution does not make
+use of the space saving features in the Subversion backend；在这种解决方案中，每一个导入的vendor
+code得到一个实体的拷贝并且没有空间保存同样的文件。</p>
 
 </div>
 
