@@ -208,8 +208,8 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="hot_backup_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/backup/hot-backup.py.in">hot-backup.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/backup">tools/backup</a>)</h3>
-  <p>在SVN系统运行中，对Berkeley DB类型的版本库进行备份。
-     (而且在备份结束后清除掉所有旧的日志文件。)
+  <p>对BDB版本库进行热备份。
+     (同时在备份结束后清除掉所有旧的日志文件。)
   </p>
 </div>
 
@@ -230,7 +230,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="svn_bdb_view_py"
     href="http://svn.collab.net/repos/svn/trunk/tools/bdb/svn-bdb-view.py">svn-bdb-view.py</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/bdb">tools/bdb</a>)</h3>
-  <p>一个输出美观的查看器，用来查看SVN BDB版本库的数据库内容。</p>
+  <p>一个输出美观的查看器，用来查看BDB版本库的数据库内容。</p>
   <p>相关文件：
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/skel.py">skel.py</a>
     <a href="http://svn.collab.net/repos/svn/trunk/tools/bdb/svnfs.py">svnfs.py</a>
@@ -264,8 +264,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="tweak_log_cgi"
     href="http://svn.collab.net/repos/svn/trunk/contrib/cgi/tweak-log.cgi">tweak-log.cgi</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/cgi">contrib/cgi</a>)</h3>
-  <p>如果能够通过web网页访问来修改所提交的svn版本库的修订版本日志，那肯定是一件非常让人开心的事情。
-     这个文件的作用就是快速实现这个功能。
+  <p>通过web网页访问来修改所提交的svn版本库的修订版本日志。
   </p>
 </div>
 
@@ -277,7 +276,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="asvn"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/asvn">asvn</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side">contrib/client-side</a>)</h3>
-  <p>Archive SVN可以记录一些通常svn不会处理的文件类型信息，目前这些记录信息包括设备，符号链接和文件所有权和访问权限。
+  <p>Archive SVN可以记录一些通常svn不能处理的文件类型信息，目前这些记录信息包括设备，符号链接和文件所有权和访问权限。
   </p>
 
 
@@ -299,19 +298,19 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="diff3wrap_bat"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/diff3wrap.bat">diff3wrap.bat</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side">contrib/client-side</a>)</h3>
-  <p>运行diff3/merge的包裹程序。</p>
+  <p>Wrapper for running a diff3/merge program.</p>
 
 
   <h3><a name="diffwrap_bat"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/diffwrap.bat">diffwrap.bat</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side">contrib/client-side</a>)</h3>
-  <p>运行diff的包裹程序。</p>
+  <p>Wrapper for running a diff program.</p>
 
 
   <h3><a name="dsvn_el"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/emacs/dsvn.el">dsvn.el</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/emacs/dsvn.el">contrib/client-side/emacs/dsvn.el</a>)</h3>
-  <p>一个Subersion提供给Emacs的接口，类似于CVS提供的pcl-cvs接口。
+  <p>一个提供给Emacs的接口，类似于CVS提供的pcl-cvs接口。
   </p>
   <p>同时参看 <a href="#psvn_el">psvn.el</a>.</p>
 
@@ -319,7 +318,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="svnmucc_c"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/svnmucc/svnmucc.c">svnmucc.c</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/svnmucc">contrib/client-side/svnmucc</a>)</h3>
-  <p>多URL命令行客户端（Multiple URL Command Client）：可以将对URL的一系列mv，cp和rm命令合并成为一个单独的提交。
+  <p>多个URL命令的客户端（Multiple URL Command Client）：可以将通过URL方式提交的一系列mv，cp和rm命令合并成一个提交命令。
   </p>
   <p>相关文件:
     <a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/svnmucc/svnmucc-test.py">svnmucc-test.py</a>
@@ -329,7 +328,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="psvn_el"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/emacs/psvn.el">psvn.el</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/emacs/psvn.el">contrib/client-side/emacs/psvn.el</a>)</h3>
-  <p>一个Subersion提供给Emacs的接口，类似于CVS提供的pcl-cvs接口。
+  <p>一个提供给Emacs的接口，类似于CVS提供的pcl-cvs接口。
   </p>
   <p>同时参看 <a href="#dsvn_el">dsvn.el</a>.</p>
 
@@ -345,7 +344,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
     (<a href="http://svn.collab.net/repos/svn/trunk/tools/client-side">tools/client-side</a>)</h3>
   <p>显示Subersion服务器的版本号。</p>
 
-  <p><a name="server_vsn_py">server-version.py 之前的名字为server-vsn.py</a></p>
+  <p><a name="server_vsn_py">server-version.py 的前身为server-vsn.py</a></p>
 
   <h3><a name="showchange_pl"
     href="http://svn.collab.net/repos/svn/trunk/tools/client-side/showchange.pl">showchange.pl</a>
@@ -356,7 +355,7 @@ subversion项目本身并不维护这些程序代码，仅仅只是为了用户使用方便而发布它们。
   <h3><a name="svn_clean"
     href="http://svn.collab.net/repos/svn/trunk/contrib/client-side/svn-clean">svn-clean</a>
     (<a href="http://svn.collab.net/repos/svn/trunk/contrib/client-side">contrib/client-side</a>)</h3>
-  <p>从SVN的工作拷贝中删除未版本化的所有文件。</p>
+  <p>从SVN的工作拷贝中删除没有版本记录的所有文件。</p>
 
 
   <h3><a name="svn_graph_pl"
