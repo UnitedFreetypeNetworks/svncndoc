@@ -15,7 +15,7 @@
 <body>
 <div class="app">
 
-<h1 style="text-align: center;">Subversion开发入门n</h1>
+<h1 style="text-align: center;">Subversion开发入门</h1>
 
 <p>如果你想给Subversion工程贡献代码, 请首先阅读本文档.</p>
 <p>翻译者:litzhang sdl@yunchengonline.com</p>
@@ -518,7 +518,7 @@ to do so.</p>
 </pre>
 
 <p>再次阅读Subversion代码，在实践中得到如何写很好的注释，
-尤其是看 
+尤其要看 
 <a href="http://svn.collab.net/repos/svn/trunk/subversion/include/">
 subversion/include/*.h</a> 头文件的例子.
 </p>
@@ -526,34 +526,29 @@ subversion/include/*.h</a> 头文件的例子.
 </div>
 
 <div class="h3" id="doxygen-docs" title="doxygen-docs">
-<h3>Public API Documentation</h3>
-<p>We use the <a href="http://www.doxygen.org/">Doxygen</a> format for
-public interface documentation.  This means anything that goes in a
-public header file.  <a href="http://svn.collab.net/svn-doxygen/">Snapshots
-</a> of the public API documentation are generated nightly from the latest
-Subversion sources.</p>
+<h3>公开的API文档Public API Documentation</h3>
+<p>我们使用 <a href="http://www.doxygen.org/">Doxygen</a> 格式来提供接口文档。
+这意味着任何东西都在公共的头文件中。  公有API文档的<a href="http://svn.collab.net/svn-doxygen/">快照
+</a>每天晚上从最新的源码中产生。</p>
 
-<p>We use only a small portion of the available
+<p>我们仅仅使用了
 <a href="http://www.stack.nl/~dimitri/doxygen/commands.html">doxygen
-commands</a> to markup our source.  When writing doxygen documentation, the
-following conventions apply:</p>
+命令</a>的一小部分来标注我们的源码. 当我们写doxygen文档时，有下面的一些约定要遵守:</p>
 <ul>
-  <li>Use complete sentences and prose descriptions of the function, preceding
-  parameter names with <code>@a</code>, and type and macro names with
-  <code>@c</code>.</li>
+  <li>Use complete sentences and prose descriptions of the function, 参数名前使用<code>@a</code>, 类型
+  和宏名称前使用<code>@c</code>.</li>
 
-  <li>Use <code>&lt;tt&gt;...&lt;/tt&gt;</code> to display multiple words
-  and <code>@p</code> to display only one word in typewriter font.</li>
+  <li>使用 <code>&lt;tt&gt;...&lt;/tt&gt;</code>来显示多个单词，使用
+  <code>@p</code>来显示仅仅一个单词为打印机字体。</li>
 
-  <li>Constant values, such as <code>TRUE</code>, <code>FALSE</code> and 
-  <code>NULL</code> should be in all caps.</li>
+  <li>常量值, 例如 <code>TRUE</code>, <code>FALSE</code> 和
+  <code>NULL</code> 应当全部字母大写.</li>
 
-  <li>When several functions are related, define a group name, and group them
-  together using <code>@defgroup</code> and <code>@{...@}</code>.</li>
+  <li>当几个函数功能相关时，定义一个组名，使用<code>@defgroup</code> and <code>@{...@}</code>来分组.</li>
 </ul>
 
-<p>See the <a href="http://www.stack.nl/~dimitri/doxygen/manual.html">Doxygen
-manual</a> for a complete list of commands.</p>
+<p>全部命令列表参见<a href="http://www.stack.nl/~dimitri/doxygen/manual.html">Doxygen
+手册</a> .</p>
 
 </div>
 
@@ -577,62 +572,55 @@ as you might think, and if you'd like to become one of them, then add
 
 
 <div class="h2" id="error-messages" title="error-messages">
-<h2>Error message conventions</h2>
+<h2>错误信息约定</h2>
 
-<p>For error messages the following conventions apply:</p>
+<p>对于错误信息有以下信息约定:</p>
 
 <ul>
 
-<li><p>Provide specific error messages only when there is information 
-     to add to the general error message found in 
-     subversion/include/svn_error_codes.h.</p></li>
+<li><p>提供的错误信息必须加在 
+     subversion/include/svn_error_codes.h文件中.</p></li>
 
-<li><p>Messages start with a capital letter.</p></li>
+<li><p>信息以大写字母开头.</p></li>
 
-<li><p>Try keeping messages below 70 characters.</p></li>
+<li><p>尽量保持少于70个字符.</p></li>
 
-<li><p>Don't end the error message with a period (".").</p></li>
+<li><p>不要以句号(".")来终止错误信息.</p></li>
 
-<li><p>Don't include newline characters in error messages.</p></li>
+<li><p>错误信息不要包含新行字符.</p></li>
 
-<li><p>Quoting information is done using single quotes (e.g. "'some info'").</p></li>
+<li><p>引用的资料是用单引号(例如 "'some info'").</p></li>
 
-<li><p>Don't include the name of the function where the error occurs
-     in the error message. If Subversion is compiled using the
-     '--enable-maintainer-mode' configure-flag, it will provide this
-     information by itself.</p></li>
+<li><p>不要包含发生错误信息函数的名称，如果Subversion在编译时
+使用'--enable-maintainer-mode'配置选项，他可以自己提供这个信息.</p></li>
 
-<li><p>When including path or filenames in the error string, be sure
-     to quote them (e.g. "Can't find '/path/to/repos/userfile'").</p></li>
+<li><p>当错误字符串包含目录或文件名时，一定要包含他们
+ (例如 "Can't find '/path/to/repos/userfile'").</p></li>
 
-<li><p>When including path or filenames in the error string, be sure
-     to convert them using <a
+<li><p>当错误信息字符串包含路径或文件名时，在包含之前一定要使用 <a
      href="http://svn.collab.net/svn-doxygen/svn__path_8h.html#a1"
-     ><tt>svn_path_local_style()</tt></a> before inclusion (since
+     ><tt>svn_path_local_style()</tt></a> 函数来转换 (since
      paths passed to and from Subversion APIs are assumed to be
      in <a href="http://svn.collab.net/svn-doxygen/svn__path_8h.html#a0"
      >canonical form</a>).</p></li>
 
-<li><p>Don't use Subversion-specific abbreviations (e.g. use "repository"
-     instead of "repo", "working copy" instead of "wc").</p></li>
+<li><p>不要使用Subversion约定的缩写(例如使用"repository"
+     而不是"repo", "working copy"而不是"wc").</p></li>
 
-<li><p>If you want to add an explanation to the error, report it
-     followed by a colon and the explanation like this:</p>
+<li><p>如果你想给错误信息加一个解释，可以加在冒号后面,例如:</p>
      <pre>
        "Invalid " SVN_PROP_EXTERNALS " property on '%s': "
        "target involves '.' or '..'".
      </pre></li>
 
-<li><p>Suggestions or other additions can be added after a semi-colon, 
-     like this:</p>
+<li><p>建议或者其他需要增加的可以在分号后面,例如:</p>
      <pre>
        "Can't write to '%s': object of same name already exists; remove "
        "before retrying".
      </pre></li>
 
-<li><p>Try to stay within the boundaries of these conventions, so please avoid
-     separating different parts of error messages by other separators such 
-     as '--' and others.</p></li>
+<li><p>尽力保证遵守这些约定，所以请避免使用其他的分隔符例如'--'或其他来分开信息不同部分。
+</p></li>
 
 </ul>
 
