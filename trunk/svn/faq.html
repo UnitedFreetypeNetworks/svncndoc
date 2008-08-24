@@ -534,52 +534,39 @@ svn是否支持'https'.</p>
 
 
 <div class="h3" id="paranoid" title="paranoid">
-<h3>My admins don't want me to have a HTTP server for
-    Subversion.  What can I do if I still want remote usage?</h3>
+<h3>我的管理员不想让我有一个Subversion的HTTP服务器，那么如何做我才可以远程使用？</h3>
 
-<p>A simple option is to use the <b>svnserve</b> server instead of
-Apache.  See <a
-href="http://svnbook.red-bean.com/html-chunk/ch06.html">chapter 6</a>
-in the Subversion book for details.</p>
+<p>一个简单的选择是使用<b>svnserve</b>服务器来代替。请参阅SVN手册<a
+href="http://svnbook.red-bean.com/html-chunk/ch06.html">第6章</a>中的详细内容。
+</p>
 
-<p>However, if your admins don't want you to run Apache, it's very
-likely they don't want you to run a custom server process on port 3690
-either!  So the rest of this answer assumes that your admins
-<i>are</i> okay with you using an existing SSH infrastructure.</p>
+<p>然而，如果你的管理员不希望你运行Apache，这很可能是他们不想让你在3690端口运行一个客户服务器。所以另外假定的备选答案是你的管理员如果同意你使用现有的SSH设施。</p>
 
-<p>If you previously used CVS, you may have used SSH to login to the
-CVS server.  The ra_svn Subversion access method is the equivalent way
-of doing this with Subversion.  Just use the "svn+ssh" prefix to your
-Subversion repository URL.</p>
+<p>如果你使用CVS，你可能已经使用SSH来登录CVS服务器，  The ra_svn Subversion的访问方法是和使用Subversion是相同的。仅仅是在你的版本库的URL上加上一个"svn+ssh"的前缀。</p>
 <pre>
 $ svn checkout svn+ssh://your.domain.com/full/path/to/repository
 </pre>
 
-<p>This makes your SSH program launch a private 'svnserve' process on
+<p>这将使你的SSH的程序运行一个私有的'svnserve'进程 process on
 the remote box, which accesses the repository as your UID and tunnels
 the information back over the encrypted link.</p>
 
-<p>However, another solution that can be used instead is to leverage
+<p>然而，另外的一种解决方案是可以被用来代替can be used instead is to leverage
 SSH port forwarding to connect to the protected server via ra_dav.
 You would connect via SSH to a machine behind your firewall that can
 access your Subversion server.  Note that this SSH server does
 <b>not</b> have to be the same as where Subversion is installed.  It
 can be, but it doesn't have to be.</p>
 
-<p>Then, you create a local port forward that connects to the HTTP
-server that houses your Subversion repository.  You would then
-'connect' to the Subversion repository via this local port.  Then,
-the request will be sent 'tunneled' via SSH server to your Subversion
-server.</p>
+<p>然后你可以创建一个本地端口来连接在你家里的Subversion版本库的HTTP服务器。你可以通过本地端口’连接‘Subversion版本库。然后，请求将被通过SSH服务器’通道‘发送到你的Subversion服务器。</p>
 
-<p>An example: a Subversion ra_dav setup is behind your company firewall
+<p>一个示例：一个Subversion ra_dav setup is behind your company firewall
 at 10.1.1.50 (call it svn-server.example.com).  Your company allows SSH
 access via publicly accessible ssh-server.example.com. Internally, you
 can access the Subversion repository via
 http://svn-server.example.com/repos/ours.</p>
 
-<p><i>Example</i>: client connecting to ssh-server with port-forwarding
-and checking out via the port forward</p>
+<p><i>实例</i>：通过port-forwarding客户端连接ssh服务器和通过port forward检出。</p>
 
 <pre>
 % ssh -L 8888:svn-server.example.com:80 me@ssh-server.example.com
@@ -595,9 +582,7 @@ will allow your Subversion server not to require root access.</p>
 
 <p>Joe Orton notes</p>
 <pre>
-The server is sensitive to the hostname used in the Destination header
-in MOVE and COPY requests, so you have to be a little careful here - a
-"ServerAlias localhost" may be required to get this working properly.
+服务器对正在使用的MOVE和COPY请求头的主机名字是很敏感的，所以这个地方你必须要小心－一个"ServerAlias localhost"可能被要求合适的工作方式才行。
 </pre>
 
 <p>Some links on SSH port forwarding</p>
@@ -614,11 +599,9 @@ in MOVE and COPY requests, so you have to be a little careful here - a
 
 
 <div class="h3" id="multi-proj" title="multi-proj">
-<h3>How do I manage several different projects under Subversion?</h3>
+<h3>我如何在Subversion下面管理几个不同的工程?</h3>
 
-<p>It depends upon the projects involved.  If the projects are
-related, and are likely to share data, then it's best to create one
-repository with several subdirectories like this:</p>
+<p>这决定与你的工程的复杂度，如果你的工程是相关的，并且有可能要共享数据，那么最好的方式是通过子目录创建一个版本库。像下面这样子：</p>
 <pre>
 	$ svnadmin create /repo/svn
 	$ svn mkdir file:///repo/svn/projA
@@ -626,9 +609,7 @@ repository with several subdirectories like this:</p>
 	$ svn mkdir file:///repo/svn/projC
 </pre>
 
-<p>If the projects are completely unrelated, and not likely to share data
-between them, then it's probably best to create separate and unrelated
-repositories.</p>
+<p>如果你的工程是完全不相关的，并且他们之间不可能共享数据，这样最好创建几个独立的完全不相关的版本库。</p>
 <pre>
 	$ mkdir /repo/svn
 	$ svnadmin create /repo/svn/projA
@@ -636,31 +617,24 @@ repositories.</p>
 	$ svnadmin create /repo/svn/projC
 </pre>
 <p>
-The difference between these two approaches is this (as explained by
-Ben Collins-Sussman &lt;sussman@collab.net&gt;):</p>
+这两种方式之间不同之处在于： (由
+Ben Collins-Sussman解释 &lt;sussman@collab.net&gt;):</p>
 
 <ul>
   <li>
-     In the first case, code can easily be copied or moved around
-     between projects, and the history is preserved.  ('svn cp/mv'
-     currently only works within a single repository.)
+     在第一种情况之下，代码可以很容易的在两个项目之间拷贝和移动，并且操作的历史记录会被保存下来。  
+	 ('svn cp/mv' currently only works within a single repository.)
   </li>
   <li>
-     Because revision numbers are repository-wide, a commit to any
-     project in the first case causes a global revision bump.  So it
-     might seem a bit odd if somebody has 'projB' checked out, notices
-     that 10 revisions have happened, but projB hasn't changed at
-     all.  Not a big deal, really.  Just a little weird at first.
-     This used to happen to svn everytime people committed to
-     rapidsvn, when rapidsvn was in the same repository.  :-)
+     因为版本号是版本库的标识，在第一种情况下，对任何工程的提交都可能造成全局的版本冲突。所以这看起来有些奇怪，如果有个人已经检出了’projB‘，注意已经发生的十次修订，但是projB并没有完全改变。
+	 事实上，这不是最重要的，仅仅是有些奇怪。这种情况在人们每次向rapidsvn提交的时候常常发生，
+     当rapidsvn在同一个版本库之下时。:-)
   </li>
   <li>
-     The second case might be easier to secure; it's easier to insulate
-     projects from each other (in terms of users and permissions)
-     using Apache's access control.  In the 1st case, you'll need a
-     fancy hook script in the repository that distinguishes projects
-     ("is this user allowed to commit to this particular subdir?")  Of
-     course, we already have such a script, ready for you to use.
+     第二种情况可能是更安全的，这更容易使用Apache访问控制每个项目之间隔绝（就用户和许可的角度来讲）
+     在后一种情况下，你将需要一个 
+     fancy hook script在版本库中区别工程。
+     ("这允许用户提交特殊的子目录吗？")当然，我们已经准备了这些script让你使用。
   </li>
 </ul>
 
@@ -668,7 +642,7 @@ Ben Collins-Sussman &lt;sussman@collab.net&gt;):</p>
 
   
 <div class="h3" id="multi-merge" title="multi-merge">
-<h3>How do I merge two completely separate repositories?</h3>
+<h3>我如何合并两个完全分离的版本库？</h3>
 
 <p>If you don't care about retaining all the history of one of the
 repositories, you can just create a new directory under one project's
