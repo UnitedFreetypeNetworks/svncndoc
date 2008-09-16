@@ -842,16 +842,10 @@ backend</a> does not exhibit this behaviour.</p>
 
 <div class="h3" id="removal" title="removal">
 <h3>
-How do I completely remove a file from the repository's history?
+我如何完全的从版本库的历史历史记录里删除一个文件？
 </h3>
 
-<p>There are special cases where you might want to destroy all
-evidence of a file or commit. (Perhaps somebody accidentally committed
-a confidential document.) This isn't so easy, because Subversion is
-deliberately designed to never lose information. Revisions are
-immutable trees which build upon one another. Removing a revision from
-history would cause a domino effect, creating chaos in all subsequent
-revisions and possibly invalidating all working copies.</p>
+<p>有几种特殊的情况你可能希望完全的删除你曾经提交过的文件的所有信息，（或许有人意外的提交了一份保密的文档）。但是这个操作不是很容易完成，因为Subversion是被有意设计成决不丢失信息。修订版本是基于上一个版本所构建的不可改变（immutable）的文件树。从版本的历史记录里删除一个修订版本将会造成多米诺骨牌效应，造成后继版本的混乱，还有可能使得所有的工作拷贝无效</p>
 
 <p>The project has plans, however, to someday implement an <b>svnadmin
 obliterate</b> command which would accomplish the task of permanently
@@ -859,11 +853,10 @@ deleting information. (See <a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=516">issue
 516</a>.)</p>
 
-<p>In the meantime, your only recourse is to <b>svnadmin dump</b> your
-repository, then pipe the dumpfile through <b>svndumpfilter</b>
-(excluding the bad path) into an <b>svnadmin load</b> command.  See <a
-href="http://svnbook.red-bean.com/html-chunk/ch05.html">chapter 5</a>
-of the Subversion book for details about this.</p>
+<p>现在，你只有求助于你版本库的<b>svnadmin dump</b> ， then pipe the dumpfile through <b>svndumpfilter</b>（？？？？？？？有点乱？？）
+(excluding the bad path) into an <b>svnadmin load</b>命令 请参阅Subversion手册<a
+href="http://svnbook.red-bean.com/html-chunk/ch05.html">第五章</a>的相关详细信息。
+</p>
 
 </div>
 
