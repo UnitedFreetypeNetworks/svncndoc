@@ -25,7 +25,7 @@
 <h4>常见问题：</h4>
 <ul>
 <li><a href="#why">为什么会有这样一个项目？</a></li>
-<li><a href="#collab">Subversion是专有软件吗?我听说它是属于CollabNet公司的。</a></li> 
+<li><a href="#collab">Subversion是私有软件吗?我听说它是属于CollabNet公司的。</a></li> 
 <li><a href="#stable">Subversion用在我的项目上是否足够稳定？</a></li>
 <li><a href="#interop">Subversion的客户端/服务器协同工作的策略是怎样的？ </a></li>
 <li><a href="#portability">Subversion可以运行在哪些操作系统上？
@@ -35,12 +35,12 @@
 <li><a href="#apache-extension">我听说Subversion是Apache项目的扩展？我是否需要Apache来做服务器呢？</a></li> 
 <li><a href="#need-apache">是否意味着我必须首先安装Apache才能使用Subversion？</a></li> 
 <li><a href="#multiple-apachim">我现在所运行的是Apache 1.x，但是我不能仅仅为了支持Subversion版本库而将其转换成Apache 2.0。这是否意味着我不能使用Subversion服务器？</a></li>  
-<li><a href="#feature-x">Why don't you do X, just like SCM system Y?</a></li>
+<li><a href="#feature-x">为什么不象SCM系统Y那样来做X？</a></li>
 <li><a href="#globalrev">为什么全部的库都使用相同的版本号码？我想让我的每一个工程都有其自己的版本号码。</a></li>
-<li><a href="#changesets">Subversion有没有changesets?</a></li>
+<li><a href="#changesets">Subversion有没有变更集？</a></li>
 <li><a href="#release">下一个版本什么时候发布？</a></li>
-<li><a href="#symlinks">Subversion是否支持symlinks呢？</a></li>
-<li><a href="#logo">我需要一个高分辨率的Subversion Logo,从哪里可以得到它呢？
+<li><a href="#symlinks">Subversion是否支持链接（symlinks）？</a></li>
+<li><a href="#logo">我需要一个高分辨率的Subversion Logo，从哪里可以得到它呢？
 </a></li>
 <li><a href="#more-information">我还有些其他的问题，我从哪里可以得到更多的相关信息？</a></li>  
 <li><a href="#moderation">为什么我的邮件没有显示在邮件列表上？</a></li>
@@ -51,141 +51,119 @@
 <li><a href="#co-svn">怎么样检出Subversion版本库里的代码？</a></li>
 <li><a href="#repository">怎么样创建一个版本库？怎样将数据导入到版本库中？</a></li> 
 <li><a href="#cvs2svn">怎么样将已经存在于CVS版本库中的代码转换并导入到Subversion版本库中？</a></li>
-    <li><a href="#proxy">What if I'm behind a proxy?</a></li>
-<li><a href="#paranoid">My admins don't want me to have a HTTP server for
-    Subversion.  What can I do if I still want remote usage?</a></li> 
-<li><a href="#multi-proj">如何在同一个不同的版本库里管理几个不同的工程？</a></li>
+    <li><a href="#proxy">我必须通过代理访问网络，我该怎么办？</a></li>
+<li><a href="#paranoid">我的管理员不想让我有一个Subversion的HTTP服务器，那么如何做我才可以远程使用？</a></li> 
+<li><a href="#multi-proj">如何在同一个版本库里管理几个不同的项目？</a></li>
 <li><a href="#multi-merge">我如何合并两个完全分开的版本库？</a></li>
-<li><a href="#nfs">我应该如何在一个NFS服务器上存储我的版本库和一个工作拷贝呢？</a></li>
+<li><a href="#nfs">我必须在NFS服务器上存储版本库/工作拷贝吗？</a></li>
 <li><a href="#bdblogs">为何我的版本库占去这么多的磁盘空间？</a></li>
 <li><a href="#reposperms">我如何恰当的设置我的版本库的权限呢？</a></li>
 <li><a href="#readonly">为何只读的操作仍然需要版本库的写访问？</a></li>
 <li><a href="#removal">如何完全的从版本历史库里面删除一个文件？</a></li>
-<li><a href="#change-log-msg">当我向服务器提交一个版本之后，如何改变日志信息？</a></li>
+<li><a href="#change-log-msg">一个版本提交之后，如何修改其日志信息？</a></li>
 <li><a href="#patch">怎么样向版本库提交一个补丁？</a></li>
-<li><a href="#in-place-import">我如何在恰当的导入数据（例如：向Subversion添加一个目录结构，比如直接的让一些元数据成为工作拷贝）？</a></li> 
-<li><a href="#dumpload">What is this "dump/load cycle" people
-    sometimes talk about when upgrading a Subversion server?</a></li> 
-<li><a href="#sspi">我如何允许一个客户端有效的拒绝一个使用SSPI验证的Windows域控制者？</a></li>
+<li><a href="#in-place-import">我如何进行“iplace”的导入（例如：向Subversion添加一个目录结构，而原先的数据直接成为工作拷贝）？</a></li> 
+<li><a href="#dumpload">人们在讨论升级Subversion时所说的“转储/加载（dump/load）”是什么？</a></li> 
+<li><a href="#sspi">如何设置客户端通过使用SSPI认证的Windows域控制器进行认证？</a></li>
 <li><a href="#adm-dir">我不喜欢“.svn”这样的目录名字，而喜欢“SVN”或者其他一些目录名，我该如何改变呢？</a></li>
-<li><a href="#case-change">我应该如何更改一个case的文件名字？</a></li>
-<li><a href="#merge-using-tags">我在从一个分支合并到trunk时，不能使用标签，就像以前使用CVS一样，我该怎么办呢？</a></li>
-<li><a href="#version-value-in-source">为什么$Revision$这个命令关键字作用不是我想要的？它扩展到文件的上次修订版本，但是我有时候我只想扩展到文件的当前版本就好了。</a></li>
-<li><a href="#log-in-source">Subversion是否有一个功能类似CVS的$Log$命令关键字呢？</a></li>
-<li><a href="#ignore-commit">在我的工程里有一个文件，每个人都必须改变它，但是我不希望他们本地的but I don't want those local mods to ever be
-committed.  我该如何执行'svn commit'以忽略这个文件？</a></li>
-<li><a href="#ssh-auth-cache">当我通过svn+ssh来访问一个版本库的时候，我的密码没有被缓存在~/.subversion/auth/.我改如何避免每次都要键入密码？</a></li>
-<li><a href="#ssh-svnserve-location">我的
-<tt>svnserve</tt> 二进制 is in a directory that不是我的 isn't on my
-users' default <tt>PATH</tt>s, 他们通过svn+ssh，并且我不能够估计出how to modify their <tt>PATH</tt>所以他们可以运行<tt>svnserve</tt>.</a></li>
+<li><a href="#case-change">如何更改一个文件名的大小写？</a></li>
+<li><a href="#merge-using-tags">我不能象CVS那样使用标签将一个分支的变更合并到主干（trunk），可以吗？</a></li>
+<li><a href="#version-value-in-source">为什么$Revision$关键字不是我预想的那样？它替换的是文件最后修改的修订版本，但有时候我希望它能替换文件的当前修订版本。</a></li>
+<li><a href="#log-in-source">Subversion是否有一个功能类似CVS的$Log$的关键字呢？</a></li>
+<li><a href="#ignore-commit">在我的工程里有一个文件，每个人都必须改变它，但是我不希望他们本地的修改被提交，如何让'svn commit'忽略这个文件？</a></li>
+<li><a href="#ssh-auth-cache">当我通过svn+ssh来访问一个版本库的时候，我的密码没有被缓存在~/.subversion/auth/，我应该如何避免每次都要键入密码？</a></li>
+<li><a href="#ssh-svnserve-location">我的<tt>svnserve</tt>二进制程序不在我的用户的默认<tt>路径</tt>中，他们使用svn+ssh，我不知道怎样修改他们的路径来让他们运行<tt>svnserve</tt>。</a></li>
 <li><a href="#ssh-authorized-keys-trick">
-我希望被允许通过svn+ssh://来访问版本库， but am paranoid. 我讨厌分配给每一个用户一个登录帐号的方法。我将担心what they are, and are not, allowed to access on my machine.
-</a></li>
-<li><a href="#auto-props">我怎么才能设置版本库所有都有一个正确的属性设置？另外，我该如何确定每一个添加到版本库里的新文件都有正确的属性？</a></li>
-<li><a href="#svn-editor">我在编辑路径上如何处理空白？</a></li>
-<li><a href="#divining-bdb-version">我该如何才能决定正在使用的版本库是哪个版本？</a></li>
-<li><a href="#website-auto-update">我在我的版本库理管理了一个网站。我如何才能使得在我每次提交代码之后站点也可以自动更新？</a></li>
+我希望允许通过svn+ssh://来访问版本库，但我很忧虑。我讨厌为每个用户分配一个登录帐号的方法，那样我会为他们是否被允许访问我的机器感到担心。</a></li>
+<li><a href="#auto-props">我怎么才能为版本库的所有文件设置一个的属性？另外，我该如何确保每个添加到版本库里的新文件都有这些属性？</a></li>
+<li><a href="#svn-editor">我如何处理编辑器路径中的空白？另外，如何定义编辑器的命令行选项？</a></li>
+<li><a href="#divining-bdb-version">如何确定版本库正在使用的Berkeley DB的版本？</a></li>
+<li><a href="#website-auto-update">我在版本库中管理了一个网站，如何才能实现每次提交之后站点自动更新？</a></li>
 <li><a href="#single-file-checkout">我如何检出一个单独的文件？</a></li>
-<li><a href="#wc-change-detection">我如何才能在一切都发生了之后知道工作区里的一些添加，删除，拷贝，重命名操作？</a></li>
-<li><a href="#svnserve-win-service">我在Windows平台上如何运行svnserve来作为一个服务器？</a></li>
-<li><a href="#bdb-fsfs-convert">我如何转换我的版本库，从BDB到或者FSFS到BDB？</a></li>
+<li><a href="#wc-change-detection">如何在一切发生了之后检测工作拷贝中所做的添加、删除、拷贝和重命名操作？</a></li>
+<li><a href="#svnserve-win-service">在Windows上如何将svnserve当作服务来运行？</a></li>
+<li><a href="#bdb-fsfs-convert">如何转换我的版本库，从BDB到FSFS，或者从FSFS到BDB？</a></li>
 <li><a href="#binary-files">版本库如何处理二进制文件？</a></li>
-<li><a href="#terse-diff">我如何执行<tt>svn diff</tt>仅仅来展示被改变的文件的名字,而不是连内容也显示出来？</a></li>
+<li><a href="#terse-diff">如何让<tt>svn diff</tt>仅显示被改变的文件的名字，而不是连内容也显示出来？</a></li>
 <li>
   <a href="#sorry-no-globbing">我能否用通配符或者点符号来一次性移动多个文件？</a>
 </li>
-<li><a href="#vendor-branch">我如何用Subversion维护一个第三方不断修正的软件呢？(a
-    "vendor分支")？</a></li>
+<li><a href="#vendor-branch">我如何用Subversion维护一个第三方不断修正的软件呢？("供方分支")？</a></li>
 </ul>
 
 <h4>疑难解答：</h4>
 <ul>
-<li><a href="#stuck-bdb-repos">我的版本库看起来一直to get stuck，一直报一个需要重新恢复(DB_RUNRECOVERY)的错误。可能导致这个问题的是什么？
+<li><a href="#stuck-bdb-repos">我的版本库经常看起来卡住了，一直报一个需要重新恢复(DB_RUNRECOVERY)的错误，怎么会导致这个问题？
     </a></li>
-<li><a href="#bdb-recovery">每次我想访问我的版本库，进程就挂掉了。我的版本库坏掉了吗？</a></li>
-<li><a href="#bdb-cannot-allocate-memory">我的版本库一直有一个错误，说是"Cannot allocate memory".我该怎么办？</a></li>
-<li><a href="#wedged-wc">每次试图运行一个svn命令，它都说我的工作拷贝是被锁住的。是我版本库坏掉了吗？</a></li>
-<li><a href="#wc-out-of-date">我试图去提交，但是Subversion说我的工作拷贝是过时的。</a></li>
-<li><a href="#obstructed-add">我向我的工程里添加了一个补丁，这个补丁是一个新加的文件，现在<tt>svn update</tt> 不能工作了。</a></li>
-<li><a href="#unrecognized-url-error">我刚刚重新发布，但是当我试图检出版本库，我得到一个错误“Unrecognized URL scheme”。这是怎么回事呢？</a></li>
-<li><a href="#db-recover">当我查找或者打开一个版本库时出现错误，但是我知道我版本库URL是正确的，哪里出错了？</a></li> 
-<li><a href="#configure-sed-error">当我运行`<tt>configure</tt>'命令时，出现一些错误<tt>subs-1.sed&nbsp;line&nbsp;38:&nbsp;Unterminated&nbsp;`s'&nbsp;command</tt>。这是怎么回事？</a></li>
+<li><a href="#bdb-recovery">每次我想访问我的版本库，进程就会挂起。我的版本库坏掉了吗？</a></li>
+<li><a href="#bdb-cannot-allocate-memory">我的版本库一直报告错误"Cannot allocate memory"，我该怎么办？</a></li>
+<li><a href="#wedged-wc">每当我试图运行一个svn命令时，都会提示我的工作拷贝已经被锁定了，是我的工作拷贝坏掉了吗？</a></li>
+<li><a href="#wc-out-of-date">我试图去提交，但是Subversion提示我的工作拷贝已经过时。</a></li>
+<li><a href="#obstructed-add">我为项目贡献了一个补丁，而这个补丁添加了一个新文件，现在<tt>svn update</tt>不能工作了。</a></li>
+<li><a href="#unrecognized-url-error">我刚刚编译了分发二进制程序，但是当我试图检出版本库时，我得到一个错误“Unrecognized URL scheme”。这是怎么回事呢？</a></li>
+<li><a href="#db-recover">当我查找或打开一个版本库时出现错误，但是我知道我版本库URL是正确的，哪里出错了？</a></li> 
+<li><a href="#configure-sed-error">当我运行`<tt>configure</tt>'命令时，出现一些错误<tt>subs-1.sed&nbsp;line&nbsp;38:&nbsp;Unterminated&nbsp;`s'&nbsp;command</tt>，这是怎么回事？</a></li>
 <li><a href="#windows-msvc-build">我在Windows下用MSVC++6.0构建Subversion时候有些麻烦，我该怎么办？</a></li>
-<li><a href="#windows-drive-letter">我如何在一个文件中指定一个Windows驱动器编号的URL?<tt>file:</tt> URL?</a></li>
-<li><a href="#write-over-dav">我在通过网络对Subersion版本库进行写操作的时候有些麻烦！</a></li>
-<li><a href="#vs-asp-net">VS.NET/ASP.NET在用".svn"做文件目录的时候好像有些问题，我该怎么办？</a></li>
-<li><a href="#windows-xp-server">在Windows XP下，Subversion服务器有时候好像会发布一些错误数据，真的是这样吗？</a></li>  
-<li><a href="#net-trace">在Subversion服务器和客户端之间进行交互时，跟踪最好的方法是什么？</a></li>
-<li><a href="#revert">为什么<tt>svn revert</tt>要求一个明确的目标？为什么它默认的不是递归的呢？它们的表现和其他所有的子命令都不同。</a></li>
-<li><a href="#db3db4">当我启动， mod_dav_svn抱怨关于"bad database version"，它创立的是db-3.X，而不是db-4.X.</a></li>
-<li><a href="#redhat-db">在我的Red H9 上，我发生了一个"Function not implemented"错误，没有起作用。我该如何配置它呢？</a></li>
-<li><a href="#no-author">为什么在文件在通过Apache（ra_dav）被提交和导入时，SVN的日志说"(no author)" ？</a></li>
-<li><a href="#windows-access-denied">我在Windows平台上偶尔会有一个"Access Denied"
-    错误。它的发生好像没有什么规律，为什么呢？</a></li>
-<li><a href="#freebsd-hang">在FreeBSD上，某些操作(尤其是SVN管理员的操作)有时候会被挂起。为什么？</a></li>
-<li><a href="#http-301-error">我可以从一个WEB浏览器上查看我的版本库，但是我在执行'svn checkout' 时发生一个错误："301 Moved Permanently"。
-    那个地方出错了呢？</a></li>
-<li><a href="#no-copy-history">我想查看一些我的文件的旧的版本，但是SVN有时候会说"path not found"。该怎么办呢？</a></li> 
-<li><a href="#digest-auth">为什么Why doesn't HTTP Digest auth work?</a></li>
-<li><a href="#xlc-compile">在AIX上用xlc编辑文件，出现了一些编辑错误？怎么回事呢？</a></li>
-<li><a href="#nonrecursive-checkout">我检出了一个目录，现在我想确定一下它的子文件夹"appear"。但是<tt>svn up subdir</tt>不起作用。</a></li>
-<li><a href="#mod_dav_svn-win32">我试图在Win32平台Apache服务器上用mod_dav_svn，但是我得到一个错误说module不能被发现，然而 mod_dav_svn.so文件正确的处在
-   <tt>\Apache\modules.</tt></a></li>
-<li><a href="#hook-debugging">为什么我的版本库挂起了？</a></li>
-<li><a href="#diff-cmd">Why does my --diff-cmd complain about '-u'?
-    我想用--extensions去覆盖它，但是这样不起作用。</a></li>
-<li><a href="#plaintext-passwords">Ahhh!我发现我的Subversion客户端在磁盘上以纯文本的形式保存了密码. 
-    AHHH!</a></li>
-<li><a href="#bdb41-tabletype-bug">我得到一个错误："svn: bdb: call
+<li><a href="#windows-drive-letter">如何在file:协议的URL中指定Windows盘符？<tt>file:</tt> URL?</a></li>
+<li><a href="#write-over-dav">我在通过网络对Subersion版本库进行写操作的时候有些麻烦。</a></li>
+<li><a href="#vs-asp-net">VS.NET/ASP.NET在处理".svn"目录名时好像有些问题，我该怎么办？</a></li>
+<li><a href="#windows-xp-server">在Windows XP下，Subversion服务器有时候会发布一些错误数据，真的是这样吗？</a></li>  
+<li><a href="#net-trace">在Subversion服务器和客户端之间进行交互时，跟踪网络的最好方法是什么？</a></li>
+<li><a href="#revert">为什么<tt>svn revert</tt>要求有一个明确的目标？为什么它默认不是递归执行的呢？这与所有其他的子命令都不同。</a></li>
+<li><a href="#db3db4">当我启动Apache时，mod_dav_svn报告"bad database version"，它发现的是db-3.X，而不是db-4.X。</a></li>
+<li><a href="#redhat-db">在Red Hat 9 上，我得到一个"Function not implemented"错误，一切都停止工作。我该如何修正它呢？</a></li>
+<li><a href="#no-author">为什么在文件在通过Apache（ra_dav）被提交和导入时，SVN的日志说"(no author)"？</a></li>
+<li><a href="#windows-access-denied">我在Windows平台上偶尔会得到一个"Access Denied"错误，它的发生好像没有什么规律，为什么呢？</a></li>
+<li><a href="#freebsd-hang">在FreeBSD上，某些操作(尤其是svnadmin create)有时候会被挂起。为什么？</a></li>
+<li><a href="#http-301-error">我可以从一个WEB浏览器上查看我的版本库，但是在执行'svn checkout' 时发生一个错误："301 Moved Permanently"。那个地方出错了？</a></li>
+<li><a href="#no-copy-history">我想查看一些我的文件的旧的版本，但是SVN有时候会说"path not found"，该怎么办呢？</a></li> 
+<li><a href="#digest-auth">为什么HTTP的Digest认证不能工作？</a></li>
+<li><a href="#xlc-compile">在AIX上通过xlc编译文件，出现了一些编译错误？怎么回事呢？</a></li>
+<li><a href="#nonrecursive-checkout">我用非递归方式（通过-N选项）检出了一个目录，现在我想让某个子目录“出现”，但是<tt>svn up subdir</tt>不起作用。</a></li>
+<li><a href="#mod_dav_svn-win32">我试图在Win32平台Apache服务器上使用mod_dav_svn，但是我得到找不到module的错误，而mod_dav_svn.so文件确实处在<tt>\Apache\modules</tt>下。</a></li>
+<li><a href="#hook-debugging">为什么我的版本库钩子不工作？</a></li>
+<li><a href="#diff-cmd">为什么我的--diff-cmd会有关于‘-u’的报错，我想用--extensions去覆盖它，但是不起作用。</a></li>
+<li><a href="#plaintext-passwords">啊！我发现我的Subversion客户端在磁盘上以纯文本的形式缓存了密码！啊！</a></li>
+<li><a href="#bdb41-tabletype-bug">我得到一个错误"svn: bdb: call
     implies an access method which is inconsistent with previous
-    calls"。我该如何解决它呢？</a></li>
-<li><a href="#hotcopy-large-repos">I can't hotbackup my repository, svnadmin
-    fails on files larger than 2Gb!</a></li>
-<li><a href="#hidden-log">我不能够看到我刚刚提交的文件的日志记录。为什么呢？</a></li>
-<li><a href="#bdb43-upgrade">升级到Berkeley DB
-    4.3或者更新之后，我发现版本库出问题了.</a></li>
-<li><a href="#tiger-apr-0.9.6">当我在运行在MacOS X 10.4 (Tiger)的平台上，通过http://版本库检出的时候，为什么我偶尔会得到一些意外的错误？</a></li>
-<li><a href="#debian-libtool">我不能构建Subversion，我的工作拷贝源码在Debian GNU/Linux上，我得到了一些错误; I get errors at the final link
-    stage.为什么呢？</a></li>
-<li><a href="#freebsd-listen-host">我使用FreeBSD，并且我启动了svnserve，但是它开起来好像不能监听到3690端口。</a></li>
-<li><a href="#already-under-version-control">我不能添加一个目录因为Subversion说“它已经处于版本控制了”。</a></li>
+    calls"。我该如何修正它呢？</a></li>
+<li><a href="#hotcopy-large-repos">我无法热备份我的版本库，当文件大于2Gb时svnadmin会出错。</a></li>
+<li><a href="#hidden-log">我看不到我刚刚提交的文件的日志记录，为什么呢？</a></li>
+<li><a href="#bdb43-upgrade">升级到Berkeley DB 4.3或更新的版本之后，版本库出错了。</a></li>
+<li><a href="#tiger-apr-0.9.6">当我通过http://从MacOS X 10.4 (Tiger)的平台上检出版本库的时候，为什么偶尔会得到一些不一致的错误？</a></li>
+<li><a href="#debian-libtool">我不能构建Subversion，我的工作拷贝源码在Debian GNU/Linux上，在链接阶段我得到了一些错误，哪里错了呢？</a></li>
+<li><a href="#freebsd-listen-host">我在使用FreeBSD，并且已经启动了svnserve，但是看开起来并没有监听3690端口。</a></li>
+<li><a href="#already-under-version-control">我不能添加一个目录，因为Subversion说“它已经处于版本控制了”。</a></li>
 <li><a href="#slow-private-svnserve">有时候通过svnserve访问一个非公开的版本库实在是太慢了。</a></li>
-<li><a href="#ssl-negotiation-error">When performing Subversion
-    operations involving a lot of data over SSL,我碰到一个错误<tt>SSL negotiation failed: SSL error: decryption failed or bad
-    record mac</tt>.</a></li>
-<li><a href="#broken-subclipse">我碰到一个错误说："This client is too
-    old".</a></li>
-<li><a href="#switch-problems">Why doesn't <tt>svn switch</tt> work
-    in some cases?</a></li>
-<li><a href="#long-paths">在Windows平台上，当我通过客户端的命令行执行更新操作时，我碰到一个错误说："The
-    system cannot find the path specified" 并且提示说我的工作拷贝可能出错了。但是我能通过TortoiseSVN正常更新呀，这是怎么回事呢？
+<li><a href="#ssl-negotiation-error">当执行的Subversion操作需要通过SSL传递大量数据的时候，碰到一个错误<tt>SSL negotiation failed: SSL error: decryption failed or bad
+    record mac</tt>。</a></li>
+<li><a href="#broken-subclipse">我得到一个错误"This client is too
+    old"。</a></li>
+<li><a href="#switch-problems">为什么有时候<tt>svn switch</tt>不能工作？</a></li>
+<li><a href="#long-paths">在Windows平台上，通过命令行客户端的执行更新操作时，我碰到一个错误"The
+    system cannot find the path specified"，并且提示说我的工作拷贝可能损坏了，但是我能通过TortoiseSVN更新时完全正常，这是怎么回事呢？
     </a></li>
-<li><a href="#working-copy-format-change">我碰到一个错误说： "This
-    client is too old to work with working copy '...' ".我如何不要upgrading Subversion就能解决？</a></li>
-<li><a href="#relocation-against-local-symbol">当我在64位Linux上构建一个Neon库时发生一个错误说：
-    "relocation R_X86_64_32 against `a local symbol' can not be used
-    when making a shared object" </a></li>
+<li><a href="#working-copy-format-change">我碰到一个错误"This
+    client is too old to work with working copy '...' "，不升级Subversion能够解决吗？</a></li>
+<li><a href="#relocation-against-local-symbol">当我在64位Linux上编译Neon库时，发生一个错误"relocation R_X86_64_32 against `a local symbol' can not be used
+    when making a shared object"。</a></li>
 </ul>
 
 <h4>开发者问题</h4>
 <ul>
-<li><a href="#ramdisk-tests">我如何在在RAM上进行一个regression tests？</a></li>
-<li><a href="#dynamic-exe-debugging">How do I run a debugger on
-    dynamic Subversion binaries without having to install
-    them?</a></li>
-<li><a href="#avoiding-compiler-inlining">How do I run a debugger on
-    Subversion binaries without compiler inlining obfuscating the
-    source?</a></li>
+<li><a href="#ramdisk-tests">怎样在RAM磁盘上进行回归测试？</a></li>
+<li><a href="#dynamic-exe-debugging">怎样在不安装的情况下对动态Subversion库运行调试器？</a></li>
+<li><a href="#avoiding-compiler-inlining">怎样让编译器不内联混淆（inlining obfuscating）源代码的情况下对Subversion库运行调试器？</a></li>
 </ul>
 
 <h4>说明:</h4>
 <ul>
-<li><a href="#http-methods">Subversion用到的所有的HTTP方法是什么？ 
+<li><a href="#http-methods">Subversion用到的HTTP方法是有哪些？ 
     </a></li>
-<li><a href="#bikeshed">什么是'bikeshed'?</a></li> 
+<li><a href="#bikeshed">什么是'bikeshed'？</a></li> 
 <li><a href="#pronounce">你是怎样读"Subversion"的？</a></li> 
-<li><a href="#baton">什么是'baton'?</a></li> 
-<li><a href="#def-wedged-repository">当你说版本库是'wedged'的时候，是什么意思？</a></li>
+<li><a href="#baton">什么是'baton'？</a></li> 
+<li><a href="#def-wedged-repository">当你说版本库是'楔住（wedged）'的时候，是什么意思？</a></li>
 </ul>
 
 </div>
@@ -318,7 +296,7 @@ href="http://svnbook.red-bean.com/html-chunk/ch06.html">第六章</a>
 
 
 <div class="h3" id="feature-x" title="feature-x">
-<h3>Why don't you do X, just like SCM system Y?</h3>
+<h3>为什么不象SCM系统Y那样来做X？</h3>
 
 <p>我们从来没有试图在SCM系统上推到重来，开辟出一个新的天地，也没有试图完全模仿每一个SCM系统的好的特性。我们只是要取代CVS。请参阅我们的第一个问题。</p>
 
@@ -642,7 +620,7 @@ Ben Collins-Sussman解释 &lt;sussman@collab.net&gt;):</p>
 
   
 <div class="h3" id="multi-merge" title="multi-merge">
-<h3>我如何合并两个完全分离的版本库？</h3>
+<h3>我如何合并两个完全分开的版本库？</h3>
 
 <p>If you don't care about retaining all the history of one of the
 repositories, you can just create a new directory under one project's
@@ -981,8 +959,7 @@ see <a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1328"
 
 
 <div class="h3" id="dumpload" title="dumpload">
-<h3>What is this "dump/load cycle" people
-    sometimes talk about when upgrading a Subversion server?</h3>
+<h3>人们在讨论升级Subversion服务器时所说的“转储/加载（dump/load）”是什么？</h3>
 
 <p>Subversion's repository database schema has changed occasionally
 during development. Old repositories, created with a pre-1.0
@@ -1331,9 +1308,7 @@ around this limitation in your build system.</p>
 
 
 <div class="h3" id="ignore-commit" title="ignore-commit">
-<h3>I have a file in my project that every
-developer must change, but I don't want those local mods to ever be
-committed.  How can I make 'svn commit' ignore the file?</h3>
+<h3>在我的工程里有一个文件，每个人都必须改变它，但是我不希望他们本地的修改被提交，如何让'svn commit'忽略这个文件？</h3>
 
 <p>The answer is: don't put that file under version control.  Instead,
 put a <em>template</em> of the file under version control, something
@@ -1383,10 +1358,7 @@ if you're <i>really</i> impatient, try one of these:</p>
 
 
 <div class="h3" id="ssh-svnserve-location" title="ssh-svnserve-location">
-<h3>My
-<tt>svnserve</tt> binary is in a directory that isn't on my
-users' default <tt>PATH</tt>s, they use svn+ssh, and I can't figure
-out how to modify their <tt>PATH</tt> so that they can run <tt>svnserve</tt>.</h3>
+<h3>我的<tt>svnserve</tt>二进制程序不在我的用户的默认<tt>路径</tt>中，他们使用svn+ssh，我不知道怎样修改他们的路径来让他们运行<tt>svnserve</tt>。</h3>
 
       <p>Note: this all assumes you're using OpenSSH.  There are other
       ssh implementations out there, and presumably they will allow
@@ -1447,9 +1419,7 @@ export SVN_SSH
 
 
 <div class="h3" id="ssh-authorized-keys-trick" title="ssh-authorized-keys-trick">
-<h3>I want to allow access via svn+ssh://, but am paranoid.  I hate the
-idea of giving each user a login; I would then have to worry about
-what they are, and are not, allowed to access on my machine.</h3>
+<h3>我希望允许通过svn+ssh://来访问版本库，但我很忧虑。我讨厌为每个用户分配一个登录帐号的方法，那样我会为他们是否允许访问我的机器感到担心。</h3>
 <p>See the section about hacking
 the <tt>~/.ssh/authorized_keys</tt> file in the answer
 to <a href="#ssh-svnserve-location">this other question</a>; ignore the stuff
