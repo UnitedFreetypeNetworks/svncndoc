@@ -1942,7 +1942,7 @@ could be the cause?</h3>
 </ul>
 
 <p>多数情况下，你可以执行"svnadmin recover", 这个命令可以将版本库回退到
-上一个正常状态，<ahref="#bdb-recovery">详细解释请见</a>。注意，当频繁
+上一个正常状态，详细解释请见</a>。注意，当频繁
 checkout和update且磁盘空间用尽的时候，可能导致版本库处于无法回复的状态
 （所以请多做备份）。</p>
 
@@ -2508,51 +2508,25 @@ this change.</p>
 <a name="301-error"></a> <!-- for compatibility with old
   non-XML-name-compliant fragment id -->
 <div class="h3" id="http-301-error" title="http-301-error">
-<h3>I can see my repository in a web browser, but
-    'svn checkout' gives me an error about "301 Moved Permanently".
-    What's wrong?</h3>
+<h3>我可以通过浏览器访问到版本库，但是当我使用svn检出时却提示我“301 Moved Permanently”（永久转移）的错误，为什么？</h3>
 
-<p>It means your httpd.conf is misconfigured.  Usually this error happens
-when you've defined the Subversion virtual "location" to exist within
-two different scopes at the same time.</p>
+<p>这意味着你的httpd.conf配置有问题，通常情况下，当你设置的Subversion虚拟目录同时存在不同的地方时会出现这样的错误。</p>
 
-<p>For example, if you've exported a repository as <tt>&lt;Location
-/www/foo&gt;</tt>, but you've also set your <tt>DocumentRoot</tt> to
-be <tt>/www</tt>, then you're in trouble.  When the request comes in
-for <tt>/www/foo/bar</tt>, apache doesn't know whether to find a
-<i>real</i> file named <tt>/foo/bar</tt> within your
-<tt>DocumentRoot</tt>, or whether to ask mod_dav_svn to fetch a file
-<tt>/bar</tt> from the <tt>/www/foo</tt> repository.  Usually the
-former case wins, and hence the "Moved Permanently" error.</p>
+<p>例如，当你曾经将版本库导出为<tt>&lt;Location
+/www/foo&gt;</tt>, 但是你又同时设置了你的版本库的根目录为/www，那么你就麻烦了。当你想访问/www/foo/bar的时候，apache根本不会知道你真正想要寻找的文件/foo/bar在哪，是在你设置的根目录里头，还是要调用mod_dav_svn模块从/www/foo版本库中去把/bar文件给取回来，通常Apache的处理行为是采取前者的方式，因此就会出现“永久转移”这样的错误了。</p>
 
-<p>The solution is to make sure your repository
-<tt>&lt;Location&gt;</tt> does <b>not</b> overlap or live within any
-areas already exported as normal web shares.</p>
+<p>解决这个问题的办法就是确认你的版本库路径不会有重叠，或者存在其他网络共享可访问的路径里面。</p>
 
-<p>It's also possible that you have an object in the web root 
-which has the same name as your repository URL. For example,
-imagine your web server's document root is  <tt>/var/www</tt>
-and your Subversion repository is located at
-<tt>/home/svn/repo</tt>. You then configure Apache to serve
-the repository at <tt>http://localhost/myrepo</tt>. If you then
-create the directory <tt>/var/www/myrepo/</tt> this will cause
-a 301 error to occur.</p>
+<p>出现这个问题还有一个可能的原因，就是在网站根目录存在一个和版本库的URL同名的文件（文件夹）。例如，假设你的WEB服务器的根目录设置在/var/www，你的Subversion版本库被放置在/home/svn/repo目录下，然后你在Apache下将该版本库的URL配置成<tt>http://localhost/myrepo</tt>。如果你这时又在/var/www下创建了一个myrepo的目录，那么同样会产生301的错误。</p>
 
 
 </div>
 
 
 <div class="h3" id="no-copy-history" title="no-copy-history">
-<h3>I'm trying to look at an old version of my
-    file, but svn says something about "path not found".  What's going
-    on?</h3>
+<h3>我想要查看一个文件的旧版本，但是SVN却提示我“路径未找到”（Path not found）类似这样的信息，这是怎么回事？</h3>
 
-<p>A nice feature of Subversion is that the repository understands
-copies and renames, and preserves the historical connections.  For
-example, if you copy <tt>/trunk</tt> to <tt>/branches/mybranch</tt>,
-then the repository understands that every file in the branch has a
-"predecessor" in the trunk.  Running <tt>svn log --verbose</tt> will
-show you the historical copy, so you can see the rename:</p>
+<p>Subversion有一个比较良好的特性，就是它支持文件复制及改名，而且还保留着旧文件的历史记录。例如，如果你将/trunk目录拷贝到/branches/mybranch，那么版本库就知道，在branch分支中的每个文件都是从trunk目录中来的。运行svn log --verbose命令，我们就可以看到历史的拷贝记录，这个时候就可以观察到改名的行为了。如下所示：</p>
 
 <pre>
 r7932 | joe | 2003-12-03 17:54:02 -0600 (Wed, 03 Dec 2003) | 1 line
@@ -2560,24 +2534,11 @@ Changed paths:
    A /branches/mybranch (from /trunk:7931)
 </pre>
 
-<p>Unfortunately, while the repository is aware of copies and renames,
-almost all the svn client subcommands are <b>not</b> aware.  Commands
-like <tt>svn diff</tt>, <tt>svn merge</tt>, and <tt>svn cat</tt> ought
-to understand and follow renames, but don't yet do this.  It's
-scheduled as post-1.0 feature, currently <a
+<p>不幸的是，尽管版本库知道拷贝和重命名的行为，但是几乎所有的svn客户端命名并不能识别。如svn diff、svn merge还有svn cat等等这些命令本应该知道并跟踪这个改名的行为的，但是它们并没有做到这一点。这个问题已经被放在post-1.0特性的日程中了，你可以在<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=1093">issue
-#1093</a>.  For example, if you ask <tt>svn diff</tt> to compare two
-earlier versions of <tt>/branches/mybranch/foo.c</tt>, the command
-will not automatically understand that the task actually requires
-comparing two versions of <tt>/trunk/foo.c</tt>, due to the rename.
-Instead, you'll see an error about how the branch-path doesn't exist
-in the earlier revisions.</p>
+#1093</a>中查阅。  例如，当你让svn diff工具去比较/branches/mybranch/foo.c文件的两个早期版本时，这个命令并不会自动的识别出实际上要比较的是以前放在/trunk目录中的被重命名过的foo.c文件的两个早期版本。因此它会告诉你分支中的这个文件并不存在早期的版本。</p>
 
-<p>The workaround for all problems of this sort is to do the legwork
-yourself.  That is: <i>you</i> need to be aware of any renamed paths,
-discover them yourself using <tt>svn log -v</tt>, and then provide
-them explicitly to the svn client.  For example, instead of
-running</p>
+<p>所有这种类型的问题的解决方法就是自己多费点心，也就是说，你必须自己知道这些文件是改名过的，你可以通过使用svn log -v命令来发现这一点。然后你再把明确的告诉svn的客户端该怎么做。举个例子，如果你原来是打算运行下面这个命令的：</p>
 
 <pre>
 $ svn diff -r 1000:2000 http://host/repos/branches/mybranch/foo.c
@@ -2585,8 +2546,7 @@ svn: Filesystem has no item
 svn: '/branches/mybranch/fooc..c' not found in the repository at revision 1000
 </pre>
 
-...you would instead run
-
+...那么你不得不改成下面这个方法来实现你的目的。
 <pre>
 $ svn diff -r1000:2000 http://host/repos/trunk/foo.c
 ...
@@ -2596,75 +2556,42 @@ $ svn diff -r1000:2000 http://host/repos/trunk/foo.c
 
 
 <div class="h3" id="digest-auth" title="digest-auth">
-<h3>Why doesn't HTTP Digest auth work?</h3>
+<h3>为什么HTTP摘要认证（HTTP Digest auth）不能正常工作？</h3>
 
-<p>This is probably due to a known bug in Apache HTTP Server (versions 
-   2.0.48 and earlier), for which a patch is available, see 
-<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040"
-   >http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040</a>.  You
-may also want to read over 
-<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1608"
+<p>这个很可能是因为Apache服务器的一个已知的bug（存在于2.0.48或者更早期的版本），你可以在<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040"
+   >http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040</a>找到相应的补丁。  你也可以在<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1608"
    >http://subversion.tigris.org/issues/show_bug.cgi?id=1608</a>
-to see if the description there matches your symptoms.
-</p>
+上看有没有已反馈的bug和你说的情况类似的。</p>
 
 </div>
 
 
 <div class="h3" id="xlc-compile" title="xlc-compile">
-<h3>Compiling with xlc on AIX, I get compilation
-    errors.  What's wrong?</h3>
+<h3>我在AIX上面编译xls的时候出现编译错误，为什么呢？</h3>
 
-<p>Adding <tt>-qlanglvl=extended</tt> to the
-environment variable CFLAGS for configuration and build
-will make xlc a bit more flexible and the code should
-compile without error.  See
+<p>在环境变量CFLAGS中加入 <tt>-qlanglvl=extended</tt> 作为配置参数，这会使到编译xls的时候更加灵活，这样应该不会再出现编译错误了。更详细的信息请参阅
 <a href="http://svn.haxx.se/dev/archive-2004-01/0922.shtml"
->http://svn.haxx.se/dev/archive-2004-01/0922.shtml</a> and
-its associated thread for more details.
-</p>
+>http://svn.haxx.se/dev/archive-2004-01/0922.shtml</a> 及相关的文章。</p>
 
 </div>
  
 
 <div class="h3" id="nonrecursive-checkout" title="nonrecursive-checkout">
-<h3>I checked out a directory non-recursively
-    (with -N), and now I want to make certain subdirectories
-    "appear".  But <tt>svn up subdir</tt> doesn't work.</h3>
+<h3>我使用非递归的方式（使用 -N参数）检出一个目录后，现在我想让某些特定的子目录再“出现”，但svn up subdir命令不能正常使用。</h3>
 
-<p>See <a
+<p>参考 <a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
-695</a>.  The current implementation of <tt>svn checkout -N</tt> is
-quite broken.  It results in a working copy which has missing entries,
-yet is ignorant of its "incompleteness".  Apparently a whole bunch of
-CVS users are fairly dependent on this paradigm, but none of the
-Subversion developers were.  For now, there's really no workaround
-other than to change your process: try checking out separate
-subdirectories of the repository and manually nesting your working
-copies.</p>
+695</a>.  当前的<tt>svn checkout -N命令的实现非常糟糕。它会造成工作拷贝某些条目缺失，但它本身又没有意识到已经出现了不完整性的问题。</tt>很显然，很多的CVS用户已经对这种使用方式习以为常了，但是Subversion的用户还并不习惯。目前还没有好的办法解决这个问题，只能让你自己改变操作的流程：先试着检出单独的子目录，然后再手动嵌入到你的工作拷贝中。</p>
 
 </div>
 
 
 <div class="h3" id="mod_dav_svn-win32" title="mod_dav_svn-win32">
-<h3>I am trying to use mod_dav_svn
-    with Apache on Win32 and I'm getting an error saying that the 
-    module cannot be found, yet the mod_dav_svn.so file is right 
-    there in <tt>\Apache\modules.</tt></h3>
+<h3>我试着在win32平台的Apache上使用mod_dav_svn模块，但是却提示我模块未找到的错误，但是mod_dav_svn.so 这个文件明明就放在<tt>\Apache\modules目录中。</tt></h3>
 
-<p>The error message in this case is a little misleading. Most likely 
-Apache is unable to load one or more DLLs that <tt>mod_dav_svn.so</tt>
-relies on.  If Apache is running as a service it will not have the
-same <tt>PATH</tt> as a regular user.  Make sure that
-<tt>libdb4*.dll</tt>, <tt>intl3_svn.dll</tt>, <tt>libeay32.dll</tt>
-and <tt>ssleay32.dll</tt> are present in either <tt>\Apache\bin</tt> or
-<tt>\Apache\modules</tt>.  You can copy them from your Subversion
-installation directory if they are not there.</p>
+<p>这个错误信息在这里有点误导人。通常这样的错误是因为Apache因为某些链接库dll依赖性的问题无法正确加载<tt>mod_dav_svn.so模块。如果当前Apache是以服务的形式运行的，那么它的path环境变量和普通用户的并不相同。请确认</tt><tt>libdb4*.dll、</tt><tt>intl3_svn.dll、</tt> <tt>libeay32.dll还有</tt><tt>ssleay32.dll</tt>都可以在<tt>\Apache\bin</tt>或者<tt>\Apache\modules</tt>目录中找到。如果没有找到，你可以从Subversion的安装目录下拷贝一份。</p>
 
-<p>If this still does not resolve the problem, you should use a tool 
-like <a href="http://www.dependencywalker.com">Dependency Walker</a> 
-on <tt>mod_dav_svn.so</tt> to see if there are any other unresolved
-dependencies.</p>
+<p>如果这样还解决不了问题的话，那么你可以使用类似<a href="http://www.dependencywalker.com">Dependency Walker</a>这样的工具来查看<tt>mod_dav_svn.so库的依赖性，看是否还有尚未解决的依赖性问题存在。</tt></p>
 
 </div>
 
@@ -2672,251 +2599,154 @@ dependencies.</p>
 <a name="win32-hooks"></a> <!-- for compatibility with old question -->
 <a name="hook-environment"></a> <!-- for yet more compatibility with old question -->
 <div class="h3" id="hook-debugging" title="hook-debugging">
-<h3>Why aren't my repository hooks working?</h3>
+<h3>为什么我的钩子脚本都不能正常工作?</h3>
 
-<p>They're supposed to invoke external programs, but the invocations
-never seem to happen.</p>
+<p>这些钩子脚本应该会触发外部程序的，但是这个触发过程似乎并没有执行。</p>
 
-<p>Before Subversion calls a hook script, it removes <em>all</em>
-            variables -- including $PATH on Unix, and %PATH% on Windows
-            -- from the environment.  Therefore, your script can only
-            run another program if you
-spell out that program's absolute name.</p>
+<p>当Subversion调用一个钩子脚本时，它会将所有环境变量都清除干净，包括unix下的$Path和windows下的%Path%变量，因此，你的脚本如果要访问外部程序的话你就必须指定好外部程序的完整路径。</p>
 
-<p><b>Debugging tips:</b></p>
+<p><b>调试技巧:</b></p>
 <p>
-If you're using Linux or Unix, try running the script "by hand", by
-following these steps:</p>
+如果你正在运行Linux或者Unix操作系统，试一下按照下面的步骤手动运行一下脚本：</p>
 
-          <ol>
-            <li>Use "su", "sudo", or something similar, to become the user who
-              normally would run the script.  This might be <tt>httpd</tt> or
-              <tt>www-data</tt>, for example, if you're using Apache;
-              it might be a user like <tt>svn</tt> if you're running
-              svnserve and a special Subversion user exists.  This
-              will make clear any permissions problems that the script
-              might have.
-            </li>
-            <li>
-              Invoke the script with an empty environment by using the
-              "env" program.  Here's an
-              example for the post-commit hook:
-<blockquote><pre>
+  <ol>
+            <li>使用 "su"、"sudo"或者类似的命令来切换到一般情况下可能会运行该脚本的用户。如果你运行的是Apache服务器的话，那么这个用户通常是httpd或者www-data。如果你运行svnserve的话，那么很可能是使用svn的帐户来运行该脚本。这样切换用户之后来运行脚本的好处就是不会再有脚本运行权限错误的问题出现            </li>
+<li>
+              使用env程序清除所有环境变量然后再运行该脚本，如下所示：
+          <blockquote><pre>
                   $ env - ./post-commit /var/lib/svn-repos 1234
 </pre></blockquote>
-              Note the first argument to "env" is a dash; that's what
-              ensures the environment is empty.
-            </li>
-            <li>
-              Check your console for errors.
-            </li>
-          </ol>
+              注意到传递给env程序的第一个参数是一个横杠，这样可以保证环境变量为空。            </li>
+    <li>
+            查看控制台有没有输出错误信息。</li>
+      </ol>
 
 </div>
 
 
 <div class="h3" id="diff-cmd" title="diff-cmd">
-<h3>Why does my --diff-cmd complain about '-u'?
-    I tried to override it with --extensions, but it's not working.</h3>
+<h3>为什么我的--diff-cmd会有关于‘-u’的报错，我想用--extensions去覆盖它，但是不起作用。</h3>
 
-<p>When using an external diff command, Subversion builds a fairly
-complicated command line. First is the specified --diff-cmd. Next comes
-the specified --extensions (although empty --extensions are ignored), or
-'-u' if --extensions is unspecified (or specified as ''). Third and
-fourth, Subversion passes a '-L' and the first file's label (e.g.
-"project_issues.html    (revision 11209)"). Fifth and sixth are another
-'-L' and the second label. Seventh and eighth are the first and second
-file names (e.g. ".svn/text-base/project_issues.html.svn-base" and
-".svn/tmp/project_issues.html.tmp").</p>
+<p>当使用一个外部的diff命令时，Subversion会生成一个非常复杂的命令行。第一个参数就是具体的--diff-cmd，然后就是具体的--extensions (尽管使用空白的 --符号时会忽略扩展), 或者如果没有指定--extensions或者--extensions为空的话，就加上‘-u’参数。第三和第四个参数，Subversion会传递一个“-L”还有第一个文件的标签（例如，“"project_issues.html    (revision 11209)”)。第五个和第六个就是另一个“-L”和第二个文件的标签。第七和第八个参数分别是第一个和第二个文件的名称（例如，“.svn/text-base/project_issues.html.svn-base”和“.svn/tmp/project_issues.html.tmp”）。</p>
 
-<p>If your preferred diff command does not support these arguments, you
-may need to create a small wrapper script to discard arguments and just
-use the last couple file paths.</p>
+<p>如果你指定的diff命令不支持这些参数的话，你可能需要创建一个简单的封装脚本来忽略这些参数，然后将最后的你需要的文件的路径参数传递给diff命令。</p>
 
-<p>Warning: Beware that Subversion does not expect the external diff
-program to change the files it receives, and doing so may scramble the
-working copy.</p>
+<p>警告：Subversion并不希望外部的diff工具会改变它接收到的文件，否则可能会破坏当前工作拷贝。</p>
 
-<p>For further information, see issue
+<p>更多信息请参考issue
 <a href="http://subversion.tigris.org/issues/show_bug.cgi?id=2044">#2044</a>.</p>
 
 </div>
 
 
 <div class="h3" id="plaintext-passwords" title="plaintext-passwords">
-<h3>Ahhh!  I just discovered that my
-    Subversion client is caching passwords in plain-text on disk!
-    AHHH!</h3>
+<h3> 啊呀，我刚刚发现我的Subversion客户端居然把我的密码以明文的方式缓存在本地硬盘中！！！</h3>
 
-<p>Calm down, take a deep breath.</p>
+<p>冷静一下，深呼吸。</p>
 
-<p>On Windows 2000 or later, svn 1.2 and above uses standard 
-Windows APIs to encrypt the data, so only the user can decrypt the 
-cached password.</p>
+<p>在windows 2000及之后的版本上，svn 1.2之后的版本都使用标准的windows API来加密数据，所以只有用户自己能够解密出缓存的密码来。</p>
 
-<p>On Mac OS X, svn 1.4 and later uses the system Keychain
-facility to encrypt/store your svn password.</p>
+<p>在Mac OS X, svn 1.4以后的版本使用系统的keychain功能来加密以及存储svn的密码。</p>
 
-<p>On UNIX/Linux, there are no standard system encryption facilities,
-so the password is stored in ~/.subversion/auth/.  Notice, however,
-that the directory which contains the cached passwords (usually
-~/.subversion/auth/) has permissions of 700, meaning only you can read
-them.</p>
+<p>在UNIX/Linux,没有和加密相关的函数，所以密码保存在 ~/.subversion/auth/目录下。需要注意，这个包含缓存密码（通常是~/.subversion/auth/）的目录权限码是700，这意味着只有你自己才有权利读取他们。</p>
 
-<p>Trust your OS to protect data on disk.</p>
+<p>要信任你的操作系统，让它来保护你磁盘上的数据。</p>
 
-<p>However, if you're really worried, you can permanently turn off
-password caching.  With an svn 1.0 client, just set 'store-auth-creds
-= no' in your run-time config file.  With an svn 1.1 client or later,
-you can use the more narrowly-defined 'store-passwords = no' (so that
-server certs are still cached). More information on password cacheing
-is in chapter 6 of the <a 
-href="http://svnbook.red-bean.com/nightly/en/index.html">"Nightly 
-Build" Subversion book</a>, under 
-<a href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache">
-"Client Credentials Caching".</a></p>
+<p>尽管如此，如果你还是担心的话，那么你可以将密码缓存的功能永久关闭。在svn 1.0的客户端中，你只需要你的运行时配置文件设置‘store-auth-creds
+= no’。对于svn 1.1以及之后的版本来说，你可以使用粒度更细的设置，'store-passwords = no' (这样服务器的证书还是会缓存）。更多关于密码缓存的信息已经放在<a 
+href="http://svnbook.red-bean.com/nightly/en/index.html">下的“Nightly 
+Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache">“Client Credentials Caching</a>下。</p>
 
-<p>Lastly, we point out that CVS has been caching passwords for years
-in the .cvspass file.  It may look like the passwords in .cvspass are
-encrypted, but in fact they're only lightly scrambled with an
-algorithm that's the moral equivalent to rot13.  They can be cracked
-instantly.  The only utility of the scrambling is to prevent users
-(like root) from accidentally seeing the password.  Nobody's cared
-enough to do this for Subversion yet; if you're interested, send
-patches to the dev@ list.</p>
+<p>最后要说的是，我们知道CVS很多年来一直都是将缓存的密码存放在.cvspass文件中的。表面上来看存放在里面的数据是加密过的，但实际上，他们只是使用非常简单的算法来进行混淆，就像rot13一样。他们可以很轻易就被破解掉。这种混淆的唯一作用就是防止其他用户如管理员意外的看到密码。但是目前还没有人希望Subversion也这样做。如果你感兴趣的话，你可以为其写补丁然后发送到dev@ list。</p>
 
 </div>
 
 
 <div class="h3" id="bdb41-tabletype-bug" title="bdb41-tabletype-bug">
-<h3>I'm getting the error "svn: bdb: call
-    implies an access method which is inconsistent with previous
-    calls". How do I fix this?</h3>
+<h3>我得到一个错误&quot;svn: bdb: call      implies an access method which is inconsistent with previous      calls&quot;。我该如何修正它呢？</h3>
 
-<p>Berkeley DB 4.1 has shown itself to be rather unstable - both 4.0
-and 4.2 are better.  This error message is a symptom of one unique way
-in which 4.1 will sometimes break.</p>
+<p>Berkeley DB 4.1版本相当的不稳定，而4.0和4.2都相对比较稳定。这条错误信息就是4.1版本有时候发生问题时的提示信息。</p>
 
-<p>The problem is that the database format field for one of the tables
-that make up a Subversion repository using the Berkeley DB backend has
-become corrupted.  For unknown reasons, this is almost always the
-'copies' table, which switches from the 'btree' type to the 'recno'
-type.  Simple recovery procedures are outlined below - if they do not
-succeed, you should contact the Subversion Users <a
-  href="mailto:users@subversion.tigris.org">mailing list</a>.</p>
+<p>这个问题是由于使用Berkeley数据库做支撑的Subversion版本库中的其中一张表的某个数据库格式化域（database format field）被破坏了。不知道什么原因，这通常都是因为“copies”表出错，导致它从“btree”类型转换成“recno”类型。你可以按照下面列的简单的恢复流程来处理。如果下面的步骤未能成功，你应该联系Subversion的用户邮件列表。</p>
 
 <ul>
-  <li>Ensure that no other processes will attempt to access your
-  repository.</li>
-  <li>Now, <b>back up your repository</b> to a tar or zip file or
-  similar.</li>
-  <li>Change to the <tt>db</tt> subdirectory of your repository.</li>
-  <li><tt>rm __db.* log.*</tt></li>
-  <li><tt>db_dump -p -r copies &gt; copies.dump</tt></li>
-  <li>Now edit <tt>copies.dump</tt>.  In the section near the top,
-  change "<tt>type=recno</tt>" to "<tt>type=btree</tt>", and delete
-  the line beginning "<tt>re_len=</tt>".</li>
-  <li><tt>rm copies</tt></li>
-  <li><tt>db_load copies &lt; copies.dump</tt></li>
+  <li>确保当前没有其他的进程在访问版本库。</li>
+  <li>现在，将你的版本库备份到一个tar或者zip或者类似格式的文件中。</li>
+  <li>转到你版本库的db子目录。</li>
+  <li>执行删除指令：<tt>rm __db.* log.*</tt></li>
+  <li>执行转储指令：<tt>db_dump -p -r copies &gt; copies.dump</tt></li>
+  <li>现在编辑<tt>copies.dump</tt>文件，在最上面的内容中将“<tt>type=recno</tt>”改成 to “<tt>type=btree</tt>”, 然后删除以“re_len=”开头的行。</li>
+  <li>执行删除指令：<tt>rm copies</tt></li>
+  <li><tt>执行重加载指令：db_load copies &lt; copies.dump</tt></li>
   <li><tt>svnadmin dump .. &gt; ../../my-recovered.svndump</tt></li>
-  <li>Now create a new repository, reload the dump file just produced,
-  and copy across any custom hooks or configuration.  Verify that the
-  highest revision number in the new repository is what you think it
-  should be.</li>
+  <li>现在创建一个新的版本库，重新加载刚刚生成的转储文件（dump file），然后拷贝所有自定义的钩子脚本或者配置文件，最后查看一下最新的版本号是否是你期望的。</li>
 </ul>
 
 </div>
 
 
 <div class="h3" id="hotcopy-large-repos" title="hotcopy-large-repos">
-<h3>I can't hotbackup my repository,
-    svnadmin fails on files larger than 2Gb!</h3>
+<h3>我无法热备份我的版本库，当文件大于2Gb时svnadmin会出错。</h3>
 
-<p>Early versions of APR on its 0.9 branch, which Apache 2.0.x and
-Subversion 1.x use, have no support for copying large files (2Gb+).
-A fix which solves the 'svnadmin hotcopy' problem has been applied and
-is included in APR 0.9.5+ and Apache 2.0.50+.  The fix doesn't work
-on all platforms, but works on Linux.
-</p>
+<p>早期版本的APR在0.9版本分支上，如果使用Apache 2.0.x和Subversion 1.x，那么对于大文件是没有支持的（2Gb以上）。在APR 0.9.5及以后的版本还有Apache 2.0.50及以后的版本中已经考虑到这个问题了，并做了修正。但是这个修正并不是针对所有操作系统的，而是只针对Linux。</p>
 
 </div>
 
 
 <div class="h3" id="hidden-log" title="hidden-log">
-<h3>I cannot see the log entry for the file
-    I just committed.  Why?</h3>
+<h3>我看不到我刚刚提交的文件的日志记录，为什么呢？</h3>
 
-<p>Assume you run '<tt>svn&nbsp;checkout</tt>' on a repository and
-receive a working copy at revision 7 (aka, r7) with one file in it
-called <tt>foo.c</tt>.  You modify the file and commit it
-successfully.  Two things happen:</p>
+<p>假设你在版本库上运行‘<tt>svn&nbsp;checkout</tt>’，并且获得了修订号为7的工作拷贝（aka，r7），其中有一个文件叫做foo.c。你对这个文件进行了修改并且提交了修改。那么这个时候会发生两件事情。</p>
 
 <ul>
-<li>The repository moves to r8 on the server.</li>
-<li>In your working copy, only the file <tt>foo.c</tt> moves to r8.
-    The rest of your working copy remains at r7.</li>
+<li>服务器上的版本库升级到修改号为8。</li>
+<li>在你的工作拷贝中，只有foo.c升级到修订号8，其他工作拷贝目录下的内容都保持在修订号7。</li>
 </ul>
 
-<p>You now have what is known as a <i>mixed revision working copy</i>.
-One file is at r8, but all other files remain at r7 until they too are
-committed, or until '<tt>svn&nbsp;update</tt>' is run.</p>
+<p>现在你有了一个我们称为混合版本（<i>mixed revision）</i>的工作拷贝。其中一个文件修订号为8，其余的为7.只有在当你把所有文件都提交的时候修订号才会更新，或者你显式的运行‘<tt>svn&nbsp;update</tt>’。</p>
 
 <pre>   $ svn -v status
    7        7 nesscg       .
    8        8 nesscg       foo.c
    $</pre>
 
-<p>If you run the '<tt>svn&nbsp;log</tt>' command without any
-arguments, it prints the log information for the current directory
-(named '<tt>.</tt>' in the above listing).  Since the directory itself
-is still at r7, you do not see the log information for r8.</p>
+<p>如果你运行‘<tt>svn&nbsp;log</tt>’命令但是没有传递任何参数，那么它会打印出当前目录下的日志信息（对应上面列表中的.）。既然目录版本号还是停留在第7次修订，那么你当然看不到第8次修订的日志信息了。</p>
 
-<p>To see the latest logs, do one of the following:</p>
+<p>如果你想要查看最新的日志，可以按照下面的方法来做。</p>
 
 <ol>
-<li>Run '<tt>svn&nbsp;log&nbsp;-rHEAD</tt>'.</li>
-<li>Run '<tt>svn&nbsp;log&nbsp;URL</tt>', where URL is the repository URL.</li>
-<li>Ask for just that file's log information, by running
-    '<tt>svn&nbsp;log&nbsp;foo.c</tt>'.</li>
-<li>Update your working copy so it's all at r8, then run
-    '<tt>svn&nbsp;log</tt>'.</li>
+<li>运行‘<tt>svn&nbsp;log&nbsp;-rHEAD</tt>’。</li>
+<li>运行‘<tt>svn&nbsp;log&nbsp;URL</tt>’，其中URL指向的就是版本库的路径。</li>
+<li>运行<tt>‘svn&nbsp;log&nbsp;foo.c</tt>’直接获取之前修改的文件的日志信息。</li>
+<li>将工作拷贝更新到第8次修订，然后在运行‘<tt>svn&nbsp;log</tt>’。</li>
 </ol>
 
 </div>
 
 
 <div class="h3" id="bdb43-upgrade" title="bdb43-upgrade">
-<h3>After upgrading to Berkeley DB
-    4.3 or later, I'm seeing repository errors.</h3>
+<h3>升级到Berkeley DB 4.3或更新的版本之后，版本库出错了。、</h3>
 
-<p>Prior to Berkeley DB 4.3, <tt>svnadmin recover</tt> worked to upgrade a
-Berkeley DB repository in-place.  However, due to a change in the behaviour
-of Berkeley DB in version 4.3, this now fails.</p>
+<p>在Berkeley DB 4.3之前, <tt>svnadmin recover</tt> 能够适当的将Berkeley DB的版本库进行升级。但是Berkeley DB 4.3版本中的一个行为的改变导致了现在的升级过程失败。</p>
 
-<p>Use this procedure to upgrade your repository in-place to Berkeley
-DB 4.3 or later:</p>
+<p>使用下面的流程来置换升级你目前基于Berkeley
+DB 4.3 及之后版本之上的版本库：</p>
 
 <ul>
 
-<li>Make sure no process is accessing the repository (stop
-Apache, svnserve, restrict access via file://, svnlook, svnadmin,
-etc.)</li>
+<li>确认没有其他进程在访问你的版本库（停止Apache、svnserve、svnlook和svnadmin，显示通过file://的访问，等等）。</li>
 
-<li>Using an <i>older</i> <tt>svnadmin</tt> binary (that is, linked to
-  an older Berkeley DB):
+<li>使用旧的<tt>svnadmin</tt>工具(即用来链接到老版本Berkeley DB上的):
 
   <ol>
 
-  <li>Recover the
-    repository: '<tt>svnadmin&nbsp;recover&nbsp;/path/to/repository</tt>'</li>
+  <li>修复版本库：‘<tt>svnadmin&nbsp;recover&nbsp;/path/to/repository</tt>’</li>
 
-  <li>Make a backup of the repository.</li>
+  <li>将当前版本库做一个备份。</li>
 
-  <li>Delete all unused log files.  You can see them by running
-    '<tt>svnadmin&nbsp;list-unused-dblogs&nbsp;/path/to/repeository</tt>'</li>
+  <li>删除所有未使用的日志文件，你可以通过运行‘<tt>svnadmin&nbsp;list-unused-dblogs&nbsp;/path/to/repeository</tt>’来查看。</li>
 
-  <li>Delete the shared-memory files.  These are files in the
-      repository's <tt>db/</tt> directory, of the form <tt>__db.00*</tt></li>
+  <li>删除共享内存的文件，它们应该位于版本库中的db子目录下，文件名形如<tt>__db.00*</tt>。</li>
 
   </ol>
 </li>
@@ -2924,23 +2754,18 @@ etc.)</li>
 </ul>
 
 
-<p>The repository is now usable by Berkeley DB 4.3.</p>
+<p>现在版本库应该能够在Berkeley DB 4.3上正常使用了。</p>
 
 </div>
 
 
 <div class="h3" id="tiger-apr-0.9.6" title="tiger-apr-0.9.6">
-<h3>Why do I get occasional, seemingly inconsistent errors when checking
-    out over http:// from a repository running on MacOS X 10.4 (Tiger)?</h3>
+<h3>当我通过http://从MacOS X 10.4 (Tiger)的平台上检出版本库的时候，为什么偶尔会得到一些不一致的错误？</h3>
 
-<p>Note: this assumes the repository is being served by Apache 2.0.x.</p>
+<p>注意，这里假设版本库是运行在Apache 2.0.x之上。</p>
 
-<p>There is <a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=34332"
->a bug in APR 0.9.6</a> that is present when it is running on Tiger,
-and shows up when you attempt to check out a file larger than 64Kb.
-The resulting checkout fails, often with unpredictable error messages.
-Here are some examples of what you might see on the client side, the
-specific errors may differ for you:</p>
+<p><a href="http://issues.apache.org/bugzilla/show_bug.cgi?id=34332"
+> APR 0.9.6</a> 有个bug，当运行在Tiger上的时候会存在，当你尝试检出一个大于64KB的文件时会出现这个错误。这会导致检出失败，通常给出的错误信息都是不可预料的。下面是可能会出现的提示信息，你看到的可能不大一样。</p>
 
 <pre>
    svn: Invalid diff stream: [tgt] insn 1 starts beyond the target view position
@@ -2955,58 +2780,45 @@ specific errors may differ for you:</p>
    svn: REPORT of '/path/to/repository/!svn/vcc/default': Chunk delimiter was invalid
 </pre>
 
-<p>There may also be errors in the Apache error_log, such as:</p>
+<p>同样，在Apache的error_log日志中也会记录相应的错误，如:</p>
 
 <pre>
    [error] Provider encountered an error while streaming a REPORT response.  [500, #0]
    [error] A failure occurred while driving the update report editor [500, #190004]
 </pre>
 
-<p>To confirm the presence of this bug &nbsp;&mdash;&nbsp; assuming
-you have access to the machine that the repository is being served
-from &nbsp;&mdash;&nbsp; try checking out using a file:// URL, which
-will access the filesystem directly instead of going through Apache.
-If the resulting checkout completes successfully, then it is almost
-certain that this is the problem.</p>
+<p>为了确认这个bug是否存在——假设你可以访问版本库所在的机器——尝试使用File://的方式来检出，这样就可以绕过Apache直接通过文件系统来访问了。如果这样检出成功的话，那么问题就出在上面提到的bug上。</p>
 
-<p>Currently, the best solution is to upgrade to APR 1.2.0+.</p>
+<p>目前最好的解决方案就是升级到APR 1.2.0+。</p>
 
-<p>Alternately, you can rebuild Apache and Subversion from their
-respective sources, setting the following environment variable before
-running configure for Apache:</p>
+<p>或者你也可以从各自的源里重新编译Apache还有Subversion，在运行Apache配置前先设置好相应的环境变量。</p>
 
 <pre>
    setenv ac_cv_func_poll no
 </pre>
 
-<p>or in Bourne shell syntax, like this:</p>
+<p>或者以Bourne shell 的语法，如下：</p>
 
 <pre>
    ac_cv_func_poll=no; export ac_cv_func_poll
 </pre>
 
-<p>If you built APR / APRUTIL separately (i.e., you did not use the
-ones that come as part of the Apache tarball), you must set that
-environment variable before running configure for APR, as this is
-where the problem lies.</p>
+<p>如果你分别编译APR / APRUTIL(例如，你并不想使用Apache发行包中的某些部分），你必须在配置APR之前设置好环境变量，因为这就是问题所在。</p>
 
 </div>
 
 
 <div class="h3" id="debian-libtool" title="debian-libtool">
-<h3>I can't build Subversion from working copy
-    source on Debian GNU/Linux; I get errors at the final link
-    stage.  What's wrong?</h3>
+<h3>我不能构建Subversion，我的工作拷贝源码在Debian GNU/Linux上，在链接阶段我得到了一些错误，哪里错了呢？</h3>
     
-<p>If you see errors like this in the final link stage of a Subversion
-trunk source build:</p>
+<p>如果你在编译Subversion主线源代码的最后一步出现了下面的错误：</p>
 
 <pre>
    /usr/local/apache2/lib/libaprutil-0.so.0: undefined reference to `db_create'
    /usr/local/apache2/lib/libaprutil-0.so.0: undefined reference to `db_strerror'
 </pre>
 
-<p>it might be because you're on a Debian GNU/Linux system and need to
+<p>那很可能是由于你使用的是Debian系统，你需要升级你的‘libtool’。（我听说Debian的打包者it might be because you're on a Debian GNU/Linux system and need to
 upgrade 'libtool'.  (I've also heard that the Debian packagers had to
 tweak 'libtool' and that this may cause some problems for Subversion
 builds.  But that's hearsay&nbsp;&mdash;&nbsp;I didn't have time to
@@ -3510,11 +3322,9 @@ installing Subversion from source, by re-running <code>make</code> or
 <p/>
 
 <div class="h3" id="http-methods" title="http-methods">
-<h3>What are all the HTTP methods Subversion
-    uses?</h3>
+<h3>Subversion用到的HTTP方法是有哪些？</h3>
 
-<p>The Subversion client speaks a subset the WebDAV/DeltaV protocol to
-  the mod_dav_svn server module.  The short answer is:</p>
+<p>Subversion 客户端使用WebDAV/DeltaV 协议的一个子集来作为 mod_dav_svn server 模块的一部分。简而言之：</p>
 
 <pre>
      OPTIONS, PROPFIND, GET, REPORT,
@@ -3522,7 +3332,7 @@ installing Subversion from source, by re-running <code>make</code> or
      MOVE, COPY, DELETE, LOCK, UNLOCK, MERGE
 </pre>
 
-<p>The details of the protocol are documented here:</p>
+<p>关于协议的细节问题可以在下面这个链接找到相应的文档：</p>
 
 <a href="http://svn.collab.net/repos/svn/trunk/notes/webdav-protocol">http://svn.collab.net/repos/svn/trunk/notes/webdav-protocol</a>
 
@@ -3532,29 +3342,26 @@ installing Subversion from source, by re-running <code>make</code> or
 
 
 <div class="h3" id="bikeshed" title="bikeshed">
-<h3>What's a 'bikeshed'?</h3>
+<h3>什么是'bikeshed'？</h3>
 
-<p>See Poul-Henning Kamp's post to freebsd-hackers: <a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#BIKESHED-PAINTING">http://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#BIKESHED-PAINTING</a>.
+<p>参阅 Poul-Henning Kamp的关于freebsd-hackers的帖子: <a href="http://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#BIKESHED-PAINTING">http://www.freebsd.org/doc/en_US.ISO8859-1/books/faq/misc.html#BIKESHED-PAINTING</a>.
 </p>
 
 </div>
 
 
 <div class="h3" id="pronounce" title="pronounce">
-<h3>How do you pronounce "Subversion"?</h3>
+<h3>你是怎样读&quot;Subversion&quot;的？</h3>
 
-<p>Jim Blandy, who gave Subversion both its name and repository
-design, pronounces "Subversion" <a href="http://svn.collab.net/repos/svn-committers/trunk/sounds/pronunciation/index.html">"Subversion"</a>.
-</p>
+<p>Jim Blandy设计了Subversion的名字和版本库的设计，把“Subversion”读作 <a href="http://svn.collab.net/repos/svn-committers/trunk/sounds/pronunciation/index.html">“Subversion”。</a></p>
 
 </div>
 
 
 <div class="h3" id="baton" title="baton">
-<h3>What's a 'baton'?</h3>
+<h3>什么是'baton'？</h3>
 
-<p>Throughout Subversion's source code there are many references to
-'baton' objects.  These are just <tt>void *</tt> datastructures that
+<p>在Subversion的源代码中有很多引用指向‘baton’对象。他们只是objects.  These are just <tt>void *</tt> datastructures that
 provide context to a function.  In other APIs, they're often called
 <tt>void *ctx</tt> or <tt>void *userdata</tt>  Subversion
 developers call the structures "batons" because they're passed around
@@ -3564,33 +3371,21 @@ quite a bit.</p>
 
 
 <div class="h3" id="def-wedged-repository" title="def-wedged-repository">
-<h3>What do you mean when you say that
-    repository is 'wedged'?</h3>
+<h3>当你说版本库是'楔住（wedged）'的时候，是什么意思？</h3>
 
-<p>wedged repository:</p>
-
-<blockquote>
-<p>A Subversion repository consists of two different internal parts, a
-working compartment and a storage compartment.  A wedged repository is
-a repository where the working compartment is unaccessible for some
-reason, but the storage compartment is intact.  Therefore, a wedged
-repository has not suffered any loss of data, but the working
-compartment has to be corrected before you can access the
-repository. See <a href="#stuck-bdb-repos">this</a> entry for details
-how to do that.</p>
-</blockquote>
-
-<p>corrupted repository:</p>
+<p>被楔住版本库:</p>
 
 <blockquote>
-<p>A corrupted Subversion repository is a repository where the storage
-compartment has been damaged, and therefore there is some degree of
-real data loss in the repository.</p>
+<p>一个Subversion版本库由两个不同的内部组件组成，一个是用来工作的，一个是用来存储的。一个楔住的版本库指的是出于未知的原因，版本库的工作区不能访问了，但是存储区是完整的。因此，一个楔住的版本库并不会丢失任何数据，但是在你正常访问版本库之前工作区必须修复好。参阅 <a href="#stuck-bdb-repos">this</a> 条目查看具体怎么去修复。</p>
 </blockquote>
 
-<p>You might also like to check The Jargon File's definition for 
-<a href="http://catb.org/~esr/jargon/html/W/wedged.html">'wedged'</a>.
-</p>
+<p>被破坏了的版本库：</p>
+
+<blockquote>
+<p>一个被破坏了的版本库指的是存储区已经被破坏了，因此版本库中的数据可能多多少少会有丢失。</p>
+</blockquote>
+
+<p>你可能需要查看Jargon File关于‘<a href="http://catb.org/~esr/jargon/html/W/wedged.html">wedged’</a>的定义。</p>
 
 </div>
 
