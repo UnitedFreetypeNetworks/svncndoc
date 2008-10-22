@@ -132,7 +132,7 @@
 <li><a href="#bdb43-upgrade">升级到Berkeley DB 4.3或更新的版本之后，版本库出错了。</a></li>
 <li><a href="#tiger-apr-0.9.6">当我通过http://从MacOS X 10.4 (Tiger)的平台上检出版本库的时候，为什么偶尔会得到一些不一致的错误？</a></li>
 <li><a href="#debian-libtool">我不能构建Subversion，我的工作拷贝源码在Debian GNU/Linux上，在链接阶段我得到了一些错误，哪里错了呢？</a></li>
-<li><a href="#freebsd-listen-host">我在使用FreeBSD，并且已经启动了svnserve，但是看开起来并没有监听3690端口。</a></li>
+<li><a href="#freebsd-listen-host">我在使用FreeBSD，并且已经启动了svnserve，但是看起来并没有监听3690端口。</a></li>
 <li><a href="#already-under-version-control">我不能添加一个目录，因为Subversion说“它已经处于版本控制了”。</a></li>
 <li><a href="#slow-private-svnserve">有时候通过svnserve访问一个非公开的版本库实在是太慢了。</a></li>
 <li><a href="#ssl-negotiation-error">当执行的Subversion操作需要通过SSL传递大量数据的时候，碰到一个错误<tt>SSL negotiation failed: SSL error: decryption failed or bad
@@ -2818,133 +2818,74 @@ DB 4.3 及之后版本之上的版本库：</p>
    /usr/local/apache2/lib/libaprutil-0.so.0: undefined reference to `db_strerror'
 </pre>
 
-<p>那很可能是由于你使用的是Debian系统，你需要升级你的‘libtool’。（我听说Debian的打包者it might be because you're on a Debian GNU/Linux system and need to
-upgrade 'libtool'.  (I've also heard that the Debian packagers had to
-tweak 'libtool' and that this may cause some problems for Subversion
-builds.  But that's hearsay&nbsp;&mdash;&nbsp;I didn't have time to
-verify the details before writing this FAQ entry.  However, see <a
+<p>那很可能是由于你使用的是Debian系统，你需要升级你的‘libtool’。（我听说Debian的打包者不得不做了一些小的改动来修正一些错误。这可能会导致Subversion编译的时候出现问题。但这只是猜测，在写这个FAQ条目的时候我并没有时间去验证一下细节的东西。你可以查看<a
 href="http://subversion.tigris.org/servlets/ReadMsg?list=dev&amp;msgNo=112617"
 >http://subversion.tigris.org/servlets/ReadMsg?list=dev&amp;msgNo=112617</a>
-and the <a
-href="http://subversion.tigris.org/servlets/BrowseList?list=dev&amp;by=thread&amp;from=435265"
->thread</a> it spawned for a detailed discussion.)</p>
+还有相关的帖子得到更详细的讨论。)</p>
 
-<p>In any case, after encountering this problem on a Debian GNU/Linux
-system running a newly-dist-upgraded 'testing' distribution on 15 Nov
-2005, the solution was to build <a
-href="http://www.gnu.org/software/libtool/libtool.html">libtool&nbsp;1.5.20</a>
-from source, using the standard "./configure &amp;&amp; make &amp;&amp;
-sudo&nbsp;make&nbsp;install" recipe.  After that, I did a 'make&nbsp;clean' in
-my Subversion working copy tree, './autogen.sh', './configure', 'make',
-and everything worked fine.</p>
+<p>不管怎么样，如果你在2005年11月15号的时候在Debian GNU/Linux系统上面运行最新的testing发行版，然后遇到这个问题，那么解决方法就是，将libtool 1.5.20的源代码使用标准的“./configure &amp;&amp; make &amp;&amp;
+sudo&nbsp;make&nbsp;install”重新编译。之后，我又对我的工作拷贝执行了一次“make clean”的清理，然后运行“./autogen.sh”, “./configure”,“make”,然后一切都正常了。</p>
 
-<p>Note that another report of these symptoms appeared at <a
+<p>注意，有一个类似的反馈也已经发布在 <a
 href="http://svn.haxx.se/dev/archive-2003-01/1125.shtml"
->http://svn.haxx.se/dev/archive-2003-01/1125.shtml</a>, though the
-solution described here was not mentioned in that thread.</p>
+>http://svn.haxx.se/dev/archive-2003-01/1125.shtml</a>, 但是在上面却没有提到这个解决方案。</p>
 
 </div>
 
 
 <div class="h3" id="freebsd-listen-host" title="freebsd-listen-host">
-<h3>I'm using FreeBSD, and I've started svnserve, but it doesn't seem
-  to be listening on port 3690.</h3>
+<h3>我在使用FreeBSD，并且已经启动了svnserve，但是看起来并没有监听3690端口。</h3>
     
-<p>Short answer: invoke <tt>svnserve</tt> with
-   the <tt>--listen-host=0.0.0.0</tt> option.</p>
-<p>Slightly longer answer: FreeBSD daemons only listen on tcp6 by
-  default; that option tells them to also listen on tcp4.</p>
+<p>一句话概括：使用--listen-host=0.0.0.0参数调用svnserveShort。</p>
+<p>再具体一点，FreeBSD的守护进程默认情况下只监听tcp6。上面这个选项用来启用tcp4的监听。</p>
 </div>
 
 <div class="h3" id="already-under-version-control" title="already-under-version-control">
-<h3>I can't add a directory
-    because Subversion says it's "already under version control".</h3>
-<p>The directory you're trying to add already contains
-  a <tt>.svn</tt> subdirectory, but it's from a different repository
-  than the directory to which you're trying to add it.  This probably
-  happened because you used your operating system's "copy" command to
-  copy one working copy into the current one.</p>
+<h3>我不能添加一个目录，因为Subversion说“它已经处于版本控制了”。</h3>
+<p>那是因为你要添加的目录已经包含了.svn的目录了，但那个目录是来自其他的版本库中而不是你当前正在添加的版本库。这种现象很可能就是因为你使用了操作系统的拷贝功能直接从另外一个工作拷贝上复制到当前工作拷贝。</p>
 <p>
-  The quick and dirty solution is to delete all <tt>.svn</tt>
-  directories contained in the directory you're trying to add; this
-  will let the "add" command complete.  If you're using Unix, this
-  command will delete <tt>.svn</tt> directories
-  under <tt>dir</tt>:</p>
+  比较快但是又不雅的解决方案就是删除你想添加的文件夹下所有的.svn目录，然后add命令就可以顺利执行了。如果你使用的是Unix，你可以使用下面的命令：</p>
 <pre>
   find dir -type d -name .svn -exec rm -rf {} \;
 </pre>
-<p>However, you should ask yourself <em>why</em> you made this copy;
-  and you should ensure that by adding this directory, you won't be
-  making an unwanted copy of it in your repository.
-</p>
+<p>但是你应该清楚知道，你自己为什么要复制这个文件夹，同时也要确认你不会往版本库中添加任何你不期望添加的拷贝。</p>
 
 </div>
 
 <div class="h3" id="slow-private-svnserve" title="slow-private-svnserve">
-<h3>Accessing non-public repositories
-    via svnserve is really slow sometimes.</h3>
+<h3>有时候通过svnserve访问一个非公开的版本库实在是太慢了。</h3>
 
-<p>This often happens when APR is compiled to use <tt>/dev/random</tt>
-and the server is unable to gather enough entropy.  If Subversion is the
-only application using APR on the server, you can safely recompile APR
-with the <tt>--with-devrandom=/dev/urandom</tt> option passed to
-<tt>configure</tt>.  This should <b>not</b> be done on systems that use
-APR for other processes, however, as it could make other services
-insecure.</p>
+<p>当编译APR时使用/dev/random设备，服务器没有办法获取足够的内存量的时候这个问题经常会出现。如果服务器上只有Subversion在使用APR，那么你可以安全的重新编译APR，编译的时候带上参数 <tt>--with-devrandom=/dev/urandom</tt> 。当然，如果有其他进程在使用APR的时候，那么你就不能这样来做了，否则会造成其他服务不安全。</p>
 
 </div>
 
 <div class="h3" id="ssl-negotiation-error" title="ssl-negotiation-error">
-<h3>When performing Subversion operations involving a lot of data over
-    SSL, I get the error <tt>SSL negotiation failed: SSL error:
-    decryption failed or bad record mac</tt>.</h3>
+<h3>当执行的Subversion操作需要通过SSL传递大量数据的时候，碰到一个错误SSL negotiation failed: SSL error: decryption failed or bad      record mac。</h3>
 
-<p>This can occur due to a problem with OpenSSL 0.9.8.  Downgrading to
-an older version (or possibly upgrading to a newer version) is known
-to fix this issue.</p>
+<p>这个错误可能是由于OpenSSL 0.9.8版本的问题。你可以下载早期不存在此问题的版本（或者可能的话，升级到更新的版本）。</p>
 
 </div>
 
 <div class="h3" id="broken-subclipse" title="broken-subclipse">
-<h3>I get an error that says "This client is too old".</h3>
+<h3>我得到一个错误&quot;This client is too      old&quot;。（客户端版本太旧）</h3>
 
-You're using both an older (pre-1.4) version of the Subversion
-command-line client, and Subclipse.  You recently upgraded Subclipse,
-and now your command-line client says
-
+如果你正在同时使用很老的（1.4以前的）Subversion命令行客户端还有Subclipse，然后你最近更新了Subclipse，接着你的命令行客户端提示你：
 <pre>
 svn: This client is too old to work with working copy
 '/path/to/your/working/copy'; please get a newer Subversion client
 </pre>
 
-This happened because Subversion's working-copy format changed
-incompatibly&mdash;the new version of Subclipse upgraded your working
-copy, so now your command-line program, which is old, cannot read it.
-(This problem isn't specific to Subclipse; it would also have happened
-if you'd used a command-line client that was 1.4 or newer, along with
-your older command-line client.)
-
-The fix is simply to upgrade your command-line client to 1.4 or newer.
-
-</div>
+这是因为Subversion工作拷贝的格式发生了不兼容的改动——新版本的Subclipse对你的工作拷贝做了升级，所以你的命令行客户端程序，因为是版本比较老的，所以无法读取其内容。（这个问题并不只是存在于Subclipse上，也有可能是当你同时使用另外一个1.4以后的新版本的时候，旧版本的程序也会出现类似的问题）你可以简单的把你的命令行客户端升级到1.4及之后的版本。</div>
 
 <div class="h3" id="switch-problems" title="switch-problems">
-<h3>Why doesn't <tt>svn switch</tt> work in some cases?</h3>
+<h3>为什么有时候svn switch不能工作？</h3>
 
-<p>In some cases where there are unversioned (and maybe ignored) items
-in the working copy, <tt>svn switch</tt> can get an error.  The switch
-stops, leaving the working copy half-switched.</p>
+<p>有时候，工作拷贝中包含了一些未被纳入版本控制的文件，这个时候svn switch就会发生错误。switch的过程就会停止，这会导致工作拷贝一半被switch另一半却保持原样。</p>
 
-<p>Unfortunately, if you take the wrong corrective action you can end
-up with an unusable working copy.  Sometimes with these situations,
-the user is directed to do <tt>svn cleanup</tt>.  But the <tt>svn
-cleanup</tt> may also encounter an error.  See <a
+<p>不幸的是，如果这个时候你采取的措施不正确的话，那么你的工作拷贝将会不能使用。有时候，svn会提示用户执行清理（svn cleanup）。但清理命令又有可能造成错误。参考：<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=2505">issue
-#2505</a>.</p>
-
-<p>The user can manually remove the directories or files causing
-the problem, and then run <tt>svn cleanup</tt>, and continue the switch, to
-recover from this situation.</p>
+      #2505</a>。</p>
+<p>用户可以手动的删除那些造成问题的文件或目录，然后再执行清理命令，接着继续swich，这样便可以恢复。</p>
 
 <p>Note that a switch from a <i>pristine</i> clean checkout always
 works without error.  There are three ways of working if you are using
@@ -3066,28 +3007,11 @@ wc/$ svn status
 </div>
 
 <div class="h3" id="long-paths" title="long-paths">
-<h3>In Windows, when doing an update with the command-line client, I
-    get an error saying "The system cannot find the path specified"
-    and suggesting that my working copy might be corrupt.  But I can
-    update with TortoiseSVN just fine.  What's going on?</h3>
+<h3>在Windows平台上，通过命令行客户端的执行更新操作时，我碰到一个错误&quot;The      system cannot find the path specified&quot;，并且提示说我的工作拷贝可能损坏了，但是我能通过TortoiseSVN更新时完全正常，这是怎么回事呢？ </h3>
 
-<p>A careful examination of the Windows API documentation regarding <a
-href="http://msdn2.microsoft.com/en-us/library/aa365247.aspx#maximum_path_length"
->Naming a File</a> reveals the most common reason why this happens. In
-short, you can address significantly longer path names when using the
-Unicode versions of the Windows path functions, and providing absolute
-path specifiers instead of relative path specifiers.  Fortunately, the
-Apache Portable Runtime (APR) library that Subversion uses
-transparently converts absolute paths (like
-<tt>C:\WorkingCopy\file.txt</tt>) into the form required by the
-Windows APIs (<tt>\\?\C:\WorkingCopy\file.txt</tt>), and back again.
-<em>Unfortunately</em>, you only get these long-path benefits when
-using absolute paths.</p>
+<p>仔细研究了windows关于文件命名的API文档才发现造成这一问题的最常见原因。简单的说，当你使用unicode版本的windows和路径相关的函数时，你可以指定的路径长度比较长，而且提供了绝对路径定位，而不是相对路径定位。幸运的是Subversion使用的Apache Portable Runtime（APR）库透明的对这种绝对路径（如<tt>C:\WorkingCopy\file.txt</tt>）进行了转换，将其转换成符合windows API要求的格式（\\<tt>?\C:\WorkingCopy\file.txt</tt>），这种转换也可以反向。不幸的是，你只有在使用绝对路径的时候才享用了这些长路径的好处。</p>
 
-<p>To see if path length is the reason for the problem you're seeing,
-try providing an absolute target path to the Subversion command-line
-client instead of a relative one (or none at all).  In other words,
-instead of doing this:</p>
+<p>要查看路径长度是不是造成你所遇到的问题，你可以在Subversion命令行客户端下使用绝对路径代替相对路径（或者根本不提供）。换句话说，如果你原先是这么做的：</p>
 
 <blockquote>
 <div><pre><code>
@@ -3095,7 +3019,7 @@ C:\> svn up WorkingCopy
 </code></pre></div>
 </blockquote>
 
-<p>or this:</p>
+<p>或者这样做的：</p>
 
 <blockquote>
 <div><pre><code>
@@ -3104,7 +3028,7 @@ C:\WorkingCopy> svn up
 </code></pre></div>
 </blockquote>
 
-<p>do this:</p>
+<p>把它改成下面这样的方式</p>
 
 <blockquote>
 <div><pre><code>
@@ -3112,55 +3036,30 @@ C:\> svn update C:\WorkingCopy
 </code></pre></div>
 </blockquote>
 
-<p>If the problem goes away, congratulations &mdash; you've hit a
-Windows path length limitation.  And now you know the workaround.</p>
+<p>如果问题解决了，那么恭喜你——你已经成功突破了windows的路径长度限制，并且现在你已经知道怎么解决这个问题了。</p>
 
-<p><strong>Why does this problem not affect TortoiseSVN?</strong>
-Because TortoiseSVN <em>always</em> provides absolute paths to the
-Subversion APIs.</p>
+<p><strong>为什么这个问题不会影响TortoiseSVN呢？</strong>
+因为TortoiseSVN<em> 永远 </em>对SubversionAPI提供的全都是绝对路径。</p>
 
-<p><strong>Why, then, does the Subversion command-line client not
+<p><strong>那为什么Subversion命令行客户端不是永远都把输入转换成绝对路径，然后使用绝对路径呢？Why, then, does the Subversion command-line client not
 always convert its input into absolute paths and use those?</strong>
-The Subversion developers have been operating under the principle
-that, for reasons of user experience, the display of paths in the
-tool's output should match the syntax of the paths provided as input.
-And while conversion to an absolute path from a relative one is a
-fairly trivial operation, the reverse transformation is fraught with
-complexities.  (In other words, it's a hard problem not high on our
-priority list.)</p>
+Subversion的开发者在开发的时候基于一个原则，那就是处于对用户体验的考虑，在工具的输出中显示的路径必须匹配输入的路径的语法。如果输入的相对路径转换到绝对路径没有太多价值的话，那么这个转换处于复杂性考虑就去掉了。（换句话说，这是一个比较难的问题，当不是一个比较迫切的问题）。</p>
 
 </div>
 
 <div class="h3"
      id="working-copy-format-change" title="working-copy-format-change">
-<h3>I got an error saying "This client is too old to work with working
-    copy '...' ".  How can I fix it without upgrading Subversion?</h3>
+<h3>我碰到一个错误&quot;This      client is too old to work with working copy '...' &quot;，不升级Subversion能够解决吗？</h3>
 
-<p>Sometimes the working copy metadata format changes incompatibly
-between minor releases.  For example, say you have a working copy
-created with Subversion 1.4.4, but one day you decide to try out
-Subversion 1.5.0.  Afterwards, you attempt to switch back to 1.4.4,
-but it doesn't work&nbsp;&mdash;&nbsp;it just gives the above
-error.</p>
+<p>有时候在次版本改动的发行包下，工作拷贝中的元信息格式也会发生不兼容的改变。例如，假设你使用Subversion1.4.4创建了一个工作拷贝，但有一天你绝地你使用一下1.5.0。但后来你又想将其改成1.4.4，这个时候就出错了——提示信息就如你所描述的。</p>
 
-<p>This is because 1.5.0 upgraded your working copy format to support
-some new features (in this case, changelists, the keep-local flag, and
-variable-depth directories).  Although 1.4.4 doesn't know anything
-about these new features, it can at least recognize that the working
-copy format has been upgraded to something higher than it can
-handle.</p>
+<p>这是因为1.5.0将你的工作拷贝升级到可以支持新特性的格式（例如，修改列表,keep-local标志，variable-depth目录）尽管1.4.4并不知道任何这些特性，但它能够识别出来，工作拷贝里面使用的格式已经被升级到一个新的它不能支持的版本。</p>
 
-<p>1.5.0 upgraded the working copy for a good reason: it realizes that
-1.4.4 does not know about these new features, and that if 1.4.4 were
-to meddle with the working copy metadata now, important information
-might be lost, possibly causing corruption (see <a
+<p>1.5.0升级工作拷贝处于一个好的原因，那就是它知道1.4.4现在并不了解工作拷贝的任何元信息，因此如果让1.4.4的版本去干扰工作拷贝中的元数据，那么重要的信息可能会丢失，很有可能会造成破坏（例如你可以参考<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=2961" >issue
-#2961</a>, for example).</p>
+#2961</a>）。</p>
 
-<p>But this automatic upgrade behavior can be annoying, if you just
-want to try out a new release of Subversion without installing it
-permanently.  For this reason, we distribute a script that can
-downgrade working copies when doing so is safe:</p>
+<p>但是这种自动升级的行为在当你想要尝试一个新版本但是又不想永久安装时，挺让人讨厌的。出于这一点的考虑，我们发布了一个脚本，用来安全的对工作拷贝进行版本降级。你可以在下面的地址下载到：</p>
 
 <blockquote>
 <p><a
@@ -3168,24 +3067,16 @@ href="http://svn.collab.net/repos/svn/trunk/tools/client-side/change-svn-wc-form
 >http://svn.collab.net/repos/svn/trunk/tools/client-side/change-svn-wc-format.py</a></p>
 </blockquote>
 
-<p>Run that script with the "<tt>--help</tt>" option to see how to use
-it.  As future versions of Subversion are released, we will try to
-keep this FAQ entry up-to-date with potential downgrade scenarios and
-their implications.</p>
+<p>使用--help参数调用此脚本，可以查看怎么运行脚本。未来Subversion新版本发布时，我们会尽量更新这个FAQ条目，使他覆盖到更多的降级的场景。</p>
 
 </div>
 
 <div class="h3"
      id="relocation-against-local-symbol"
      title="relocation-against-local-symbol">
-<h3>I got an error saying  "relocation R_X86_64_32 against `a local symbol'
-    can not be used when making a shared object" when building the Neon
-    library on 64-bit Linux.</h3>
+<h3>当我在64位Linux上编译Neon库时，发生一个错误&quot;relocation R_X86_64_32 against `a local symbol' can not be used      when making a shared object&quot;。</h3>
 
-<p>The Neon library, used for communication between a Subversion server and
-client over HTTP, is usually built as a static library.  But it is
-subsequently linked into a different shared library.  This causes an error
-during the build process on 64-bit AMD systems similar to this:</p>
+<p>Neon库，是用来作为Subversion服务器和HTTP客户端进行通讯的库，通常被编译成静态库。但是它后来被链接到不同的动态链接库中，这会导致在AMD 64位操作系统系统上面编译的过程出现错误，出现类似下面的信息：</p>
 
 <blockquote>
 <div><pre><code>
@@ -3197,12 +3088,9 @@ read symbols: Bad value
 </code></pre></div>
 </blockquote>
 
-<p>There was a
-<a href="http://subversion.tigris.org/servlets/ReadMsg?listName=dev&amp;msgNo=119669">
-thread</a> on the developers' list about this.</p>
+<p>在开发者邮件列表中有一篇文章提到了这一点。</p>
 
-<p>The solution is to supply the "--enable-shared" option to Subversion's
-configure script.</p>
+<p>解决方法就是为Subversion的配置脚本提供一个“--enable-shared”的参数。</p>
 
 </div>
 
@@ -3213,12 +3101,9 @@ configure script.</p>
 <p/>
 
 <div class="h3" id="ramdisk-tests" title="ramdisk-tests">
-<h3>How do I run the regression tests in a
-    RAM disk?</h3>
+<h3>怎样在RAM磁盘上进行回归测试？</h3>
 
-<p>Test execution can be dramatically sped up by keeping Subversion
-test data on a RAM disk.  On a Linux system, you can mount a RAM disk
-on the fly with the command:</p>
+<p>如果将Subversion的测试数据保存在RAM磁盘上，那么测试的过程将会变得非常快。在Linux系统上，你可以直接将RAM磁盘挂载：</p>
 
 <blockquote>
 <div><code>mount -t tmpfs tmpfs
@@ -3226,37 +3111,30 @@ on the fly with the command:</p>
 -o uid=$USER,mode=770,size=32m</code></div>
 </blockquote>
 
-<p>Or, for a more permanent solution, add lines like the following in
-your <code>/etc/fstab</code> file:</p>
+<p>或者，如果要更长期的挂载，可以将下面这一行添加到你的<code>/etc/fstab</code>文件中:</p>
 
 <blockquote>
 <div><code>tmpfs  /path/to/src/svn/subversion/tests/cmdline/svn-test-work
 tmpfs  defaults,user,noauto,exec,size=32m</code></div>
 </blockquote>
 
-<p>The minimum required size for testing ramdisk is approximately 700MB.
-However, flagging your test targets for cleanup dramatically reduces
-the space requirements (as shown in the example configuration above),
-and thus your memory usage.  Cleanup means more I/O, but since test
-data is in-memory, there will be no performance degradation.  Example:</p>
+<p>RAM磁盘空间至少为大约700MB。尽管如此，你还是可以通过清理测试目标来大大降低空间需求（在上面的配置例子中我们已经看到了）还有你的内存占用。清理意味着占用更多的IO资源，, 但是由于测试数据还是存在于内存中的，因此不会造成任何性能的下降。</p>
 
 <blockquote><div><code>
 make check CLEANUP=true
 </code></div></blockquote>
 
-<p>See <a href="http://svn.haxx.se/dev/archive-2003-02/0068.shtml"
->http://svn.haxx.se/dev/archive-2003-02/0068.shtml</a> for the
-original authoritative discussion on use of RAM disks.</p>
+<p>参考 <a href="http://svn.haxx.se/dev/archive-2003-02/0068.shtml"
+>http://svn.haxx.se/dev/archive-2003-02/0068.shtml</a> 可以看到更多关于RAM磁盘使用的权威讨论。</p>
 
 </div>
 
 
 <div class="h3" id="dynamic-exe-debugging" title="dynamic-exe-debugging">
 
-<h3>How do I run a debugger on dynamic Subversion binaries without
-    having to install them?</h3>
+<h3>怎样在不安装的情况下对动态Subversion库运行调试器？</h3>
 
-<p>Before the <code>make install</code> step on unix-y systems,
+<p>在往unix-y系统上运行make install这一步之前，动态编译Subversion源代码Before the <code>make install</code> step on unix-y systems,
 dynamically built "executables" in a Subversion source tree are
 actually libtool-generated shell scripts which re-link and run the
 real binary.  As shown below, this complicates debugging:</p>
@@ -3287,30 +3165,23 @@ libtool-generated shell scripts for the white box tests.</p>
 <div class="h3" id="avoiding-compiler-inlining"
 title="avoiding-compiler-inlining">
 
-<h3>How do I run a debugger on Subversion binaries without compiler
-    inlining obfuscating the source?</h3>
+<h3>怎样让编译器不内联混淆（inlining obfuscating）源代码的情况下对Subversion库运行调试器？</h3>
 
-<p>By default, gcc will often optimize away private variables and
-functions, inlining the associated operations.  This can complicate
-stepping through the code in a debugger.</p>
+<p>默认情况下，gcc会经常优化那些私有变量及函数，还有相关的操作。这样会造成调试的时候跟进一段代码变得更复杂。</p>
 
-<p>Work around this by turning off optimization during the
-<code>make</code> step on unix-y systems:</p>
+<p>unix-y systems上的解决办法就是在make这一步的时候将这个优化过程关闭。</p>
 
 <blockquote>
 <div><code>subversion$ make EXTRA_CFLAGS=-O0</code></div>
 </blockquote>
 
-<p>(That's "dash ohh zero".)  Alternately, you can make this change
-more permanent by running <code>configure</code> as follows:</p>
+<p>（那是一个横杠加两个字母的O）。你也可以通过运行下面的配置使到以后自动这样设置：</p>
 
 <blockquote>
 <div><code>subversion$ ./configure --enable-debug</code></div>
 </blockquote>
 
-<p>For a production install, remember to undo this operation before
-installing Subversion from source, by re-running <code>make</code> or
-<code>configure</code> without the extra flag.</p>
+<p>对于产品的安装来说，要记住在从源码安装Subversion时撤销这个操作，你可以通过重新不附加任何参数来运行make或者configure以撤销上面的修改操作。</p>
 
 </div>
 
@@ -3361,11 +3232,7 @@ installing Subversion from source, by re-running <code>make</code> or
 <div class="h3" id="baton" title="baton">
 <h3>什么是'baton'？</h3>
 
-<p>在Subversion的源代码中有很多引用指向‘baton’对象。他们只是objects.  These are just <tt>void *</tt> datastructures that
-provide context to a function.  In other APIs, they're often called
-<tt>void *ctx</tt> or <tt>void *userdata</tt>  Subversion
-developers call the structures "batons" because they're passed around
-quite a bit.</p>
+<p>在Subversion的源代码中有很多引用指向‘baton’对象。他们只是一些对象。有很多void *的数据结构作为某个函数的上下文。在另外一些API里，他们通常通过void *ctx或者void *userdata来调用的，就像Subversion的开发者通过“batons”数据结构来调用一样，但是更省资源。</p>
 
 </div>
 
