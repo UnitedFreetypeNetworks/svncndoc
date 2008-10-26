@@ -2508,12 +2508,11 @@ this change.</p>
 <a name="301-error"></a> <!-- for compatibility with old
   non-XML-name-compliant fragment id -->
 <div class="h3" id="http-301-error" title="http-301-error">
-<h3>我可以通过浏览器访问到版本库，但是当我使用svn检出时却提示我“301 Moved Permanently”（永久转移）的错误，为什么？</h3>
+<h3>我可以从一个WEB浏览器上查看我的版本库，但是在执行'svn checkout' 时发生一个错误：&quot;301 Moved Permanently&quot;。那个地方出错了？</h3>
 
-<p>这意味着你的httpd.conf配置有问题，通常情况下，当你设置的Subversion虚拟目录同时存在不同的地方时会出现这样的错误。</p>
+<p>这意味着你的httpd.conf配置有问题，通常情况下，当你设置的Subversion虚拟目录同时存在两种寻址方式的时候会出现这样的错误。</p>
 
-<p>例如，当你曾经将版本库导出为<tt>&lt;Location
-/www/foo&gt;</tt>, 但是你又同时设置了你的版本库的根目录为/www，那么你就麻烦了。当你想访问/www/foo/bar的时候，apache根本不会知道你真正想要寻找的文件/foo/bar在哪，是在你设置的根目录里头，还是要调用mod_dav_svn模块从/www/foo版本库中去把/bar文件给取回来，通常Apache的处理行为是采取前者的方式，因此就会出现“永久转移”这样的错误了。</p>
+<p>例如，当你将版本库放到<tt>/www/foo目录下</tt>, 但是你又同时设置了你的版本库的根目录为/www，那么你就麻烦了。当有人请求一个/www/foo/bar文件的时候，apache根本不会知道，对方真正想要寻找的文件，是在根目录里下的/foo/bar，还是通过调用mod_dav_svn模块从/www/foo版本库中去把/bar文件给取回来，通常Apache的处理行为是采取前者的方式，因此就会出现“永久转移”这样的错误了。</p>
 
 <p>解决这个问题的办法就是确认你的版本库路径不会有重叠，或者存在其他网络共享可访问的路径里面。</p>
 
@@ -2526,7 +2525,7 @@ this change.</p>
 <div class="h3" id="no-copy-history" title="no-copy-history">
 <h3>我想要查看一个文件的旧版本，但是SVN却提示我“路径未找到”（Path not found）类似这样的信息，这是怎么回事？</h3>
 
-<p>Subversion有一个比较良好的特性，就是它支持文件复制及改名，而且还保留着旧文件的历史记录。例如，如果你将/trunk目录拷贝到/branches/mybranch，那么版本库就知道，在branch分支中的每个文件都是从trunk目录中来的。运行svn log --verbose命令，我们就可以看到历史的拷贝记录，这个时候就可以观察到改名的行为了。如下所示：</p>
+<p>Subversion有一个比较良好的特性，就是它支持文件复制及改名，而且还保留着旧文件的历史记录。例如，如果你将/trunk目录拷贝到/branches/mybranch，那么版本库就知道，在mybranch分支中的每个文件都是从trunk目录中复制过来的。运行svn log --verbose命令，我们就可以看到历史拷贝记录，这个时候就可以观察到改名的行为了。如下所示：</p>
 
 <pre>
 r7932 | joe | 2003-12-03 17:54:02 -0600 (Wed, 03 Dec 2003) | 1 line
@@ -2558,10 +2557,10 @@ $ svn diff -r1000:2000 http://host/repos/trunk/foo.c
 <div class="h3" id="digest-auth" title="digest-auth">
 <h3>为什么HTTP摘要认证（HTTP Digest auth）不能正常工作？</h3>
 
-<p>这个很可能是因为Apache服务器的一个已知的bug（存在于2.0.48或者更早期的版本），你可以在<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040"
+<p>这个问题很可能是因为Apache服务器的一个已知的bug（存在于2.0.48或者更早期的版本），你可以在<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040"
    >http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040</a>找到相应的补丁。  你也可以在<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1608"
    >http://subversion.tigris.org/issues/show_bug.cgi?id=1608</a>
-上看有没有已反馈的bug和你说的情况类似的。</p>
+上看有没有和你说的情况类似的已反馈的bug。</p>
 
 </div>
 
@@ -2603,7 +2602,7 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 
 <p>这些钩子脚本应该会触发外部程序的，但是这个触发过程似乎并没有执行。</p>
 
-<p>当Subversion调用一个钩子脚本时，它会将所有环境变量都清除干净，包括unix下的$Path和windows下的%Path%变量，因此，你的脚本如果要访问外部程序的话你就必须指定好外部程序的完整路径。</p>
+<p>当Subversion调用一个钩子脚本时，它会将所有环境变量都清除干净，包括unix下的$Path和windows下的%Path%变量，因此，如果你的脚本要访问外部程序的话你就必须指定好外部程序的完整路径。</p>
 
 <p><b>调试技巧:</b></p>
 <p>
@@ -2648,16 +2647,16 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 
 <p>在Mac OS X, svn 1.4以后的版本使用系统的keychain功能来加密以及存储svn的密码。</p>
 
-<p>在UNIX/Linux,没有和加密相关的函数，所以密码保存在 ~/.subversion/auth/目录下。需要注意，这个包含缓存密码（通常是~/.subversion/auth/）的目录权限码是700，这意味着只有你自己才有权利读取他们。</p>
+<p>在UNIX/Linux中,没有和加密相关的函数，所以密码保存在 ~/.subversion/auth/目录下。需要注意，这个包含缓存密码（通常是~/.subversion/auth/）的目录权限码是700，这意味着只有你自己才有权利读取他们。</p>
 
 <p>要信任你的操作系统，让它来保护你磁盘上的数据。</p>
 
-<p>尽管如此，如果你还是担心的话，那么你可以将密码缓存的功能永久关闭。在svn 1.0的客户端中，你只需要你的运行时配置文件设置‘store-auth-creds
-= no’。对于svn 1.1以及之后的版本来说，你可以使用粒度更细的设置，'store-passwords = no' (这样服务器的证书还是会缓存）。更多关于密码缓存的信息已经放在<a 
-href="http://svnbook.red-bean.com/nightly/en/index.html">下的“Nightly 
+<p>尽管如此，如果你还是担心的话，那么你可以将密码缓存的功能永久关闭。在svn 1.0的客户端中，你只需要在你的运行时配置文件设置‘store-auth-creds
+= no’。对于svn 1.1以及之后的版本来说，你可以使用粒度更细的设置‘store-passwords = no' (这样服务器的证书还是会缓存）。更多关于密码缓存的信息已经放在<a 
+href="http://svnbook.red-bean.com/nightly/en/index.html">“Nightly 
 Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache">“Client Credentials Caching</a>下。</p>
 
-<p>最后要说的是，我们知道CVS很多年来一直都是将缓存的密码存放在.cvspass文件中的。表面上来看存放在里面的数据是加密过的，但实际上，他们只是使用非常简单的算法来进行混淆，就像rot13一样。他们可以很轻易就被破解掉。这种混淆的唯一作用就是防止其他用户如管理员意外的看到密码。但是目前还没有人希望Subversion也这样做。如果你感兴趣的话，你可以为其写补丁然后发送到dev@ list。</p>
+<p>最后要说的是，我们知道CVS很多年来一直都是将缓存的密码存放在.cvspass文件中的。表面上来看存放在里面的数据是加密过的，但实际上，他们只是使用非常简单的算法来进行混淆，就像rot13一样。这些所谓的密码可以很轻易就被破解掉。这种混淆的唯一作用就是防止其他用户如管理员意外的看到密码。但是目前还没有人希望Subversion也这样做。如果你感兴趣的话，你可以为其写补丁然后发送到dev@list。</p>
 
 </div>
 
@@ -2667,7 +2666,7 @@ Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en
 
 <p>Berkeley DB 4.1版本相当的不稳定，而4.0和4.2都相对比较稳定。这条错误信息就是4.1版本有时候发生问题时的提示信息。</p>
 
-<p>这个问题是由于使用Berkeley数据库做支撑的Subversion版本库中的其中一张表的某个数据库格式化域（database format field）被破坏了。不知道什么原因，这通常都是因为“copies”表出错，导致它从“btree”类型转换成“recno”类型。你可以按照下面列的简单的恢复流程来处理。如果下面的步骤未能成功，你应该联系Subversion的用户邮件列表。</p>
+<p>这个问题是由于使用Berkeley数据库做支撑的Subversion版本库中的其中一张表的某个数据库格式化域（database format field）被破坏了。目前还不知道什么原因，这通常都是因为“copies”表出错，导致它从“btree”类型转换成“recno”类型。你可以按照下面列举的简单的恢复流程来处理。如果下面的步骤未能成功，你应该联系Subversion的用户邮件列表。</p>
 
 <ul>
   <li>确保当前没有其他的进程在访问版本库。</li>
@@ -2703,7 +2702,7 @@ Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en
 <li>在你的工作拷贝中，只有foo.c升级到修订号8，其他工作拷贝目录下的内容都保持在修订号7。</li>
 </ul>
 
-<p>现在你有了一个我们称为混合版本（<i>mixed revision）</i>的工作拷贝。其中一个文件修订号为8，其余的为7.只有在当你把所有文件都提交的时候修订号才会更新，或者你显式的运行‘<tt>svn&nbsp;update</tt>’。</p>
+<p>现在你有了一个我们称为混合版本（<i>mixed revision）</i>的工作拷贝。其中一个文件修订号为8，其余的为7.只有在当你把所有文件都提交的时候版本号才会更新，或者你可以显式的运行‘<tt>svn&nbsp;update</tt>’。</p>
 
 <pre>   $ svn -v status
    7        7 nesscg       .
@@ -2824,7 +2823,7 @@ href="http://subversion.tigris.org/servlets/ReadMsg?list=dev&amp;msgNo=112617"
 还有相关的帖子得到更详细的讨论。)</p>
 
 <p>不管怎么样，如果你在2005年11月15号的时候在Debian GNU/Linux系统上面运行最新的testing发行版，然后遇到这个问题，那么解决方法就是，将libtool 1.5.20的源代码使用标准的“./configure &amp;&amp; make &amp;&amp;
-sudo&nbsp;make&nbsp;install”重新编译。之后，我又对我的工作拷贝执行了一次“make clean”的清理，然后运行“./autogen.sh”, “./configure”,“make”,然后一切都正常了。</p>
+sudo&nbsp;make&nbsp;install”重新编译，再对工作拷贝执行了一次“make clean”的清理，然后运行“./autogen.sh”, “./configure”,“make”,最后一切都正常了。</p>
 
 <p>注意，有一个类似的反馈也已经发布在 <a
 href="http://svn.haxx.se/dev/archive-2003-01/1125.shtml"
@@ -2842,9 +2841,9 @@ href="http://svn.haxx.se/dev/archive-2003-01/1125.shtml"
 
 <div class="h3" id="already-under-version-control" title="already-under-version-control">
 <h3>我不能添加一个目录，因为Subversion说“它已经处于版本控制了”。</h3>
-<p>那是因为你要添加的目录已经包含了.svn的目录了，但那个目录是来自其他的版本库中而不是你当前正在添加的版本库。这种现象很可能就是因为你使用了操作系统的拷贝功能直接从另外一个工作拷贝上复制到当前工作拷贝。</p>
+<p>那是因为你要添加的目录已经包含了.svn的目录了，但那个目录是来自其他的版本库中而不是你当前正在访问的版本库。这种现象很可能就是因为你使用了操作系统的拷贝功能直接从另外一个工作拷贝上复制该目录到当前工作拷贝中。</p>
 <p>
-  比较快但是又不雅的解决方案就是删除你想添加的文件夹下所有的.svn目录，然后add命令就可以顺利执行了。如果你使用的是Unix，你可以使用下面的命令：</p>
+  比较快但是又不雅的解决方案就是删除你之前复制的文件夹下所有的.svn目录，然后add命令就可以顺利执行了。如果你使用的是Unix，你可以使用下面的命令：</p>
 <pre>
   find dir -type d -name .svn -exec rm -rf {} \;
 </pre>
@@ -2875,7 +2874,7 @@ svn: This client is too old to work with working copy
 '/path/to/your/working/copy'; please get a newer Subversion client
 </pre>
 
-这是因为Subversion工作拷贝的格式发生了不兼容的改动——新版本的Subclipse对你的工作拷贝做了升级，所以你的命令行客户端程序，因为是版本比较老的，所以无法读取其内容。（这个问题并不只是存在于Subclipse上，也有可能是当你同时使用另外一个1.4以后的新版本的时候，旧版本的程序也会出现类似的问题）你可以简单的把你的命令行客户端升级到1.4及之后的版本。</div>
+这是因为Subversion工作拷贝的格式发生了不兼容的改动——新版本的Subclipse对你的工作拷贝做了升级，所以你的命令行客户端程序，因为是版本比较老的，因此无法读取其内容。（这个问题并不只是存在于Subclipse上，也有可能是当你同时使用另外一个1.4以后的新版本的时候，旧版本的程序也会出现类似的问题）你可以简单的把你的命令行客户端升级到1.4及之后的版本。</div>
 
 <div class="h3" id="switch-problems" title="switch-problems">
 <h3>为什么有时候svn switch不能工作？</h3>
@@ -2887,56 +2886,34 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=2505">issue
       #2505</a>。</p>
 <p>用户可以手动的删除那些造成问题的文件或目录，然后再执行清理命令，接着继续swich，这样便可以恢复。</p>
 
-<p>Note that a switch from a <i>pristine</i> clean checkout always
-works without error.  There are three ways of working if you are using
-<tt>svn switch</tt> as part of your development process:</p>
+<p>注意，对从版本库中检出的原始副本进行switch通常不会发生错误。。如果你正在开发过程中需要使用到svn switch命令，那么有3种方式可以使用：</p>
 
 <ol>
 
-<li>Fully clean your working copy of unversioned (including ignored)
-files before switching. <br/><b>WARNING! This deletes all unversioned
-dirs/files. Be VERY sure that you do not need anything that will be
-removed.</b>
+<li>在进行路径切换之前，完整地清理一下你的工作拷贝中的未被纳入版本控制的文件（包括那些被忽略的文件） <br/>
+  <b>警告！这会删除所有未被版本控制的目录或文件，一定要确定你即将删除的文件是你已经不再需要了的。</b>
 
-<blockquote>
+    <blockquote>
 <div><pre><code>
 # Check and delete svn unversioned files: 
 svn status --no-ignore | grep '^[I?]' | sed 's/^[I?]//'
 svn status --no-ignore | grep '^[I?]' | sed 's/^[I?]//' | xargs rm -rf
 </code></pre></div>
 </blockquote>
-
 </li>
 
-<li>Keep a <i>pristine</i> clean checkout. Update that, then copy it,
-and switch the copy when a switch to another branch is desired.</li>
+<li>保持最原始的干净的检出，更新到最新版本，然后复制到你原先希望switch到某个分支的工作拷贝上。</li>
 
-<li>Live dangerously :).
- Switch between branches without cleaning up BUT if you encounter a switch error
- know that you have to recover from this properly.
- Delete the unversioned files and the directory that the error was reported on.
- Then "svn cleanup" if needed and then resume the switch.
- Unless you delete <em>all</em> unversioned files, you may have to repeat this
- process multiple times.</li>
-
+<li>这个方法比较危险 :)。不需要预先进行清理，直接在分支之间进行switch，但如果你遇到一个switch错误，你要知道你必须对这次switch进行适当的修复。删除错误提示中提到的未被版本控制的文件及目录，如果需要的话，使用svn cleanup，然后再继续进行切换工作，除非你删除了所有的未被版本控制的文件，否则你会重复好几次刚才遇到的错误。</li>
 </ol>
 
-<p>Some examples are detailed 
-<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=2505">here in issue 2505</a>.
-The problem is that the svn client plays it 
-safe and doesn't want to delete anything unversioned. 
-</p>
+<p>在 <a href="http://subversion.tigris.org/issues/show_bug.cgi?id=2505"> issue 2505</a> 中有更详细的例子。这个问题的产生是因为svn客户端为了保险起见，不会直接删除所有未被版本控制的文件。</p>
 
-<p>Two specific examples are detailed here to illustrate a problem like this.
-There are also other svn switch errors, not covered here, which you
-  can avoid by switching only from a <em>pristine</em> checkout.</p>
+<p>下面还有两个更具体的例子描述了类似的问题。还有其他的svn switch错误在这里没有提及，你只有在从一个干净检出的工作拷贝中执行swich才能避免。</p>
 
 <ol>
 
-<li>If any directory has been moved or renamed between the branches, then
-anything unversioned will cause a problem.
-In this case, you'll see this error:
-<br/>
+<li>如果分支中的任何目录被移动或者改名，那么任何没有被版本控制的东西都会造成错误。在这种情况下，你会看到如下的错误：<br/>
 <blockquote>
 <div><pre><code>
 wc/$ svn switch $SVNROOT/$project/branches/$ticket-xxx
@@ -2944,14 +2921,11 @@ svn: Won't delete locally modified directory '&lt;dir&gt;'
 svn: Left locally modified or unversioned files
 </code></pre></div>
 </blockquote>
-<p>Removing all unversioned files, and continuing the switch will recover from this.</p>
+<p>删除所有未被版本控制的文件，然后继续切换过程，这样可以恢复。</p>
 </li>
 
-<li>If a temporary build file has ever been added and removed, then a switch
-in a repository with that unversioned file (likely after a build) fails. 
-You'll see the same error:
-
-<blockquote>
+<li>如果一个临时的编译文件（刚编译完）被加入版本库或者从版本库中删除了，那么从包含这个未被版本控制文件的版本库中检出就会失败你会看到和下面一摸一样的错误。
+  <blockquote>
 <div><pre><code>
 wc/$ svn switch $SVNROOT/$project/branches/$ticket-xxx
 svn: Won't delete locally modified directory '&lt;dir&gt;'
@@ -2959,8 +2933,7 @@ svn: Left locally modified or unversioned files
 </code></pre></div>
 </blockquote>
 
-<p>In this case, just removing the unversioned items will not recover.
-A cleanup fails, but svnswitch directs you to run "svn cleanup".</p>
+<p>在这种情况下，删除未被版本控制的文件并不能恢复，执行cleanup的时候会出错，但是svn switch会提示你去执行svn cleanup。</p>
 
 <blockquote>
 <div><pre><code>
@@ -2974,15 +2947,12 @@ svn: run 'svn cleanup' to remove locks (type 'svn help cleanup' for details)
 </code></pre></div>
 </blockquote>
 
-<p>Removing the directory (and all other unversioned files, to prevent
- "switch" from breaking on a similar error repeatedly), and continuing the switch
- will recover from this.</p>
+<p>删除目录（还有其他所有未被版本控制的文件，这样可以避免转换命令不会再重复出现类似的错误。然后继续转换的过程，这样可以恢复。</p>
 </li>
 
 </ol>
 
-<p>The TortoiseSVN cleanup error is a bit different.  You might encounter this:
-</p>
+<p>TortoiseSVN的cleanup错误有一点不同，你可能会遇到下面的错误：</p>
 <blockquote>
 <div><pre><code>
 Subversion reported an error while doing a cleanup!
@@ -2990,10 +2960,7 @@ Subversion reported an error while doing a cleanup!
 </code></pre></div>
 </blockquote>
 
-<p>In each case here, the "svn switch" breaks leaving you with a half-switched 
-working copy. "svn status" will show items with S for switched items (different
- from top directory), ! for directories with problems, and ~ for the files that are
- the problem (and with maybe L for locked). Like this:</p>
+<p>在这里讲到的每一个例子中，svn switch命令会失败，使到你的工作拷贝变成只有一半发生转换成功的，svn status会显示出所有发生转换的文件，用S标记出来（在根目录看到的情况可能有所不同），用！标记出发生问题的目录，~标记出出错的问题文件（可能还有L用来标记锁定的文件），就像下面列举的一样：</p>
 <blockquote>
 <div><pre><code>
 wc/$ svn status 
@@ -3011,7 +2978,7 @@ wc/$ svn status
 
 <p>仔细研究了windows关于文件命名的API文档才发现造成这一问题的最常见原因。简单的说，当你使用unicode版本的windows和路径相关的函数时，你可以指定的路径长度比较长，而且提供了绝对路径定位，而不是相对路径定位。幸运的是Subversion使用的Apache Portable Runtime（APR）库透明的对这种绝对路径（如<tt>C:\WorkingCopy\file.txt</tt>）进行了转换，将其转换成符合windows API要求的格式（\\<tt>?\C:\WorkingCopy\file.txt</tt>），这种转换也可以反向。不幸的是，你只有在使用绝对路径的时候才享用了这些长路径的好处。</p>
 
-<p>要查看路径长度是不是造成你所遇到的问题，你可以在Subversion命令行客户端下使用绝对路径代替相对路径（或者根本不提供）。换句话说，如果你原先是这么做的：</p>
+<p>要查看路径长度是不是造成你所遇到的问题，你可以在Subversion命令行客户端下使用绝对路径代替相对路径（或者根本不提供路径参数）。换句话说，如果你原先是这么做的：</p>
 
 <blockquote>
 <div><pre><code>
@@ -3039,11 +3006,10 @@ C:\> svn update C:\WorkingCopy
 <p>如果问题解决了，那么恭喜你——你已经成功突破了windows的路径长度限制，并且现在你已经知道怎么解决这个问题了。</p>
 
 <p><strong>为什么这个问题不会影响TortoiseSVN呢？</strong>
-因为TortoiseSVN<em> 永远 </em>对SubversionAPI提供的全都是绝对路径。</p>
+因为TortoiseSVN 对SubversionAPI提供的<em> 永远 </em>都是绝对路径。</p>
 
-<p><strong>那为什么Subversion命令行客户端不是永远都把输入转换成绝对路径，然后使用绝对路径呢？Why, then, does the Subversion command-line client not
-always convert its input into absolute paths and use those?</strong>
-Subversion的开发者在开发的时候基于一个原则，那就是处于对用户体验的考虑，在工具的输出中显示的路径必须匹配输入的路径的语法。如果输入的相对路径转换到绝对路径没有太多价值的话，那么这个转换处于复杂性考虑就去掉了。（换句话说，这是一个比较难的问题，当不是一个比较迫切的问题）。</p>
+<p><strong>那为什么Subversion命令行客户端不是永远都把输入转换成绝对路径，然后使用绝对路径呢？</strong>
+Subversion的开发者在开发的时候基于一个原则，那就是出于对用户体验的考虑，在工具的输出中显示的路径必须匹配输入的路径的语法。如果输入的相对路径转换到绝对路径没有太多价值的话，那么这个转换出于复杂性考虑就去掉了。（换句话说，这是一个比较难的问题，但不是一个比较迫切的问题）。</p>
 
 </div>
 
@@ -3051,11 +3017,11 @@ Subversion的开发者在开发的时候基于一个原则，那就是处于对用户体验的考虑，在工具的
      id="working-copy-format-change" title="working-copy-format-change">
 <h3>我碰到一个错误&quot;This      client is too old to work with working copy '...' &quot;，不升级Subversion能够解决吗？</h3>
 
-<p>有时候在次版本改动的发行包下，工作拷贝中的元信息格式也会发生不兼容的改变。例如，假设你使用Subversion1.4.4创建了一个工作拷贝，但有一天你绝地你使用一下1.5.0。但后来你又想将其改成1.4.4，这个时候就出错了——提示信息就如你所描述的。</p>
+<p>有时候在次版本改动的发行包下，工作拷贝中的元信息格式也会发生不兼容的改变。例如，假设你使用Subversion1.4.4创建了一个工作拷贝，但有一天你升级到1.5.0版本。但后来你又想将其改成1.4.4，这个时候就出错了——提示信息就如你所描述的。</p>
 
 <p>这是因为1.5.0将你的工作拷贝升级到可以支持新特性的格式（例如，修改列表,keep-local标志，variable-depth目录）尽管1.4.4并不知道任何这些特性，但它能够识别出来，工作拷贝里面使用的格式已经被升级到一个新的它不能支持的版本。</p>
 
-<p>1.5.0升级工作拷贝处于一个好的原因，那就是它知道1.4.4现在并不了解工作拷贝的任何元信息，因此如果让1.4.4的版本去干扰工作拷贝中的元数据，那么重要的信息可能会丢失，很有可能会造成破坏（例如你可以参考<a
+<p>1.5.0升级工作拷贝是出于一个好的原因，那就是它知道1.4.4现在并不了解工作拷贝的任何元信息，因此如果让1.4.4的版本去干扰工作拷贝中的元数据，那么重要的信息可能会丢失，很有可能会造成破坏（例如你可以参考<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=2961" >issue
 #2961</a>）。</p>
 
@@ -3067,7 +3033,7 @@ href="http://svn.collab.net/repos/svn/trunk/tools/client-side/change-svn-wc-form
 >http://svn.collab.net/repos/svn/trunk/tools/client-side/change-svn-wc-format.py</a></p>
 </blockquote>
 
-<p>使用--help参数调用此脚本，可以查看怎么运行脚本。未来Subversion新版本发布时，我们会尽量更新这个FAQ条目，使他覆盖到更多的降级的场景。</p>
+<p>使用--help参数调用此脚本，可以查看怎么脚本的运行帮助。未来Subversion新版本发布时，我们会尽量更新这个FAQ条目，使他覆盖到更多的降级的场景。</p>
 
 </div>
 
@@ -3134,10 +3100,7 @@ make check CLEANUP=true
 
 <h3>怎样在不安装的情况下对动态Subversion库运行调试器？</h3>
 
-<p>在往unix-y系统上运行make install这一步之前，动态编译Subversion源代码Before the <code>make install</code> step on unix-y systems,
-dynamically built "executables" in a Subversion source tree are
-actually libtool-generated shell scripts which re-link and run the
-real binary.  As shown below, this complicates debugging:</p>
+<p>在往unix-y系统上运行make install这一步之前，动态编译Subversion源代码实际上执行的是libtool-generated脚本，这个脚本会重新链接并且运行真正的二进制文件，就如下面显示的一样，这会让调试更加复杂：</p>
 
 <blockquote>
 <div><code>subversion$ gdb subversion/svn/svn</code></div>
@@ -3145,19 +3108,12 @@ real binary.  As shown below, this complicates debugging:</p>
 executable format: File format not recognized</code></div>
 </blockquote>
 
-<p>While this can be worked around by building using the
-<code>--disable-shared</code> argument to configure to statically link
-the binaries, or installing them and pointing your debugger at the
-installed version, it's often necessary or more expedient to be able
-to debug them right within your source tree.</p>
+<p>如果编译的时候使用
+<code>--disable-shared</code> 参数来配置使用静态链接到二进制库，或者重新安装然后将调试器指向新安装的版本，这样可能能解决一部分问题，但是经常我们需要在源代码中临时直接的进行调试。</p>
 
-<p>To do so, edit the last <code>exec</code> statement in the shell
-script to run the real binary in your debugger.  With gdb, this
-amounts to replacing <code>exec "$progdir/$progname"</code> with
-<code>exec gdb --args "$progdir/$progname"</code>.</p>
+<p>要做到这一点，在shell脚本中编辑上一次执行的语句，然后在你的调试器中运行真正的二进制库。在gdb中，就是将<code>exec "$progdir/$progname"</code> 替换成<code>exec gdb --args "$progdir/$progname"</code>.</p>
 
-<p>This trick is also very useful when applied to the
-libtool-generated shell scripts for the white box tests.</p>
+<p>这个小技巧在使用libtool-generated的shell脚本进行白盒测试的时候中非常有用。</p>
 
 </div>
 
@@ -3165,7 +3121,7 @@ libtool-generated shell scripts for the white box tests.</p>
 <div class="h3" id="avoiding-compiler-inlining"
 title="avoiding-compiler-inlining">
 
-<h3>怎样让编译器不内联混淆（inlining obfuscating）源代码的情况下对Subversion库运行调试器？</h3>
+<h3>怎样在让编译器不内联混淆（inlining obfuscating）源代码的情况下对Subversion库运行调试器？</h3>
 
 <p>默认情况下，gcc会经常优化那些私有变量及函数，还有相关的操作。这样会造成调试的时候跟进一段代码变得更复杂。</p>
 
@@ -3175,13 +3131,13 @@ title="avoiding-compiler-inlining">
 <div><code>subversion$ make EXTRA_CFLAGS=-O0</code></div>
 </blockquote>
 
-<p>（那是一个横杠加两个字母的O）。你也可以通过运行下面的配置使到以后自动这样设置：</p>
+<p>（那是一个横杠加两个字母的O）。你也可以通过运行下面的配置使到此配置应用到以后所有的调试过程中：</p>
 
 <blockquote>
 <div><code>subversion$ ./configure --enable-debug</code></div>
 </blockquote>
 
-<p>对于产品的安装来说，要记住在从源码安装Subversion时撤销这个操作，你可以通过重新不附加任何参数来运行make或者configure以撤销上面的修改操作。</p>
+<p>对于产品的安装来说，要记住在从源码安装Subversion时撤销这个操作，你可以通过重新运行make或者configure并不附加任何参数来撤销上面的修改操作。</p>
 
 </div>
 
@@ -3243,7 +3199,7 @@ title="avoiding-compiler-inlining">
 <p>被楔住版本库:</p>
 
 <blockquote>
-<p>一个Subversion版本库由两个不同的内部组件组成，一个是用来工作的，一个是用来存储的。一个楔住的版本库指的是出于未知的原因，版本库的工作区不能访问了，但是存储区是完整的。因此，一个楔住的版本库并不会丢失任何数据，但是在你正常访问版本库之前工作区必须修复好。参阅 <a href="#stuck-bdb-repos">this</a> 条目查看具体怎么去修复。</p>
+<p>一个Subversion版本库由两个不同的内部组件组成，一个是工作区，一个是存储区。一个楔住的版本库指的是出于未知的原因，版本库的工作区不能访问了，但是存储区是完整的。因此，一个楔住的版本库并不会丢失任何数据，但是在你正常访问版本库之前工作区必须修复好。参阅 <a href="#stuck-bdb-repos">this</a> 条目查看具体怎么去修复。</p>
 </blockquote>
 
 <p>被破坏了的版本库：</p>
