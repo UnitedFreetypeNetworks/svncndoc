@@ -1941,8 +1941,8 @@ could be the cause?</h3>
   <li>磁盘空间用尽</li>
 </ul>
 
-<p>多数情况下，你可以执行"svnadmin recover", 这个命令可以将版本库回退到
-上一个正常状态，详细解释请见</a>。注意，当频繁
+<p>多数情况下，你可以执行"svnadmin recover"，这个命令可以将版本库回退到
+上一个正常状态，详细解释请见<a href="#bdb-recovery">bdb-recovery</a>。注意，当频繁
 checkout和update且磁盘空间用尽的时候，可能导致版本库处于无法回复的状态
 （所以请多做备份）。</p>
 
@@ -2535,7 +2535,7 @@ Changed paths:
 
 <p>不幸的是，尽管版本库知道拷贝和重命名的行为，但是几乎所有的svn客户端命名并不能识别。如svn diff、svn merge还有svn cat等等这些命令本应该知道并跟踪这个改名的行为的，但是它们并没有做到这一点。这个问题已经被放在post-1.0特性的日程中了，你可以在<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=1093">issue
-#1093</a>中查阅。  例如，当你让svn diff工具去比较/branches/mybranch/foo.c文件的两个早期版本时，这个命令并不会自动的识别出实际上要比较的是以前放在/trunk目录中的被重命名过的foo.c文件的两个早期版本。因此它会告诉你分支中的这个文件并不存在早期的版本。</p>
+#1093</a>中查阅。例如，当你让svn diff工具去比较/branches/mybranch/foo.c文件的两个早期版本时，这个命令并不会自动的识别出实际上要比较的是以前放在/trunk目录中的被重命名过的foo.c文件的两个早期版本。因此它会告诉你分支中的这个文件并不存在早期的版本。</p>
 
 <p>所有这种类型的问题的解决方法就是自己多费点心，也就是说，你必须自己知道这些文件是改名过的，你可以通过使用svn log -v命令来发现这一点。然后你再把明确的告诉svn的客户端该怎么做。举个例子，如果你原来是打算运行下面这个命令的：</p>
 
@@ -2558,7 +2558,7 @@ $ svn diff -r1000:2000 http://host/repos/trunk/foo.c
 <h3>为什么HTTP摘要认证（HTTP Digest auth）不能正常工作？</h3>
 
 <p>这个问题很可能是因为Apache服务器的一个已知的bug（存在于2.0.48或者更早期的版本），你可以在<a href="http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040"
-   >http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040</a>找到相应的补丁。  你也可以在<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1608"
+   >http://nagoya.apache.org/bugzilla/show_bug.cgi?id=25040</a>找到相应的补丁。你也可以在<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1608"
    >http://subversion.tigris.org/issues/show_bug.cgi?id=1608</a>
 上看有没有和你说的情况类似的已反馈的bug。</p>
 
@@ -2568,7 +2568,7 @@ $ svn diff -r1000:2000 http://host/repos/trunk/foo.c
 <div class="h3" id="xlc-compile" title="xlc-compile">
 <h3>我在AIX上面编译xls的时候出现编译错误，为什么呢？</h3>
 
-<p>在环境变量CFLAGS中加入 <tt>-qlanglvl=extended</tt> 作为配置参数，这会使到编译xls的时候更加灵活，这样应该不会再出现编译错误了。更详细的信息请参阅
+<p>在环境变量CFLAGS中加入<tt>-qlanglvl=extended</tt>作为配置参数，这会使到编译xls的时候更加灵活，这样应该不会再出现编译错误了。更详细的信息请参阅
 <a href="http://svn.haxx.se/dev/archive-2004-01/0922.shtml"
 >http://svn.haxx.se/dev/archive-2004-01/0922.shtml</a> 及相关的文章。</p>
 
@@ -2588,9 +2588,9 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 <div class="h3" id="mod_dav_svn-win32" title="mod_dav_svn-win32">
 <h3>我试着在win32平台的Apache上使用mod_dav_svn模块，但是却提示我模块未找到的错误，但是mod_dav_svn.so 这个文件明明就放在<tt>\Apache\modules目录中。</tt></h3>
 
-<p>这个错误信息在这里有点误导人。通常这样的错误是因为Apache因为某些链接库dll依赖性的问题无法正确加载<tt>mod_dav_svn.so模块。如果当前Apache是以服务的形式运行的，那么它的path环境变量和普通用户的并不相同。请确认</tt><tt>libdb4*.dll、</tt><tt>intl3_svn.dll、</tt> <tt>libeay32.dll还有</tt><tt>ssleay32.dll</tt>都可以在<tt>\Apache\bin</tt>或者<tt>\Apache\modules</tt>目录中找到。如果没有找到，你可以从Subversion的安装目录下拷贝一份。</p>
+<p>这个错误信息在这里有点误导人。通常这样的错误是因为Apache无法正确加载<tt>mod_dav_svn.so</tt>模块所依赖的模块。如果当前Apache是以服务的形式运行的，那么它的path环境变量和普通用户的并不相同。请确认<tt>libdb4*.dll、</tt><tt>intl3_svn.dll、</tt> <tt>libeay32.dll还有</tt><tt>ssleay32.dll</tt>都可以在<tt>\Apache\bin</tt>或者<tt>\Apache\modules</tt>目录中找到。如果没有找到，你可以从Subversion的安装目录下拷贝一份。</p>
 
-<p>如果这样还解决不了问题的话，那么你可以使用类似<a href="http://www.dependencywalker.com">Dependency Walker</a>这样的工具来查看<tt>mod_dav_svn.so库的依赖性，看是否还有尚未解决的依赖性问题存在。</tt></p>
+<p>如果这样还解决不了问题的话，那么你可以使用类似<a href="http://www.dependencywalker.com">Dependency Walker</a>这样的工具来查看<tt>mod_dav_svn.so</tt>库的依赖性，看是否还有尚未解决的依赖性问题存在。</p>
 
 </div>
 
@@ -2609,7 +2609,7 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 如果你正在运行Linux或者Unix操作系统，试一下按照下面的步骤手动运行一下脚本：</p>
 
   <ol>
-            <li>使用 "su"、"sudo"或者类似的命令来切换到一般情况下可能会运行该脚本的用户。如果你运行的是Apache服务器的话，那么这个用户通常是httpd或者www-data。如果你运行svnserve的话，那么很可能是使用svn的帐户来运行该脚本。这样切换用户之后来运行脚本的好处就是不会再有脚本运行权限错误的问题出现            </li>
+            <li>使用 "su"、"sudo"或者类似的命令来切换到一般情况下可能会运行该脚本的用户。如果你运行的是Apache服务器的话，那么这个用户通常是httpd或者www-data。如果你运行svnserve的话，那么很可能是使用svn的帐户来运行该脚本。这样切换用户之后来运行脚本的好处就是不会再有脚本运行权限错误的问题出现。</li>
 <li>
               使用env程序清除所有环境变量然后再运行该脚本，如下所示：
           <blockquote><pre>
@@ -2652,9 +2652,8 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 <p>要信任你的操作系统，让它来保护你磁盘上的数据。</p>
 
 <p>尽管如此，如果你还是担心的话，那么你可以将密码缓存的功能永久关闭。在svn 1.0的客户端中，你只需要在你的运行时配置文件设置‘store-auth-creds
-= no’。对于svn 1.1以及之后的版本来说，你可以使用粒度更细的设置‘store-passwords = no' (这样服务器的证书还是会缓存）。更多关于密码缓存的信息已经放在<a 
-href="http://svnbook.red-bean.com/nightly/en/index.html">“Nightly 
-Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache">“Client Credentials Caching</a>下。</p>
+= no’。对于svn 1.1以及之后的版本来说，你可以使用粒度更细的设置‘store-passwords = no' (这样服务器的证书还是会缓存）。更多关于密码缓存的信息已经可以看<a 
+href="http://www.subversion.org.cn/svnbook/">“日构建”Subversion手册之中</a>第六章的<a href="http://www.subversion.org.cn/svnbook/nightly/svn.serverconfig.netmodel.html#svn.serverconfig.netmodel.credcache">“客户端凭证缓存</a>。</p>
 
 <p>最后要说的是，我们知道CVS很多年来一直都是将缓存的密码存放在.cvspass文件中的。表面上来看存放在里面的数据是加密过的，但实际上，他们只是使用非常简单的算法来进行混淆，就像rot13一样。这些所谓的密码可以很轻易就被破解掉。这种混淆的唯一作用就是防止其他用户如管理员意外的看到密码。但是目前还没有人希望Subversion也这样做。如果你感兴趣的话，你可以为其写补丁然后发送到dev@list。</p>
 
@@ -2666,7 +2665,7 @@ Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en
 
 <p>Berkeley DB 4.1版本相当的不稳定，而4.0和4.2都相对比较稳定。这条错误信息就是4.1版本有时候发生问题时的提示信息。</p>
 
-<p>这个问题是由于使用Berkeley数据库做支撑的Subversion版本库中的其中一张表的某个数据库格式化域（database format field）被破坏了。目前还不知道什么原因，这通常都是因为“copies”表出错，导致它从“btree”类型转换成“recno”类型。你可以按照下面列举的简单的恢复流程来处理。如果下面的步骤未能成功，你应该联系Subversion的用户邮件列表。</p>
+<p>这个问题是由于使用Berkeley数据库做支撑的Subversion版本库中的其中一张表的某个数据库格式域（database format field）被破坏了。目前还不知道什么原因，这通常都是因为“copies”表出错，导致它从“btree”类型转换成“recno”类型。你可以按照下面列举的简单的恢复流程来处理。如果下面的步骤未能成功，你应该联系Subversion的用户邮件列表。</p>
 
 <ul>
   <li>确保当前没有其他的进程在访问版本库。</li>
@@ -2695,14 +2694,14 @@ Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en
 <div class="h3" id="hidden-log" title="hidden-log">
 <h3>我看不到我刚刚提交的文件的日志记录，为什么呢？</h3>
 
-<p>假设你在版本库上运行‘<tt>svn&nbsp;checkout</tt>’，并且获得了修订号为7的工作拷贝（aka，r7），其中有一个文件叫做foo.c。你对这个文件进行了修改并且提交了修改。那么这个时候会发生两件事情。</p>
+<p>假设你在版本库上运行‘<tt>svn&nbsp;checkout</tt>’，并且获得了修订号为7的工作拷贝（aka，r7），其中有一个文件叫做foo.c。你对这个文件进行了修改并且提交了修改，那么这个时候会发生两件事情。</p>
 
 <ul>
 <li>服务器上的版本库升级到修改号为8。</li>
 <li>在你的工作拷贝中，只有foo.c升级到修订号8，其他工作拷贝目录下的内容都保持在修订号7。</li>
 </ul>
 
-<p>现在你有了一个我们称为混合版本（<i>mixed revision）</i>的工作拷贝。其中一个文件修订号为8，其余的为7.只有在当你把所有文件都提交的时候版本号才会更新，或者你可以显式的运行‘<tt>svn&nbsp;update</tt>’。</p>
+<p>现在你有了一个我们称为混合版本（<i>mixed revision）</i>的工作拷贝。其中一个文件修订号为8，其余的为7。只有在当你把所有文件都提交的时候版本号才会更新，或者你可以显式的运行‘<tt>svn&nbsp;update</tt>’。</p>
 
 <pre>   $ svn -v status
    7        7 nesscg       .
@@ -2724,18 +2723,18 @@ Build”Subversion书中</a>第六章的<a href="http://svnbook.red-bean.com/nightly/en
 
 
 <div class="h3" id="bdb43-upgrade" title="bdb43-upgrade">
-<h3>升级到Berkeley DB 4.3或更新的版本之后，版本库出错了。、</h3>
+<h3>升级到Berkeley DB 4.3或更新的版本之后，版本库出错了。</h3>
 
-<p>在Berkeley DB 4.3之前, <tt>svnadmin recover</tt> 能够适当的将Berkeley DB的版本库进行升级。但是Berkeley DB 4.3版本中的一个行为的改变导致了现在的升级过程失败。</p>
+<p>在Berkeley DB 4.3之前，<tt>svnadmin recover</tt>能够适当的将Berkeley DB的版本库进行升级。但是Berkeley DB 4.3版本中的一个行为的改变导致了现在的升级过程失败。</p>
 
 <p>使用下面的流程来置换升级你目前基于Berkeley
-DB 4.3 及之后版本之上的版本库：</p>
+DB 4.3及之后版本之上的版本库：</p>
 
 <ul>
 
 <li>确认没有其他进程在访问你的版本库（停止Apache、svnserve、svnlook和svnadmin，显示通过file://的访问，等等）。</li>
 
-<li>使用旧的<tt>svnadmin</tt>工具(即用来链接到老版本Berkeley DB上的):
+<li>使用旧的<tt>svnadmin</tt>工具（即用来链接到老版本Berkeley DB上的）：
 
   <ol>
 
@@ -2786,7 +2785,7 @@ DB 4.3 及之后版本之上的版本库：</p>
    [error] A failure occurred while driving the update report editor [500, #190004]
 </pre>
 
-<p>为了确认这个bug是否存在——假设你可以访问版本库所在的机器——尝试使用File://的方式来检出，这样就可以绕过Apache直接通过文件系统来访问了。如果这样检出成功的话，那么问题就出在上面提到的bug上。</p>
+<p>为了确认这个bug是否存在&mdash;假设你可以访问版本库所在的机器&mdash;尝试使用File://的方式来检出，这样就可以绕过Apache直接通过文件系统来访问了。如果这样检出成功的话，那么问题就出在上面提到的bug上。</p>
 
 <p>目前最好的解决方案就是升级到APR 1.2.0+。</p>
 
@@ -2874,19 +2873,19 @@ svn: This client is too old to work with working copy
 '/path/to/your/working/copy'; please get a newer Subversion client
 </pre>
 
-这是因为Subversion工作拷贝的格式发生了不兼容的改动——新版本的Subclipse对你的工作拷贝做了升级，所以你的命令行客户端程序，因为是版本比较老的，因此无法读取其内容。（这个问题并不只是存在于Subclipse上，也有可能是当你同时使用另外一个1.4以后的新版本的时候，旧版本的程序也会出现类似的问题）你可以简单的把你的命令行客户端升级到1.4及之后的版本。</div>
+这是因为Subversion工作拷贝的格式发生了不兼容的改动&mdash;新版本的Subclipse对你的工作拷贝做了升级，所以你的命令行客户端程序，因为是版本比较老的，因此无法读取其内容。（这个问题并不只是存在于Subclipse上，也有可能是当你同时使用另外一个1.4以后的新版本的时候，旧版本的程序也会出现类似的问题）你可以简单的把你的命令行客户端升级到1.4及之后的版本。</div>
 
 <div class="h3" id="switch-problems" title="switch-problems">
 <h3>为什么有时候svn switch不能工作？</h3>
 
-<p>有时候，工作拷贝中包含了一些未被纳入版本控制的文件，这个时候svn switch就会发生错误。switch的过程就会停止，这会导致工作拷贝一半被switch另一半却保持原样。</p>
+<p>有时候，工作拷贝中包含了一些未被纳入版本控制的文件，这个时候svn switch就会发生错误。switch的过程就会停止，这会导致工作拷贝一半被switch，另一半却保持原样。</p>
 
 <p>不幸的是，如果这个时候你采取的措施不正确的话，那么你的工作拷贝将会不能使用。有时候，svn会提示用户执行清理（svn cleanup）。但清理命令又有可能造成错误。参考：<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=2505">issue
       #2505</a>。</p>
 <p>用户可以手动的删除那些造成问题的文件或目录，然后再执行清理命令，接着继续swich，这样便可以恢复。</p>
 
-<p>注意，对从版本库中检出的原始副本进行switch通常不会发生错误。。如果你正在开发过程中需要使用到svn switch命令，那么有3种方式可以使用：</p>
+<p>注意，对从版本库中检出的原始副本进行switch通常不会发生错误。如果你正在开发过程中需要使用到svn switch命令，那么有3种方式可以使用：</p>
 
 <ol>
 
@@ -3006,10 +3005,9 @@ C:\> svn update C:\WorkingCopy
 <p>如果问题解决了，那么恭喜你——你已经成功突破了windows的路径长度限制，并且现在你已经知道怎么解决这个问题了。</p>
 
 <p><strong>为什么这个问题不会影响TortoiseSVN呢？</strong>
-因为TortoiseSVN 对SubversionAPI提供的<em> 永远 </em>都是绝对路径。</p>
+因为TortoiseSVN对SubversionAPI提供的<em>永远</em>都是绝对路径。</p>
 
-<p><strong>那为什么Subversion命令行客户端不是永远都把输入转换成绝对路径，然后使用绝对路径呢？</strong>
-Subversion的开发者在开发的时候基于一个原则，那就是出于对用户体验的考虑，在工具的输出中显示的路径必须匹配输入的路径的语法。如果输入的相对路径转换到绝对路径没有太多价值的话，那么这个转换出于复杂性考虑就去掉了。（换句话说，这是一个比较难的问题，但不是一个比较迫切的问题）。</p>
+<p><strong>那为什么Subversion命令行客户端不是永远都把输入转换成绝对路径，然后使用绝对路径呢？</strong>Subversion的开发者在开发的时候基于一个原则，那就是出于对用户体验的考虑，在工具的输出中显示的路径必须匹配输入的路径的语法。如果输入的相对路径转换到绝对路径没有太多价值的话，那么这个转换出于复杂性考虑就去掉了。（换句话说，这是一个比较难的问题，但不是一个比较迫切的问题）。</p>
 
 </div>
 
@@ -3063,7 +3061,7 @@ read symbols: Bad value
 </div>
 
 <div class="h2" id="developer-questions" title="developer-questions">
-<h2>Developer questions:</h2>
+<h2>开发者问题：</h2>
 <p/>
 
 <div class="h3" id="ramdisk-tests" title="ramdisk-tests">
@@ -3077,14 +3075,14 @@ read symbols: Bad value
 -o uid=$USER,mode=770,size=32m</code></div>
 </blockquote>
 
-<p>或者，如果要更长期的挂载，可以将下面这一行添加到你的<code>/etc/fstab</code>文件中:</p>
+<p>或者，如果要更长期的挂载，可以将下面这一行添加到你的<code>/etc/fstab</code>文件中：</p>
 
 <blockquote>
 <div><code>tmpfs  /path/to/src/svn/subversion/tests/cmdline/svn-test-work
 tmpfs  defaults,user,noauto,exec,size=32m</code></div>
 </blockquote>
 
-<p>RAM磁盘空间至少为大约700MB。尽管如此，你还是可以通过清理测试目标来大大降低空间需求（在上面的配置例子中我们已经看到了）还有你的内存占用。清理意味着占用更多的IO资源，, 但是由于测试数据还是存在于内存中的，因此不会造成任何性能的下降。</p>
+<p>RAM磁盘空间至少为大约700MB。尽管如此，你还是可以通过清理测试目标来大大降低空间需求（在上面的配置例子中我们已经看到了）还有你的内存占用。清理意味着占用更多的IO资源，但是由于测试数据还是存在于内存中的，因此不会造成任何性能的下降。</p>
 
 <blockquote><div><code>
 make check CLEANUP=true
@@ -3108,10 +3106,9 @@ make check CLEANUP=true
 executable format: File format not recognized</code></div>
 </blockquote>
 
-<p>如果编译的时候使用
-<code>--disable-shared</code> 参数来配置使用静态链接到二进制库，或者重新安装然后将调试器指向新安装的版本，这样可能能解决一部分问题，但是经常我们需要在源代码中临时直接的进行调试。</p>
+<p>如果编译的时候使用<code>--disable-shared</code>参数来配置使用静态链接到二进制库，或者重新安装然后将调试器指向新安装的版本，这样可能能解决一部分问题，但是经常我们需要在源代码中临时直接的进行调试。</p>
 
-<p>要做到这一点，在shell脚本中编辑上一次执行的语句，然后在你的调试器中运行真正的二进制库。在gdb中，就是将<code>exec "$progdir/$progname"</code> 替换成<code>exec gdb --args "$progdir/$progname"</code>.</p>
+<p>要做到这一点，在shell脚本中编辑上一次执行的语句，然后在你的调试器中运行真正的二进制库。在gdb中，就是将<code>exec "$progdir/$progname"</code>替换<code>exec gdb --args "$progdir/$progname"</code>。</p>
 
 <p>这个小技巧在使用libtool-generated的shell脚本进行白盒测试的时候中非常有用。</p>
 
@@ -3145,7 +3142,7 @@ title="avoiding-compiler-inlining">
 </div>
 
 <div class="h2" id="references" title="references">
-<h2>References:</h2>
+<h2>参考：</h2>
 <p/>
 
 <div class="h3" id="http-methods" title="http-methods">
@@ -3199,7 +3196,7 @@ title="avoiding-compiler-inlining">
 <p>被楔住版本库:</p>
 
 <blockquote>
-<p>一个Subversion版本库由两个不同的内部组件组成，一个是工作区，一个是存储区。一个楔住的版本库指的是出于未知的原因，版本库的工作区不能访问了，但是存储区是完整的。因此，一个楔住的版本库并不会丢失任何数据，但是在你正常访问版本库之前工作区必须修复好。参阅 <a href="#stuck-bdb-repos">this</a> 条目查看具体怎么去修复。</p>
+<p>一个Subversion版本库由两个不同的内部组件组成，一个是工作区，一个是存储区。一个楔住的版本库指的是出于未知的原因，版本库的工作区不能访问了，但是存储区是完整的。因此，一个楔住的版本库并不会丢失任何数据，但是在你正常访问版本库之前工作区必须修复好。参阅<a href="#stuck-bdb-repos">this</a>条目查看具体怎么去修复。</p>
 </blockquote>
 
 <p>被破坏了的版本库：</p>
