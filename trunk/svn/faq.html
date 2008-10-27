@@ -878,86 +878,55 @@ Subversion</a>。</p>
 
 
 <div class="h3" id="case-change" title="case-change">
-<h3>How do I change the case of a filename?</h3>
+<h3>如何更改一个文件名的大小写？</h3>
 
-<p>This problem comes up in two situations.  If you're adding files on
-an operating system with a case-insensitive filesystem, such as
-Windows, you might find you accidentally add a file with the wrong
-case in the filename.  Alternatively, you may just decide to change
-the case of an existing file in the repository.</p>
+<p>这个问题在两种情况下会发生。如果你的操作系统使用的文件系统对大小写不敏感，例如windows系统，当你在添加文件的时候，你可能会不小心的添加一个文件名大小写错误的文件。或者，你可能只是想改变版本库中已有文件的大小写。</p>
 
-<p>If you're working in a case-sensitive file system, this is no
-problem at all.  Just move the file to the new name, e.g.,</p>
+<p>如果你是在一个大小写敏感的文件系统上工作，那基本上就不会出现这样的问题。直接将文件改成新的名字。如，</p>
 
 <pre>
 svn&nbsp;mv&nbsp;file.java&nbsp;File.java
 </pre>
 
-<p>But this won't work in a case-insensitive operating system like
-Windows.  In Windows you can accomplish this by copying the file
-somewhere temporary, deleting the file from Subversion, then adding
-the copy with the correct case.  Or a better way is to perform a move
-operation with Subversion URLs.  Using URLs is recommended, because it
-will preserve history for the file, and will take effect
-immediately.</p>
+<p>但这样的方式在像windows这样大小写不敏感的文件系统上是不能正常运作的。在windows下，你只能临时地将文件拷贝到其他地方，然后从Subversion中删除该文件，然后重新添加名字大小写正确的文件副本。或者更好的办法就是使用Subversion的URL执行move操作。推荐使用URLs，因为这样可以保持文件的历史日志，而且能够立即生效。</p>
 
-<p>Both ways will leave Windows working copies with problems, however,
-because Windows can still get confused when trying to update the
-conflicting filenames.  (You'll get a message like <tt>svn: Failed to
+<p>尽管如此，这两种方式都会导致windows下的工作拷贝出现一些问题，因为当试图更新文件名产生冲突的文件的时候，windows还是会不知所措。（你可能会得到一条消息如：<tt>svn: Failed to
 add file 'File.java': object of the same name already
-exists</tt>). One way of fixing the problem is to delete your working
-copy and check out again.  If you do not want to do this, you must
-perform a two step update.</p>
+exists</tt>)。一个解决这个问题的办法就是删除工作拷贝然后重新检出。如果你不想这么做的话，那么你就必须执行上面提到的两个步骤来更新。</p>
 
-<p>For each file with the wrong case, the following command will change
-the case:</p>
+<p>对于每个大小写错误的文件，执行下面的命令将会改变大小写：</p>
 
 <pre>
 svn mv svn://svnserver/path/to/file.java svn://svnserver/path/to/File.java
 </pre>
 
-<p>To update the working copy, change to the relevant directory and do:</p>
+<p>要更新工作拷贝，你先得转到相关的目录，然后执行：</p>
 
 <pre>
 svn update file.java
 svn update
 </pre>
 
-<p>The first update will remove <tt>file.java</tt> from your working
-copy, the second update will add <tt>File.java</tt>, leaving you with
-a correct working copy.  Or if you had a lot of problematic files, you
-can update the working copy this way:</p>
+<p>第一步的更新会从你的工作拷贝中删除<tt>file.java</tt>，第二步更新会添加<tt>File.java</tt>，这样就会生成一个正确的工作拷贝。或者如果你有很多这种问题的文件，你可以按下面的方式来更新工作拷贝：</p>
 
 <pre>
 svn update *
 svn update
 </pre>
 
-<p>As you can see, adding a file with the wrong case is tricky to fix on
-an operating system that has a case insensitive filesystem.  Do try to
-get it right when you add the file the first time!  To prevent the
-problem from occurring in the first place, you can create a pre-commit hook that
-calls the file <tt>check-case-insensitive.pl</tt>.  That file lives
-in the Subversion
-source tarball, in the directory <tt>contrib/hook-scripts</tt>.</p>
+<p>就像你看到的，添加一个大小写错误的文件在文件系统大小写不敏感的操作系统上，是需要一些小技巧来修正的。所以最好当你第一次添加文件的时候，一次性就添加对了。为了防止类似的问题再发生，你可以创建一个pre-commit的钩子脚本，在其中调用文件<tt>check-case-insensitive.pl</tt>。这个文件放在Subversion的源代码包里，在<tt>contrib/hook-scripts</tt>目录中</p>
 
 </div>
 
 
 <div class="h3" id="merge-using-tags" title="merge-using-tags">
-<h3>I can't use tags to merge changes from a 
-    branch into the trunk like I used to with CVS, can I?</h3>
+<h3>我不能象CVS那样使用标签将一个分支的变更合并到主干（trunk），可以吗？</h3>
 
-<p>As shown below it is possible to merge from a branch to the trunk
-without remembering one revision number. Or vice versa (not shown in the
-example).</p>
+<p>就像下面展示的，你可以不需要记住版本号就将一个分支合并到主线上面。反之亦然（在例子中并没有展示）。</p>
 
-<p>The example below presumes an existing repository in <tt>/home/repos</tt> 
-in which you want to start a branch named <tt>bar</tt> containing a file
-named <tt>foo</tt> you are going to edit.</p>
+<p>下面这个例子假设在<tt>/home/repos</tt>存在一个版本库，你希望从中创建一个名叫<tt>bar</tt>的、包含你即将编辑的文件<tt>foo</tt>的分支。</p>
 
-<p>For the purpose of tracing branch merges, this repository has set up
-<tt>tags/branch_traces/</tt> to keep tags.</p>
+<p>为了跟踪分支合并的历史，版本库建立了<tt>tags/branch_traces/</tt>目录用来保存tags。</p>
 
 <pre># setup branch and tags
 $ svn copy file:///home/repos/trunk \
@@ -997,9 +966,7 @@ $ svn copy file:///home/repos/branches/bar_branch                     \
 
 
 <div class="h3" id="version-value-in-source" title="version-value-in-source">
-<h3>Why doesn't the $Revision$
-keyword do what I want?  It expands to the file's last-changed revision,
-but I want something that will expand to the file's current revision.</h3>
+<h3>为什么$Revision$关键字不是我预想的那样？它替换的是文件最后修改的修订版本，但有时候我希望它能替换文件的当前修订版本。</h3>
 
 <p>
 Subversion increments the revision number of the repository as a
