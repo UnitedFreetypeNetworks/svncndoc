@@ -80,7 +80,7 @@
 <li><a href="#divining-bdb-version">如何确定版本库正在使用的Berkeley DB的版本？</a></li>
 <li><a href="#website-auto-update">我在版本库中管理了一个网站，如何才能实现每次提交之后站点自动更新？</a></li>
 <li><a href="#single-file-checkout">我如何检出一个单独的文件？</a></li>
-<li><a href="#wc-change-detection">如何在一切发生了之后检测工作拷贝中所做的添加、删除、拷贝和重命名操作？</a></li>
+<li><a href="#wc-change-detection">如何在工作拷贝执行完添加、删除、拷贝和重命名操作之后检测这些操作？</a></li>
 <li><a href="#svnserve-win-service">在Windows上如何将svnserve当作服务来运行？</a></li>
 <li><a href="#bdb-fsfs-convert">如何转换我的版本库，从BDB到FSFS，或者从FSFS到BDB？</a></li>
 <li><a href="#binary-files">版本库如何处理二进制文件？</a></li>
@@ -969,25 +969,17 @@ $ svn copy file:///home/repos/branches/bar_branch                     \
 <h3>为什么$Revision$关键字不是我预想的那样？它替换的是文件最后修改的修订版本，但有时候我希望它能替换文件的当前修订版本。</h3>
 
 <p>
-Subversion increments the revision number of the repository as a
-whole, so it can't expand any keyword to be that number - it would
-have to search and possibly modify every file in your working copy on
-every update and commit.
+Subversion每次都将整个版本库的版本号整个进行自增，所以它不能将关键词替换成你想要的数字 - 它可能不得不在每次更新或者提交时对工作拷贝中的每个文件进行搜索或者修改。
 </p>
 
 <p>
-The information you want (the revision of your working copy) is
-available from the command <tt>svnversion</tt>; it gives you
-information on the revision level of a working copy given a path (see
-<tt>svnversion --help</tt> for details). 
+你想要的信息（你的工作拷贝的版本号）可以通过<tt>svnversion</tt>命令来获取;你可以根据指定的工作拷贝的路径提供其版本相关的信息（更多细节参考<tt>svnversion --help</tt>）。
 </p>
 
 <p>
-You can incorporate it into your build or release process to get the
-information you need into the source itself.  For example, in a build
-environment based on <tt>GNU&nbsp;make</tt>, add <a
+你可以将这信息合并到你的编译或者发布过程中源文件中。例如，在一次基于<tt>GNU&nbsp;make</tt>的编译中，增加<a
 href="http://subversion.tigris.org/servlets/ReadMsg?list=dev&amp;msgNo=112564"
->something like this</a> to your <tt>Makefile</tt>:
+>类似的东西</a>到你的<tt>Makefile</tt>文件中：
 </p>
 
 <pre>
@@ -1024,11 +1016,8 @@ svn_version.c: FORCE
 </pre>
 
 <p>
-Windows users may want to use <tt>SubWCRev.exe</tt>, available from
-the <a
-href='http://tortoisesvn.net/downloads'>TortoiseSVN
-download page</a>; it replaces all <tt>$WCREV$</tt> tags in a given
-file with the current working copy revision.
+Windows用户可能想看到的是<tt>SubWCRev.exe</tt>，可以从<a href='http://tortoisesvn.net/downloads'>TortoiseSVN
+下载页</a>上获取；它使用当前工作拷贝的版本号替换了指定文件的所有的<tt>$WCREV$</tt>标签。
 </p>
 
 </div>
@@ -1405,189 +1394,121 @@ copy.</p>
 
 
 <div class="h3" id="wc-change-detection" title="wc-change-detection">
-<h3>How do I detect adds, deletes,
-copies and renames in a working copy after they've already
-happened?</h3>
+<h3>如何在工作拷贝执行完添加、删除、拷贝和重命名操作之后检测这些操作？</h3>
 
-<p>You don't.  It's a bad idea to try.</p>
+<p>你不需要检测，你也最好不要尝试去做这样的检测。</p>
 
-<p>The basic design of the working copy has two rules: (1) edit files
-as you please, and (2) use a Subversion client to make any
-tree-changes (add, delete, move, copy).  If these rules are followed,
-the client can sucessfully manage the working copy.  If renames or
-other rearrangements happen outside of Subversion, then the UI has
-been violated and the working copy might be broken.  The client cannot
-guess what happened.</p>
+<p>工作拷贝的基本设计有两个原则：(1) 你可以任意编辑文件，然后(2)使用Subversion客户端执行任何树目录的改动（增加、删除、移动、拷贝）。如果这两个原则能够很好的遵守，那么客户端就可以顺利的维护工作拷贝。如果重命名或者其他改动是在Subversion之外进行的，那么UI就会被破坏，工作拷贝也可能发生问题。客户端不能猜测究竟发生了什么事。</p>
 
-<p>People sometimes run into this problem because they want to make
-version control "transparent".  They trick users into using a working
-copy, then have a script run later that tries to guess what happened
-and run appropriate client commands.  Unfortunately, this technique
-only goes a short distance.  'svn status' will show missing items and
-unversioned items, which the script can then automatically 'svn rm' or
-'svn add'.  But if a move or copy has happened, you're out of luck.
-Even if the script has a foolproof way of detecting these things, 'svn
-mv' and 'svn cp' can't operate after the action has already
-occurred.</p>
+<p>人们有时候会遇到这样的错误，因为他们想要把版本控制变得透明化。他们诱使用户使用一份工作拷贝，然后在稍候运行一个脚本，这个脚本会猜测用户做了什么样的操作，然后执行相应的客户端命令。不幸的是，这样的方式只能在短期内正常工作。‘svn status’会显示出缺失条目或者未被纳入版本控制的条目，这些条目在脚本运行的时候会自动的被‘svn rm’或者‘svn add’。但如果发生了文件移动或者拷贝，那么你就不那么幸运了。即使脚本有非常可靠的方法来检测这些动作，但‘svn mv’和‘svn cp’不能在这些操作已经完成的情况下运行。</p>
 
-<p>In summary: a working copy is wholly under Subversion's control,
-and Subversion wasn't designed to be transparent.  If you're looking
-for transparency, try setting up an apache server and using the
-"SVNAutoversioning" feature described in appendix C of the book.  This
-will allow users to mount the repository as a network disk, and any
-changes made to the volume cause automatic commits on the server.</p>
+<p>总的来说，工作拷贝必须整个放置在Subversion的版本控制之下，Subversion本来就不是设计成对用户透明的。如果你想要获得这种透明性，那么你应该建立一个apache服务器，然后本书附录C使用的“SVNAutoversioning”特性。这将允许用户将版本库挂载成一个网络磁盘的形式，任何对这个磁盘的修改，都会自动提交到远程服务器上。</p>
 
 </div>
 
 
 <div class="h3" id="svnserve-win-service" title="svnserve-win-service">
-<h3>How do I run svnserve as a service
-on Windows?</h3>
+<h3>在Windows上如何将svnserve当作服务来运行？</h3>
 
-<p>For versions 1.4.0 and later, you can find
-instructions <a
-href="http://svn.collab.net/repos/svn/trunk/notes/windows-service.txt">here</a>.</p>
+<p>对于1.4.0及以后的版本，你可以查看<a
+href="http://svn.collab.net/repos/svn/trunk/notes/windows-service.txt">这里</a>。</p>
 
-<p>In versions before 1.4.0, the <tt>svnserve</tt> binary itself could
-not be installed as a Windows service, but there are a number of
-&ldquo;service wrappers&rdquo; that can do the job; for example:</p>
+<p>对于1.4.0以前的版本，<tt>svnserve</tt>二进制本身并不可以被安装成一个windows服务，但有很多&ldquo;service wrappers&rdquo;可以完成一样的工作。例如：</p>
 
 <ul>
 <li><a href="http://www.clanlib.org/~mbn/svnservice/">SVNService</a>
-is a free tool written by Magnus Norddahl</li>
+Magnus Norddahl写的一个免费的工具</li>
 <li><a href="http://support.microsoft.com/kb/q137890/">SrvAny</a>
-is avaliable free of charge from Microsoft</li>
+微软出的免费的工具</li>
 </ul>
 
-<p>There is a bit more about running <tt>svnserve</tt> as a service in
+<p>在
 <a
-href="http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-serversetup-svnserve.html">the
-TortoiseSVN manual</a>.</p>
+href="http://tortoisesvn.net/docs/release/TortoiseSVN_en/tsvn-serversetup-svnserve.html">
+TortoiseSVN手册</a>还有一点内容关于怎么将<tt>svnserve</tt>安装成服务的形式。</p>
 
 </div>
 
 
 <div class="h3" id="bdb-fsfs-convert" title="bdb-fsfs-convert">
-<h3>How do I convert my repository from using BDB
-to FSFS or from FSFS to BDB?</h3>
+<h3>如何转换我的版本库，从BDB到FSFS，或者从FSFS到BDB？</h3>
 
-<p>There are three steps:</p>
-
-<ol>
-  <li>A <a href="#dumpload">dump/load</a> from the old format to the new
-  one.</li>
-  <li>Copy the hook scripts.</li>
-  <li>Copy the configuration files.</li>
-</ol>
-
-<p>Say you have a repository <tt>/svn/myrepos</tt> which is using the BDB
-backend and you would like to switch to using the FSFS backend:</p>
+<p>有三步：</p>
 
 <ol>
-  <li>Close down your server so that the data cannot change during this
-  procedure.</li>
-  <li>Make a new repository specifying the fsfs backend (it is the default
-  from 1.2 onwards), e.g., <tt>svnadmin create /svn/myreposfsfs --fs-type
-  fsfs</tt>.</li>
-  <li>Pipe the output of a dump from <tt>/svn/myrepos</tt> to the input of a
-  load into <tt>/svn/myreposfsfs</tt>, e.g., <tt>svnadmin dump /svn/myrepos
-  -q | svnadmin load /svn/myreposfsfs</tt>.  Windows users should dump
-  to a file and load from that file in two separate steps.</li>
-  <li>Copy any hook scripts which are active in <tt>/svn/myrepos/hooks</tt>
-  into <tt>/svn/myreposfsfs/hooks</tt>.  Don't mindlessly copy everything, the
-  templates generated by Subversion may have changed.</li>
-  <li>Compare the template scripts which the <tt>svnadmin create</tt> command
-  put in <tt>/svn/myreposfsfs/hooks</tt> with those in
-  <tt>/svn/myrepos/hooks</tt> and incorporate any changes which you would like
-  into your active hook scripts.</li>
-  <li>Copy configuration files from <tt>/svn/myrepos/conf</tt>
-  into <tt>/svn/myreposfsfs/conf</tt> (and don't forget a password
-  file, if you use one).  Or you might instead want to merge
-  the <em>changes</em> that you made to your configuration files into
-  the new default ones.</li>
-  <li>Rename <tt>/svn/myrepos</tt> to <tt>/svn/myreposbdb</tt> and then
-  <tt>/svn/myreposfsfs</tt> to <tt>/svn/myrepos</tt> ensuring that the
-  file permissions are the same as those  that the BDB version had.</li>
-  <li>Restart the server.</li>
+  <li>使用<a href="#dumpload">dump/load</a>将旧格式转到新格式。</li>
+  <li>拷贝钩子脚本。</li>
+  <li>拷贝配置文件。</li>
 </ol>
 
-<p>Once you are happy that all is well with your new repository delete the old
-one.</p>
+<p>假设你在<tt>/svn/myrepos</tt>目录中放置了一个版本库，使用的是BDB，你想要将其转换成FSFS：</p>
 
-<p>To do the reverse and migrate from FSFS to BDB change the <tt>svnadmin
-create</tt> command to specify BDB.</p>
+<ol>
+  <li>关闭你的服务器，这样在这个过程中数据不会发生变化。</li>
+  <li>创建一个使用fsfs的新的版本库（这在1.2版本依赖就是默认的行为)。例如，<tt>svnadmin create /svn/myreposfsfs --fs-type
+  fsfs</tt>。</li>
+  <li>将<tt>/svn/myrepos</tt>的转储输出通过管道重定向到<tt>/svn/myreposfsfs</tt>的加载输入上，例如，<tt>svnadmin dump /svn/myrepos
+  -q | svnadmin load /svn/myreposfsfs</tt>。Windows用户应该转储到一个文件中，并且从那个文件中加载，需要分两步完成。</li>
+  <li>复制在<tt>/svn/myrepos/hooks</tt>中仍使用的钩子脚本到<tt>/svn/myreposfsfs/hooks</tt>中。不要所有东西都拷贝，有些模板是由Subversion自动生成的，可能会不一样。</li>
+  <li>比较<tt>/svn/myreposfsfs/hooks</tt>目录中<tt>svnadmin create</tt>命令生成的脚本模板和<tt>/svn/myrepos/hooks</tt>中的有什么不一样，将这些不同按需合并到你正在使用的钩子脚本中。</li>
+  <li>从<tt>/svn/myrepos/conf</tt>复制配置文件到<tt>/svn/myreposfsfs/conf</tt>中（如果有密码文件的话，也不要忘了）。或者你想要将配置文件中所做的<em>修改</em>合并到新的默认配置文件中。</li>
+  <li>重命名<tt>/svn/myrepos</tt>为<tt>/svn/myreposbdb</tt>，还有<tt>/svn/myreposfsfs</tt>重命名为<tt>/svn/myrepos</tt>，这样可以确保文件权限和BDB版本的一样。</li>
+  <li>重启服务器。</li>
+</ol>
+
+<p>一旦一切工作正常后，删除旧的版本库即可。</p>
+
+<p>如果要反过来操作，即从FSFS移植到BDB，只需要改变<tt>svnadmin create</tt>命令，将其指定为BDB即可。</p>
 
 </div>
  
 <div class="h3" id="binary-files" title="binary-files">
-<h3>How does Subversion handle binary files?</h3>
+<h3>版本库如何处理二进制文件？</h3>
 
-<p>When you first add or import a file into Subversion, the file is
-examined to determine if it is a binary file.  Currently, Subversion
-just looks at the first 1024 bytes of the file; if any of the bytes
-are zero, or if more than 15% are not ASCII printing characters, then
-Subversion calls the file binary.  This heuristic might be improved in
-the future, however.</p>
+<p>当你第一次添加或者导入文件到Subversion中时，Subversion会检测该文件是否是二进制文件。目前，Subversion的策略是只检测文件的前1024个字节；如果每个字节都是0，或者超过15%都是非ASCII码可打印字符的话，那么Subversion就认定该文件是二进制文件。这种启发式方法将来可能会改进。</p>
 
-<p>If Subversion determines that the file is binary, the file receives
-an svn:mime-type property set to "application/octet-stream".  (You can
-always override this by using the <a
+<p>如果Subversion认定文件是二进制文件，那么这个文件就会自动添加svn:mime-type属性，并设置为“application/octet-stream”。（你随时可以使用<a
 href="http://svnbook.red-bean.com/svnbook-1.1/ch07s02.html#svn-ch-7-sect-2.4"
->auto-props feature</a> or by setting the property manually with
-<tt>svn propset</tt>.)</p>
+>auto-props特性</a>来重写这样的行为，或者使用<tt>svn propset</tt>手动设置属性。)</p>
 
-<p>Subversion treats the following files as text:</p>
-
-<ul>
-  <li>Files with no svn:mime-type</li>
-  <li>Files with a svn:mime-type starting "text/"</li>
-  <li>Files with a svn:mime-type equal to "image/x-xbitmap"</li>
-  <li>Files with a svn:mime-type equal to "image/x-xpixmap"</li>
-</ul>
-
-<p>All other files are treated as binary, meaning that Subversion will:</p>
+<p>Subversion对以下的文件做普通文本处理：</p>
 
 <ul>
-  <li>Not attempt to automatically merge received changes with local
-      changes during <tt>svn update</tt> or <tt>svn merge</tt></li>
-  <li>Not show the differences as part of <tt>svn diff</tt></li>
-  <li>Not show line-by-line attribution for <tt>svn blame</tt></li>
+  <li>没有设置svn:mime-type属性的文件</li>
+  <li>文件的svn:mime-type属性值以“text/”开头</li>
+  <li>文件的svn:mime-type属性值等于“image/x-xbitmap”</li>
+  <li>文件的svn:mime-type属性值等于“image/x-xpixmap”</li>
 </ul>
 
-<p>In all other respects, Subversion treats binary files the same as
-text files, e.g. if you set the svn:keywords or svn:eol-style
-properties, Subversion will perform keyword substitution or newline
-conversion on binary files.</p>
+<p>所有其他文件都将被视为二进制文件处理，这意味着Subversion：</p>
 
-<p>Note that whether or not a file is binary does not affect the
-amount of repository space used to store changes to that file, nor
-does it affect the amount of traffic between client and server.  For
-storage and transmission purposes, Subversion uses a diffing method
-that works equally well on binary and text files; this is completely
-unrelated to the diffing method used by the 'svn&nbsp;diff'
-command.</p>
+<ul>
+  <li>不会尝试在<tt>svn update</tt>或者<tt>svn merge</tt>操作时将远程修改合并到本地中</li>
+  <li>在<tt>svn diff</tt>中不会显示出不同</li>
+  <li>在<tt>svn blame</tt>不会显示出每一行的贡献者</li>
+</ul>
+
+<p>在其他方面，Subversion将二进制文件和其他文本文件一样对待，例如，如果你设置了svn:keywords或者svn:eol-style属性，Subversion会在二进制文件中执行关键词替换或者行转换。</p>
+
+<p>需要注意，不管是不是二进制文件，都不会影响版本库中用来存储文件变更的空间大小，也不会影响客户端和服务端之间的通讯量。出于存储和传输考虑，Subversion使用的是对二进制文件和普通文本文件一致处理的diffing方法;这和‘svn&nbsp;diff’使用的diffing方法一点都不想关。</p>
 
 </div>
 
 <div class="h3" id="terse-diff" title="terse-diff">
-<h3>How can I make <tt>svn diff</tt> show me just the names of the
-changed files, not their contents?</h3>
+<h3>如何让<tt>svn diff</tt>仅显示被改变的文件的名字，而不是连内容也显示出来？</h3>
 <p>
-<tt>svn diff</tt> doesn't have an option to do this, but 
+<tt>svn diff</tt>没有一个选项可以做到这一点，但是
 </p>
 <ul>
 <li>
-  If you only are interested in the diffs between, say, revision 10
-  and the revision just before it, <pre>svn log -vq -r10</pre> does
-  exactly what you want;
+  如果你只是对例如版本号10和之前的版本之间的变动感兴趣，那么使用<pre>svn log -vq -r10</pre>完全可以实现你的目的；
 </li>
 <li>
-  otherwise, if you're using Unix, this works for any range of revisions:
+  否则，如果你是在使用Unix系统的话，下面这个方法对于任意范围的版本号都起作用：
   <pre>
     svn log -vq -r123:456 | egrep '^ {3}[ADMR] ' | cut -c6- | sort | uniq </pre> </li>
 </ul>
-Version 1.4 of the <tt>svn diff</tt> command will have a "--summarize"
-option.
+1.4版本的<tt>svn diff</tt>命令有一个“--summarize”的参数。
 </div>
 
 <div class="h3" id="sorry-no-globbing" title="sorry-no-globbing">
@@ -1609,15 +1530,11 @@ svn: Path 'svn://server/trunk/stuff/*' does not exist in revision 123
 </p>
 
 <p>
-简而言之，不幸的是：Subversion没有内置这样的方法来进行这样一种操作；许多其他的命令 ，像是 <tt>mv</tt>， refuse to take an arbitrary number of
-arguments ... and in any case, Subversion doesn't expand wildcards like
-"*" the way the shell does.
+简而言之，不幸的是：Subversion没有内置这样的方法来进行这样一种操作；许多其他的命令 ，像是 <tt>mv</tt>，不会接受任意数目的参数...在任何情况下，Subversion都不会扩展像shell所支持的“*”号通配符。
 </p>
 
 <p>
-If you happen to have a working copy that contains all the source
-files as well as the destination directory, then you can exploit your
-shell's wildcard feature to do the move, like this (for Bash):
+如果你刚好有一个工作拷贝包含了和目标目录一摸一样的源文件，那么你可以使用你的shell中的通配符特性来完成移动文件的目的，例如（在bash下）：
 </p>
 <pre>
   for i in stuff/*; do svn mv $i some-other-dir; done
@@ -1625,9 +1542,7 @@ shell's wildcard feature to do the move, like this (for Bash):
 </pre>
 
 <p>
-In any case, you can always accumulate a list of the names of the
-source files, and then run "svn mv" on each item in that list, like
-this:
+在任何情况下，你都可以将源文件的名字拼成一个列表，然后使用“svn mv”命令对列表中的每一项都执行同样的指令，就像下面所做的一样：
 </p>
 <pre>
         s=svn://server/trunk/stuff/
@@ -1637,23 +1552,15 @@ this:
         done
 </pre>
 <p>
-Note, however, that this will generate one commit per source file;
-that's in contrast to the above method (using a working copy) which
-generates just one commit total.
+但是需要注意的是，这样会造成每个文件都执行一次提交动作，这和上面的方法（使用工作拷贝）不同，上面的方法总共就会执行一次提交动作。
 </p>
 
 <p>
-There is a program called "svnmucc" or "mucc" depending upon which
-version of Subversion you have, whose source is distributed with
-Subversion (in ...<tt>/contrib/client-side/mucc/mucc.c</tt> for
-Subversion 1.4 or earlier, in
-...<tt>/contrib/client-side/svnmucc/svnmucc.c</tt> for Subversion 1.5
-or later), that appears to solve this problem for you.
+有一个程序叫“svnmucc”或者“mucc”可以解决你的这个问题，不过它依赖于你的Subversion版本号，它的源代码已经发布在Subversion中了（对于Subversion 1.4以及更早的版本，这个工具的源文件放置在<tt>/contrib/client-side/mucc/mucc.c</tt>，对于1.5及之后的版本，则在<tt>/contrib/client-side/svnmucc/svnmucc.c</tt>可以找到）。
 </p>
 
 <p>
-<b>Note:</b> with release 1.5, Subversion in fact allows you to "cp" and "mv"
-multiple files at once.
+<b>注意：</b>随着1.5版本的正式发布，Subversion事实上允许你一次性同时“cp”和“mv”多个文件。
 </p>
 </div>
 
@@ -1687,9 +1594,7 @@ code得到一个实体的拷贝并且没有空间保存同样的文件。</p>
 
 <div id="permissions"></div>
 <div class="h3" id="stuck-bdb-repos" title="stuck-bdb-repos">
-<h3>My repository seems to get stuck all the
-time, giving me errors about needing recovery (DB_RUNRECOVERY). What
-could be the cause?</h3>
+<h3>我的版本库经常看起来卡住了，一直报一个需要重新恢复(DB_RUNRECOVERY)的错误，怎么会导致这个问题？</h3>
 
 <p>版本库使用的Berkeley DB数据库来存储数据，而后者很容易被破环。
 如果进程退出时没有正常关闭数据库，那么数据库就处在非正常状态中。
