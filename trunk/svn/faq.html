@@ -21,7 +21,13 @@
 
 <div class="h2"><!-- no 'id' or 'title' attribute for TOC -->
 <h2>问题列表</h2>
+<p>
+<a href="http://subversion.tigris.org/faq.html">English</a>
+</p>
 
+<p>本文根据原文r31819，由<a href="http://www.subversion.org.cn">Subversion中文站</a>的中文化翻译小组翻译，欢迎各位参与翻译工作，加入地址：<a href="http://code.google.com/p/svncndoc/">http://code.google.com/p/svncndoc/</a>。
+
+</p>
 <h4>常见问题：</h4>
 <ul>
 <li><a href="#why">为什么会有这样一个项目？</a></li>
@@ -882,13 +888,13 @@ Subversion</a>。</p>
 
 <p>这个问题在两种情况下会发生。如果你的操作系统使用的文件系统对大小写不敏感，例如windows系统，当你在添加文件的时候，你可能会不小心的添加一个文件名大小写错误的文件。或者，你可能只是想改变版本库中已有文件的大小写。</p>
 
-<p>如果你是在一个大小写敏感的文件系统上工作，那基本上就不会出现这样的问题。直接将文件改成新的名字。如，</p>
+<p>如果你是在一个大小写敏感的文件系统上工作，那基本上就不会出现这样的问题。直接将文件改成新的名字。例如，</p>
 
 <pre>
 svn&nbsp;mv&nbsp;file.java&nbsp;File.java
 </pre>
 
-<p>但这样的方式在像windows这样大小写不敏感的文件系统上是不能正常运作的。在windows下，你只能临时地将文件拷贝到其他地方，然后从Subversion中删除该文件，然后重新添加名字大小写正确的文件副本。或者更好的办法就是使用Subversion的URL执行move操作。推荐使用URLs，因为这样可以保持文件的历史日志，而且能够立即生效。</p>
+<p>但这样的方式在windows这类大小写不敏感的文件系统上是不能正常运作的。在windows下，你只能临时地将文件拷贝到其他地方，然后从Subversion中删除该文件，然后重新添加名字大小写正确的文件副本。或者更好的办法就是对Subversion的URL执行移动操作。推荐使用操作URL的方法，因为这样可以保持文件的历史日志，而且能够立即生效。</p>
 
 <p>尽管如此，这两种方式都会导致windows下的工作拷贝出现一些问题，因为当试图更新文件名产生冲突的文件的时候，windows还是会不知所措。（你可能会得到一条消息如：<tt>svn: Failed to
 add file 'File.java': object of the same name already
@@ -973,13 +979,12 @@ Subversion每次都将整个版本库的版本号整个进行自增，所以它不能将关键词替换成你想要
 </p>
 
 <p>
-你想要的信息（你的工作拷贝的版本号）可以通过<tt>svnversion</tt>命令来获取;你可以根据指定的工作拷贝的路径提供其版本相关的信息（更多细节参考<tt>svnversion --help</tt>）。
+你想要的信息（你的工作拷贝的版本号）可以通过<tt>svnversion</tt>命令来获取；你可以根据指定的工作拷贝的路径提供其版本相关的信息（更多细节参考<tt>svnversion --help</tt>）。
 </p>
 
-<p>
-你可以将这信息合并到你的编译或者发布过程中源文件中。例如，在一次基于<tt>GNU&nbsp;make</tt>的编译中，增加<a
+<p>你可以将其组合到你的构建或发布过程中，以获取需要存放到源代码的信息。例如，在一个基于<tt>GNU&nbsp;make</tt>的构建环境中，在你的<tt>Makefile</tt>中添加<a
 href="http://subversion.tigris.org/servlets/ReadMsg?list=dev&amp;msgNo=112564"
->类似的东西</a>到你的<tt>Makefile</tt>文件中：
+>如下的信息</a>：
 </p>
 
 <pre>
@@ -993,10 +998,10 @@ CFLAGS := $(SVNDEF) ... continue with your other flags ...
 </pre>
 
 <p>
-(Note that this will not work on non-GNU versions of <tt>make</tt>.
-Don't use it if your build process needs to be portable.)</p>
+（注意这段代码在非GNU版本的<tt>make</tt>中无效，如果你的构建过程需要可移植，请不要使用它。）
+</p>
 
-<p>Or try this recipe:</p>
+<p>或者使用如这些方法：</p>
 
 <pre>
 ##
@@ -1016,42 +1021,27 @@ svn_version.c: FORCE
 </pre>
 
 <p>
-Windows用户可能想看到的是<tt>SubWCRev.exe</tt>，可以从<a href='http://tortoisesvn.net/downloads'>TortoiseSVN
-下载页</a>上获取；它使用当前工作拷贝的版本号替换了指定文件的所有的<tt>$WCREV$</tt>标签。
+Windows用户会希望使用<tt>SubWCRev.exe</tt>，<a
+href='http://tortoisesvn.net/downloads'>TortoiseSVN的下载页面</a>就有；可以用当前工作拷贝的修订版本替换给定文件中的所有<tt>$WCREV$</tt>标签。
 </p>
 
 </div>
 
 
 <div class="h3" id="log-in-source" title="log-in-source">
-<h3>Does Subversion have a keyword which
-behaves like $Log$ in CVS?</h3>
+<h3>Subversion是否有一个功能类似CVS的$Log$的关键字呢？</h3>
 
-<p>No.  There is no equivalent for the $Log$ keyword in CVS.  If you
-want to retrieve a log for a specific file, you can run
-'svn log your-file-name' or 'svn log url-to-your-file'.
-From the mailing list some explanations why $Log$ is bad:</p>
+<p>没有。在CVS中没有对应的$Log$关键字，如果你希望将日志信息输入某个特定文件，你可以使用'svn log your-file-name'或'svn log url-to-your-file'。邮件列表中有几个解释$Log$缺点的例子：</p>
 
-<pre>"$Log$ is a total horror the moment you start merging changes
-between branches. You're practically guaranteed to get conflicts there,
-which -- because of the nature of this keyword -- simply cannot be
-resolved automatically."</pre>
+<pre>“当你开始合并分支之间的变更时，$Log$会是一个完全的梦魇。你一定会在这里得到冲突 -- 因为关键字的本性 -- 很难简单的自动解决冲突。”</pre>
 
-<p>And:</p>
+<p>而且：</p>
 
-<pre>Subversion log messages are mutable, they can be changed by setting
-the svn:log revision property. So the expansion of $Log:$ in any
-given file could be out of date. Update may well need to retrieve the
-appropriate log message for each occurrence of the $Log:$ keyword,
-even if the file that contained it was not otherwise updated.</pre>
+<pre>Subversion的日志信息是可以改变的，可以通过设置svn:log修订版本属性修改。所以在任意文件扩展$Log:$会造成数据的过时，更新操作可能需要访问所有出现$Log:$关键字的文件，即使这些文件没有其他的变更。</pre>
 
-<p><i>I don't care about that.  I want to use it anyway.
-Will you implement it?</i></p>
+<p><i>我对此并不在意，我还是期望使用它，你能实现吗？</i></p>
 
-<p>No.  There are no plans to implement it ourselves or accept patches
-which implement this feature.  If you want to distribute your files
-with some kind of changelog included, you might be able to work
-around this limitation in your build system.</p>
+<p>不能，我们自己没有计划实现它，也不会接受实现这个特性的补丁。如果你希望发布包含某种变更日志的文件，你可以在你的构建系统中跳出这个限制。</p>
 
 </div>
 
@@ -1060,42 +1050,23 @@ around this limitation in your build system.</p>
 <div class="h3" id="ignore-commit" title="ignore-commit">
 <h3>在我的工程里有一个文件，每个人都必须改变它，但是我不希望他们本地的修改被提交，如何让'svn commit'忽略这个文件？</h3>
 
-<p>The answer is: don't put that file under version control.  Instead,
-put a <em>template</em> of the file under version control, something
-like "file.tmpl".</p>
+<p>答案是：不要将文件纳入版本控制，而是将文件的<em>模板</em>纳入版本控制，例如“file.tmpl”。</p>
 
-<p>Then, after the initial 'svn checkout', have your users (or your
-build system) do a normal OS copy of the template to the proper
-filename, and have users customize the copy.  The file is unversioned,
-so it will never be committed.  And if you wish, you can add the file
-to its parent directory's svn:ignore property, so it doesn't show up
-as '?'  in the 'svn status' command.</p>
+<p>然后，在初始化的‘svn checkout’之后，让你的用户（或你的构建系统）执行通过普通的操作系统复制将文件修改为正确的文件名，文件未版本化，所以绝不会提交。并且如果你希望，你可以将文件加入到父目录的svn:ignore属性中，这样它就不会在‘svn status’命令中显示‘?’。</p>
 
 </div>
 
 
 <div class="h3" id="ssh-auth-cache" title="ssh-auth-cache">
-<h3>When I access a repository using
-svn+ssh, my password is not cached in ~/.subversion/auth/.  How do
-I avoid having to type it so often?</h3>
+<h3>当我通过svn+ssh来访问一个版本库的时候，我的密码没有被缓存在~/.subversion/auth/，我应该如何避免每次都要键入密码？</h3>
 
-<p>ssh has its own passphrases and its own authentication-caching
-scheme.  Its auth caching is external to Subversion, and must be set
-up independently of Subversion.</p>
+<p>ssh拥有自己的密码短语和认证缓存模式，它的认证缓存是Subversion之外的，需要独立于Subversion设置。</p>
 
-<p>OpenSSH includes <b><tt>ssh-keygen</tt></b> to create the keys,
-<b><tt>ssh-agent</tt></b> to cache passphrases, and
-<b><tt>ssh-add</tt></b> to add passphrases to the agent's cache.  A
-popular script to simplify usage of <tt>ssh-agent</tt> is
-<b><tt>keychain</tt></b>.  On Windows, <b><tt>PuTTY</tt></b> is a
-popular alternative ssh client; see <b><tt>PuTTYgen</tt></b> to import
-OpenSSH keys and <b><tt>pageant</tt></b> to cache passphrases.</p>
+<p>OpenSSH使用<b><tt>ssh-keygen</tt></b>创建密钥、通过<b><tt>ssh-agent</tt></b>缓存密码短语、使用<b><tt>ssh-add</tt></b>将密码短语添加到代理缓存中。一个简化<tt>ssh-agent</tt>使用的脚本是<b><tt>keychain</tt></b>。在Windows下，<b><tt>PuTTY</tt></b>是一个流行的ssh客户端选择；将OpenSSH密钥导入到<b><tt>pageant</tt></b>并缓存密码短语可以看<b><tt>PuTTYgen</tt></b>。</p>
 
-<p>Setting up <tt>ssh-agent</tt> is outside the scope of this
-document, but a <a
+<p>设置<tt>ssh-agent</tt>已经超出了本文的范围，但是<a
 href="http://www.google.com/search?hl=en&amp;lr=&amp;ie=UTF-8&amp;q=%22ssh-agent%22"
->Google search for "ssh-agent"</a> will quickly get you answers.  Or
-if you're <i>really</i> impatient, try one of these:</p>
+>在Google中搜索“ssh-agent”</a>可以快速得到答案，或者如果你没有耐心，可以是看这些：</p>
 
 <pre>
    <a href="http://mah.everybody.org/docs/ssh"
@@ -1110,203 +1081,120 @@ if you're <i>really</i> impatient, try one of these:</p>
 <div class="h3" id="ssh-svnserve-location" title="ssh-svnserve-location">
 <h3>我的<tt>svnserve</tt>二进制程序不在我的用户的默认<tt>路径</tt>中，他们使用svn+ssh，我不知道怎样修改他们的路径来让他们运行<tt>svnserve</tt>。</h3>
 
-      <p>Note: this all assumes you're using OpenSSH.  There are other
-      ssh implementations out there, and presumably they will allow
-      you to do something similar, but we don't yet know the details.</p>
+      <p>注意：这里都假设你使用了OpenSSH。也有一些其他的ssh实现，大概它们也实现了这些功能，但是我们不知道具体的方法。</p>
       
-      <p>You've tried fiddling with their various login files, like
-        <tt>.bash_profile</tt>, and nothing works!  That's because ssh
-        ignores those files when the Subversion client invokes it.
-        But there's no need to modify <tt>PATH</tt>; instead, you can
-        directly give ssh the full name of the <tt>svnserve</tt> command.
-        Here's how to do it:</p>
+      <p>你已经对修改过各种诸如<tt>.bash_profile</tt>的登录文件，但是没有效果！那是因为当Subversion客户端调用ssh时会忽略那些文件。但是没有必要修改<tt>PATH</tt>；相反，你可以直接在<tt>svnserve</tt>命令中使用ssh的完全名，下面是一个例子：</p>
 
-      <p>For each user who needs svn+ssh access, generate a new ssh
-        public-key pair which they will use <em>only</em> for
-        Subversion&mdash;not for logging in normally.  Have them give
-        the keypair a distinctive name, like
-        <tt>~/.ssh/id_dsa.subversion</tt>.  Add the public part of the
-        key to their <tt>~/.ssh/authorized_keys</tt> file on the
-        server machine, after first inserting a bit of magic at the
-        beginning of the line before the word <tt>ssh-rsa</tt> or
-        <tt>ssh-dss</tt>, like this:</p>
+      <p>对于每个需要通过svn+ssh访问的用户，生成一个新的Subversion使用的ssh公钥对&mdash;不是用来登陆的。让他们给密钥对不同的名称，例如<tt>~/.ssh/id_dsa.subversion</tt>。将密钥的公共部分添加到服务器主机的<tt>~/.ssh/authorized_keys</tt>中，在开始部分包含<tt>ssh-rsa</tt>或<tt>ssh-dss</tt>以及一些幻数的行中，如下：</p>
 
       <table border="1" cellspacing="2" cellpadding="2">
-        <tr><th>before</th></tr>
+        <tr><th>之前</th></tr>
         <tr><td><tt>ssh-dss&nbsp;AAAAB3Nblahblahblahblah</tt></td></tr>
-        <tr><th>after</th></tr>
+        <tr><th>之后</th></tr>
         <tr><td><tt>
         command="/opt/subversion/bin/svnserve&nbsp;-t"&nbsp;ssh-dss&nbsp;AAAAB3Nblahblahblahblah
         </tt></td></tr>
       </table>
 
-      <p>Obviously, replace <tt>/opt/subversion/bin/svnserve</tt> with
-      whatever is appropriate for your system.  You also might want to
-      specify the full path to the Subversion repository in the
-      command (by using the <tt>-r</tt> option), to save your users
-      some typing.</p>
+      <p>很明显，需要将<tt>/opt/subversion/bin/svnserve</tt>替换为你主机上的相应值。你也会希望在命令行指明Subversion版本库的完全路径（通过<tt>-r</tt>选项），节省用户使用时的输入。</p>
       
-      <p>The <tt>command=</tt> magic causes sshd on the remote machine
-        to invoke <tt>svnserve</tt>, even if your user tries to run
-        some other command.  See the sshd(8) man page (section
-        <tt>AUTHORIZED_KEYS FILE FORMAT</tt>) for details.</p>
+      <p><tt>command=</tt>魔法可以让远程主机的sshd调用<tt>svnserve</tt>，即使你的用户尝试运行其他命令，更多细节可以看sshd(8)的man页（<tt>AUTHORIZED_KEYS FILE FORMAT</tt>部分）。</p>
       
-      <p>Now when your users run the Subversion client, make sure they
-      have an <tt>SVN_SSH</tt> environment variable that "points to"
-      the private half of their keypair, by doing something like this
-      (for the Bourne Again shell):</p>
+      <p>现在当你的用户运行Subversion客户端时，请确定他们有一个<tt>SVN_SSH</tt>环境变量是“指向”他们密钥对的私有部分，通过下面的方法（Bourne Again shell）：</p>
 
 <pre>
 SVN_SSH="ssh -i $HOME/.ssh/id_dsa.subversion"
 export SVN_SSH
 </pre>
 
-      <p><a
-      href="http://svn.collab.net/repos/svn/trunk/notes/ssh-tricks">This
-      file</a> discusses this topic in more detail.</p>
+      <p>这个主题的详细讨论可以看<a
+      href="http://svn.collab.net/repos/svn/trunk/notes/ssh-tricks">这个文件</a>。</p>
       
 </div>
 
 
 <div class="h3" id="ssh-authorized-keys-trick" title="ssh-authorized-keys-trick">
 <h3>我希望允许通过svn+ssh://来访问版本库，但我很忧虑。我讨厌为每个用户分配一个登录帐号的方法，那样我会为他们是否允许访问我的机器感到担心。</h3>
-<p>See the section about hacking
-the <tt>~/.ssh/authorized_keys</tt> file in the answer
-to <a href="#ssh-svnserve-location">this other question</a>; ignore the stuff
-about getting <tt>svnserve</tt> on your PATH.</p>
+<p>可以看<a href="#ssh-svnserve-location">对其他问题</a>的回答中关于修改<tt>~/.ssh/authorized_keys</tt>的部分；先不管将<tt>svnserve</tt>设置到路径的问题。</p>
 </div>      
 
 
 <div class="h3" id="auto-props" title="auto-props">
-<h3>How can I set certain properties on
-everything in the repository?  Also, how can I make sure that every
-new file coming into the repository has these properties?</h3>
+<h3>我怎么才能为版本库的所有文件设置一个的属性？另外，我该如何确保每个添加到版本库里的新文件都有这些属性？</h3>
 
-<p>Subversion will not change a file's contents by default; you have
-to deliberately set the <tt>svn:eol-style</tt> or
-<tt>svn:keywords</tt> property on a file for that to happen.  That
-makes Subversion a lot safer than CVS's default behavior, but with
-that safety comes some inconvenience.</p>
+<p>Subversion缺省情况下不会修改文件的内容；你可以设置<tt>svn:eol-style</tt>或<tt>svn:keywords</tt>属性实现这个功能。这让Subversion比CVS的缺省行为模式更加安全，但是安全也带来了不便。</p>
 
-<p>Answering the first question: to set properties on all files
-already in the repository, you'll need to do it the hard way.  All you
-can do is run <tt>svn propset</tt> on every file (in a working copy),
-and then <tt>svn commit</tt>.  Scripting can probably help you with
-this.</p>
+<p>第一个问题的答案是：设置所有已经进入版本库的文件，将会有点困难。你所要做的是在每个文件（工作拷贝文件）上执行<tt>svn propset</tt>，然后执行<tt>svn commit</tt>，通过脚本应该可以帮助你做这件事。</p>
 
-<p>But what about future files?  Unfortunately, there's no server
-mechanism to automatically set properties on files being committed.
-This means that all of your users need to remember to set certain
-properties whenever they <tt>svn add</tt> a file.  Fortunately,
-there's a client-side tool to help with this.  Read about the <a
-href="http://svnbook.red-bean.com/svnbook-1.1/ch07s02.html#svn-ch-7-sect-2.4">
-auto-props</a> feature in the book.  You need to make sure all your
-users configure their clients' auto-props settings appropriately.</p>
+<p>但是对以后的文件呢？很不幸，没有在服务端自动设置提交文件属性的机制。这意味着你需要让你的用户记住在每个<tt>svn add</tt>的文件上添加属性，幸运的是，有一个客户端的工具可以帮助我们做这件事，可以阅读本书的<a
+href="http://svnbook.red-bean.com/svnbook-1.1/ch07s02.html#svn-ch-7-sect-2.4">auto-props</a>特性。你需要保证所有的用户配置了合适的自动化属性。</p>
 
-<p>You could write a pre-commit hook script to reject any commit which
-forgets to add properties to new files (see <a
+<p>你可以写一个pre-commit钩子脚本来拒绝忘记在新文件添加属性的提交（例子可以看<a
 href="http://svn.collab.net/repos/svn/trunk/contrib/hook-scripts/check-mime-type.pl"
->http://svn.collab.net/repos/svn/trunk/contrib/hook-scripts/check-mime-type.pl</a>
-for example).  However, this approach may be overkill.  If somebody
-forgets to set <tt>svn:eol-style</tt>, for example, it will be noticed
-the minute somebody else opens the file on a different OS.  Once
-noticed, it's easy to fix: just set the property and commit.</p>
+>http://svn.collab.net/repos/svn/trunk/contrib/hook-scripts/check-mime-type.pl</a>）。然而这个方法有点过激了，例如某人忘记了设置<tt>svn:eol-style</tt>，那么在其他系统上用户很快就会注意到，一旦发现，可以很简单的修正：只要设置正确的值，并提交。</p>
 
-<p>Note: many users have asked for a feature whereby the server
-automatically "broadcasts" run-time settings to clients, such as
-auto-props settings.  There's already a feature request filed for this
-(<a
+<p>注意：许多用户期望得到服务器“自动广播”运行中设置的特性，例如自动化属性设置。对此已经有了一个特性请求（<a
 href="http://subversion.tigris.org/issues/show_bug.cgi?id=1974">issue
-1974</a>), though this feature is still being debated by developers,
-and isn't being worked on yet.</p>
+1974</a>），然而这个特性还存在争议，还没有去实现。</p>
 
 </div>
 
 
 <div class="h3" id="svn-editor" title="auto-props">
-<h3>How do I deal with spaces in the editor path?&nbsp; Also, how can
-I define command line options for the editor?</h3>
+<h3>我如何处理编辑器路径中的空白？另外，如何定义编辑器的命令行选项？</h3>
 
-<p>The Subversion command line client will invoke the editor defined
-in the environment variable SVN_EDITOR.&nbsp; This environment variable
-is passed directly to the operating system along with the name of a
-temporary file used to enter/edit the log message.</p>
+<p>Subversion命令行客户端会调用通过环境变量SVN_EDITOR.&nbsp;定义的编辑器，这个环境变量以及要编辑日志的临时文件会直接传递给操作系统。</p>
 
-<p>Due to the fact that the SVN_EDITOR string is passed as-is to the
-system's command shell, spaces in the editor name, or in the path name
-to the editor, will not work unless the editor name is in quotes.</p>
+<p>因为是要将SVN_EDITOR的字符串传递给系统命令行，所以如果你不加引号，编辑器名称中的空格或路径中的空格会造成错误。</p>
 
-<p>For example, on Windows if your editor is in
-<code>C:\Program&nbsp;Files\Posix&nbsp;Tools\bin\vi</code> you would
-want to set the variable as follows:
+<p>例如，在Windows下，如果你的编辑器在<code>C:\Program&nbsp;Files\Posix&nbsp;Tools\bin\vi</code>，你需要这样设置环境变量：
 </p>
 <pre>
    set SVN_EDITOR="C:\Program Files\Posix Tools\bin\vi"
 </pre>
 
-<p>Note that there is no need to escape the quotes in the Windows
-shell as they are not part of the syntax for the <code>set</code>
-command.
+<p>请注意没有必要在windows下回避引号，因为他们不是<code>set</code>命令语法的一部分。
 </p>
 
-<p>On UNIX systems you would need to follow your shell's specific
-methods for setting the variable.&nbsp; For example, in a bash shell,
-the following should work:
+<p>
+而在UNIX系统中，你需要遵从你shell的特定方法来设定变量，例如在bash shell中，应该这样：
 </p>
 <pre>
    SVN_EDITOR='"/usr/local/more editors/bin/xemacs"'
    export SVN_EDITOR
 </pre>
 
-<p>In case a command line option would be needed for the invocation
-of the editor, just add that after the editor name in the SVN_EDITOR
-environment variable just like you would us on the command line.&nbsp;
-For example, if the options <code>-nx -r</code> would be wanted for
-the above editors, the following will provide those options:
+<p>如果调用编辑器需要命令行选项，只要在SVN_EDITOR环境变量的编辑器名称后面输入选项，就像你平时调用它时那样。例如，如果你的编辑器需要<code>-nx -r</code>选项，可以按照下面的方式设置：
 </p>
 
-<p>For Windows:</p>
+<p>在Windows下：</p>
 <pre>
    set SVN_EDITOR="C:\Program Files\Posix Tools\bin\vi" -nx -r
 </pre>
 
-<p>For UNIX/bash:</p>
+<p>在UNIX/bash中：</p>
 <pre>
    SVN_EDITOR='"/usr/local/more editors/bin/xemacs" -nx -r'
    export SVN_EDITOR
 </pre>
 
-<p>Note that SVN_EDITOR is the Subversion specific environment variable
-setting for the editor selection.&nbsp; Subversion also supports
-using the more generic EDITOR variable but if you need special behaviors
-with Subversion it is best to use the SVN_EDITOR variable.
+<p>请注意SVN_EDITOR是Subversion特定的设置编辑器的环境变量，Subversion也支持使用更普遍的EDITOR环境变量，但是如果你希望一些对于Subversion特殊的行为方式，最好还是使用SVN_EDITOR变量。
 </p>
 
 </div>
 
 
 <div class="h3" id="divining-bdb-version" title="divining-bdb-version">
-<h3>How do I determine which version of
-Berkeley DB a repository is using?</h3>
+<h3>如何确定版本库正在使用的Berkeley DB的版本？</h3>
 
-<p>If it's a live repository, then the easy answer is "Whatever
-version of Berkeley DB you have installed".  If, however, it is a
-repository from a backup, or some unknown source, and you have no idea
-which version of Berkeley DB it was made with, here's how you find
-out:</p>
+<p>如果它是一个活动的版本库，那么对于这个问题最简单的答案是“你安装的Berkeley DB的版本”。但是，如果它是备份的或其它未知源得到的版本库，你对其的Berkeley DB版本一无所知，下面是你确定它的方法：</p>
 
-<p>Run some command to view the two 4-byte integers at offsets 12 and
-16 (decimal) in the highest-numbered db/log.* file in the repository.
-Here is an example using GNU od: "<tt>od -j12 -N8 -tx4
-log.<i>&lt;number&gt;</i></tt>".  Here is an example using Mac OS X
-hexdump: "<tt>hexdump -s12 -n8 -x log.<i>&lt;number&gt;</i></tt>".
-The first integer should be the magic number 0x00040988, which
-identifies the file as a Berkeley DB logfile.  The second number is
-the log format version
-- match it to a Berkeley DB version using the table below:</p>
+<p>运行命令查看版本库中的高位计数文件db/log.*中位移12到16（10进制）的两个4字节的整数。这里是GNU od的例子：“<tt>od -j12 -N8 -tx4
+log.<i>&lt;number&gt;</i></tt>”。而这里是Mac OS X
+hexdump的例子：“<tt>hexdump -s12 -n8 -x log.<i>&lt;number&gt;</i></tt>”。第一个整数一定是幻数0x00040988，用来注明这是Berkeley DB日志文件，第二个数字是日志格式版本 - 可以使用下面的表格和Berkeley DB的版本匹配：</p>
 
 <table border="1" cellspacing="2" cellpadding="2">
-  <tr><th>Log format version</th><th>Berkeley DB version</th></tr>
+  <tr><th>日志格式版本</th><th>Berkeley DB版本</th></tr>
   <tr><td>5 (0x00000005)</td><td>4.0</td></tr>
   <tr><td>7 (0x00000007)</td><td>4.1</td></tr>
   <tr><td>8 (0x00000008)</td><td>4.2</td></tr>
@@ -1320,30 +1208,14 @@ the log format version
 
 
 <div class="h3" id="website-auto-update" title="website-auto-update">
-<h3>I'm managing a website in my
-repository.  How can I make the live site automatically update after
-every commit?</h3>
+<h3>我在版本库中管理了一个网站，如何才能实现每次提交之后站点自动更新？</h3>
 
-<p>This is done all the time, and is easily accomplished by adding a
-post-commit hook script to your repository.  Read about hook scripts
-in <a
-href="http://svnbook.red-bean.com/en/1.1/ch05s02.html#svn-ch-5-sect-2.1">Chapter
-5</a> of the book.  The basic idea is to make the "live site" just an
-ordinary working copy, and then have your post-commit hook script run
-'svn update' on it.</p>
+<p>这个早已经解决，可以通过为版本库添加post-commit钩子脚本简单实现，可以读一下手册<a
+href="http://svnbook.red-bean.com/en/1.1/ch05s02.html#svn-ch-5-sect-2.1">第5章</a>关于钩子脚本的内容，基本的思想是让“活动站点”变成一个普通的工作拷贝，让post-commit在工作拷贝中执行‘svn update’。</p>
 
-<p>In practice, there are a couple of things to watch out for.  The
-server program performing the commit (svnserve or apache) is the same
-program that will be running the post-commit hook script.  That means
-that this program must have proper permissions to update the working
-copy.  In other words, the working copy must be owned by the same user
-that svnserve or apache runs as -- or at least the working copy must
-have appropriate permissions set.</p>
+<p>在实践中，有许多地方需要小心。执行提交的服务器程序（svnserve或apache）也是执行post-commit钩子脚本的程序，这意味着程序必须有正确的更新工作拷贝的访问许可。换句话说，运行svnserve或apache的用户应该拥有工作拷贝 -- 或至少工作拷贝设置了合适的访问许可。</p>
 
-<p>If the server needs to update a working copy that it doesn't own
-(for example, user joe's ~/public_html/ area), one technique is create
-a +s binary program to run the update, since Unix won't allow scripts
-to run +s.  Compile a tiny C program:</p>
+<p>如果服务器需要更新它并不拥有的工作拷贝（例如，用户joe的~/public_html/区域），一个技巧是创建一个+s的二进制程序运行更新，因为Unix不允许为脚本运行+s，编译一个小的C程序：</p>
 
 <pre>
 #include &lt;stddef.h&gt;
@@ -1357,17 +1229,13 @@ int main(void)
 }
 </pre>
 
-<p>... and then <tt>chmod +s</tt> the binary, and make sure it's owned
-by user 'joe'.  Then in the post-commit hook, add a line to run the
-binary.</p>
+<p>... 然后对二进制程序<tt>chmod +s</tt>，并确认它确实被用户‘joe’所有，然后在post-commit钩子中，添加一行运行二进程程序。</p>
 
-<p>If you have problems getting the hook to work, see <a
-href="#hook-debugging">"Why aren't my repository hooks
-working?"</a>.</p>
+<p>如果在让钩子运行时发生了问题，可以看<a
+href="#hook-debugging">“为什么我的钩子脚本都不能正常工作?”</a>。</p>
 
-<p>Also, you'll probably want to prevent apache from exporting the
-.svn/ directories in the live working copy.  Add this to your
-<tt>httpd.conf</tt>:</p>
+<p>另外，你可能希望防止apache把工作拷贝中的.svn/目录暴露出去，在你的<tt>httpd.conf</tt>添加下面的内容：
+</p>
 
 <pre>
 # Disallow browsing of Subversion working copy administrative dirs.
@@ -1381,14 +1249,11 @@ working?"</a>.</p>
 
 
 <div class="h3" id="single-file-checkout" title="single-file-checkout">
-<h3>How do I check out a single file?</h3>
+<h3>我如何检出一个单独的文件？</h3>
 
-<p>Subversion does not support checkout of a single file, it only
-supports checkout of directory structures.</p>
+<p>Subversion不支持检出单个文件，它只支持检出目录结构。</p>
 
-<p>However, you can use 'svn export' to export a single file.  This will
-retrieve the file's contents, it just won't create a versioned working
-copy.</p>
+<p>然而，你可以使用‘svn export’来导出单个文件，这会获得文件的内容，只是不会创建版本化的工作拷贝。</p>
 
 </div>
 
