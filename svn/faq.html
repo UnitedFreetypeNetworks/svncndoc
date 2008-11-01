@@ -1663,25 +1663,19 @@ svn cleanup working-copy
 
 
 <div class="h3" id="obstructed-add" title="obstructed-add">
-<h3>我向我的工程里添加了一个补丁，这个补丁添加了一个新文件，现在<tt>svn update</tt>不能工作了。</h3>
+<h3>我为项目贡献了一个补丁，而这个补丁添加了一个新文件，现在<tt>svn update</tt>不能工作了。</h3>
 
-<p>In order to include your new file in the patch you likely ran the <tt>svn add</tt>
-command so that the <tt>svn diff</tt> command would include the new file in the patch.
-If your patch is committed to the code base and you run an <tt>svn update</tt>, then
-you might receive an error message of: "svn: Failed to add file 'my.new.file':
-object of the same name already exists".</p>
+<p>如果要往补丁里加入新文件，你可能得使用<tt>svn add</tt>命令，这样<tt>svn diff</tt>命令才会将新文件包含在补丁里面。如果你的补丁已经提交到代码库里头了，然后你运行<tt>svn update</tt>，这个时候你可能会收到错误提示：“svn：Failed to add file ‘my.new.file’。object of the same name already exists”（不能增加“my.new.file”，同名文件已经存在）。</p>
 
-<p>The reason that you recieved this error is that you still have your local copy of
-the file in your working copy.  The steps to correct this problem are:</p>
+<p>之所以会产生这个错误是因为你的工作拷贝中已经有这个文件了。解决这个问题的步骤如下：</p>
 
 <ol>
-	<li>Run the <tt>svn revert</tt> command to remove the scheduled add within
-	Subversion.</li>
-	<li>Delete the file or move it to a location outside your working copy.</li>
-	<li>Now you should be able to run the <tt>svn update</tt> command.</li>
+	<li>运行<tt>svn revert</tt>命令，把原先标记为添加的修改撤销掉。</li>
+	<li>删除文件或者将其移动到工作拷贝外的其他位置。</li>
+	<li>现在你应该可以运行<tt>svn update</tt>命令了。</li>
 </ol>
 
-<p>You might want to compare the new file from the repository with your original file.</p>
+<p>你可能需要把版本库中的新文件和你的本地的文件做一下比较。</p>
 </div>
 
 
@@ -1703,10 +1697,9 @@ the file in your working copy.  The steps to correct this problem are:</p>
 
 
 <div class="h3" id="db-recover" title="db-recover">
-<h3>I'm getting errors finding or opening a repository,
-    but I know my repository URL is correct.  What's wrong?</h3> 
+<h3>当我查找或打开一个版本库时出现错误，但是我知道我版本库URL是正确的，哪里出错了？</h3> 
 
-<p>See <a href="#bdb-recovery">this faq.</a></p>
+<p>参考 <a href="#bdb-recovery">这个FAQ条目.</a></p>
 
 </div>
 
@@ -1768,11 +1761,9 @@ href="http://subversion.tigris.org/svn_1.3_releasenotes.html#_svn-hack"
 
 
 <div class="h3" id="write-over-dav" title="write-over-dav">
-<h3>I'm having trouble doing write
-    operations to a Subversion repository over a network.</h3>
+<h3>我在通过网络对Subersion版本库进行写操作的时候有些麻烦。</h3>
 
-<p>For example, one user reported that imports worked fine over local
-access:</p>
+<p>例如，有用户反映，通过本地协议访问的，导入功能正常工作：</p>
 <pre>
   $ mkdir test
   $ touch test/testfile
@@ -1781,7 +1772,7 @@ access:</p>
   Transmitting file data .
   Committed revision 1.
 </pre>
-But not from a remote host:
+但如果从远程访问的话就出错了：
 <pre>
   $ svn import http://svn.sabi.net/test testfile -m "import"
   nicholas's password: xxxxxxx
@@ -1791,21 +1782,16 @@ But not from a remote host:
   The specified activity does not exist.
 </pre>
 
-<p> We've seen this when the REPOS/dav/ directory is not writable by
-the httpd process.  Check the permissions to ensure Apache can write
-to the <tt>dav/</tt> directory (and to <tt>db/</tt>, of course).  </p>
+<p>我们曾经遇到过这样的问题，当httpd进程对REPOS/dav/目录没有可写权限的时候会发生。你需要检查一下相关的权限问题，确保Apache能够往<tt>dav/</tt>目录中写入东西。（当然还有<tt>db/</tt>目录）。</p>
 
 </div>
 
 
 
 <div class="h3" id="windows-xp-server" title="windows-xp-server">
-<h3>Under Windows XP, the Subversion server
-    sometimes seems to send out corrupted data.  Can this really
-    be happening?</h3>
+<h3>在Windows XP下，Subversion服务器有时候会发布一些错误数据，真的是这样吗？</h3>
 
-<p>You need to install Window XP Service Pack 1.  You can get all
-sorts of information about that Service Pack here:</p>
+<p>你需要安装Windows XP的SP1补丁。你可以在下面这里找到所有相关的信息：</p>
 
     <ul><li>
     <a href="http://support.microsoft.com/default.aspx?scid=kb;EN-US;q317949"
@@ -1817,178 +1803,104 @@ sorts of information about that Service Pack here:</p>
 
 <a name="ethereal"></a> <!-- for compatibility with old question -->
 <div class="h3" id="net-trace" title="net-trace">
-<h3>What is the best method of doing a network
-    trace of the conversation between a Subversion client and
-    server?</h3>
+<h3>在Subversion服务器和客户端之间进行交互时，跟踪网络的最好方法是什么？</h3>
 
-<p>Use <a href="http://www.wireshark.org/">Wireshark</a> (formerly
-known as "Ethereal") to eavesdrop on the conversation.</p>
+<p>使用<a href="http://www.wireshark.org/">Wireshark</a>（前身是“Ethereal”）来监听会话。</p>
 
-<p>First, make sure that between captures within the same wireshark
-session, you hit <em>Clear</em>, otherwise filters from one capture
-(say, an HTTP capture) might interfere with others (say, an ra_svn
-capture). </p>
+<p>第一步，为了保证捕获的包都是在一次wireshark会话里面的，你先点击<em>Clear</em>，否则某一些的过滤器（如，HTTP过滤器）会影响其他的（如，ra_svn）。</p>
 
-<p>Assuming you're cleared, then:</p>
+<p>假设你已经做了清理的工作了，接下来：</p>
 
 <ol>
-<li><p>Pull down the <i>Capture</i> menu, and choose
-    <i>Capture&nbsp;Filters</i>.</p></li>
-<li><p>If debugging the http:// (WebDAV) protocol, then in the window
-    that pops up, choose "<code>HTTP&nbsp;TCP&nbsp;port&nbsp;(80)</code>"
-    (which should result in the filter string
-    "<code><i>tcp&nbsp;port&nbsp;http</i></code>").</p>
-    <p>If debugging the svn:// (ra_svn) protocol, then choose <i>New</i>,
-    give the new filter a name (say, "ra_svn"), and type
-    "<code>tcp&nbsp;port&nbsp;3690</code>" into the filter string box.</p>
-    <p>When done, click OK.</p></li> 
-<li><p>Again go to the <i>Capture</i> menu, this time choose
-    <i>Interfaces</i>, and click <i>Options</i> next to the
-    appropriate interface (probably you want interface "lo", for
-    "loopback", assuming the server will run on the same machine as
-    the client).</p></li>
-<li><p>Turn off promiscuous mode by unchecking the appropriate
-    checkbox.</p></li>
-<li><p>Click the <i>Start</i> button in the lower right to start the
-    capture.</p></li>
-<li><p>Run your Subversion client.</p></li>
-<li><p>Click the Stop icon (a red X over an ethernet interface card) when
-    the operation is finished (or <i>Capture-&gt;Stop</i> should
-    work).  Now you have a capture.  It looks like a huge list of
-    lines.</p></li>
-<li><p>Click on the <i>Protocol</i> column to sort.</p></li>
-<li><p>Then, click on the first relevant line to select it; usually this
-    is just the first line.</p></li>
-<li><p>Right click, and choose <i>Follow TCP Stream</i>.  You'll be
-    presented with the request/response pairs of the Subversion
-    client's HTTP conversion.</p></li>
+<li><p>下拉<i>Capture</i>（捕获）菜单，选择<i>Capture&nbsp;Filters</i>。</p></li>
+<li><p>如果是调试http:// （WebDAV）协议，那么需要在弹出的窗口中选择“<code>HTTP&nbsp;TCP&nbsp;port&nbsp;(80)</code>”
+    （这样会产生过滤字符串“<code><i>tcp&nbsp;port&nbsp;http</i></code>”）。</p>
+    <p>如果是调试svn:// （ra_svn）协议，则选择<i>New</i>，给新的过滤器设置一个名字（如“ra_svn”）。然后在过滤字符串文本框中输入“<code>tcp&nbsp;port&nbsp;3690</code>”。</p>
+    <p>完成之后，点击OK。</p></li> 
+<li><p>同样的，进入<i>Capture</i>菜单，这一次选择<i>Interfaces</i>，然后在相应接口旁边点击<i>Options</i>（假设服务器和客户端运行在同一个机器上面，那么你很可能会选择“lo”接口，作为“loopback”）。</p></li>
+<li><p>去掉关闭混淆模式相关的复选框。</p></li>
+<li><p>点击右下角的<i>Start</i>按钮来启动捕获的过程。</p></li>
+<li><p>运行Subversion客户端。</p></li>
+<li><p>当操作完成的时候点击停止按钮（在ethernet接口上面的一个红X）（或者<i>Capture-&gt;Stop</i>也可以）。现在你已经捕获到一些东西了。看起来有很多行。</p></li>
+<li><p>点击<i>Protocol</i>列进行排序。</p></li>
+<li><p>然后点击选择第一条相关的记录；通常是第一行。</p></li>
+<li><p>右键选择<i>Follow TCP Stream</i>。这样你就可以以请求/响应这样成对出现的方式来查看Subversion客户端的HTTP会话。</p></li>
 </ol>
 
-<p>The above instructions are specific to the graphical version of
-Wireshark (version 0.99.6), and don't apply to the command-line
-version known as "tshark" (which corresponds to "tethereal", from back
-when Wireshark was called Ethereal).</p>
+<p>上面讲的操作都是针对图形化的Wireshark版本（0.99.6版本），对于命令行版本的“tshark”并不适用（在ethereal时代，这个工具叫做“tethereal”）。</p>
 
-<p>Alternatively, you may set the <tt>neon-debug-mask</tt> parameter in your
-<tt>servers</tt> configuration file to cause neon's debugging output
-to appear when you run the <tt>svn</tt> client.  The numeric value of
-<tt>neon-debug-mask</tt> is a combination of the <tt>NE_DBG_...</tt> values
-in the header file <tt>ne_utils.h</tt>.  For current versions of neon, setting
-<tt>neon-debug-mask</tt> to 130 (i.e. <tt>NE_DBG_HTTP+NE_DBG_HTTPBODY)</tt>
-will cause the HTTP data to be shown.</p>
+<p>你也可以在你的<tt>Servers</tt>配置文件上设置<tt>neon-debug-mask</tt>参数，这样当你运行<tt>svn</tt>客户端的时候就会输出neon格式的信息了。<tt>neon-debug-mask</tt>的数字取值是在<tt>ne_utils.h</tt>头文件中的<tt>NE_DBG_...</tt>定义的。对于当前版本的neon，设置<tt>neon-debug-mask</tt>为130（即<tt>NE_DBG_HTTP+NE_DBG_HTTPBODY）</tt>，这样会使到HTTP数据显示出来。</p>
 
-<p>You may well want to disable compression when doing a network
-trace&mdash;see the <tt>http-compression</tt> parameter in the <tt>servers</tt>
-configuration file.</p>
+<p>当做网络跟踪&mdash;时，你可能还希望禁用掉压缩的功能。参考<tt>servers</tt>配置文件中的<tt>http-compression</tt>参数/p>
 
-<p>Another alternative is to set up a logging proxy between the
- Subversion client and server.  A simple way to do this is to use
- the <tt>socat</tt> program.  For example, to log communication with
- an svnserve instance, run the following command:</p>
+<p>另外一个选择就是在Subversion客户端和服务器之间建立一个日志代理。最简单的实现就是使用<tt>socat</tt>程序。例如，要记录svnserve实例的通讯，运行下面的命令：</p>
 
 <p><tt>socat -v  TCP4-LISTEN:9630,reuseaddr,fork
     TCP4:localhost:svn</tt></p>
 
-<p>Then run your svn commands using an URL base
-  of <tt>svn://127.0.0.1:9630/</tt>; <tt>socat</tt> will forward the
-  traffic from port 9630 to the normal svnserve port (3690), and will
-  print all traffic in both directions to standard error, prefixing it
-  with &lt; and &gt; signs to show the direction of the traffic.</p>
+<p>然后使用<tt>svn://127.0.0.1:9630/</tt>地址来访问；<tt>socat</tt>会将数据从9630端口转发到普通的svnserve端口（3690），然后会向标准的错误输出设备打印出所有的双向通讯信息，使用&lt;和&gt;符号做前缀来标识通讯的方向。</p>
 
 </div>
 
 
 <div class="h3" id="revert" title="revert">
-<h3>Why does the <tt>svn revert</tt> require an
-    explicit target?  Why is it not recursive by default?  These
-    behaviors differ from almost all the other subcommands.</h3>
+<h3>为什么<tt>svn revert</tt>要求有一个明确的目标？为什么它默认不是递归执行的呢？这与所有其他的子命令都不同。</h3>
 
-<p>The short answer: it's for your own good.</p>
+<p>简而言之，这是为你好。</p>
 
-<p>Subversion places a very high priority on protecting your data, and
-not just your versioned data.  Modifications that you make to
-already-versioned files, and new files scheduled for addition to the
-version control system, must be treated with care.</p>
+<p>Subversion对保护你的数据非常重视，不只是你已经版本化的数据。你对已经版本控制的文件所做的修改，或者你即将添加到版本库中的文件，都必须小心对待。</p>
 
-<p>Making the <tt>svn revert</tt> command require an explicit
-target&mdash;even if that target is just '.'&mdash;is one way of
-accomplishing that.  This requirement (as well as requiring you to
-supply the <tt>--recursive (-R)</tt> flag if you want that behavior)
-is intended to make you really think about what you're doing, because
-once your files are reverted, your local modifications are gone
-forever.</p>
+<p>使用<tt>svn revert</tt>命令需要非常明确地指定目标&mdash;即使目标是‘.’&mdash;就是其中一个方面。这个要求（同样对于<tt>--recursive (-R)</tt>标记，如果你真的需要递归执行某个操作，你也要这样做）是为了让你清楚的知道你要做的事情，因为一旦你执行了撤销工作拷贝修改的命令，所有本地的修改都会永远消失。</p>
 
 </div>
 
 
 
 <div class="h3" id="db3db4" title="db3db4">
-<h3>When I start Apache, mod_dav_svn complains about
-    a "bad database version", that it found db-3.X, rather than
-    db-4.X.</h3>
+<h3>当我启动Apache时，mod_dav_svn报告"bad database version"，它发现的是db-3.X，而不是db-4.X。</h3>
 
-<p>Your apr-util linked against DB-3, and svn linked against DB-4.
-Unfortunately, the DB symbols aren't different.  When mod_dav_svn is
-loaded into Apache's process-space, it ends up resolving the
-symbol names against apr-util's DB-3 library.</p>
+<p>你的apr-util链接的是DB-3，而svn链接的是DB-4。不幸的是，DB符号并不是不相同的。当mod_dav_svn被加载入Apace的进程空间的时候，他会使用apr-util的DB-3库来解析符号。</p>
 
-<p>The solution is to make sure apr-util compiles against DB-4.  You
-can do this by passing specific switches to either apr-util's or
-apache's configure: "--with-dbm=db4 --with-berkeley-db=/the/db/prefix".</p>
+<p>解决办法就是确保apr-util是在DB-4下编译的。你可以在编译的时候指定特定的开关为apr-util的配置或者apache的配置：“--with-dbm=db4 --with-berkeley-db=/the/db/prefix”。</p>
 
 </div>
 
 
 
 <div class="h3" id="redhat-db" title="redhat-db">
-<h3>I'm getting "Function not implemented" errors on Red Hat
-9, and nothing works.  How do I fix this?</h3>
+<h3>在Red Hat 9 上，我得到一个"Function not implemented"错误，一切都停止工作。我该如何修正它呢？</h3>
 
-<p>This is not really a problem with Subversion, but it often affects
-Subversion users.</p>
+<p>这确实不是Subversion的问题，但经常会影响Subversion用户。</p>
 
-<p>Red Hat 9 and Fedora ship with a Berkeley DB library that relies on
-the kernel support for NPTL (the Native Posix Threads Library).</p>
+<p>随Red Hat 9还有Fedora发行的Berkeley DB库依赖于对NPTL的内核支持（本地Posix线程库）。</p>
 
-<p>The kernels that Red Hat provides have this support built in, but if you
-compile your own kernel, then you may well not have the NPTL support.  If that
-is the case, then you will see errors like this:</p>
+<p>Red Hat提供的内核对这方面有内置的支持，但如果你是自己编译的内核，那么你可能不会有NPTL的支持。如果是这个原因的话，那么你可能会看到如下的错误：</p>
 <blockquote><pre>
 svn: Berkeley DB error
 svn: Berkeley DB error while creating environment for filesystem tester/db:
 Function not implemented
 </pre></blockquote>
-<p>This can be fixed in one of several ways:</p>
+<p>这个问题可以按照下面的方法解决：</p>
 <ul>
-<li>Rebuild Berkeley DB for the kernel you're using.</li>
-<li>Use a Red Hat 9 kernel.</li>
-<li>Apply the NPTL patches to the kernel you're using.</li>
-<li>Use a recent (2.5.x) kernel with the NPTL support included.</li>
-<li>Check if environment variable <code>LD_ASSUME_KERNEL</code> is set
-    to <code>2.2.5</code>, and if so, unset it before starting
-    Subversion (Apache). (You usually would set this variable to run
-    Wine or Winex on Red Hat 9)</li>
+<li>根据你使用的内核重新编译Berkeley DB。</li>
+<li>使用Red Hat 9内核。</li>
+<li>使用NPTL内核补丁。</li>
+<li>使用内置了NPTL支持的比较新的内核版本(2.5.x)。</li>
+<li>检查<code>LD_ASSUME_KERNEL</code>环境变量是否已经设置为了<code>2.2.5</code>，如果是的话，在重新启动Subversion（Apache）之前删除此环境变量。(通常只有当你在Red Hat 9上面运行 Wine或者Winex才需要设置这个环境变量）</li>
 </ul>
-<p>To use the NPTL version of Berkeley DB you also need to use a glibc
-library with NPTL support, which probably means the i686 version. See
-<a
+<p>要使用NPTL版本的Berkeley DB，你还需要使用支持NPTL的glibc库，很可能是i686版本。参考<a
 href="http://svn.haxx.se/users/archive-2004-03/0488.shtml">
 http://svn.haxx.se/users/archive-2004-03/0488.shtml
-</a> for details.
+</a>。
 </p>
 
 </div>
 
 
 <div class="h3" id="no-author" title="no-author">
-<h3>Why does SVN log say "(no author)" for files
-    committed or imported via Apache (ra_dav)?</h3>
+<h3>为什么在文件在通过Apache（ra_dav）被提交和导入时，SVN的日志说“(no author)”？</h3>
 
-<p>If you allow anonymous write access to the repository via Apache,
-the Apache server never challenges the SVN client for a username, and
-instead permits the write operation without authentication.  Since
-Subversion has no idea who did the operation, this results in a log
-like this:</p>
+<p>如果你在Apache上开启了匿名用户的写权限的时候，Apache服务器就不会向svn客户端询问用户名，而是直接不经过验证就允许执行写操作。因为Subversion不知道谁做了这些操作，日志中这些操作信息就变成下面这样了：</p>
 
 <blockquote><pre>
 $ svn log
@@ -1996,42 +1908,27 @@ $ svn log
 rev 24:&nbsp; (no author) | 2003-07-29 19:28:35 +0200 (Tue, 29 Jul 2003)
 </pre></blockquote>
 
-<p>See the Subversion Book (<a
+<p>关于如何配置Apache的访问权限，参考Subversion书籍（<a
 href="http://svnbook.red-bean.com/book.html#svn-ch-5-sect-4"
->"Networking a Repository"</a>)
-to learn about configuring access restrictions in Apache.</p>
+>"Networking a Repository"</a>）。</p>
 
 </div>
 
 
 
 <div class="h3" id="windows-access-denied" title="windows-access-denied">
-<h3>I'm getting occasional "Access Denied"
-errors on Windows.  They seem to happen at random.  Why?</h3>
+<h3>我在Windows平台上偶尔会得到一个"Access Denied"错误，它的发生好像没有什么规律，为什么呢？</h3>
 
-<p>These appear to be due to the various Windows services that monitor
-the filesystem for changes (anti-virus software, indexing services, the
-COM+ Event Notification Service).  This is not really a bug in Subversion,
-which makes it difficult for us to fix.  A summary of the current state of
-the investigation is available <a href=
-"http://svn.haxx.se/dev/archive-2003-10/0136.shtml">here</a>.
-A workaround that should reduce the incidence rate for most people was
-implemented in revision 7598; if you have an earlier version, please
-update to the latest release.
+<p>这可能是由于一些监听文件系统变化的windows服务（如杀毒软件，索引服务，COM+事件通知服务）。这不属于Subversion的Bug，所以我们很难修正这个问题。关于这种情况的调查说明可以在<a href="http://svn.haxx.se/dev/archive-2003-10/0136.shtml">这里</a>找到。在7598版本中，对这个问题做了改进，对于大多数人来说，应该会降低这种情况出现的几率。如果你使用的是较早的版本，请更新到最新的发行版。
 </p>
 
 </div>
 
 
 <div class="h3" id="freebsd-hang" title="freebsd-hang">
-<h3>On FreeBSD, certain operations (especially
-    svnadmin create) sometimes hang.  Why?</h3>
+<h3>在FreeBSD上，某些操作(尤其是svnadmin create)有时候会被挂起。为什么？</h3>
 
-<p>This is usually due to a lack of available entropy on the system.
-You probably need to configure the system to gather entropy from
-sources such as hard-disk and network interrupts.  Consult your system
-manpages, specifically random(4) and rndcontrol(8) on how to effect
-this change.</p>
+<p>这通常是由于系统中某些资源不足的缘故造成的。你很可能需要配置一下系统，使其能够从源那里获取足够的资源，如硬盘还有网络中断。查阅你的系统说明手册，找到random(4)还有rndcontrol(8)这几节，看如何修改。</p>
 
 </div>
 
