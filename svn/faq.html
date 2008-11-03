@@ -1489,8 +1489,7 @@ checkout和update且磁盘空间用尽的时候，可能导致版本库处于无法回复的状态
 
 <div id="wedged-repos"></div>
 <div class="h3" id="bdb-recovery" title="bdb-recovery">
-<h3>Every time I try to access my repository, the
-process just hangs. Is my repository corrupt?</h3>
+<h3>每次我想访问我的版本库，进程就会挂起。我的版本库坏掉了吗？</h3>
 
 <p>你的版本库没有坏掉，数据也没有丢失。当你的进程直接访问版本库
 (mod_dav_svn, svnlook, svnadmin, 或通过`file://')的时候，进程将
@@ -1571,8 +1570,7 @@ Berkeley DB,请确保使用匹配版本库的Berkeley DB版本</p>
 
 
 <div class="h3" id="bdb-cannot-allocate-memory" title="bdb-cannot-allocate-memory">
-<h3>My repository keeps giving errors saying "Cannot allocate memory".
-     What should I do?</h3>
+<h3>我的版本库一直报告错误"Cannot allocate memory"，我该怎么办？</h3>
 
 <p>如果你通过http://来访问版本库，"<b>Cannot allocate memory</b>"应该出现在httpd
 服务器的日志中，像如下这样:</p>
@@ -1603,8 +1601,7 @@ File exists: Could not open the requested SVN filesystem  [500, #160029]
 
 
 <div class="h3" id="wedged-wc" title="wedged-wc">
-<h3>Every time I try to run a svn command, it says my
-working copy is locked. Is my working copy corrupt?</h3>
+<h3>每当我试图运行一个svn命令时，都会提示我的工作拷贝已经被锁定了，是我的工作拷贝坏掉了吗？</h3>
 
 <p>
 你的工作拷贝没有坏掉，数据也没有丢失。Subversion的工作拷贝是一个
