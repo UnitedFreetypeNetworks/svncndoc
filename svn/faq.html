@@ -122,7 +122,6 @@
 <li><a href="#windows-access-denied">ÎÒÔÚWindowsÆ½Ì¨ÉÏÅ¼¶û»áµÃµ½Ò»¸ö"Access Denied"´íÎó£¬ËüµÄ·¢ÉúºÃÏñÃ»ÓĞÊ²Ã´¹æÂÉ£¬ÎªÊ²Ã´ÄØ£¿</a></li>
 <li><a href="#freebsd-hang">ÔÚFreeBSDÉÏ£¬Ä³Ğ©²Ù×÷(ÓÈÆäÊÇsvnadmin create)ÓĞÊ±ºò»á±»¹ÒÆğ¡£ÎªÊ²Ã´£¿</a></li>
 <li><a href="#http-301-error">ÎÒ¿ÉÒÔ´ÓÒ»¸öWEBä¯ÀÀÆ÷ÉÏ²é¿´ÎÒµÄ°æ±¾¿â£¬µ«ÊÇÔÚÖ´ĞĞ'svn checkout' Ê±·¢ÉúÒ»¸ö´íÎó£º"301 Moved Permanently"¡£ÄÇ¸öµØ·½³ö´íÁË£¿</a></li>
-<li><a href="#no-copy-history">ÎÒÏë²é¿´Ò»Ğ©ÎÒµÄÎÄ¼şµÄ¾ÉµÄ°æ±¾£¬µ«ÊÇSVNÓĞÊ±ºò»áËµ"path not found"£¬¸ÃÔõÃ´°ìÄØ£¿</a></li> 
 <li><a href="#digest-auth">ÎªÊ²Ã´HTTPµÄDigestÈÏÖ¤²»ÄÜ¹¤×÷£¿</a></li>
 <li><a href="#xlc-compile">ÔÚAIXÉÏÍ¨¹ıxlc±àÒëÎÄ¼ş£¬³öÏÖÁËÒ»Ğ©±àÒë´íÎó£¿ÔõÃ´»ØÊÂÄØ£¿</a></li>
 <li><a href="#nonrecursive-checkout">ÎÒÓÃ·Çµİ¹é·½Ê½£¨Í¨¹ı-NÑ¡Ïî£©¼ì³öÁËÒ»¸öÄ¿Â¼£¬ÏÖÔÚÎÒÏëÈÃÄ³¸ö×ÓÄ¿Â¼¡°³öÏÖ¡±£¬µ«ÊÇ<tt>svn up subdir</tt>²»Æğ×÷ÓÃ¡£</a></li>
@@ -153,6 +152,10 @@
     client is too old to work with working copy '...' "£¬²»Éı¼¶SubversionÄÜ¹»½â¾öÂğ£¿</a></li>
 <li><a href="#relocation-against-local-symbol">µ±ÎÒÔÚ64Î»LinuxÉÏ±àÒëNeon¿âÊ±£¬·¢ÉúÒ»¸ö´íÎó"relocation R_X86_64_32 against `a local symbol' can not be used
     when making a shared object"¡£</a></li>
+<li><a href="#secure-connection-truncated">Why am I getting an error
+    saying "Could not read response body: Secure connection truncated"
+    when doing a checkout from Apache?</a></li>    
+
 </ul>
 
 <h4>¿ª·¢ÕßÎÊÌâ</h4>
@@ -260,7 +263,7 @@ href="http://apr.apache.org">Apache Portable Runtime</a>¿â×÷Îª¿ÉÒÆÖ²²ã¡£Subversi
 <h3>ÎÒÌıËµSubversionÊÇApacheÏîÄ¿µÄÀ©Õ¹£¿ÎÒÊÇ·ñĞèÒªApacheÀ´×ö·şÎñÆ÷ÄØ£¿</h3>
 
 <p>²»ÓÃ¡£SubversionÊÇÒ»ÏµÁĞµÄ¿â£¬ËüÓëÒ»¸öÃüÁîĞĞµÄ¿Í»§¶ËÏà»¥ÅäºÏ¹¤×÷¡£ÓĞÁ½Àà²»Í¬µÄSubversionµÄ·şÎñÆ÷½ø³Ì£¬°üÀ¨Ò»¸ö<b>svnserve</b>½ø³Ì£¬ÕâÊÇÒ»¸öĞ¡µÄÀàËÆCVSµÄpserver½ø³ÌµÄ¶ÀÁ¢ÔËĞĞ³ÌĞò£¬ÁíÒ»¸öÊÇÊ¹ÓÃ<b>mod_dav_svn</b>Ä£¿éµÄApache<b>httpd-2.0</b>¡£<b>svnserve</b>½ø³Ì¿ÉÒÔËµÊÇÒ»¸ö³£ÓÃĞ­Òé£¬¶ø<b>mod_dav_svn</b>½ø³ÌÊ¹ÓÃÁËWebDAV×÷ÎªËüµÄÍøÂçĞ­Òé¡£Çë²ÎÔÄSubversionÊÖ²á<a
-href="http://svnbook.red-bean.com/html-chunk/ch06.html">µÚÁùÕÂ</a>ÒÔÁË½â¸ü¶àµÄÄÚÈİ¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">µÚÁùÕÂ</a>ÒÔÁË½â¸ü¶àµÄÄÚÈİ¡£</p>
 
 </div>
 
@@ -274,7 +277,7 @@ href="http://svnbook.red-bean.com/html-chunk/ch06.html">µÚÁùÕÂ</a>ÒÔÁË½â¸ü¶àµÄÄÚ
 <p>ÏêÏ¸µÄ»Ø´ğÊÇ£ºÈç¹ûÄã½ö½öÊÇÏëÈ¥·ÃÎÊÒ»¸ö°æ±¾¿â£¬ÄãÖ»ĞèÒª¹¹½¨Ò»¸öSubversionµÄ¿Í»§¶Ë¡£Èç¹ûÄãÏëÓµÓĞÒ»¸öÍøÂçµÄ°æ±¾¿â£¬ÄÇÃ´ÄãĞèÒª°²×°Apache2»òÕßÒ»¸ö¡°svnserve¡±·şÎñÆ÷¡£</p>
 
 <p>¹ØÓÚ°²×°Ò»¸ö¿ÉÒÔ·ÃÎÊµÄSubversion·şÎñÆ÷µÄÏêÏ¸ĞÅÏ¢£¬Çë²ÎÔÄ£ºSubversionÊÖ²á<a
-href="http://svnbook.red-bean.com/html-chunk/ch06.html">µÚÁùÕÂ</a>¡£
+href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">µÚÁùÕÂ</a>¡£
 </p>
 
 </div>
@@ -301,12 +304,41 @@ href="http://svnbook.red-bean.com/html-chunk/ch06.html">µÚÁùÕÂ</a>¡£
 
 <div class="h3" id="globalrev" title="globalrev">
 <h3>ÎªÊ²Ã´Õû¸ö¿â¶¼Ê¹ÓÃÏàÍ¬µÄ°æ±¾ºÅÂë£¿ÎÒÏëÈÃÎÒµÄÃ¿Ò»¸ö¹¤³Ì¶¼ÓĞÆä×Ô¼ºµÄ°æ±¾ºÅ¡£</h3>
-<p>
-Ò»°ãÀ´Ëµ´ÓÓÃ»§½Ç¶ÈÀ´¿´£¬ÔÚ°æ±¾¿âÉÏÊ¹ÓÃÈ«¾ÖµÄ°æ±¾ºÅÂëÊÇÃ»ÓĞÊ²Ã´Ì«´óÒâÒåµÄ¡£ÕâÊÇÎªÁËÊµÏÖÒ»Ğ©Ç±ÔÚµÄÉè¼ÆÄ¿±êµÄÄÚ²¿»úÖÆ£¬ËüºÜ×ÔÈ»µÄ±»±©Â¶³öÀ´£¬Ê¹µÃÓÃ»§½Ó¿ÚÓĞÊ±ºò¿´ÆğÀ´ºÍ²»µÃ²»Ê¹ÓÃÒ»Ğ©³¤µÄÁîÈËÌÖÑáµÄÊ±¼äÈÕÆÚµÄ×Ö·û´®Ò»Ñù£¬ÓĞĞ©²»·½±ã¡£
-</p>
+<p>First, note that Subversion has no concept of projects.  The
+repository just stores a versioned directory
+tree&nbsp;&mdash;&nbsp;you may consider certain sub-trees to be
+projects, but Subversion doesn't treat them differently from any other
+sub-tree.  Thus, the interpretation of what constitutes a project in
+the repository is left entirely up to the users.  (This is similar to
+how <a
+href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.using.html"
+>branches</a> and <a
+href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
+>tags</a> are conventions built on top of copies, instead of being
+basic concepts built into Subversion itself.)</p>
 
-<p>°æ±¾ºÅÂëÊÇÎ¨Ò»ºÍ°æ±¾¿âÒÔ¼°ÓÃ»§Ò×ÓÃĞÔÏà¹ØµÄ¡£Ëü¶ÔÄãËùÔÚ°æ±¾¿âÖĞ´æ´¢µÄ¶«Î÷ <b>Ã»ÓĞ</b>ÈÎºÎÆäËû·½ÃæµÄÓ°Ïì¡£°æ±¾¿â°æ±¾ºÅÂëµÄ³åÍ»¶ÔÓÚ¾«È·±êÊ¶´úÂëÊµ¼Ê±ä»¯ËÙÂÊ¼¸ºõÃ»ÓĞÊ²Ã´ÓÃ´¦£¬»¹ÓĞ¸ü¶àÆäËû¸´ÔÓµÄ·½Ê½¿ÉÒÔ¸üºÃµÄÀ´Ãè»æ´úÂëµÄ±ä»¯ËÙÂÊ¡£
-</p>
+<p>Each time you commit a change, the repository stores a new revision
+of that overall repository tree, and labels the new tree with a new
+revision number.  Of course, most of the tree is the same as the
+revision before, except for the parts you changed.</p>
+
+<p>The new revision number is a sequential label that applies to the
+entire new tree, not just to the files and directories you touched in
+that revision.  However, colloquially, a revision number is used to
+refer to the change committed in that revision; for example, "the
+change in r588" ("r588" is shorthand for "revision 588") really means
+"the difference between repository trees 587 and 588", or put another
+way, "the change made to tree 587 to produce tree 588".
+
+<p>Thus, the advancing revision number marks the progress of the
+repository as a whole; you generally can't gauge the progress of a
+particular project within the repository by watching the revision
+number.  Also, the revision number should not be used as the
+publicly-visible release number of a particular project in the
+repository.  For that, you should devise some other mechanism of
+distinguishing releases, such as using <a
+href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
+>tags</a>.</p>
 
 </div>
 
@@ -500,7 +532,7 @@ CHECKOUT¡£½â¾ö°ì·¨ÒÀÀµÓÚÄãÊ¹ÓÃµÄ´úÀí·şÎñÆ÷Èí¼ş£¬¶ÔÓÚSquid£¬ÅäÖÃÑ¡ÏîÈçÏÂ£º</p>
 <h3>ÎÒµÄ¹ÜÀíÔ±²»ÏëÈÃÎÒÓĞÒ»¸öSubversionµÄHTTP·şÎñÆ÷£¬ÄÇÃ´ÈçºÎ×öÎÒ²Å¿ÉÒÔÔ¶³ÌÊ¹ÓÃ£¿</h3>
 
 <p>Ò»¸ö¼òµ¥µÄÑ¡ÔñÊÇÊ¹ÓÃ<b>svnserve</b>·şÎñÆ÷À´´úÌæ¡£Çë²ÎÔÄSVNÊÖ²á<a
-href="http://svnbook.red-bean.com/html-chunk/ch06.html">µÚ6ÕÂ</a>ÖĞµÄÏêÏ¸ÄÚÈİ¡£
+href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">µÚ6ÕÂ</a>ÖĞµÄÏêÏ¸ÄÚÈİ¡£
 </p>
 
 <p>È»¶ø£¬Èç¹ûÄãµÄ¹ÜÀíÔ±²»Ï£ÍûÄãÔËĞĞApache£¬ÕâºÜ¿ÉÄÜÊÇËûÃÇ²»ÏëÈÃÄãÔÚ3690¶Ë¿ÚÔËĞĞÒ»¸ö¿Í»§·şÎñÆ÷£¬Ôò±¸Ñ¡´ğ°¸ÊÇ¼Ù¶¨ÄãµÄ¹ÜÀíÔ±Í¬ÒâÄãÊ¹ÓÃÏÖÓĞµÄSSHÉèÊ©¡£</p>
@@ -668,7 +700,7 @@ href="http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_se
 <p>ÊÔÍ¼±£Ö¤¾¡¿ÉÄÜ<em>ÉÙµÄ</em>ÓÃ»§ÄÜ¹»·ÃÎÊ°æ±¾¿â£¬ÀıÈçÒÔÄ³¸öÓÃ»§ÔËĞĞapache»ò'svnserve -d'£¬ÄÇÃ´°æ±¾¿âÓÉÕâ¸öÓÃ»§ÍêÈ«ÓµÓĞ¡£²»ÔÊĞíÈÎºÎÆäËûµÄÓÃ»§Í¨¹ı<tt>file:///</tt>µÄURL·ÃÎÊ°æ±¾¿â£¬±ØĞëÖ»ÈÃÓµÓĞ°æ±¾¿âµÄÓÃ»§ÔËĞĞ'svnlook'ºÍ'svnadmin'¡£</p>
 
 <p>Èç¹ûÄãµÄ¿Í»§¶ËÍ¨¹ı<tt>file:///</tt>»ò<tt>svn+ssh://</tt>·ÃÎÊ£¬ÔòÎŞ·¨±ÜÃâ¶à¸öÓÃ»§µÄ·ÃÎÊ¡£ÔÚÄÇÖÖÇé¿öÏÂ£¬¿ÉÒÔÔÄ¶Á<a
-href="http://svnbook.red-bean.com/html-chunk/ch06s05.html">µÚ6ÕÂ×îºóÒ»Ğ¡½Ú</a>£¬¿´Ò»ÏÂ×îÏÂÃæ¹¤¾ßÀ¸µÄ¡°¼ì²éÁĞ±í¡±£¬Ëü×Ü½áÁËÈÃÕâ¸ö³¡¾°¸ü°²È«µÄ²½Öè¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.multimethod.html">µÚ6ÕÂ×îºóÒ»Ğ¡½Ú</a>£¬¿´Ò»ÏÂ×îÏÂÃæ¹¤¾ßÀ¸µÄ¡°¼ì²éÁĞ±í¡±£¬Ëü×Ü½áÁËÈÃÕâ¸ö³¡¾°¸ü°²È«µÄ²½Öè¡£</p>
 
 <b>SELinux / Fedora Core 3+ / Red Hat EnterpriseµÄÓÃ»§×¢Òâ£º</b>
 
@@ -692,7 +724,7 @@ href="http://svnbook.red-bean.com/html-chunk/ch06s05.html">µÚ6ÕÂ×îºóÒ»Ğ¡½Ú</a>£¬
 <p>ÓÈÆäÊÇ°æ±¾¿âĞèÒªÓ¦´ğĞí¶à±È½ÏÁ½¸öÄ¿Â¼Ê÷µÄ¡°Ö»¶Á¡±²Ù×÷Ê±£¬Ò»¸öÊ÷¿ÉÄÜÊÇHEADĞŞ¶©°æ±¾£¬¶øÁíÒ»¸öÔòÊÇÁÙÊ±µÄÊÂÎñ-Ä¿Â¼Ê÷ -- Òò´ËĞí¶àĞ´È¨ÏŞ¡£</p>
 
 <p>ÕâÖÖÏŞÖÆÖ»´æÔÚÓÚBerkeley DBºó¶Ë£»<a
-href="http://svnbook.red-bean.com/svnbook-1.1/ch05.html#svn-ch-5-sect-1.2.A">FSFSºó¶Ë</a>²¢Ã»ÓĞÏÔÊ¾ÕâÖÖÌØĞÔ¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.planning.html#svn.reposadmin.basics.backends.fsfs">FSFSºó¶Ë</a>²¢Ã»ÓĞÏÔÊ¾ÕâÖÖÌØĞÔ¡£</p>
 
 </div>
 
@@ -710,7 +742,7 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=516">issue
 516</a>¡££©</p>
 
 <p>ÏÖÔÚ£¬ÄãÖ»ÓĞÇóÖúÓÚÄã°æ±¾¿âµÄ<b>svnadmin dump</b>ÃüÁî£¬½«×ª´¢ÎÄ¼ş¾­¹ı<b>svndumpfilter</b>¹ıÂË£¨ÅÅ³ı´íÎóµÄÂ·¾¶£©´«µİ¸ø<b>svnadmin load</b>ÃüÁî£¬Çë²ÎÔÄSubversionÊÖ²á<a
-href="http://svnbook.red-bean.com/html-chunk/ch05.html">µÚÎåÕÂ</a>µÄÏà¹ØÏêÏ¸ĞÅÏ¢¡£
+href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.html">µÚÎåÕÂ</a>µÄÏà¹ØÏêÏ¸ĞÅÏ¢¡£
 </p>
 
 </div>
@@ -722,10 +754,10 @@ href="http://svnbook.red-bean.com/html-chunk/ch05.html">µÚÎåÕÂ</a>µÄÏà¹ØÏêÏ¸ĞÅÏ¢
 </h3>
 
 <p>ÈÕÖ¾ĞÅÏ¢×÷ÎªÃ¿¸öĞŞ¶©°æ±¾µÄ¸½¼ÓÊôĞÔ±£´æÔÚ°æ±¾¿â£¬Ä¬ÈÏÇé¿öÏÂ£¬ÈÕÖ¾ĞÅÏ¢ÊôĞÔ£¨<em>svn:log</em>£©²»ÄÜÔÚÌá½»ºóĞŞ¸Ä¡£ÕâÊÇÒòÎª¶ÔÓÚ<a
-href="http://svnbook.red-bean.com/svnbook/ch05.html#svn-ch-5-sect-1.2">ĞŞ¶©°æ±¾ÊôĞÔ</a>£¨<em>svn:log</em>ÊÇÆäÖĞÒ»¸ö£©µÄĞŞ¸Ä»áµ¼ÖÂÒÔÇ°µÄÊôĞÔÓÀ¾ÃµÄÏûÊ§£¬Subversion»á·ÀÖ¹ÕâÖÖÒâÍâÇé¿ö·¢Éú¡£µ«ÊÇ£¬»¹ÊÇÓĞÒ»Ğ©·½·¨¿ÉÒÔĞŞ¸ÄĞŞ¶©°æ±¾ÊôĞÔ¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html">ĞŞ¶©°æ±¾ÊôĞÔ</a>£¨<em>svn:log</em>ÊÇÆäÖĞÒ»¸ö£©µÄĞŞ¸Ä»áµ¼ÖÂÒÔÇ°µÄÊôĞÔÓÀ¾ÃµÄÏûÊ§£¬Subversion»á·ÀÖ¹ÕâÖÖÒâÍâÇé¿ö·¢Éú¡£µ«ÊÇ£¬»¹ÊÇÓĞÒ»Ğ©·½·¨¿ÉÒÔĞŞ¸ÄĞŞ¶©°æ±¾ÊôĞÔ¡£</p>
 
 <p>µÚÒ»ÖÖ·½·¨ÊÇÈÃ°æ±¾¿â¹ÜÀíÔ±ÔÊĞíĞŞ¶©°æ±¾ÊôĞÔĞŞ¸Ä£¬Õâ¿ÉÒÔÍ¨¹ı´´½¨"pre-revprop-change"£¨¸ü¶àÏà¹ØÏ¸½Ú¿ÉÒÔ¿´SubversionÊÖ²áµÄ<a
-href="http://svnbook.red-bean.com/svnbook/ch05s02.html#svn-ch-5-sect-2.1">Õâ¸öĞ¡½Ú</a>£©¡£¹³×Ó"pre-revprop-change"¿ÉÒÔÔÚĞŞ¸ÄÖ®Ç°·ÃÎÊÀÏµÄÈÕÖ¾ĞÅÏ¢£¨ÀıÈç£¬Í¨¹ı·¢ËÍÒ»¸öÓÊ¼ş£©£¬ËùÒÔ¿ÉÒÔÒÔÄ³ÖÖ·½Ê½±£´æËü£¨ÀıÈç£¬Í¨¹ı·¢ËÍÓÊ¼ş£©¡£Ò»µ©¿ªÆôÁËĞŞ¶©°æ±¾ÊôĞÔĞŞ¸Ä£¬Äã¿ÉÒÔÍ¨¹ı<b>svn propedit</b>»ò<b>svn
+href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.create.html#svn.reposadmin.create.hooks">Õâ¸öĞ¡½Ú</a>£©¡£¹³×Ó"pre-revprop-change"¿ÉÒÔÔÚĞŞ¸ÄÖ®Ç°·ÃÎÊÀÏµÄÈÕÖ¾ĞÅÏ¢£¨ÀıÈç£¬Í¨¹ı·¢ËÍÒ»¸öÓÊ¼ş£©£¬ËùÒÔ¿ÉÒÔÒÔÄ³ÖÖ·½Ê½±£´æËü£¨ÀıÈç£¬Í¨¹ı·¢ËÍÓÊ¼ş£©¡£Ò»µ©¿ªÆôÁËĞŞ¶©°æ±¾ÊôĞÔĞŞ¸Ä£¬Äã¿ÉÒÔÍ¨¹ı<b>svn propedit</b>»ò<b>svn
 propset</b>µÄ--revpropÑ¡ÏîĞŞ¸ÄĞŞ¶©°æ±¾ÊôĞÔ£¬¾ÍÏñÏÂÃæÕâ¸ö£º</p>
 
 <pre>
@@ -833,8 +865,8 @@ Subversion</a>¡£</p>
  </li>
 </ol>
 
-<p>¹ØÓÚ×ª´¢ºÍ¼ÓÔØµÄ¸ü¶àĞÅÏ¢¿ÉÒÔ¿´<a href="http://svnbook.red-bean.com/html-chunk/ch05s03.html#svn-ch-5-sect-3.4"
->http://svnbook.red-bean.com/html-chunk/ch05s03.html#svn-ch-5-sect-3.4</a>¡£</p>
+<p>¹ØÓÚ×ª´¢ºÍ¼ÓÔØµÄ¸ü¶àĞÅÏ¢¿ÉÒÔ¿´<a href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.maint.html#svn.reposadmin.maint.migrate"
+>SubversionÊÖ²áµÄÕâ¸öĞ¡½Ú</a>¡£</p>
 
 <p> <b>×¢Òâ</b>£º´ó¶àÊıSubversionµÄÉı¼¶<i>²»</i>»áĞèÒª×ª´¢ºÍ¼ÓÔØ£¬Èç¹ûÄ³¸ö°æ±¾ĞèÒª£¬ĞÂ°æ±¾µÄ·¢²¼ÉùÃ÷ºÍCHANGESÎÄ¼ş»áÏÔÖøËµÃ÷ÕâÒ»µã¡£Èç¹ûÄãÃ»ÓĞ¿´µ½Õâ¸öËµÃ÷£¬ÄÇÃ´Ó¦¸ÃÊÇÃ»ÓĞÄ£Ê½±ä¸ü£¬Ò²¾ÍÃ»ÓĞ×ª´¢/¼ÓÔØµÄ±ØÒª¡£</p>
 
@@ -1127,7 +1159,7 @@ export SVN_SSH
 <p>µÚÒ»¸öÎÊÌâµÄ´ğ°¸ÊÇ£ºÉèÖÃËùÓĞÒÑ¾­½øÈë°æ±¾¿âµÄÎÄ¼ş£¬½«»áÓĞµãÀ§ÄÑ¡£ÄãËùÒª×öµÄÊÇÔÚÃ¿¸öÎÄ¼ş£¨¹¤×÷¿½±´ÎÄ¼ş£©ÉÏÖ´ĞĞ<tt>svn propset</tt>£¬È»ºóÖ´ĞĞ<tt>svn commit</tt>£¬Í¨¹ı½Å±¾Ó¦¸Ã¿ÉÒÔ°ïÖúÄã×öÕâ¼şÊÂ¡£</p>
 
 <p>µ«ÊÇ¶ÔÒÔºóµÄÎÄ¼şÄØ£¿ºÜ²»ĞÒ£¬Ã»ÓĞÔÚ·şÎñ¶Ë×Ô¶¯ÉèÖÃÌá½»ÎÄ¼şÊôĞÔµÄ»úÖÆ¡£ÕâÒâÎ¶×ÅÄãĞèÒªÈÃÄãµÄÓÃ»§¼Ç×¡ÔÚÃ¿¸ö<tt>svn add</tt>µÄÎÄ¼şÉÏÌí¼ÓÊôĞÔ£¬ĞÒÔËµÄÊÇ£¬ÓĞÒ»¸ö¿Í»§¶ËµÄ¹¤¾ß¿ÉÒÔ°ïÖúÎÒÃÇ×öÕâ¼şÊÂ£¬¿ÉÒÔÔÄ¶Á±¾ÊéµÄ<a
-href="http://svnbook.red-bean.com/svnbook-1.1/ch07s02.html#svn-ch-7-sect-2.4">auto-props</a>ÌØĞÔ¡£ÄãĞèÒª±£Ö¤ËùÓĞµÄÓÃ»§ÅäÖÃÁËºÏÊÊµÄ×Ô¶¯»¯ÊôĞÔ¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.auto">auto-props</a>ÌØĞÔ¡£ÄãĞèÒª±£Ö¤ËùÓĞµÄÓÃ»§ÅäÖÃÁËºÏÊÊµÄ×Ô¶¯»¯ÊôĞÔ¡£</p>
 
 <p>Äã¿ÉÒÔĞ´Ò»¸öpre-commit¹³×Ó½Å±¾À´¾Ü¾øÍü¼ÇÔÚĞÂÎÄ¼şÌí¼ÓÊôĞÔµÄÌá½»£¨Àı×Ó¿ÉÒÔ¿´<a
 href="http://svn.collab.net/repos/svn/trunk/contrib/hook-scripts/check-mime-type.pl"
@@ -1211,7 +1243,7 @@ hexdumpµÄÀı×Ó£º¡°<tt>hexdump -s12 -n8 -x log.<i>&lt;number&gt;</i></tt>¡±¡£µÚÒ»¸
 <h3>ÎÒÔÚ°æ±¾¿âÖĞ¹ÜÀíÁËÒ»¸öÍøÕ¾£¬ÈçºÎ²ÅÄÜÊµÏÖÃ¿´ÎÌá½»Ö®ºóÕ¾µã×Ô¶¯¸üĞÂ£¿</h3>
 
 <p>Õâ¸öÔçÒÑ¾­½â¾ö£¬¿ÉÒÔÍ¨¹ıÎª°æ±¾¿âÌí¼Ópost-commit¹³×Ó½Å±¾¼òµ¥ÊµÏÖ£¬¿ÉÒÔ¶ÁÒ»ÏÂÊÖ²á<a
-href="http://svnbook.red-bean.com/en/1.1/ch05s02.html#svn-ch-5-sect-2.1">µÚ5ÕÂ</a>¹ØÓÚ¹³×Ó½Å±¾µÄÄÚÈİ£¬»ù±¾µÄË¼ÏëÊÇÈÃ¡°»î¶¯Õ¾µã¡±±ä³ÉÒ»¸öÆÕÍ¨µÄ¹¤×÷¿½±´£¬ÈÃpost-commitÔÚ¹¤×÷¿½±´ÖĞÖ´ĞĞ¡®svn update¡¯¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.create.html#svn.reposadmin.create.hooks">µÚ5ÕÂ</a>¹ØÓÚ¹³×Ó½Å±¾µÄÄÚÈİ£¬»ù±¾µÄË¼ÏëÊÇÈÃ¡°»î¶¯Õ¾µã¡±±ä³ÉÒ»¸öÆÕÍ¨µÄ¹¤×÷¿½±´£¬ÈÃpost-commitÔÚ¹¤×÷¿½±´ÖĞÖ´ĞĞ¡®svn update¡¯¡£</p>
 
 <p>ÔÚÊµ¼ùÖĞ£¬ÓĞĞí¶àµØ·½ĞèÒªĞ¡ĞÄ¡£Ö´ĞĞÌá½»µÄ·şÎñÆ÷³ÌĞò£¨svnserve»òapache£©Ò²ÊÇÖ´ĞĞpost-commit¹³×Ó½Å±¾µÄ³ÌĞò£¬ÕâÒâÎ¶×Å³ÌĞò±ØĞëÓĞÕıÈ·µÄ¸üĞÂ¹¤×÷¿½±´µÄ·ÃÎÊĞí¿É¡£»»¾ä»°Ëµ£¬ÔËĞĞsvnserve»òapacheµÄÓÃ»§Ó¦¸ÃÓµÓĞ¹¤×÷¿½±´ -- »òÖÁÉÙ¹¤×÷¿½±´ÉèÖÃÁËºÏÊÊµÄ·ÃÎÊĞí¿É¡£</p>
 
@@ -1333,7 +1365,7 @@ TortoiseSVNÊÖ²á</a>»¹ÓĞÒ»µãÄÚÈİ¹ØÓÚÔõÃ´½«<tt>svnserve</tt>°²×°³É·şÎñµÄĞÎÊ½¡£</p>
 <p>µ±ÄãµÚÒ»´ÎÌí¼Ó»òÕßµ¼ÈëÎÄ¼şµ½SubversionÖĞÊ±£¬Subversion»á¼ì²â¸ÃÎÄ¼şÊÇ·ñÊÇ¶ş½øÖÆÎÄ¼ş¡£Ä¿Ç°£¬SubversionµÄ²ßÂÔÊÇÖ»¼ì²âÎÄ¼şµÄÇ°1024¸ö×Ö½Ú£»Èç¹ûÃ¿¸ö×Ö½Ú¶¼ÊÇ0£¬»òÕß³¬¹ı15%¶¼ÊÇ·ÇASCIIÂë¿É´òÓ¡×Ö·ûµÄ»°£¬ÄÇÃ´Subversion¾ÍÈÏ¶¨¸ÃÎÄ¼şÊÇ¶ş½øÖÆÎÄ¼ş¡£ÕâÖÖÆô·¢Ê½·½·¨½«À´¿ÉÄÜ»á¸Ä½ø¡£</p>
 
 <p>Èç¹ûSubversionÈÏ¶¨ÎÄ¼şÊÇ¶ş½øÖÆÎÄ¼ş£¬ÄÇÃ´Õâ¸öÎÄ¼ş¾Í»á×Ô¶¯Ìí¼Ósvn:mime-typeÊôĞÔ£¬²¢ÉèÖÃÎª¡°application/octet-stream¡±¡££¨ÄãËæÊ±¿ÉÒÔÊ¹ÓÃ<a
-href="http://svnbook.red-bean.com/svnbook-1.1/ch07s02.html#svn-ch-7-sect-2.4"
+href="http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.auto"
 >auto-propsÌØĞÔ</a>À´ÖØĞ´ÕâÑùµÄĞĞÎª£¬»òÕßÊ¹ÓÃ<tt>svn propset</tt>ÊÖ¶¯ÉèÖÃÊôĞÔ¡£)</p>
 
 <p>Subversion¶ÔÒÔÏÂµÄÎÄ¼ş×öÆÕÍ¨ÎÄ±¾´¦Àí£º</p>
@@ -1608,7 +1640,7 @@ svn cleanup working-copy
 
 <li><p>°æ±¾»ìÔÓ¡£</p>
 
-     <p>Ìá½»µÄÊ±ºò£¬ÔÚ¿Í»§¶ËµÄ¹¤×÷¿½±´ÖĞ£¬Ö»ÓĞ´Ë´ÎÌá½»Éæ¼°µÄ½Úµã»á±»¸üĞÂ£¬¶ø²»ÊÇËùÓĞ½Úµã¡£ÕâÒâÎ¶×Å£¬Äã×îºóÒ»´ÎÌá½»¾ö¶¨ÄãµÄ¹¤×÷¿½±´ÖĞÁËÎÄ¼şºÍÄ¿Â¼µÄ°æ±¾ºÅ£¬ËûÃÇ¿ÉÄÜ²»ÊÇÍ¬Ò»°æ±¾¡£¶ÔÓÚÏñĞŞ¸ÄÄ¿Â¼ÊôĞÔµÈÌØ¶¨²Ù×÷£¬Èç¹û°æ±¾¿âÖĞÓĞ¸üĞÂµÄ°æ±¾£¬ÄãµÄÌá½»»á±»¾Ü¾ø£¬ÒÔ·ÀÖ¹Êı¾İ¶ªÊ§¡£ÏêÏ¸Çë¼û<a href="http://svnbook.red-bean.com/svnbook/ch02s03.html#svn-ch-2-sect-3.4">°æ±¾»ìÔÓµÄ¾ÖÏŞ</a>ÔÚ<a href="http://svnbook.red-bean.com/">Ê¹ÓÃSubversion×ö°æ±¾¿ØÖÆ</a>ÖĞ¡£</p>
+     <p>Ìá½»µÄÊ±ºò£¬ÔÚ¿Í»§¶ËµÄ¹¤×÷¿½±´ÖĞ£¬Ö»ÓĞ´Ë´ÎÌá½»Éæ¼°µÄ½Úµã»á±»¸üĞÂ£¬¶ø²»ÊÇËùÓĞ½Úµã¡£ÕâÒâÎ¶×Å£¬Äã×îºóÒ»´ÎÌá½»¾ö¶¨ÄãµÄ¹¤×÷¿½±´ÖĞÁËÎÄ¼şºÍÄ¿Â¼µÄ°æ±¾ºÅ£¬ËûÃÇ¿ÉÄÜ²»ÊÇÍ¬Ò»°æ±¾¡£¶ÔÓÚÏñĞŞ¸ÄÄ¿Â¼ÊôĞÔµÈÌØ¶¨²Ù×÷£¬Èç¹û°æ±¾¿âÖĞÓĞ¸üĞÂµÄ°æ±¾£¬ÄãµÄÌá½»»á±»¾Ü¾ø£¬ÒÔ·ÀÖ¹Êı¾İ¶ªÊ§¡£ÏêÏ¸Çë¼û<a href="http://svnbook.red-bean.com/nightly/en/svn.basic.in-action.html#svn.basic.in-action.mixedrevs.limits">°æ±¾»ìÔÓµÄ¾ÖÏŞ</a>ÔÚ<a href="http://svnbook.red-bean.com/">Ê¹ÓÃSubversion×ö°æ±¾¿ØÖÆ</a>ÖĞ¡£</p>
 
      <p>Ö´ĞĞ'svn update'¿ÉÒÔ½â¾öÕâ¸öÎÊÌâ¡£</p>
 </li>
@@ -1687,8 +1719,7 @@ svn cleanup working-copy
 svn import file:///d:/some/path/to/repos/on/d/drive
 </pre>
 <p>¸ü¶àÏ¸½ÚÇë¼ûSubversionÊéÖĞµÄ<a
-href="http://svnbook.red-bean.com/html-chunk/ch02s03.html#svn-ch-2-sidebar-1">
-Repository URLs</a>¡£</p>
+href="http://svnbook.red-bean.com/nightly/en/svn.basic.in-action.html#svn.advanced.reposurls">°æ±¾¿âURL</a>¡£</p>
 
 </div>
 
@@ -1748,40 +1779,8 @@ Repository URLs</a>¡£</p>
 <div class="h3" id="net-trace" title="net-trace">
 <h3>ÔÚSubversion·şÎñÆ÷ºÍ¿Í»§¶ËÖ®¼ä½øĞĞ½»»¥Ê±£¬¸ú×ÙÍøÂçµÄ×îºÃ·½·¨ÊÇÊ²Ã´£¿</h3>
 
-<p>Ê¹ÓÃ<a href="http://www.wireshark.org/">Wireshark</a>£¨Ç°ÉíÊÇ¡°Ethereal¡±£©À´¼àÌı»á»°¡£</p>
-
-<p>µÚÒ»²½£¬ÎªÁË±£Ö¤²¶»ñµÄ°ü¶¼ÊÇÔÚÒ»´Îwireshark»á»°ÀïÃæµÄ£¬ÄãÏÈµã»÷<em>Clear</em>£¬·ñÔòÄ³Ò»Ğ©µÄ¹ıÂËÆ÷£¨Èç£¬HTTP¹ıÂËÆ÷£©»áÓ°ÏìÆäËûµÄ£¨Èç£¬ra_svn£©¡£</p>
-
-<p>¼ÙÉèÄãÒÑ¾­×öÁËÇåÀíµÄ¹¤×÷ÁË£¬½ÓÏÂÀ´£º</p>
-
-<ol>
-<li><p>ÏÂÀ­<i>Capture</i>£¨²¶»ñ£©²Ëµ¥£¬Ñ¡Ôñ<i>Capture&nbsp;Filters</i>¡£</p></li>
-<li><p>Èç¹ûÊÇµ÷ÊÔhttp:// £¨WebDAV£©Ğ­Òé£¬ÄÇÃ´ĞèÒªÔÚµ¯³öµÄ´°¿ÚÖĞÑ¡Ôñ¡°<code>HTTP&nbsp;TCP&nbsp;port&nbsp;(80)</code>¡±
-    £¨ÕâÑù»á²úÉú¹ıÂË×Ö·û´®¡°<code><i>tcp&nbsp;port&nbsp;http</i></code>¡±£©¡£</p>
-    <p>Èç¹ûÊÇµ÷ÊÔsvn:// £¨ra_svn£©Ğ­Òé£¬ÔòÑ¡Ôñ<i>New</i>£¬¸øĞÂµÄ¹ıÂËÆ÷ÉèÖÃÒ»¸öÃû×Ö£¨Èç¡°ra_svn¡±£©¡£È»ºóÔÚ¹ıÂË×Ö·û´®ÎÄ±¾¿òÖĞÊäÈë¡°<code>tcp&nbsp;port&nbsp;3690</code>¡±¡£</p>
-    <p>Íê³ÉÖ®ºó£¬µã»÷OK¡£</p></li> 
-<li><p>Í¬ÑùµÄ£¬½øÈë<i>Capture</i>²Ëµ¥£¬ÕâÒ»´ÎÑ¡Ôñ<i>Interfaces</i>£¬È»ºóÔÚÏàÓ¦½Ó¿ÚÅÔ±ßµã»÷<i>Options</i>£¨¼ÙÉè·şÎñÆ÷ºÍ¿Í»§¶ËÔËĞĞÔÚÍ¬Ò»¸ö»úÆ÷ÉÏÃæ£¬ÄÇÃ´ÄãºÜ¿ÉÄÜ»áÑ¡Ôñ¡°lo¡±½Ó¿Ú£¬×÷Îª¡°loopback¡±£©¡£</p></li>
-<li><p>È¥µô¹Ø±Õ»ìÏıÄ£Ê½Ïà¹ØµÄ¸´Ñ¡¿ò¡£</p></li>
-<li><p>µã»÷ÓÒÏÂ½ÇµÄ<i>Start</i>°´Å¥À´Æô¶¯²¶»ñµÄ¹ı³Ì¡£</p></li>
-<li><p>ÔËĞĞSubversion¿Í»§¶Ë¡£</p></li>
-<li><p>µ±²Ù×÷Íê³ÉµÄÊ±ºòµã»÷Í£Ö¹°´Å¥£¨ÔÚethernet½Ó¿ÚÉÏÃæµÄÒ»¸öºìX£©£¨»òÕß<i>Capture-&gt;Stop</i>Ò²¿ÉÒÔ£©¡£ÏÖÔÚÄãÒÑ¾­²¶»ñµ½Ò»Ğ©¶«Î÷ÁË¡£¿´ÆğÀ´ÓĞºÜ¶àĞĞ¡£</p></li>
-<li><p>µã»÷<i>Protocol</i>ÁĞ½øĞĞÅÅĞò¡£</p></li>
-<li><p>È»ºóµã»÷Ñ¡ÔñµÚÒ»ÌõÏà¹ØµÄ¼ÇÂ¼£»Í¨³£ÊÇµÚÒ»ĞĞ¡£</p></li>
-<li><p>ÓÒ¼üÑ¡Ôñ<i>Follow TCP Stream</i>¡£ÕâÑùÄã¾Í¿ÉÒÔÒÔÇëÇó/ÏìÓ¦ÕâÑù³É¶Ô³öÏÖµÄ·½Ê½À´²é¿´Subversion¿Í»§¶ËµÄHTTP»á»°¡£</p></li>
-</ol>
-
-<p>ÉÏÃæ½²µÄ²Ù×÷¶¼ÊÇÕë¶ÔÍ¼ĞÎ»¯µÄWireshark°æ±¾£¨0.99.6°æ±¾£©£¬¶ÔÓÚÃüÁîĞĞ°æ±¾µÄ¡°tshark¡±²¢²»ÊÊÓÃ£¨ÔÚetherealÊ±´ú£¬Õâ¸ö¹¤¾ß½Ğ×ö¡°tethereal¡±£©¡£</p>
-
-<p>ÄãÒ²¿ÉÒÔÔÚÄãµÄ<tt>Servers</tt>ÅäÖÃÎÄ¼şÉÏÉèÖÃ<tt>neon-debug-mask</tt>²ÎÊı£¬ÕâÑùµ±ÄãÔËĞĞ<tt>svn</tt>¿Í»§¶ËµÄÊ±ºò¾Í»áÊä³öneon¸ñÊ½µÄĞÅÏ¢ÁË¡£<tt>neon-debug-mask</tt>µÄÊı×ÖÈ¡ÖµÊÇÔÚ<tt>ne_utils.h</tt>Í·ÎÄ¼şÖĞµÄ<tt>NE_DBG_...</tt>¶¨ÒåµÄ¡£¶ÔÓÚµ±Ç°°æ±¾µÄneon£¬ÉèÖÃ<tt>neon-debug-mask</tt>Îª130£¨¼´<tt>NE_DBG_HTTP+NE_DBG_HTTPBODY£©</tt>£¬ÕâÑù»áÊ¹µ½HTTPÊı¾İÏÔÊ¾³öÀ´¡£</p>
-
-<p>µ±×öÍøÂç¸ú×Ù&mdash;Ê±£¬Äã¿ÉÄÜ»¹Ï£Íû½ûÓÃµôÑ¹ËõµÄ¹¦ÄÜ¡£²Î¿¼<tt>servers</tt>ÅäÖÃÎÄ¼şÖĞµÄ<tt>http-compression</tt>²ÎÊı/p>
-
-<p>ÁíÍâÒ»¸öÑ¡Ôñ¾ÍÊÇÔÚSubversion¿Í»§¶ËºÍ·şÎñÆ÷Ö®¼ä½¨Á¢Ò»¸öÈÕÖ¾´úÀí¡£×î¼òµ¥µÄÊµÏÖ¾ÍÊÇÊ¹ÓÃ<tt>socat</tt>³ÌĞò¡£ÀıÈç£¬Òª¼ÇÂ¼svnserveÊµÀıµÄÍ¨Ñ¶£¬ÔËĞĞÏÂÃæµÄÃüÁî£º</p>
-
-<p><tt>socat -v  TCP4-LISTEN:9630,reuseaddr,fork
-    TCP4:localhost:svn</tt></p>
-
-<p>È»ºóÊ¹ÓÃ<tt>svn://127.0.0.1:9630/</tt>µØÖ·À´·ÃÎÊ£»<tt>socat</tt>»á½«Êı¾İ´Ó9630¶Ë¿Ú×ª·¢µ½ÆÕÍ¨µÄsvnserve¶Ë¿Ú£¨3690£©£¬È»ºó»áÏò±ê×¼µÄ´íÎóÊä³öÉè±¸´òÓ¡³öËùÓĞµÄË«ÏòÍ¨Ñ¶ĞÅÏ¢£¬Ê¹ÓÃ&lt;ºÍ&gt;·ûºÅ×öÇ°×ºÀ´±êÊ¶Í¨Ñ¶µÄ·½Ïò¡£</p>
+<p>¿ÉÒÔ²Î¿¼<a href="hacking.html#net-trace"
+>hacking.html#net-trace</a>¡£</p>
 
 </div>
 
@@ -1852,7 +1851,7 @@ rev 24:&nbsp; (no author) | 2003-07-29 19:28:35 +0200 (Tue, 29 Jul 2003)
 </pre></blockquote>
 
 <p>¹ØÓÚÈçºÎÅäÖÃApacheµÄ·ÃÎÊÈ¨ÏŞ£¬²Î¿¼SubversionÊé¼®£¨<a
-href="http://svnbook.red-bean.com/book.html#svn-ch-5-sect-4"
+href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.httpd.html"
 >"Networking a Repository"</a>£©¡£</p>
 
 </div>
@@ -1889,38 +1888,6 @@ href="http://svnbook.red-bean.com/book.html#svn-ch-5-sect-4"
 
 <p>³öÏÖÕâ¸öÎÊÌâ»¹ÓĞÒ»¸ö¿ÉÄÜµÄÔ­Òò£¬¾ÍÊÇÔÚÍøÕ¾¸ùÄ¿Â¼´æÔÚÒ»¸öºÍ°æ±¾¿âµÄURLÍ¬ÃûµÄÎÄ¼ş£¨ÎÄ¼ş¼Ğ£©¡£ÀıÈç£¬¼ÙÉèÄãµÄWEB·şÎñÆ÷µÄ¸ùÄ¿Â¼ÉèÖÃÔÚ/var/www£¬ÄãµÄSubversion°æ±¾¿â±»·ÅÖÃÔÚ/home/svn/repoÄ¿Â¼ÏÂ£¬È»ºóÄãÔÚApacheÏÂ½«¸Ã°æ±¾¿âµÄURLÅäÖÃ³É<tt>http://localhost/myrepo</tt>¡£Èç¹ûÄãÕâÊ±ÓÖÔÚ/var/wwwÏÂ´´½¨ÁËÒ»¸ömyrepoµÄÄ¿Â¼£¬ÄÇÃ´Í¬Ñù»á²úÉú301µÄ´íÎó¡£</p>
 
-
-</div>
-
-
-<div class="h3" id="no-copy-history" title="no-copy-history">
-<h3>ÎÒÏëÒª²é¿´Ò»¸öÎÄ¼şµÄ¾É°æ±¾£¬µ«ÊÇSVNÈ´ÌáÊ¾ÎÒ¡°Â·¾¶Î´ÕÒµ½¡±£¨Path not found£©ÀàËÆÕâÑùµÄĞÅÏ¢£¬ÕâÊÇÔõÃ´»ØÊÂ£¿</h3>
-
-<p>SubversionÓĞÒ»¸ö±È½ÏÁ¼ºÃµÄÌØĞÔ£¬¾ÍÊÇËüÖ§³ÖÎÄ¼ş¸´ÖÆ¼°¸ÄÃû£¬¶øÇÒ»¹±£Áô×Å¾ÉÎÄ¼şµÄÀúÊ·¼ÇÂ¼¡£ÀıÈç£¬Èç¹ûÄã½«/trunkÄ¿Â¼¿½±´µ½/branches/mybranch£¬ÄÇÃ´°æ±¾¿â¾ÍÖªµÀ£¬ÔÚmybranch·ÖÖ§ÖĞµÄÃ¿¸öÎÄ¼ş¶¼ÊÇ´ÓtrunkÄ¿Â¼ÖĞ¸´ÖÆ¹ıÀ´µÄ¡£ÔËĞĞsvn log --verboseÃüÁî£¬ÎÒÃÇ¾Í¿ÉÒÔ¿´µ½ÀúÊ·¿½±´¼ÇÂ¼£¬Õâ¸öÊ±ºò¾Í¿ÉÒÔ¹Û²ìµ½¸ÄÃûµÄĞĞÎªÁË¡£ÈçÏÂËùÊ¾£º</p>
-
-<pre>
-r7932 | joe | 2003-12-03 17:54:02 -0600 (Wed, 03 Dec 2003) | 1 line
-Changed paths:
-   A /branches/mybranch (from /trunk:7931)
-</pre>
-
-<p>²»ĞÒµÄÊÇ£¬¾¡¹Ü°æ±¾¿âÖªµÀ¿½±´ºÍÖØÃüÃûµÄĞĞÎª£¬µ«ÊÇ¼¸ºõËùÓĞµÄsvn¿Í»§¶ËÃüÃû²¢²»ÄÜÊ¶±ğ¡£Èçsvn diff¡¢svn merge»¹ÓĞsvn catµÈµÈÕâĞ©ÃüÁî±¾Ó¦¸ÃÖªµÀ²¢¸ú×ÙÕâ¸ö¸ÄÃûµÄĞĞÎªµÄ£¬µ«ÊÇËüÃÇ²¢Ã»ÓĞ×öµ½ÕâÒ»µã¡£Õâ¸öÎÊÌâÒÑ¾­±»·ÅÔÚpost-1.0ÌØĞÔµÄÈÕ³ÌÖĞÁË£¬Äã¿ÉÒÔÔÚ<a
-href="http://subversion.tigris.org/issues/show_bug.cgi?id=1093">issue
-#1093</a>ÖĞ²éÔÄ¡£ÀıÈç£¬µ±ÄãÈÃsvn diff¹¤¾ßÈ¥±È½Ï/branches/mybranch/foo.cÎÄ¼şµÄÁ½¸öÔçÆÚ°æ±¾Ê±£¬Õâ¸öÃüÁî²¢²»»á×Ô¶¯µÄÊ¶±ğ³öÊµ¼ÊÉÏÒª±È½ÏµÄÊÇÒÔÇ°·ÅÔÚ/trunkÄ¿Â¼ÖĞµÄ±»ÖØÃüÃû¹ıµÄfoo.cÎÄ¼şµÄÁ½¸öÔçÆÚ°æ±¾¡£Òò´ËËü»á¸æËßÄã·ÖÖ§ÖĞµÄÕâ¸öÎÄ¼ş²¢²»´æÔÚÔçÆÚµÄ°æ±¾¡£</p>
-
-<p>ËùÓĞÕâÖÖÀàĞÍµÄÎÊÌâµÄ½â¾ö·½·¨¾ÍÊÇ×Ô¼º¶à·ÑµãĞÄ£¬Ò²¾ÍÊÇËµ£¬Äã±ØĞë×Ô¼ºÖªµÀÕâĞ©ÎÄ¼şÊÇ¸ÄÃû¹ıµÄ£¬Äã¿ÉÒÔÍ¨¹ıÊ¹ÓÃsvn log -vÃüÁîÀ´·¢ÏÖÕâÒ»µã¡£È»ºóÄãÔÙ°ÑÃ÷È·µÄ¸æËßsvnµÄ¿Í»§¶Ë¸ÃÔõÃ´×ö¡£¾Ù¸öÀı×Ó£¬Èç¹ûÄãÔ­À´ÊÇ´òËãÔËĞĞÏÂÃæÕâ¸öÃüÁîµÄ£º</p>
-
-<pre>
-$ svn diff -r 1000:2000 http://host/repos/branches/mybranch/foo.c
-svn: Filesystem has no item
-svn: '/branches/mybranch/fooc..c' not found in the repository at revision 1000
-</pre>
-
-...ÄÇÃ´Äã²»µÃ²»¸Ä³ÉÏÂÃæÕâ¸ö·½·¨À´ÊµÏÖÄãµÄÄ¿µÄ¡£
-<pre>
-$ svn diff -r1000:2000 http://host/repos/trunk/foo.c
-...
-</pre>
 
 </div>
 
@@ -2018,9 +1985,20 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 
 <p>ÔÚMac OS X, svn 1.4ÒÔºóµÄ°æ±¾Ê¹ÓÃÏµÍ³µÄkeychain¹¦ÄÜÀ´¼ÓÃÜÒÔ¼°´æ´¢svnµÄÃÜÂë¡£</p>
 
-<p>ÔÚUNIX/LinuxÖĞ£¬Ã»ÓĞºÍ¼ÓÃÜÏà¹ØµÄº¯Êı£¬ËùÒÔÃÜÂë±£´æÔÚ ~/.subversion/auth/Ä¿Â¼ÏÂ¡£ĞèÒª×¢Òâ£¬Õâ¸ö°üº¬»º´æÃÜÂë£¨Í¨³£ÊÇ~/.subversion/auth/£©µÄÄ¿Â¼È¨ÏŞÂëÊÇ700£¬ÕâÒâÎ¶×ÅÖ»ÓĞÄã×Ô¼º²ÅÓĞÈ¨Àû¶ÁÈ¡ËûÃÇ¡£</p>
+<p>Subversion 1.6 will address this issue for UNIX/Linux.
+Support for GNOME Keyring and KWallet has been implemented,
+both of which facilitate storing passwords on disk encrypted.
+These programs need to be available at compile-time and and at run-time.
+Otherwise, the client will fall back to caching your password in
+plaintext, but it has also been changed to <em>never</em>
+cache a password in plaintext without asking first.</p>
 
-<p>ÒªĞÅÈÎÄãµÄ²Ù×÷ÏµÍ³£¬ÈÃËüÀ´±£»¤Äã´ÅÅÌÉÏµÄÊı¾İ¡£</p>
+<p>With Subversion 1.5 and earlier, on UNIX/Linux, the password can
+only be stored in plaintext in ~/.subversion/auth/.  Notice, however,
+that the directory which contains the cached passwords (usually
+~/.subversion/auth/) has permissions of 700, meaning only you can read
+them.</p>
+
 
 <p>¾¡¹ÜÈç´Ë£¬Èç¹ûÄã»¹ÊÇµ£ĞÄµÄ»°£¬ÄÇÃ´Äã¿ÉÒÔ½«ÃÜÂë»º´æµÄ¹¦ÄÜÓÀ¾Ã¹Ø±Õ¡£ÔÚsvn 1.0µÄ¿Í»§¶ËÖĞ£¬ÄãÖ»ĞèÒªÔÚÄãµÄÔËĞĞÊ±ÅäÖÃÎÄ¼şÉèÖÃ¡®store-auth-creds
 = no¡¯¡£¶ÔÓÚsvn 1.1ÒÔ¼°Ö®ºóµÄ°æ±¾À´Ëµ£¬Äã¿ÉÒÔÊ¹ÓÃÁ£¶È¸üÏ¸µÄÉèÖÃ¡®store-passwords = no' £¨ÕâÑù·şÎñÆ÷µÄÖ¤Êé»¹ÊÇ»á»º´æ£©¡£¸ü¶à¹ØÓÚÃÜÂë»º´æµÄĞÅÏ¢ÒÑ¾­¿ÉÒÔ¿´<a 
@@ -2211,14 +2189,17 @@ href="http://svn.haxx.se/dev/archive-2003-01/1125.shtml"
 
 <div class="h3" id="already-under-version-control" title="already-under-version-control">
 <h3>ÎÒ²»ÄÜÌí¼ÓÒ»¸öÄ¿Â¼£¬ÒòÎªSubversionËµ¡°ËüÒÑ¾­´¦ÓÚ°æ±¾¿ØÖÆÁË¡±¡£</h3>
-<p>ÄÇÊÇÒòÎªÄãÒªÌí¼ÓµÄÄ¿Â¼ÒÑ¾­°üº¬ÁË.svnµÄÄ¿Â¼ÁË£¬µ«ÄÇ¸öÄ¿Â¼ÊÇÀ´×ÔÆäËûµÄ°æ±¾¿âÖĞ¶ø²»ÊÇÄãµ±Ç°ÕıÔÚ·ÃÎÊµÄ°æ±¾¿â¡£ÕâÖÖÏÖÏóºÜ¿ÉÄÜ¾ÍÊÇÒòÎªÄãÊ¹ÓÃÁË²Ù×÷ÏµÍ³µÄ¿½±´¹¦ÄÜÖ±½Ó´ÓÁíÍâÒ»¸ö¹¤×÷¿½±´ÉÏ¸´ÖÆ¸ÃÄ¿Â¼µ½µ±Ç°¹¤×÷¿½±´ÖĞ¡£</p>
+<p>ÄÇÊÇÒòÎªÄãÒªÌí¼ÓµÄÄ¿Â¼ÒÑ¾­°üº¬ÁË.svnµÄÄ¿Â¼ÁË&nbsp;&mdash;&nbsp;ËüÒÑ¾­ÊÇ¹¤×÷¿½±´ÁË&nbsp;&mdash;&nbsp;µ«ÄÇ¸öÄ¿Â¼ÊÇÀ´×ÔÆäËûµÄ°æ±¾¿âÖĞ¶ø²»ÊÇÄãµ±Ç°ÕıÔÚ·ÃÎÊµÄ°æ±¾¿â¡£ÕâÖÖÏÖÏóºÜ¿ÉÄÜ¾ÍÊÇÒòÎªÄãÊ¹ÓÃÁË²Ù×÷ÏµÍ³µÄ¿½±´¹¦ÄÜÖ±½Ó´ÓÁíÍâÒ»¸ö¹¤×÷¿½±´ÉÏ¸´ÖÆ£¨Ã»ÓĞÊ¹ÓÃ<tt>svn copy</tt>£©¸ÃÄ¿Â¼µ½µ±Ç°¹¤×÷¿½±´ÖĞ¡£</p>
 <p>
-  ±È½Ï¿ìµ«ÊÇÓÖ²»ÑÅµÄ½â¾ö·½°¸¾ÍÊÇÉ¾³ıÄãÖ®Ç°¸´ÖÆµÄÎÄ¼ş¼ĞÏÂËùÓĞµÄ.svnÄ¿Â¼£¬È»ºóaddÃüÁî¾Í¿ÉÒÔË³ÀûÖ´ĞĞÁË¡£Èç¹ûÄãÊ¹ÓÃµÄÊÇUnix£¬Äã¿ÉÒÔÊ¹ÓÃÏÂÃæµÄÃüÁî£º</p>
+  ±È½Ï¿ìµ«ÊÇÓĞĞ©²»ÑÅµÄ½â¾ö·½°¸¾ÍÊÇÉ¾³ıÄãÖ®Ç°¸´ÖÆµÄÎÄ¼ş¼ĞÏÂËùÓĞµÄ.svnÄ¿Â¼£¬È»ºóaddÃüÁî¾Í¿ÉÒÔË³ÀûÖ´ĞĞÁË¡£Èç¹ûÄãÊ¹ÓÃµÄÊÇUnix£¬Äã¿ÉÒÔÊ¹ÓÃÏÂÃæµÄÃüÁî£º</p>
 <pre>
   find dir -type d -name .svn -exec rm -rf {} \;
 </pre>
-<p>µ«ÊÇÄãÓ¦¸ÃÇå³şÖªµÀ£¬Äã×Ô¼ºÎªÊ²Ã´Òª¸´ÖÆÕâ¸öÎÄ¼ş¼Ğ£¬Í¬Ê±Ò²ÒªÈ·ÈÏÄã²»»áÍù°æ±¾¿âÖĞÌí¼ÓÈÎºÎÄã²»ÆÚÍûÌí¼ÓµÄ¿½±´¡£</p>
+<p>È»¶ø£¬Èç¹û¹¤×÷¿½±´À´×ÔÍ¬Ò»¸ö°æ±¾¿â£¬Ö±½ÓÉ¾³ı»òÒÆ×ß¹¤×÷¿½±´£¬È»ºóÍ¨¹ı<tt>svn copy</tt>»ñµÃÒ»¸öÕıÈ·µÄ¿½±´Ò²±È½ÏÀíÏë£¬¿ÉÒÔ½ÚÊ¡°æ±¾¿âµÄ¿Õ¼ä¡£</p>
 
+
+<p>Èç¹ûÀ´×Ô²»Í¬µÄ°æ±¾¿â£¬ÄãÓ¦µ±ÎÊ×Ô¼ºÎªÊ²Ã´Òª×÷Õâ¸ö¿½±´£»ÄãÓ¦¸ÃÈ·±£Í¨¹ıÌí¼ÓÄ¿Â¼£¬Äã²»»áÔÚ°æ±¾¿âÖĞ×ö³ö·ÇÔ¤ÆÚµÄ¿½±´¡£
+</p>
 </div>
 
 <div class="h3" id="slow-private-svnserve" title="slow-private-svnserve">
@@ -2244,7 +2225,11 @@ svn: This client is too old to work with working copy
 '/path/to/your/working/copy'; please get a newer Subversion client
 </pre>
 
-ÕâÊÇÒòÎªSubversion¹¤×÷¿½±´µÄ¸ñÊ½·¢ÉúÁË²»¼æÈİµÄ¸Ä¶¯&mdash;ĞÂ°æ±¾µÄSubclipse¶ÔÄãµÄ¹¤×÷¿½±´×öÁËÉı¼¶£¬ËùÒÔÄãµÄÃüÁîĞĞ¿Í»§¶Ë³ÌĞò£¬ÒòÎªÊÇ°æ±¾±È½ÏÀÏµÄ£¬Òò´ËÎŞ·¨¶ÁÈ¡ÆäÄÚÈİ¡££¨Õâ¸öÎÊÌâ²¢²»Ö»ÊÇ´æÔÚÓÚSubclipseÉÏ£¬Ò²ÓĞ¿ÉÄÜÊÇµ±ÄãÍ¬Ê±Ê¹ÓÃÁíÍâÒ»¸ö1.4ÒÔºóµÄĞÂ°æ±¾µÄÊ±ºò£¬¾É°æ±¾µÄ³ÌĞòÒ²»á³öÏÖÀàËÆµÄÎÊÌâ£©Äã¿ÉÒÔ¼òµ¥µÄ°ÑÄãµÄÃüÁîĞĞ¿Í»§¶ËÉı¼¶µ½1.4¼°Ö®ºóµÄ°æ±¾¡£</div>
+ÕâÊÇÒòÎªSubversion¹¤×÷¿½±´µÄ¸ñÊ½·¢ÉúÁË²»¼æÈİµÄ¸Ä¶¯&mdash;ĞÂ°æ±¾µÄSubclipse¶ÔÄãµÄ¹¤×÷¿½±´×öÁËÉı¼¶£¬ËùÒÔÄãµÄÃüÁîĞĞ¿Í»§¶Ë³ÌĞò£¬ÒòÎªÊÇ°æ±¾±È½ÏÀÏµÄ£¬Òò´ËÎŞ·¨¶ÁÈ¡ÆäÄÚÈİ¡££¨Õâ¸öÎÊÌâ²¢²»Ö»ÊÇ´æÔÚÓÚSubclipseÉÏ£¬Ò²ÓĞ¿ÉÄÜÊÇµ±ÄãÍ¬Ê±Ê¹ÓÃÁíÍâÒ»¸ö1.4ÒÔºóµÄĞÂ°æ±¾µÄÊ±ºò£¬¾É°æ±¾µÄ³ÌĞòÒ²»á³öÏÖÀàËÆµÄÎÊÌâ£©Äã¿ÉÒÔ¼òµ¥µÄ°ÑÄãµÄÃüÁîĞĞ¿Í»§¶ËÉı¼¶µ½1.4¼°Ö®ºóµÄ°æ±¾¡£
+
+¶ÔÓÚSubversion 1.5£¬Ìá¹©ÁËÒ»¸ö½µ¼¶¹¤×÷¿½±´µ½½ÏÔç°æ±¾µÄ¸¨Öú½Å±¾£»¼û
+<a href="#working-copy-format-change">Õâ¸öFAQ¡£</a>
+</div>
 
 <div class="h3" id="switch-problems" title="switch-problems">
 <h3>ÎªÊ²Ã´ÓĞÊ±ºòsvn switch²»ÄÜ¹¤×÷£¿</h3>
@@ -2426,6 +2411,52 @@ read symbols: Bad value
 <p>ÔÚ¿ª·¢ÕßÓÊ¼şÁĞ±íÖĞÓĞÒ»ÆªÎÄÕÂÌáµ½ÁËÕâÒ»µã¡£</p>
 
 <p>½â¾ö·½·¨¾ÍÊÇÎªSubversionµÄÅäÖÃ½Å±¾Ìá¹©Ò»¸ö¡°--enable-shared¡±µÄ²ÎÊı¡£</p>
+
+</div>
+
+<div class="h3"
+     id="secure-connection-truncated"
+     title="secure-connection-truncated">
+<h3>Why am I getting an error saying "Could not read response body:
+    Secure connection truncated" when doing a checkout from
+    Apache?</h3>
+
+<p>In short, this error is representative of a class of problems which
+can occur when Apache erroneously believes that your Subversion client
+is no longer tending to the network connection it has made with
+Apache.  Other error messages have been reported in similar
+circumstances, depending on whether or not SSL was in use for the
+connection, or when exactly Apache decided that the connection should
+be terminated.</p>
+
+<p>The Subversion client tries to keep working copies in a sane state
+at all times.  One way it does this during checkouts is by squirreling
+away the pristine versions of checked-out files until all the files
+and subdirectories for a given directory have been fetched.  Once all
+the data for a directory has been downloaded, the client "finalizes"
+that directory, copying the pristine versions of files out into the
+working area, diddling administrative data, and so on.  While this
+directory finalization is happening, the client is focused on that
+task and is <em>not</em> tending to the checkout network stream.
+Sometimes &mdash; typically in situations where a versioned directory
+contains an abnormally large number of files, or a bunch of abnormally
+large files &mdash; the client can spend so much time finalizing a
+directory (and ignoring the network stream) that Apache thinks the
+client has gone away for good, so Apache terminates the connection.
+When the client finally turns its attention back to the network
+stream, it finds that the server has given up on the connection, and
+it reports this as an error.</p>
+
+<p>One workaround for this situation is to increase the amount of time
+Apache is willing to wait for a client to prove it is still listening
+to the network stream.  You do this by adjusting upward the
+Apache <tt>Timeout</tt> configuration value.  You are encouraged,
+however, to evaluate your data set.  If having a huge number of files
+in a single directory is causing problems for you during checkouts,
+there is some chance that it will cause additional problems elsewhere,
+too.  If it is possible for you to split your collection of files up
+into a few subdirectories with smaller file counts, this could prove
+universally beneficial.</p>
 
 </div>
 
