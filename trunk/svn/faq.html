@@ -25,7 +25,7 @@
 <a href="http://subversion.tigris.org/faq.html">English</a>
 </p>
 
-<p>本文根据原文r31819，由<a href="http://www.subversion.org.cn">Subversion中文站</a>的中文化翻译小组翻译，欢迎各位参与翻译工作，加入地址：<a href="http://code.google.com/p/svncndoc/">http://code.google.com/p/svncndoc/</a>。
+<p>本文根据原文r33959，由<a href="http://www.subversion.org.cn">Subversion中文站</a>的中文化翻译小组翻译，欢迎各位参与翻译工作，加入地址：<a href="http://code.google.com/p/svncndoc/">http://code.google.com/p/svncndoc/</a>。
 
 </p>
 <h4>常见问题：</h4>
@@ -152,9 +152,7 @@
     client is too old to work with working copy '...' "，不升级Subversion能够解决吗？</a></li>
 <li><a href="#relocation-against-local-symbol">当我在64位Linux上编译Neon库时，发生一个错误"relocation R_X86_64_32 against `a local symbol' can not be used
     when making a shared object"。</a></li>
-<li><a href="#secure-connection-truncated">Why am I getting an error
-    saying "Could not read response body: Secure connection truncated"
-    when doing a checkout from Apache?</a></li>    
+<li><a href="#secure-connection-truncated">为什么从Apache检出时得到“Could not read response body: Secure connection truncated”的错误？</a></li>    
 
 </ul>
 
@@ -304,41 +302,20 @@ href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">第六章</a>。
 
 <div class="h3" id="globalrev" title="globalrev">
 <h3>为什么整个库都使用相同的版本号码？我想让我的每一个工程都有其自己的版本号。</h3>
-<p>First, note that Subversion has no concept of projects.  The
-repository just stores a versioned directory
-tree&nbsp;&mdash;&nbsp;you may consider certain sub-trees to be
-projects, but Subversion doesn't treat them differently from any other
-sub-tree.  Thus, the interpretation of what constitutes a project in
-the repository is left entirely up to the users.  (This is similar to
-how <a
+<p>首先，请注意Subversion没有项目这个概念。版本库只是存储版本化的目录树&nbsp;&mdash;&nbsp;你可以将某个子目录当作项目，但是Subversion不会对其特殊对待。因此，对于一个项目的构成完全由用户自己解释。（与之类似的<a
 href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.using.html"
->branches</a> and <a
+>branches</a>和<a
 href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
->tags</a> are conventions built on top of copies, instead of being
-basic concepts built into Subversion itself.)</p>
+>tags</a>的习惯是建立在复制之上，而不是建立在Subversion的概念之上。）</p>
 
-<p>Each time you commit a change, the repository stores a new revision
-of that overall repository tree, and labels the new tree with a new
-revision number.  Of course, most of the tree is the same as the
-revision before, except for the parts you changed.</p>
+<p>每当你提交变更时，版本库会在版本库目录树整体上增加一个修订版本，并将新的树赋予一个新的修订版本号，当然，大多数目录树和前一个修订版本完全一样，只是部分被更改。</p>
 
-<p>The new revision number is a sequential label that applies to the
-entire new tree, not just to the files and directories you touched in
-that revision.  However, colloquially, a revision number is used to
-refer to the change committed in that revision; for example, "the
-change in r588" ("r588" is shorthand for "revision 588") really means
-"the difference between repository trees 587 and 588", or put another
-way, "the change made to tree 587 to produce tree 588".
+<p>新修订版本号码是一个顺序增加的标签，会附加给每个新增的树，而不是这个修订中的某个文件或目录，然而，通俗来说，会使用修订版本号码来引用修订中提交的变更；例如“r588中的变更”（“r588”是“修订版本588”的简写）的真实含义是“版本库目录树587和588的区别”，或者是另一个说法“将目录树587变成588的变更”。
 
-<p>Thus, the advancing revision number marks the progress of the
-repository as a whole; you generally can't gauge the progress of a
-particular project within the repository by watching the revision
-number.  Also, the revision number should not be used as the
-publicly-visible release number of a particular project in the
-repository.  For that, you should devise some other mechanism of
-distinguishing releases, such as using <a
+<p>因此，不断增加的修改版本号码会以一个整体标示版本库的进展；你通常不会使用修订版本号码来度量版本库中特定项目的进展，当然，修订版本号码不应该作为项目可见的发布号码，对此，你应该通过其他机制来区别发布，例如使用<a
 href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
->tags</a>.</p>
+>tags</a>。
+</p>
 
 </div>
 
@@ -1985,19 +1962,9 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=695">issue
 
 <p>在Mac OS X, svn 1.4以后的版本使用系统的keychain功能来加密以及存储svn的密码。</p>
 
-<p>Subversion 1.6 will address this issue for UNIX/Linux.
-Support for GNOME Keyring and KWallet has been implemented,
-both of which facilitate storing passwords on disk encrypted.
-These programs need to be available at compile-time and and at run-time.
-Otherwise, the client will fall back to caching your password in
-plaintext, but it has also been changed to <em>never</em>
-cache a password in plaintext without asking first.</p>
+<p>Subversion 1.6会为UNIX/Linux处理这个问题，对于GNOME Keyring和KWallet的支持已经实现，都可以方便的在磁盘上存储加密的密码。这些程序可以在运行中的或编译中添加。如果没有，客户端会使用明文缓存密码，但是它如果以明文存储我们会首先询问是否允许。</p>
 
-<p>With Subversion 1.5 and earlier, on UNIX/Linux, the password can
-only be stored in plaintext in ~/.subversion/auth/.  Notice, however,
-that the directory which contains the cached passwords (usually
-~/.subversion/auth/) has permissions of 700, meaning only you can read
-them.</p>
+<p>Subversion 1.5以及之前的版本在UNIX/Linux中，密码会以明文形式保存在~/.subversion/auth/中，请注意，虽然是明文存储（通常是~/.subversion/auth/），但是密码的访问许可是700，只有你可以阅读。</p>
 
 
 <p>尽管如此，如果你还是担心的话，那么你可以将密码缓存的功能永久关闭。在svn 1.0的客户端中，你只需要在你的运行时配置文件设置‘store-auth-creds
@@ -2417,46 +2384,14 @@ read symbols: Bad value
 <div class="h3"
      id="secure-connection-truncated"
      title="secure-connection-truncated">
-<h3>Why am I getting an error saying "Could not read response body:
-    Secure connection truncated" when doing a checkout from
-    Apache?</h3>
+<h3>为什么从Apache检出时得到“Could not read response body: Secure connection truncated”的错误？</h3>
 
-<p>In short, this error is representative of a class of problems which
-can occur when Apache erroneously believes that your Subversion client
-is no longer tending to the network connection it has made with
-Apache.  Other error messages have been reported in similar
-circumstances, depending on whether or not SSL was in use for the
-connection, or when exactly Apache decided that the connection should
-be terminated.</p>
+<p>简而言之，这个错误代表了一类问题，也就是Apache认为Subversion的客户端不会再处理它建立的网络连接。取决于是否使用SSL，或者Apache何时决定中断连接，类似情形也会报告一些其他的错误信息，</p>
 
-<p>The Subversion client tries to keep working copies in a sane state
-at all times.  One way it does this during checkouts is by squirreling
-away the pristine versions of checked-out files until all the files
-and subdirectories for a given directory have been fetched.  Once all
-the data for a directory has been downloaded, the client "finalizes"
-that directory, copying the pristine versions of files out into the
-working area, diddling administrative data, and so on.  While this
-directory finalization is happening, the client is focused on that
-task and is <em>not</em> tending to the checkout network stream.
-Sometimes &mdash; typically in situations where a versioned directory
-contains an abnormally large number of files, or a bunch of abnormally
-large files &mdash; the client can spend so much time finalizing a
-directory (and ignoring the network stream) that Apache thinks the
-client has gone away for good, so Apache terminates the connection.
-When the client finally turns its attention back to the network
-stream, it finds that the server has given up on the connection, and
-it reports this as an error.</p>
+<p>Subversion客户端保证工作拷贝永远处于正常状态，一个方法是会临时保存所有检出文件的所有原始版本，直到获得给定目录的所有文件和子目录。一旦目录的数据被下载，客户端会整理目录，并将将文件的原始版本复制回工作区域，作为管理数据等等。在这个目录整理过程中，客户端会关注这些任务而不会去关心网络连接。有时候
+&mdash;通常是版本化目录包含大量文件，或者非常大的文件&mdash;客户端会在整理目录（不管网络传输流）上花费大量时间，所以Apache会认为客户端已经永远离开了，所Apache关闭了网络传输流，然后客户端发现服务器放弃了连接，并报告了这样的错误。</p>
 
-<p>One workaround for this situation is to increase the amount of time
-Apache is willing to wait for a client to prove it is still listening
-to the network stream.  You do this by adjusting upward the
-Apache <tt>Timeout</tt> configuration value.  You are encouraged,
-however, to evaluate your data set.  If having a huge number of files
-in a single directory is causing problems for you during checkouts,
-there is some chance that it will cause additional problems elsewhere,
-too.  If it is possible for you to split your collection of files up
-into a few subdirectories with smaller file counts, this could prove
-universally beneficial.</p>
+<p>一个办法是增加Apache一直等待客户端还在监听网络流的最长时间，你可以修改Apache的<tt>Timeout</tt>配置参数。你也应该注意一下你的数据集。如果你一个目录有大量的文件，就会更容易导致这个问题。如果你能将一组文件分配到一些目录中，将会对大家都有益。</p>
 
 </div>
 
