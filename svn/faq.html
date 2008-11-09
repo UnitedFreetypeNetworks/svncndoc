@@ -45,7 +45,7 @@
 <li><a href="#globalrev">ÎªÊ²Ã´È«²¿µÄ¿â¶¼Ê¹ÓÃÏàÍ¬µÄÐÞ¶©°æ±¾ºÅÂë£¿ÎÒÏëÈÃÎÒµÄÃ¿Ò»¸ö¹¤³Ì¶¼ÓÐÆä×Ô¼ºµÄÐÞ¶©°æ±¾ºÅÂë¡£</a></li>
 <li><a href="#changesets">SubversionÓÐÃ»ÓÐ±ä¸ü¼¯£¿</a></li>
 <li><a href="#release">ÏÂÒ»¸ö°æ±¾Ê²Ã´Ê±ºò·¢²¼£¿</a></li>
-<li><a href="#symlinks">SubversionÊÇ·ñÖ§³ÖÁ´½Ó£¨symlinks£©£¿</a></li>
+<li><a href="#symlinks">SubversionÊÇ·ñÖ§³Ö·ûºÅÁ´£¨symlinks£©£¿</a></li>
 <li><a href="#logo">ÎÒÐèÒªÒ»¸ö¸ß·Ö±æÂÊµÄSubversion Logo£¬´ÓÄÄÀï¿ÉÒÔµÃµ½ËüÄØ£¿
 </a></li>
 <li><a href="#more-information">ÎÒ»¹ÓÐÐ©ÆäËûµÄÎÊÌâ£¬ÎÒ´ÓÄÄÀï¿ÉÒÔµÃµ½¸ü¶àµÄÏà¹ØÐÅÏ¢£¿</a></li>  
@@ -206,14 +206,14 @@ Software Guidelines</a>¡£»»¾ä»°Ëµ£¬Äã¿ÉÒÔËæÐÄËùÓûµÄÈ¥ÏÂÔØ£¬ÐÞ¸Ä£¬»òÕßÖØÐÂ·¢²¼ÐÂµ
 
 <p>ÊÇµÄ£¬¾ø¶Ô¿ÉÒÔ¡£ËüÊÇÒ»¿îÒÑ¾­×¼±¸ºÃ½øÈë»Æ½ðÊ±¶ÎµÄ²úÆ·¡£</p>
 
-<p>Subversion´Ó2000Äê¿ªÊ¼¿ª·¢£¬ÔÚÒ»ÄêÖ®ºó³ÉÎªÒ»¸ö×Ô×ãÖ´ÐÐ(self-hosting)µÄÏîÄ¿¡£ÔÚÖ®ºóµÄÒ»Äê£¬µ±ÎÒÃÇ½«Æä³ÆÎª"alpha"°æ±¾µÄÊ±ºò£¬SubversionÒÑ¾­±»ºÜ¶àµÄ¸öÈË¿ª·¢ÈËÔ±ËùÊ¹ÓÃ£¬²¢È·Êµ·¢»ÓÁË×÷ÓÃ¡£ÔÚÄÇÖ®ºó£¬ÓÐÁ½Äê¶àµÄÊ±¼ä±»ÓÃÀ´½øÐÐBug×·×Ù(bugfixing)ºÍÔöÇ¿ÎÈ¶¨ÐÔ(stabilization)£¬Ö±µ½ÎÒÃÇ·¢²¼ÁË1.0°æ±¾¡£´ó¶àÊýµÄÆäËüÏîÄ¿¿ÉÄÜ¶¼»á°Ñ²úÆ·µÄ¡°1.0¡±°æ±¾½Ð×öÔçÆÚ°æ±¾£¬µ«ÊÇÎÒÃÇ¹ÊÒâµÄ¾¡¿ÉÄÜ³¤µÄÍÆ³ÙÁËÕâ¸ö°æ±¾µÄ·¢²¼¡£ÎÒÃÇÒâÊ¶µ½ºÜ¶àÈËÔÚËûÃÇ×î³õÊ¹ÓÃÁËSubversionÖ®ºóÒ»Ö±ÔÚµÈ´ý1.0°æ±¾µÄ·¢²¼£¬²¢ÇÒ¶ÔÕâ¸öÒâÒå·Ç·²µÄ°æ±¾ÓÐ×ÅÌØ±ðµÄÆÚ´ý£¬ËùÒÔÎÒÃÇÔÚÕâÑùÒ»¸ö°æ±¾ÉÏÓÃÁËºÜ¶àµÄÊ±¼ä¶ø²»ÖÁÓÚÈÃËûÃÇÊ§Íû¡£</p>
+<p>Subversion´Ó2000Äê¿ªÊ¼¿ª·¢£¬ÔÚÒ»ÄêÖ®ºó³ÉÎªÒ»¸ö×Ô×ãÖ´ÐÐ(self-hosting)µÄÏîÄ¿¡£ÔÚÖ®ºóµÄÒ»Äê£¬µ±ÎÒÃÇ½«Æä³ÆÎª"alpha"°æ±¾µÄÊ±ºò£¬SubversionÒÑ¾­±»ºÜ¶àµÄ¸öÈË¿ª·¢ÈËÔ±ËùÊ¹ÓÃ£¬²¢È·Êµ·¢»ÓÁËÕæÕýµÄ×÷ÓÃ¡£ÔÚÄÇÖ®ºó£¬ÓÐÁ½Äê¶àµÄÊ±¼ä±»ÓÃÀ´½øÐÐBug×·×Ù(bugfixing)ºÍÔöÇ¿ÎÈ¶¨ÐÔ(stabilization)£¬Ö±µ½ÎÒÃÇ·¢²¼ÁË1.0°æ±¾¡£´ó¶àÊýµÄÆäËüÏîÄ¿¿ÉÄÜ¶¼»á°Ñ²úÆ·µÄ¡°1.0¡±°æ±¾½Ð×öÔçÆÚ°æ±¾£¬µ«ÊÇÎÒÃÇ¹ÊÒâµÄ¾¡¿ÉÄÜ³¤µÄÍÆ³ÙÁËÕâ¸ö°æ±¾µÄ·¢²¼¡£ÎÒÃÇÒâÊ¶µ½ºÜ¶àÈËÔÚËûÃÇ×î³õÊ¹ÓÃÁËSubversionÖ®ºóÒ»Ö±ÔÚµÈ´ý1.0°æ±¾µÄ·¢²¼£¬²¢ÇÒ¶ÔÕâ¸öÒâÒå·Ç·²µÄ°æ±¾ÓÐ×ÅÌØ±ðµÄÆÚ´ý£¬ËùÒÔÎÒÃÇÔÚÕâÑùÒ»¸ö°æ±¾ÉÏÓÃÁËºÜ¶àµÄÊ±¼ä¶ø²»ÖÁÓÚÈÃËûÃÇÊ§Íû¡£</p>
 
 </div>
 
 
 
 <div class="h3" id="interop" title="interop">
-<h3>SubversionµÄ¿Í»§¶Ë/·þÎñÆ÷Ð­Í¬¹¤×÷µÄ²ßÂÔÊÇÔõÑùµÄ£¿</h3>
+<h3>SubversionµÄ¿Í»§¶Ë/·þÎñÆ÷ÔÚÐ­Í¬¹¤×÷Ê±µÄ²ßÂÔÊÇÔõÑùµÄ£¿</h3>
 
 <p>¿Í»§¶ËºÍ·þÎñÆ÷±»Éè¼Æ³ÉÖ»ÒªËûÃÇÏà»¥Ö®¼äÃ»ÓÐ³¬¹ýÒ»¸öÖ÷ÒªµÄ·¢ÐÐ°æ±¾£¬¾Í¿ÉÒÔÐ­µ÷¹¤×÷¡£ÀýÈçÈÎºÎÒ»¸ö1.xµÄ¿Í»§¶Ë¶¼¿ÉÒÔºÍÒ»¸ö1.yµÄ·þÎñÆ÷Ð­µ÷¹¤×÷¡£È»¶ø£¬Èç¹û¿Í»§¶ËºÍ·þÎñÆ÷µÄ°æ±¾²»ÏàÆ¥Åä£¬Ä³Ð©ÌØÐÔ¿ÉÄÜ²»ÄÜÊ¹ÓÃ¡£</p>
 
@@ -399,7 +399,7 @@ href="http://svn.collab.net/repos/svn/trunk/www/logo/subversion_logo.ai">Adobe
 <div class="h3" id="moderation" title="moderation">
 <h3>ÎªÊ²Ã´ÎÒµÄÓÊ¼þÃ»ÓÐÏÔÊ¾ÔÚÓÊ¼þÁÐ±íÉÏ£¿</h3>
 
-<p>ÎÒÃÇµÄÓÊ¼þÁÐ±íÎªÁË±£³ÖÔÚÒ»¸öÊÊ¶ÈµÄ±ê×¼£¬ËùÒÔÄã×î³õµÄÓÊ¼þ¿ÉÄÜ»á±»ÍÆ³Ù£¬ÖªµÀÎ¬»¤ÈËÔ±ÓÐ»ú»áÈÃËüÍ¨¹ý¡£Ò»µ©ÓÊ¼þÔÊÐíÍ¨¹ý£¬ËùÓÐ´ÓÏàÍ¬µÄµØÖ·¹ÒÆðµÄÓÊ¼þ½«±»×Ô¶¯Ö§³Ö£¬ËùÒÔÄãÓ¦¸Ã²»»áÔÙ±»¾Ü¾ø¡£µ±È»£¬Èç¹ûÄãµÄ·¢ËÍµØÖ·¸Ä±äÁËµÄ»°£¬Äã½«²»µÃ²»ÔÙ´ÎÍ¨¹ý¡£</p>
+<p>ÎÒÃÇµÄÓÊ¼þÁÐ±íÎªÁË±£³ÖÔÚÒ»¸öÊÊ¶ÈµÄ±ê×¼£¬ËùÒÔÄã×î³õµÄÓÊ¼þ¿ÉÄÜ»á±»ÑÓ³ÙÍ¨¹ý£¬Ö±µ½Î¬»¤ÈËÔ±ÓÐ»ú»áÈÃËüÍ¨¹ý¡£Ò»µ©ÓÊ¼þÔÊÐíÍ¨¹ý£¬ËùÓÐ´ÓÏàÍ¬µÄµØÖ·¹ÒÆðµÄÓÊ¼þ½«±»×Ô¶¯Ö§³Ö£¬ËùÒÔÄãÓ¦¸Ã²»»áÔÙ±»¾Ü¾ø¡£µ±È»£¬Èç¹ûÄãµÄ·¢ËÍµØÖ·¸Ä±äÁËµÄ»°£¬Äã½«²»µÃ²»ÔÙ´ÎÈÃÎ¬»¤ÈËÔ±¼ì²âÍ¨¹ý¡£</p>
 
 </div>
 
