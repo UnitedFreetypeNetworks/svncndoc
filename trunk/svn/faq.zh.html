@@ -261,7 +261,7 @@ href="http://apr.apache.org">Apache Portable Runtime</a>库作为可移植层。
 <h3>我听说Subversion是Apache项目的扩展？我是否需要Apache来做服务器呢？</h3>
 
 <p>不用。Subversion是一系列的库，它与一个命令行的客户端相互配合工作。有两类不同的Subversion的服务器进程，包括一个<b>svnserve</b>进程，这是一个小的类似CVS的pserver进程的独立运行程序，另一个是使用<b>mod_dav_svn</b>模块的Apache<b>httpd-2.0</b>。<b>svnserve</b>进程可以说是一个常用协议，而<b>mod_dav_svn</b>进程使用了WebDAV作为它的网络协议。请参阅Subversion手册<a
-href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">第六章</a>以了解更多的内容。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.serverconfig.html">第六章</a>以了解更多的内容。</p>
 
 </div>
 
@@ -275,7 +275,7 @@ href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">第六章</a
 <p>详细的回答是：如果你仅仅是想去访问一个版本库，你只需要构建一个Subversion的客户端。如果你想拥有一个网络的版本库，那么你需要安装Apache2或者一个“svnserve”服务器。</p>
 
 <p>关于安装一个可以访问的Subversion服务器的详细信息，请参阅：Subversion手册<a
-href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">第六章</a>。
+href="http://www.subversion.org.cn/svnbook/nightly/svn.serverconfig.html">第六章</a>。
 </p>
 
 </div>
@@ -303,9 +303,9 @@ href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">第六章</a
 <div class="h3" id="globalrev" title="globalrev">
 <h3>为什么整个库都使用相同的版本号码？我想让我的每一个工程都有其自己的版本号。</h3>
 <p>首先，请注意Subversion没有项目这个概念。版本库只是存储版本化的目录树&nbsp;&mdash;&nbsp;你可以将某个子目录当作项目，但是Subversion不会对其特殊对待。因此，对于一个项目的构成完全由用户自己解释。（与之类似的<a
-href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.using.html"
+href="http://www.subversion.org.cn/svnbook/nightly/svn.branchmerge.using.html"
 >branches</a>和<a
-href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
+href="http://www.subversion.org.cn/svnbook/nightly/svn.branchmerge.tags.html"
 >tags</a>的习惯是建立在复制之上，而不是建立在Subversion的概念之上。）</p>
 
 <p>每当你提交变更时，版本库会在版本库目录树整体上增加一个修订版本，并将新的树赋予一个新的修订版本号，当然，大多数目录树和前一个修订版本完全一样，只是部分被更改。</p>
@@ -313,7 +313,7 @@ href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
 <p>新修订版本号码是一个顺序增加的标签，会附加给每个新增的树，而不是这个修订中的某个文件或目录，然而，通俗来说，会使用修订版本号码来引用修订中提交的变更；例如“r588中的变更”（“r588”是“修订版本588”的简写）的真实含义是“版本库目录树587和588的区别”，或者是另一个说法“将目录树587变成588的变更”。
 
 <p>因此，不断增加的修改版本号码会以一个整体标示版本库的进展；你通常不会使用修订版本号码来度量版本库中特定项目的进展，当然，修订版本号码不应该作为项目可见的发布号码，对此，你应该通过其他机制来区别发布，例如使用<a
-href="http://svnbook.red-bean.com/nightly/en/svn.branchmerge.tags.html"
+href="http://www.subversion.org.cn/svnbook/nightly/svn.branchmerge.tags.html"
 >tags</a>。
 </p>
 
@@ -509,7 +509,7 @@ CHECKOUT。解决办法依赖于你使用的代理服务器软件，对于Squid�
 <h3>我的管理员不想让我有一个Subversion的HTTP服务器，那么如何做我才可以远程使用？</h3>
 
 <p>一个简单的选择是使用<b>svnserve</b>服务器来代替。请参阅SVN手册<a
-href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.html">第6章</a>中的详细内容。
+href="http://www.subversion.org.cn/svnbook/nightly/svn.serverconfig.html">第6章</a>中的详细内容。
 </p>
 
 <p>然而，如果你的管理员不希望你运行Apache，这很可能是他们不想让你在3690端口运行一个客户服务器，则备选答案是假定你的管理员同意你使用现有的SSH设施。</p>
@@ -677,7 +677,7 @@ href="http://www.oracle.com/technology/documentation/berkeley-db/db/api_c/env_se
 <p>试图保证尽可能<em>少的</em>用户能够访问版本库，例如以某个用户运行apache或'svnserve -d'，那么版本库由这个用户完全拥有。不允许任何其他的用户通过<tt>file:///</tt>的URL访问版本库，必须只让拥有版本库的用户运行'svnlook'和'svnadmin'。</p>
 
 <p>如果你的客户端通过<tt>file:///</tt>或<tt>svn+ssh://</tt>访问，则无法避免多个用户的访问。在那种情况下，可以阅读<a
-href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.multimethod.html">第6章最后一小节</a>，看一下最下面工具栏的“检查列表”，它总结了让这个场景更安全的步骤。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.serverconfig.multimethod.html">第6章最后一小节</a>，看一下最下面工具栏的“检查列表”，它总结了让这个场景更安全的步骤。</p>
 
 <b>SELinux / Fedora Core 3+ / Red Hat Enterprise的用户注意：</b>
 
@@ -701,7 +701,7 @@ href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.multimethod.html">
 <p>尤其是版本库需要应答许多比较两个目录树的“只读”操作时，一个树可能是HEAD修订版本，而另一个则是临时的事务-目录树 -- 因此许多写权限。</p>
 
 <p>这种限制只存在于Berkeley DB后端；<a
-href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.planning.html#svn.reposadmin.basics.backends.fsfs">FSFS后端</a>并没有显示这种特性。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.reposadmin.planning.html#svn.reposadmin.basics.backends.fsfs">FSFS后端</a>并没有显示这种特性。</p>
 
 </div>
 
@@ -719,7 +719,7 @@ href="http://subversion.tigris.org/issues/show_bug.cgi?id=516">issue
 516</a>。）</p>
 
 <p>现在，你只有求助于你版本库的<b>svnadmin dump</b>命令，将转储文件经过<b>svndumpfilter</b>过滤（排除错误的路径）传递给<b>svnadmin load</b>命令，请参阅Subversion手册<a
-href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.html">第五章</a>的相关详细信息。
+href="http://www.subversion.org.cn/svnbook/nightly/svn.reposadmin.html">第五章</a>的相关详细信息。
 </p>
 
 </div>
@@ -731,10 +731,10 @@ href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.html">第五章</a>�
 </h3>
 
 <p>日志信息作为每个修订版本的附加属性保存在版本库，默认情况下，日志信息属性（<em>svn:log</em>）不能在提交后修改。这是因为对于<a
-href="http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html">修订版本属性</a>（<em>svn:log</em>是其中一个）的修改会导致以前的属性永久的消失，Subversion会防止这种意外情况发生。但是，还是有一些方法可以修改修订版本属性。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.advanced.props.html">修订版本属性</a>（<em>svn:log</em>是其中一个）的修改会导致以前的属性永久的消失，Subversion会防止这种意外情况发生。但是，还是有一些方法可以修改修订版本属性。</p>
 
 <p>第一种方法是让版本库管理员允许修订版本属性修改，这可以通过创建"pre-revprop-change"（更多相关细节可以看Subversion手册的<a
-href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.create.html#svn.reposadmin.create.hooks">这个小节</a>）。钩子"pre-revprop-change"可以在修改之前访问老的日志信息（例如，通过发送一个邮件），所以可以以某种方式保存它（例如，通过发送邮件）。一旦开启了修订版本属性修改，你可以通过<b>svn propedit</b>或<b>svn
+href="http://www.subversion.org.cn/svnbook/nightly/svn.reposadmin.create.html#svn.reposadmin.create.hooks">这个小节</a>）。钩子"pre-revprop-change"可以在修改之前访问老的日志信息（例如，通过发送一个邮件），所以可以以某种方式保存它（例如，通过发送邮件）。一旦开启了修订版本属性修改，你可以通过<b>svn propedit</b>或<b>svn
 propset</b>的--revprop选项修改修订版本属性，就像下面这个：</p>
 
 <pre>
@@ -842,7 +842,7 @@ Subversion</a>。</p>
  </li>
 </ol>
 
-<p>关于转储和加载的更多信息可以看<a href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.maint.html#svn.reposadmin.maint.migrate"
+<p>关于转储和加载的更多信息可以看<a href="http://www.subversion.org.cn/svnbook/nightly/svn.reposadmin.maint.html#svn.reposadmin.maint.migrate"
 >Subversion手册的这个小节</a>。</p>
 
 <p> <b>注意</b>：大多数Subversion的升级<i>不</i>会需要转储和加载，如果某个版本需要，新版本的发布声明和CHANGES文件会显著说明这一点。如果你没有看到这个说明，那么应该是没有模式变更，也就没有转储/加载的必要。</p>
@@ -1136,7 +1136,7 @@ export SVN_SSH
 <p>第一个问题的答案是：设置所有已经进入版本库的文件，将会有点困难。你所要做的是在每个文件（工作拷贝文件）上执行<tt>svn propset</tt>，然后执行<tt>svn commit</tt>，通过脚本应该可以帮助你做这件事。</p>
 
 <p>但是对以后的文件呢？很不幸，没有在服务端自动设置提交文件属性的机制。这意味着你需要让你的用户记住在每个<tt>svn add</tt>的文件上添加属性，幸运的是，有一个客户端的工具可以帮助我们做这件事，可以阅读本书的<a
-href="http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.auto">auto-props</a>特性。你需要保证所有的用户配置了合适的自动化属性。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.advanced.props.html#svn.advanced.props.auto">auto-props</a>特性。你需要保证所有的用户配置了合适的自动化属性。</p>
 
 <p>你可以写一个pre-commit钩子脚本来拒绝忘记在新文件添加属性的提交（例子可以看<a
 href="http://svn.collab.net/repos/svn/trunk/contrib/hook-scripts/check-mime-type.pl"
@@ -1220,7 +1220,7 @@ hexdump的例子：“<tt>hexdump -s12 -n8 -x log.<i>&lt;number&gt;</i></tt>”�
 <h3>我在版本库中管理了一个网站，如何才能实现每次提交之后站点自动更新？</h3>
 
 <p>这个早已经解决，可以通过为版本库添加post-commit钩子脚本简单实现，可以读一下手册<a
-href="http://svnbook.red-bean.com/nightly/en/svn.reposadmin.create.html#svn.reposadmin.create.hooks">第5章</a>关于钩子脚本的内容，基本的思想是让“活动站点”变成一个普通的工作拷贝，让post-commit在工作拷贝中执行‘svn update’。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.reposadmin.create.html#svn.reposadmin.create.hooks">第5章</a>关于钩子脚本的内容，基本的思想是让“活动站点”变成一个普通的工作拷贝，让post-commit在工作拷贝中执行‘svn update’。</p>
 
 <p>在实践中，有许多地方需要小心。执行提交的服务器程序（svnserve或apache）也是执行post-commit钩子脚本的程序，这意味着程序必须有正确的更新工作拷贝的访问许可。换句话说，运行svnserve或apache的用户应该拥有工作拷贝 -- 或至少工作拷贝设置了合适的访问许可。</p>
 
@@ -1342,7 +1342,7 @@ TortoiseSVN手册</a>还有一点内容关于怎么将<tt>svnserve</tt>安装成
 <p>当你第一次添加或者导入文件到Subversion中时，Subversion会检测该文件是否是二进制文件。目前，Subversion的策略是只检测文件的前1024个字节；如果每个字节都是0，或者超过15%都是非ASCII码可打印字符的话，那么Subversion就认定该文件是二进制文件。这种启发式方法将来可能会改进。</p>
 
 <p>如果Subversion认定文件是二进制文件，那么这个文件就会自动添加svn:mime-type属性，并设置为“application/octet-stream”。（你随时可以使用<a
-href="http://svnbook.red-bean.com/nightly/en/svn.advanced.props.html#svn.advanced.props.auto"
+href="http://www.subversion.org.cn/svnbook/nightly/svn.advanced.props.html#svn.advanced.props.auto"
 >auto-props特性</a>来重写这样的行为，或者使用<tt>svn propset</tt>手动设置属性。)</p>
 
 <p>Subversion对以下的文件做普通文本处理：</p>
@@ -1609,7 +1609,7 @@ svn cleanup working-copy
 
 <li><p>版本混杂。</p>
 
-     <p>提交的时候，在客户端的工作拷贝中，只有此次提交涉及的节点会被更新，而不是所有节点。这意味着，你最后一次提交决定你的工作拷贝中了文件和目录的版本号，他们可能不是同一版本。对于像修改目录属性等特定操作，如果版本库中有更新的版本，你的提交会被拒绝，以防止数据丢失。详细请见<a href="http://svnbook.red-bean.com/nightly/en/svn.basic.in-action.html#svn.basic.in-action.mixedrevs.limits">版本混杂的局限</a>在<a href="http://svnbook.red-bean.com/">使用Subversion做版本控制</a>中。</p>
+     <p>提交的时候，在客户端的工作拷贝中，只有此次提交涉及的节点会被更新，而不是所有节点。这意味着，你最后一次提交决定你的工作拷贝中了文件和目录的版本号，他们可能不是同一版本。对于像修改目录属性等特定操作，如果版本库中有更新的版本，你的提交会被拒绝，以防止数据丢失。详细请见<a href="http://www.subversion.org.cn/svnbook/nightly/svn.basic.in-action.html#svn.basic.in-action.mixedrevs.limits">版本混杂的局限</a>在<a href="http://svnbook.red-bean.com/">使用Subversion做版本控制</a>中。</p>
 
      <p>执行'svn update'可以解决这个问题。</p>
 </li>
@@ -1685,7 +1685,7 @@ svn cleanup working-copy
 svn import file:///d:/some/path/to/repos/on/d/drive
 </pre>
 <p>更多细节请见Subversion书中的<a
-href="http://svnbook.red-bean.com/nightly/en/svn.basic.in-action.html#svn.advanced.reposurls">版本库URL</a>。</p>
+href="http://www.subversion.org.cn/svnbook/nightly/svn.basic.in-action.html#svn.advanced.reposurls">版本库URL</a>。</p>
 
 </div>
 
@@ -1816,7 +1816,7 @@ rev 24:&nbsp; (no author) | 2003-07-29 19:28:35 +0200 (Tue, 29 Jul 2003)
 </pre></blockquote>
 
 <p>关于如何配置Apache的访问权限，参考Subversion书籍（<a
-href="http://svnbook.red-bean.com/nightly/en/svn.serverconfig.httpd.html"
+href="http://www.subversion.org.cn/svnbook/nightly/svn.serverconfig.httpd.html"
 >"Networking a Repository"</a>）。</p>
 
 </div>
