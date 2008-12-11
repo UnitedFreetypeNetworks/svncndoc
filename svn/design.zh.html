@@ -2,6 +2,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <style type="text/css"> /* <![CDATA[ */
   @import "branding/css/tigris.css";
   @import "branding/css/inst.css";
@@ -16,28 +17,28 @@
 <div class="app">
 
 <div class="h1">
-<h1 style="text-align: center">Subversion ���</h1>
+<h1 style="text-align: center">Subversion 设计</h1>
 </div>
 
-<p class="warningmark"><em>ע�⣺��ǰ�ĵ��Ѿ��������µģ�����ĸ��°汾������2002��ʮ�£�r3377����
-  �����û�ͨ����<a href="#server.fs.struct.bubble-up">directory
-    bubble-up method</a>��ȡͬ����ȷ�İ汾��</em></p>
+<p class="warningmark"><em>注意：当前文档已经不是最新的，最近的更新版本发布于2002年十月（r3377）。
+  不过用户通常从<a href="#server.fs.struct.bubble-up">directory
+    bubble-up method</a>获取同样精确的版本。</em></p>
 
 <div class="h1">
-<h2>Ŀ¼��</h2>
+<h2>目录表</h2>
 <ol id="toc">
-  <li><a href="#goals">Ŀ�� &mdash; Subersion��Ŀ�����Ŀ��</a>
+  <li><a href="#goals">目标 &mdash; Subersion项目的设计目标</a>
   <ol>
-    <li><a href="#goals.rename-remove-resurrect">������/�Ƴ�/�ָ� ����֧��</a></li>
-    <li><a href="#goals.textbinary">�����ı��ļ��Ͷ������ļ�������</a></li>
-    <li><a href="#goals.i18n">I18N/�������� ֧��</a></li>
+    <li><a href="#goals.rename-remove-resurrect">重命名/移除/恢复 操作支持</a></li>
+    <li><a href="#goals.textbinary">关于文本文件和二进制文件的问题</a></li>
+    <li><a href="#goals.i18n">I18N/多种语言 支持</a></li>
     <li><a href="#goals.branching-and-tagging">Branching and tagging</a></li>
-    <li><a href="#goals.misc">�����µĹ���֧��</a>
+    <li><a href="#goals.misc">多种新的功能支持</a>
     <ol>
-      <li><a href="#goals.misc.logmsgs">��־��Ϣ</a></li>
-      <li><a href="#goals.misc.diffplugins">�ͻ���diff���</a></li>
-      <li><a href="#goals.misc.merging">���õĺϲ�����</a></li>
-      <li><a href="#goals.misc.conflicts">��ͻ���</a></li>
+      <li><a href="#goals.misc.logmsgs">日志信息</a></li>
+      <li><a href="#goals.misc.diffplugins">客户端diff插件</a></li>
+      <li><a href="#goals.misc.merging">更好的合并功能</a></li>
+      <li><a href="#goals.misc.conflicts">冲突解决</a></li>
     </ol>
     </li> <!-- goals.misc -->
   </ol>
@@ -164,37 +165,37 @@
   
 
   <div class="h2" id="goals" title="#goals">
-  <h2>Ŀ�� &mdash; Subersion��Ŀ�����Ŀ��</h2>
+  <h2>目标 &mdash; Subersion项目的设计目标</h2>
   
 
   
-    <p>Subersion��Ŀ�����Ŀ���Ǳ�дһ���µİ汾����ϵͳ������CVSĿǰ��δ�����û�Ⱥ��
-    (����㻹����ϤCVS������ȱ�㣬������<a href="#model">ģ�� &mdash; Subversionʹ�õİ汾ģ��</a>)
-  �����ĵ�һ�����а汾�;߱���CVS�ľ��󲿷���Ҫ��ɫ��ͬʱ��������һЩCVS�û���ϣ��ӵ�е��¹��ܡ�
-  �ܵ���˵��Subersion����������CVS�� In general, Subversion works like CVS, except
+    <p>Subersion项目的设计目标是编写一个新的版本控制系统来接替CVS目前和未来的用户群。
+    (如果你还不熟悉CVS和它的缺点，请跳至<a href="#model">模型 &mdash; Subversion使用的版本模型</a>)
+  。它的第一个发行版本就具备了CVS的绝大部分主要特色，同时还添加了一些CVS用户所希望拥有的新功能。
+  总的来说，Subersion工作类似于CVS， In general, Subversion works like CVS, except
       where there's a compelling reason to be different.</p>
 
-    <p>��ô��Subersion������ЩCVS��ȱ�ٵĹ����أ�</p>
+    <p>那么，Subersion具有哪些CVS所缺少的功能呢？</p>
 
     <ul>
       <li><p>
-          Subersion�汾����Ŀ¼���ļ�Ԫ���ݣ���������������ɾ��/�ָ������仰˵������SVN
-          ��¼���û���Ŀ¼���ĸ��ģ������������ļ����ݵĸı䡣
+          Subersion版本化了目录，文件元数据，重命名，拷贝和删除/恢复。换句话说，就是SVN
+          记录了用户对目录树的更改，而不仅仅是文件内容的改变。
           </p></li>
 
       <li><p>Tagging and branching are constant-time and
           constant-space.</p></li>
 
       <li><p>
-          ����һ��������C/S�ṹ�����Ա�CVS�����׽��й���ά��������CVSϵͳ�У���C/SЭ���֧���Ǻ���
-          ׷�ӵġ������ζ�Ŵ�����¹��ܵ����Ӷ���Ҫʵ�����Σ��������ٳ���һ�Σ�һ���ִ������ڽ������
-          �����һ�������ڴ���C/S�ṹ���������
+          它是一个天生的C/S结构，所以比CVS更容易进行功能维护。（在CVS系统中，对C/S协议的支持是后来
+          追加的。这就意味着大多数新功能的增加都需要实现两次，或者至少超过一次：一部分代码用于解决本地
+          情况，一部分用于处理C/S结构的情况。）
           </p></li>
 
-      <li><p>�汾��ӵ�и��Ӹ�Ч�������������֯�ṹ���������漰̫���ϸ�ڣ�����ֻ��˵
-          CVS�İ汾��ṹʵ��̫���ˡ���</p></li>
+      <li><p>版本库拥有更加高效和易于理解的组织结构。（不用涉及太多的细节，我们只能说
+          CVS的版本库结构实在太老了。）</p></li>
 
-      <li><p>ÿһ���ύ��������һ�������Ĺ�������Ŀ¼��״̬���޶��š��ļ����������Ǹ����Լ����޶��š�
+      <li><p>每一次提交都会生成一个单独的关于整个目录树状态的修订号。文件不再有它们各自自己的修订号。
           Commits are atomic.  Each commit results in a single
           revision number, which refers to the state of the entire tree.  Files
           no longer have their own revision numbers.</p></li>
@@ -203,9 +204,9 @@
           necessary. Reads are never locked, and writes lock only the files
           being written, for only as long as needed.</p></li>
 
-      <li><p>���߱����ʻ�֧�ֵ��ص㡣</p></li>
+      <li><p>它具备国际化支持的特点。</p></li>
 
-      <li><p>���ܹ��ܺõĴ����������ļ��������ݾ��飬CVS�Զ������ļ��Ĵ���������������û����󡣣�
+      <li><p>它能够很好的处理二进制文件。（根据经验，CVS对二进制文件的处理则很容易引起用户错误。）
       </p></li>
 
       <li><p>It takes advantage of the Net's experience with CVS by
