@@ -51,7 +51,7 @@ $LastChangedDate: 2008-06-10 10:56:53 +0800 (星期二, 10 六月 2008) $
 <li><a href="#write-test-cases-first">在编码前写测试用例</a></li>
 <li><a href="#server-debugging">调试服务器</a></li>
 <li><a href="#tracing-memory-leaks">跟踪内存泄露</a></li>
-<li><a href="#log-messages">写日志信息</a></li>
+<li><a href="#log-messages">编写日志信息</a></li>
 <li><a href="#crediting">记录贡献者信息</a></li>
 <li><a href="#patches">补丁提交指导方针</a></li>
 <li><a href="#filing-issues">填写bugs / issues</a></li>
@@ -1143,7 +1143,7 @@ including of uncommitted changes.)</p>
 
 
 <div class="h2" id="write-test-cases-first" title="write-test-cases-first">
-<h2>Writing test cases before code</h2>
+<h2>在编码前写测试用例</h2>
 
 <pre>
 From: Karl Fogel &lt;kfogel@collab.net&gt;
@@ -1151,31 +1151,22 @@ Subject: writing test cases
 To: dev@subversion.tigris.org
 Date: Mon, 5 Mar 2001 15:58:46 -0600
 
-Many of us implementing the filesystem interface have now gotten into
-the habit of writing the test cases (see fs-test.c) *before* writing
-the actual code.  It's really helping us out a lot -- for one thing,
-it forces one to define the task precisely in advance, and also it
-speedily reveals the bugs in one's first try (and second, and
-third...).
+我们当中很多实现过文件系统接口的人都已经养成一个习惯了，就是在编写真正代码之前先写好
+测试用例了（参考fs-test.c）。这确实帮了我们很多忙 —— 一个好处就是，它强制我们提前准确地
+定义好要完成的任务，同时它也让我们在第一次编码尝试的时候更快的发现Bug（还有第二个好处，第三个。。。）。
 
-I'd like to recommend this practice to everyone.  If you're
-implementing an interface, or adding an entirely new feature, or even
-just fixing a bug, a test for it is a good idea.  And if you're going
-to write the test anyway, you might as well write it first. :-)
+我想把这个实践推荐给大家。如果你正在实现一个接口，或者增加一个完全新的功能，或者只是在
+修正一个Bug，测试是个好主意。而且如果你本来就打算写测试的话，那么你还不如先把测试写了再说。:-)
 
-Yoshiki Hayashi's been sending test cases with all his patches lately,
-which is what inspired me to write this mail to encourage everyone to
-do the same.  Having those test cases makes patches easier to examine,
-because they show the patch's purpose very clearly.  It's like having
-a second log message, one whose accuracy is verified at run-time.
+Yoshiki Hayashi最近在发送他写的补丁的时候一直都附带着测试用例，这也是我为什么要写这封邮件
+鼓励大家去做同样的事的缘故。有了这些测试用例，那么补丁就可以更容易的检查，因为这些测试把补丁
+的目的表现地非常清楚。这就像拥有另外一份日志一样，运行一下我们就知道其正确性了。
 
-That said, I don't think we want a rigid policy about this, at least
-not yet.  If you encounter a bug somewhere in the code, but you only
-have time to write a patch with no test case, that's okay -- having
-the patch is still useful; someone else can write the test case.
+需要多说一句，我们对这方面并不做任何硬性的规定，至少暂时还不需要。如果你在代码中发现一个Bug，
+但是你只够时间来编写补丁而没有时间去写测试用例，那也是没问题的 —— 补丁本身就已经很有用了，会有其他人帮你写测试用例的。
 
-As Subversion gets more complex, though, the automated test suite gets
-more crucial, so let's all get in the habit of using it early.
+随着Subversion变得越来越复杂，自动化的测试套件变得越来越重要了，所以我们还是尽快的养成这一个
+习惯吧。
 
 -K
 </pre>
@@ -1184,17 +1175,12 @@ more crucial, so let's all get in the habit of using it early.
 
 
 <div class="h2" id="server-debugging" title="server-debugging">
-<h2>Debugging the server</h2>
+<h2>服务器调试</h2>
 
 <div class="h3" id="debugging-ra-dav" title="debugging-ra-dav">
-<h3>Debugging the DAV server</h3>
+<h3>DAV服务器的调试</h3>
 
-<p>'mod_dav_svn.so' contains the main Subversion server logic; it runs
-as a module within mod_dav, which runs as a module within httpd.
-Since httpd is probably using dynamic shared modules, you normally
-won't be able to set breakpoints in advance when you start Apache in a
-debugger such as GDB.  Instead, you'll need to start up, then
-interrupt httpd, set your breakpoint, and continue:</p>
+<p>‘mod_dav_svn.so’库包含了Subversion服务器的主要逻辑；它在mod_dav内部以模块的形式运行，而mod_dav本身是以模块的形式在httpd进程里运行。因为httpd很可能使用的是共享的动态链接库，你一般情况下是不能在启动Apache的时候，在GDB等调试器中预先设置好断点的。所以你只能先启动，然后中断httpd，然后再设置断点，再继续运行：</p>
 
 <pre>
    % gdb httpd
@@ -1204,49 +1190,35 @@ interrupt httpd, set your breakpoint, and continue:</p>
    (gdb) continue
 </pre>
 
-<p>The -X switch is equivalent to -DONE_PROCESS and -DNO_DETACH, which
-ensure that httpd runs as a single thread and remains attached to the
-tty, respectively.  As soon as it starts, it sits and waits for
-requests; that's when you hit control-C and set your breakpoint.</p>
+<p>-X参数和-DONE_PROCESS、-DNO_DETACH作用相同，都是保证httpd是以单线程的形式运行的，并且一直挂到tty上面。一旦它启动了，它就会一直等待请求；这个时候你就可以按下Control-C然后设置你的断点了。</p>
 
-<p>You'll probably want to watch Apache's run-time logs</p>
+<p>你很可能需要查看Apache的运行日志。</p>
 
 <pre>
    /usr/local/apache2/logs/error_log
    /usr/local/apache2/logs/access_log
 </pre>
 
-<p>to help determine what might be going wrong and where to set
-breakpoints.</p>
+<p>这会帮助你找到可能出错的地方和下断点的位置。</p>
 
 </div>
 
 <div class="h3" id="debugging-ra-svn" title="debugging-ra-svn">
-<h3>Debugging the ra_svn client and server, on Unix</h3>
+<h3>在Unix上面调试ra_svn客户端和服务端</h3>
 
-<p>Bugs in ra_svn usually manifest themselves with one of the
-following cryptic error messages:</p>
+<p>ra_svn上面的Bug通常出现的时候总是伴随着下面两个比较费解的错误提示信息：</p>
 
 <pre>
   svn: Malformed network data
   svn: Connection closed unexpectedly
 </pre>
 
-<p>(The first message can also mean the data stream was corrupted in
-tunnel mode by user dotfiles or hook scripts; see 
-<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1145"
->issue&nbsp;#1145</a>.)  The first message generally means you to have
-to debug the client; the second message generally means you have to
-debug the server.</p>
+<p>（第一条信息又意味着数据流在隧道模式下被用户的点文件（译者注：Dotfiles，指Unix中以“.”号开头的文件）或者钩子脚本破坏了；参考<a href="http://subversion.tigris.org/issues/show_bug.cgi?id=1145"
+>问题编号&nbsp;#1145</a>。）第一条信息通常告诉你你得在客户端进行调试；第二条信息通常告诉你你得在服务器端进行调试。</p>
 
-<p>It is easiest to debug ra_svn using a build with --disable-shared
---enable-maintainer-mode.  With the latter option, the error message
-will tell you exactly what line to set a breakpoint at; otherwise,
-look up the line number at the end of marshal.c:vparse_tuple() where
-it returns the "Malformed network data" error.</p>
+<p>编译时使用--disable-shared --enable-maintainer-mode选项调试ra_svn的时候更简单些。使用后面这个选项，当出现错误信息时，调试器会提示你应该在哪一行设置断点；不然的话你得找到marshal.c文件末尾vparse_tuple()所在的行数，这个函数会返回“Malformed network data”的错误信息。</p>
 
-<p>To debug the client, simply pull it up in gdb, set a breakpoint,
-and run the offending command:</p>
+<p>要调试客户端，只需要简单的在gdb调试器中激活这个模块，设置断点，然后运行那些出错的命令：</p>
 
 <pre>
   % gdb svn
@@ -1257,31 +1229,20 @@ and run the offending command:</p>
   NNN                                 "Malformed network data");
 </pre>
 
-<p>There are several bits of useful information:</p>
+<p>下面讲一些比较有用的东西：</p>
 
 <ul>
-<li><p>A backtrace will tell you exactly what protocol exchange is
-    failing.</p>
+<li><p>查看一下堆栈信息你可以看到在哪个协议上出现了问题。</p>
 </li>
 
-<li><p>"print *conn" will show you the connection buffer.  read_buf,
-    read_ptr, and read_end represent the read buffer, which can
-    show
-    you the data the marshaller is looking at.  (Since read_buf isn't
-    generally 0-terminated at read_end, be careful of falsely assuming
-    that there's garbage data in the buffer.)</p>
+<li><p>使用“print *conn”命令可以显示连接的缓冲情况。read_buf，read_ptr还有read_end表示读取缓冲区，你可以在上面看到编排器（Marshaller）正在查找的数据。（因为read_buf在read_end处通常不是以0结束符结尾的，所以要注意，不要理所当然的以为缓冲区里还有一些垃圾数据。)</p>
 </li>
 
-<li><p>The format string determines what the marshaller was expecting to
-    see.</p>
+<li><p>格式化字符串决定了编排器期望查找的数据。</p>
 </li>
 </ul>
 
-<p>To debug the server in daemon mode, pull it up in gdb, set a
-breakpoint (usually a "Connection closed unexpectedly" error on the
-client indicates a "Malformed network data" error on the server,
-although it can also indicate a core dump), and run it with the "-X"
-option to serve a single connection:</p>
+<p>要在守护进程模式下调试服务端，先在gdb调试器中启动它，设置断点（通常客户端的“Connection closed unexpectedly”错误说明服务端发生了“Malformed network data”错误，不过有时候是因为内存转储的缘故），然后使用“-X”参数以单连接形式提供服务：</p>
 
 <pre>
   % gdb svnserve
@@ -1289,14 +1250,9 @@ option to serve a single connection:</p>
   (gdb) run -X
 </pre>
 
-<p>Then run the offending client command.  From there, it's just like
-debugging the client.</p>
+<p>然后运行那些出问题的客户端命令。这样看的话，其实跟调试客户端是很像的。</p>
 
-<p>Debugging the server in tunnel mode is more of a pain.  You'll need
-to stick something like "{ int x = 1; while (x); }" near the top of
-svnserve's main() and put the resulting svnserve in the user path on
-the server.  Then start an operation, gdb attach the process on the
-server, "set x = 0", and step through the code as desired.</p>
+<p>在隧道模式下调试服务端会比较痛苦。你需要在svnserve里面靠近main()方法的上面加入类似“{ int x = 1; while (x); }”这样的语句，然后把新的svnserve放在服务器上的用户路径中。然后开始操作，gdb会把服务器上的进程附加进来，执行“set x = 0”，然后进入你想查看的代码。</p>
 
 </div>
 
@@ -1304,33 +1260,21 @@ server, "set x = 0", and step through the code as desired.</p>
 
 
 <div class="h2" id="tracing-memory-leaks" title="tracing-memory-leaks">
-<h2>Tracking down memory leaks</h2>
+<h2>跟踪内存泄露</h2>
 
-<p>Our use of APR pools makes it unusual for us to have memory leaks
-in the strictest sense; all the memory we allocate will be cleaned up
-eventually.  But sometimes an operation takes more memory than it
-should; for instance, a checkout of a large source tree should not use
-much more memory than a checkout of a small source tree.  When that
-happens, it generally means we're allocating memory from a pool whose
-lifetime is too long.</p>
+<p>我们使用的APR池在严格模式下基本不可能会出现内存泄露的问题。所有申请的内存最终都会被释放掉。但是有时候某个操作可能会占用过多的不必要的内存；例如，对比较大的源码树的检出不应该比相对比较小的源码树的检出占用的内存多出那么多。如果是这样的话，那么通常意味着我们从池里申请的内存生命周期过长了。</p>
 
-<p>If you have a favorite memory leak tracking tool, you can configure
-with --enable-pool-debug (which will make every pool allocation use
-its own malloc()), arrange to exit in the middle of the operation, and
-go to it.  If not, here's another way:</p>
+<p>如果你有比较喜欢的内存泄露检测工具，你可以配置其使用--enable-pool-debug选项（这会导致每一次申请池的时候都使用自带的malloc()函数），使它在操作中途退出，然后查看检测结果。如果没用的话，那么使用下面的办法：</p>
 
 <ul>
 
-<li><p>Configure with --enable-pool-debug=verbose-alloc.  Make sure to
-       rebuild all of APR and Subversion so that every allocation gets
-       file-and-line information.</p>
+<li><p>配置参数--enable-pool-debug=verbose-alloc。确保所有APR和Subversion都经过重新编译，这样每一次的内存分配都会有“文件和行数”（file-and-line）的信息。</p>
 </li>
 
-<li><p>Run the operation, piping stderr to a file.  Hopefully you have
-      lots of disk space.</p>
+<li><p>执行操作，把stderr标准错误输出设备指向一个文件。希望你硬盘空间足够大。</p>
 </li>
 
-<li><p>In the file, you'll see lots of lines which look like:</p>
+<li><p>打开文件，你会看到很多类似下面这样的行：</p>
 
    <pre>
     POOL DEBUG: [5383/1024] PCALLOC (      2763/      2763/      5419) \
@@ -1338,16 +1282,7 @@ go to it.  If not, here's another way:</p>
     &lt;subversion/libsvn_subr/auth.c:122&gt; (118/118/0)
    </pre>
 
-    <p>What you care about most is the tenth field (the one in
-       quotes), which gives you the file and line number where the
-       pool for this allocation was created.  Go to that file and line
-       and determine the lifetime of the pool.  In the example above,
-       main.c:612 indicates that this allocation was made in the
-       top-level pool of the svn client.  If this were an allocation
-       which was repeated many times during the course of an
-       operation, that would indicate a source of a memory leak.  The
-       eleventh field (the one in brackets) gives the file and line
-       number of the allocation itself.</p>
+    <p>你所最关心的应该在第十个字段上（用引号括起来的），这个字段告诉你池分配时的文件和行号。定位到该文件指定的行，然后判断池的生命周期。在上面的例子中，main.c:612说明这次分配是在svn客户端的根级别的池中分配的。如果这样的分配在一次操作过程中重复出现多次，那么意味着有可能这里出现了内存泄露。第十一个字段（括号括起来的）指出了分配的文件和行号本身。</p>
 </li>
 
 </ul>
@@ -1356,35 +1291,15 @@ go to it.  If not, here's another way:</p>
 
 
 <div class="h2" id="log-messages" title="log-messages">
-<h2>Writing log messages</h2>
+<h2>编写日志信息</h2>
 
-<p>Every commit needs a log message.  </p>
+<p>每一次提交都需要填写日志信息。</p>
 
-<p>The intended audience for a log message is a developer who is
-already familiar with Subversion, but not necessarily familiar with
-this particular commit.  Usually when someone goes back and reads a
-change, he no longer has in his head all the context around that
-change.  This is true even if he is the author of the change!  All the
-discussions and mailing list threads and everything else may be
-forgotten; the only clue to what the change is about comes from the
-log message and the diff itself.  People revisit changes with
-surprising frequency, too: for example, it might be months after the
-original commit and now the change is being ported to a maintenance
-branch.</p>
+<p>查看日志信息的人可能是一个已经熟悉Subversion的开发人员，但他不一定对每一次提交的修改都很熟悉。通常当一个人回过头来查看版本库中的某次修改的时候，他已经完全忘记了当初做这次修改了的原因了，即使当时这次修改是他自己提交的！当时的所有讨论、相关的邮件列表内容还有其他信息可能都已经不记得了。唯一关于这次修改的提示性信息只能从提交的日志信息中去查看了，或者使用diff比较一下。而且，大家经常会很频繁的重新去查看当时做的修改：例如，提交之后过了几个月了，这些修改已经被放到维护分支里面了。</p>
 
-<p>The log message is the introduction to the change.  Start it off
-with one line indicating the general nature of the change, and follow
-that with a descriptive paragraph if necessary.  This not only helps
-put developers in the right frame of mind for reading the rest of the
-log message, but also plays well with the "CIA" bot that echoes the
-first line of each commit to realtime forums like IRC.  (For details,
-see <a href="http://cia.navi.cx/">http://cia.navi.cx/</a>.)  However,
-if the commit is just one simple change to one file, then you can
-dispense with the general description and simply go straight to the
-detailed description, in the standard filename-then-symbol format
-shown below.</p>
+<p>日志信息是对修改内容的一个介绍。可以以一行先简单概述修改的摘要信息，然后如果需要的话，再细述修改的内容的细节。以摘要方式写日志这种方式不仅可以让开发人员更好的看懂剩余的日志信息，而且对于像“CIA”这种类似IRC即时通讯软件的可以自动将提交信息中的首行发布到实时论坛上面的机器人程序也是有利的。（细节请参考：<a href="http://cia.navi.cx/">http://cia.navi.cx/</a>。）不过，如果当次提交只是对一个文件做了简单的修改的话，那么你可以省掉开头的摘要信息，直接描述细节的内容，格式就像你下面看到的这种“文件名-符号”的形式。</p>
 
-<p>Throughout the log message, use full sentences, not sentence
+<p>在日志信息中，要使用完整的语句去描述，而不要使用Throughout the log message, use full sentences, not sentence
 fragments.  Fragments are more often ambiguous, and it takes only a
 few more seconds to write out what you mean.  Certain fragments like
 "Doc fix", "New file", or "New function" are acceptable because they
