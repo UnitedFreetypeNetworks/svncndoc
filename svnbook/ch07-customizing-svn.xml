@@ -1,0 +1,796 @@
+
+  <chapter xml:id="svn.customization">
+    <info>
+      <title>定制你的Subversion体验</title>
+    </info>
+    <para>版本控制可以成为复杂的主题，和科学一样充满艺术性，为解决事情能提供了无数的方法。贯穿这本书，你已经阅读许多Subversion命令行子命令，以及可以改变运行方式的选项，在本章我们要查看一些自定义Subversion工作的方法—设置Subversion运行配置，使用外置帮助程序，Subversion与操作系统配置的地区交互等等。</para>
+    <!-- TODO(cmpilato): Gut the runtime config stuff like I did the
+       property stuff, making larger topical sections to which the
+       runtime config stuff generally refers.  Like already exists for
+       external diff/diff3, add, for example, a section on external
+       editors. -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.advanced.confarea">
+      <info>
+        <title>运行配置区</title>
+      </info>
+      <para>Subversion提供了许多用户可以控制的可选行为方式，许多是用户希望添加到所有的Subversion操作中的选项，为了避免强制用户记住命令行参数并且在每个命令中使用，Subversion使用配置文件，并且将配置文件保存在独立的Subversion配置区。</para>
+      <para>Subversion<firstterm>配置区</firstterm>是一个双层结构，保存了可选项的名称和值。通常，Subversion配置区是一个保存<firstterm>配置文件</firstterm>的特殊目录(第一层结构)，目录中保存了一些标准INI格式的文本文件(文件中的<quote>section</quote>形成第二层结构)。这些文件可以简单用你喜欢的文本编辑器编辑(如Emacs或vi)，而且保存了客户端可以读取的指示，用来指导用户的一些行为选项。</para>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.confarea.layout">
+        <info>
+          <title>配置区布局</title>
+        </info>
+        <para><command>svn</command>命令行客户端第一次执行时，会创建一个用户配置区，在类Unix系统中，配置区位于用户主目录中，名为<filename>.subversion</filename>。在Win32系统，Subversion创建一个名为<filename>Subversion</filename>的目录，这个目录通常位于用户配置目录(顺便说一句，通常是一个隐藏目录)的<filename>Application Data</filename>子目录下。然而，在Win32平台上，此目录的具体位置在不同的系统上是不一样的，由Windows注册表决定。 <footnote><para><literal>APPDATA</literal>环境变量指向<filename>Application Data</filename>目录，所以你可以通过<filename>%APPDATA%\Subversion</filename>引用用户配置区目录。</para></footnote>我们以Unix下的名字<filename>.subversion</filename>来表示用户配置区。</para>
+        <para>除了用户配置区，Subversion也提供了系统配置区，通过系统配置区，系统管理员可以为某个机器的所有用户建立缺省配置值。注意系统配置区不会规定强制性的策略—每个用户配置区都可以覆盖系统配置区中的配置项，而<command>svn</command>的命令行参数决定了最后的行为。在类Unix的平台上，系统配置区位于<filename>/etc/subversion</filename>目录下，在Windows平台上，系统配置区位于<filename>Application Data</filename>(再说一次，是由Windows注册表决定的)的<filename>Subversion</filename>目录中。与每用户配置区不同，<command>svn</command>不会试图创建系统配置区。</para>
+        <para>目前，Subversion的配置区包含三个文件—两个配置文件(<filename>config</filename>和<filename>servers</filename>)，和一个INI文件格式的<filename>README.txt</filename>描述文件。配置文件创建的时候，Subversion的选项都设置为默认值。配置文件中的选项都按功能划分成组，大多数选项还有详细的文字描述注释，说明这些选项的值对Subversion的主要影响。要修改选项，只需用文本编辑器打开并编辑配置文件。如果想要恢复缺省的配置，可以直接删除(或者重命名)配置目录，并且运行一些如<command>svn --version</command>之类的无关紧要的<command>svn</command>命令，一个包含缺省值的新配置目录就会创建起来。</para>
+        <para>用户配置区也缓存了认证信息，<filename>auth</filename>目录下的子目录中缓存了一些Subversion支持的各种认证方法的信息，这个目录需要相应的用户权限才可以访问。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.confarea.windows-registry">
+        <info>
+          <title>配置和 Windows 注册表</title>
+        </info>
+        <para>除了基于INI文件的配置区，运行在Windows平台的Subversion客户端也可以使用Windows注册表来保存配置数据。注册表中保存的选项名称和值的含义与INI文件中相同，<quote>file/section</quote>在注册表中表现为注册表键树的层级，使得双层结构得以保留下来。</para>
+        <para>Subversion的系统配置值保存在键<literal>HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion</literal>下。举个例子，<literal>global-ignores</literal>选项位于<filename>config</filename>文件的<literal>miscellany</literal>小节，在Windows注册表中，则位于<literal>HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion\Config\Miscellany\global-ignores</literal>。用户配置值存放在<literal>HKEY_CURRENT_USER\Software\Tigris.org\Subversion</literal>下。</para>
+        <para>基于注册表的配置项在基于文件的配置项<emphasis>之前</emphasis>解析，所以其配置项的值会被配置文件中相同配置项的值覆盖，换句话说，在Windows系统下这样查找配置信息；低位的位置优先于高位的位置：</para>
+        <orderedlist inheritnum="ignore" continuation="restarts">
+          <listitem>
+            <para>命令行选项</para>
+          </listitem>
+          <listitem>
+            <para>用户INI配置文件</para>
+          </listitem>
+          <listitem>
+            <para>用户注册表值</para>
+          </listitem>
+          <listitem>
+            <para>系统INI配置文件</para>
+          </listitem>
+          <listitem>
+            <para>系统注册表值</para>
+          </listitem>
+        </orderedlist>
+        <para>此外，虽然Windows注册表不支持<quote>注释掉</quote>这种概念，但是Subversion会忽略所有以井号(<literal>#</literal>)开始的字符，这允许你快速的取消一个选项而不需要删除整个注册表键，明显简化了恢复选项的过程。</para>
+        <para><command>svn</command>命令行客户端不会尝试写Windows注册表，也不会在注册表中创建默认配置区。不过可以使用<command>REGEDIT</command>创建所需的键。此外，还可以创建一个<filename>.reg</filename>文件(例如<xref linkend="svn.advanced.confarea.windows-registry.ex-1"/>中的这一个)，并在文件浏览器中双击这个文件，文件中的数据就会合并到注册表中。</para>
+        <example xml:id="svn.advanced.confarea.windows-registry.ex-1">
+          <info>
+            <title>注册表条目(.reg)文件样例</title>
+          </info>
+          <programlisting>
+REGEDIT4
+
+[HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion\Servers\groups]
+
+[HKEY_LOCAL_MACHINE\Software\Tigris.org\Subversion\Servers\global]
+"#http-proxy-host"=""
+"#http-proxy-port"=""
+"#http-proxy-username"=""
+"#http-proxy-password"=""
+"#http-proxy-exceptions"=""
+"#http-timeout"="0"
+"#http-compression"="yes"
+"#neon-debug-mask"=""
+"#ssl-authority-files"=""
+"#ssl-trust-default-ca"=""
+"#ssl-client-cert-file"=""
+"#ssl-client-cert-password"=""
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\auth]
+"#store-passwords"="yes"
+"#store-auth-creds"="yes"
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\helpers]
+"#editor-cmd"="notepad"
+"#diff-cmd"=""
+"#diff3-cmd"=""
+"#diff3-has-program-arg"=""
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\tunnels]
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\miscellany]
+"#global-ignores"="*.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* .DS_Store"
+"#log-encoding"=""
+"#use-commit-times"=""
+"#no-unlock"=""
+"#enable-auto-props"=""
+
+[HKEY_CURRENT_USER\Software\Tigris.org\Subversion\Config\auto-props]
+</programlisting>
+        </example>
+        <para>上面例子里显示的<filename>.reg</filename>文件中，包含了一些最常用的配置选项和它们的缺省值。注意，上面的例子中不仅包含了系统设置(关于网络代理相关的选项)，也包含了用户设置(指定的编辑器程序，是否保存密码，以及其它选项)。同时要注意的是，所有选项都注释掉了，要启用其中的选项，只需删除该选项名称前面的井号(<literal>#</literal>)，然后设置相应的值就可以了。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.confarea.opts">
+        <info>
+          <title>配置选项</title>
+        </info>
+        <!-- TODO(cmpilato): Rework and move this section to the Reference -->
+        <para>本节我们会详细讨论Subversion目前支持的运行配置选项。</para>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <section xml:id="svn.advanced.confarea.opts.servers">
+          <info>
+            <title>服务器</title>
+          </info>
+          <para><filename>servers</filename>文件保存了Subversion关于网络层的配置选项，这个文件有两个特别的小节：<literal>groups</literal> 和<literal>global</literal>。<literal>groups</literal>小节是一个交叉引用表，其中的关键字是<filename>servers</filename>文件中其它小节的名字，值则是<firstterm>globs</firstterm>格式的，也就是包含通配符的字符序列，对应于接收Subversion请求的主机名。</para>
+          <programlisting>
+[groups]
+beanie-babies = *.red-bean.com
+collabnet = svn.collab.net
+
+[beanie-babies]
+…
+
+[collabnet]
+…
+</programlisting>
+          <para>当通过网络访问Subversion服务器时，客户端会设法匹配正在尝试连接的服务器名字和<literal>groups</literal>小节中的glob名称，如果发现匹配，Subversion会在<filename>servers</filename>文件中查找对应于这个glob名称的小节，并从该小节中去读取真实的网络配置设置。</para>
+          <para>如果没有能够匹配到<literal>groups</literal>中的glob名称，<literal>global</literal>小节中的选项就会发生作用。<literal>global</literal>小节中的选项与其他小节一样(当然是除了<literal>groups</literal>小节)，这些选项是：</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <literal>http-proxy-exceptions</literal>
+              </term>
+              <listitem>
+                <para>这里指定了一组逗号分割的列表，其内容是无须代理服务器可以直接访问的版本库主机名模式，模式语法与Unix的shell中的文件名相同，其中任何匹配的版本库主机不会通过代理访问。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-proxy-host</literal>
+              </term>
+              <listitem>
+                <para>代理服务器的详细主机名，是HTTP为基础的Subversion请求必须通过的，缺省值为空，意味着Subversion不会尝试通过代理服务器进行HTTP请求，而会尝试直接连接目标机器。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-proxy-port</literal>
+              </term>
+              <listitem>
+                <para>代理服务器的详细端口，缺省值为空。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-proxy-username</literal>
+              </term>
+              <listitem>
+                <para>代理服务器的用户名，缺省值为空。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-proxy-password</literal>
+              </term>
+              <listitem>
+                <para>代理服务器的密码，缺省为空。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-timeout</literal>
+              </term>
+              <listitem>
+                <para>等待服务器响应的时间，以秒为单位，如果你的网络速度较慢，导致Subversion的操作超时，你可以加大这个数值，缺省值是<literal>0</literal>，意思是让HTTP库Neon使用自己的缺省值。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-compression</literal>
+              </term>
+              <listitem>
+                <para>这说明是否在与设置好DAV的服务器通讯时使用网络压缩请求，缺省值是<literal>yes</literal>(尽管只有在这个功能编译到网络层时压缩才会有效)，设置<literal>no</literal>来关闭压缩，如调试网络传输时。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-library</literal>
+              </term>
+              <listitem>
+                <para>Subversion provides a pair of repository access
+                modules that understand its WebDAV network protocol.
+                The original one, which shipped with Subversion 1.0, is
+                <literal>libsvn_ra_neon</literal> (though back then it
+                was called <literal>libsvn_ra_dav</literal>).  Newer
+                Subversion versions also provide
+                <literal>libsvn_ra_serf</literal>, which uses a
+                different underlying implementation and aims to
+                support some of the newer HTTP concepts.</para>
+                <para>At this point, <literal>libsvn_ra_serf</literal>
+                is still considered experimental, though it appears to
+                work in the common cases quite well.  To encourage
+                experimentation, Subversion provides the
+                <literal>http-library</literal> runtime configuration
+                option to allow users to specify (generally, or in a
+                per-server-group fashion) which WebDAV access module
+                they'd prefer to use—<literal>neon</literal> or
+                <literal>serf</literal>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>http-auth-types</literal>
+              </term>
+              <listitem>
+                <para>This option is a semicolon-delimited list of
+                authentication types supported by the Neon-based
+                WebDAV repository access modules.  Valid members of
+                this list are <literal>basic</literal>,
+                <literal>digest</literal>, and
+                <literal>negotiate</literal>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>neon-debug-mask</literal>
+              </term>
+              <listitem>
+                <para>只是一个整形的掩码，底层的HTTP库Neon用来选择产生调试的输出，缺省值是<literal>0</literal>，意思是关闭所有的调试输出，关于Subversion使用Neon的详细信息，见<xref linkend="svn.developer"/>。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>ssl-authority-files</literal>
+              </term>
+              <listitem>
+                <para>这是一个分号分割的路径和文件列表，这些文件包含了Subversion客户端在用HTTPS访问时可以接受的认证授权(或者CA)证书。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>ssl-trust-default-ca</literal>
+              </term>
+              <listitem>
+                <para>如果你希望Subversion可以自动相信OpenSSL携带的缺省的CA，可以设置为<literal>yes</literal>。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>ssl-client-cert-file</literal>
+              </term>
+              <listitem>
+                <para>如果一个主机(或是一些主机)需要一个SSL客户端证书，你会收到一个提示说需要证书的路径。通过设置这个路径你的Subversion客户端可以自动找到你的证书而不会打扰你。没有标准的存放位置；Subversion会从任何你指定的路径得到这个文件。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>ssl-client-cert-password</literal>
+              </term>
+              <listitem>
+                <para>如果你的SSL客户端证书文件是用密码加密的，Subversion会在每次使用证书时请你输入密码，如果你发现这很讨厌(并且不介意把密码存放在<filename>servers</filename>文件中)，你可以设置这个参数为证书的密码，这样就不会再收到密码输入提示了。</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+        <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+        <section xml:id="svn.advanced.confarea.opts.config">
+          <info>
+            <title>配置</title>
+          </info>
+          <para>其它的Subversion运行选项保存在<filename>config</filename>文件中，这些运行选项与网络连接无关，只是一些正在使用的选项，但是为了应对未来的扩展，也按小节划分成组。</para>
+          <para><literal>auth</literal>小节保存了Subversion相关的认证和授权的设置，它包括：</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <literal>store-passwords</literal>
+              </term>
+              <listitem>
+                <para>这告诉Subversion是否缓存服务器认证要求时用户提供的密码，缺省值是<literal>yes</literal>。设置为<literal>no</literal>可以关闭在存盘的密码缓存，你可以通过<command>svn</command>的<option>--no-auth-cache</option>命令行参数(那些支持这个参数的子命令)来覆盖这个设置，详细信息请见<xref linkend="svn.serverconfig.netmodel.credcache"/>。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>store-auth-creds</literal>
+              </term>
+              <listitem>
+                <para>这个设置与<literal>store-passwords</literal>相似，不过设置了这个选项将会保存<emphasis>所有</emphasis>认证信息，如用户名、密码、服务器证书，以及其他任何类型的可以缓存的凭证。</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <para><literal>helpers</literal>小节控制完成Subversion任务的外部程序，正确的选项包括：</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <literal>editor-cmd</literal>
+              </term>
+              <listitem>
+                <para>This specifies the program Subversion will use to
+                query the user for certain types of textual metadata
+                or when interactively resolving conflicts.  See
+                <xref linkend="svn.advanced.externaleditors"/> for
+                more details on using external text editors with
+                Subversion.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>diff-cmd</literal>
+              </term>
+              <listitem>
+                <para>这里是比较程序的绝对路径，当Subversion生成了<quote>diff</quote>输出时(例如当使用<command>svn diff</command>命令)就会使用，缺省Subversion会使用一个内置的比较库—设置这个参数会强制它使用外部程序执行这个任务，此类程序的更多信息见<xref linkend="svn.advanced.externaldifftools"/>。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>diff3-cmd</literal>
+              </term>
+              <listitem>
+                <para>这指定了一个三向的比较程序，Subversion使用这个程序来合并用户和从版本库接受的修改，缺省Subversion会使用一个内置的比较库—设置这个参数会导致它会使用外部程序执行这个任务，此类程序的更多信息见<xref linkend="svn.advanced.externaldifftools"/>。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>diff3-has-program-arg</literal>
+              </term>
+              <listitem>
+                <para>如果<literal>diff3-cmd</literal>选项设置的程序接受一个<option>--diff-program</option>命令行参数，这个标记必须设置为<literal>true</literal>。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>merge-tool-cmd</literal>
+              </term>
+              <listitem>
+                <para>This specifies the program that Subversion will
+                use to perform three-way merge operations on your
+                versioned files.  See <xref linkend="svn.advanced.externaldifftools"/> for more
+                details on using such programs.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <para><literal>tunnels</literal>小节允许你定义一个<command>svnserve</command>和<literal>svn://</literal>客户端连接使用的管道模式，更多细节见<xref linkend="svn.serverconfig.svnserve.sshauth"/>。</para>
+          <para><literal>miscellany</literal>小节是一些没法归到别处的选项。 <footnote><para>就是一个大杂烩？</para></footnote>在本小节，你会找到：</para>
+          <variablelist>
+            <varlistentry>
+              <term>
+                <literal>global-ignores</literal>
+              </term>
+              <listitem>
+                <para>当运行<command>svn status</command>命令时，Subversion会和版本化的文件一样列出未版本化的文件和目录，并使用<literal>?</literal>字符(见see <xref linkend="svn.tour.cycle.examine.status"/>)标记，有时候察看无关的未版本化文件会很讨厌—比如程序编译产生的对象文件—的显示出来。<literal>global-ignores</literal>选项是一个空格分隔的列表，用来描述Subversion在它们版本化之前不想显示的文件和目录，缺省值是 <literal>*.o *.lo *.la #*# .*.rej *.rej .*~ *~ .#* .DS_Store</literal>。</para>
+                <para>就像<command>svn status</command>，<command>svn add</command>和<command>svn import</command>命令也会忽略匹配这个列表的文件，你可以用单个的<option>--no-ignore</option>命令行参数来覆盖这个选项。</para>
+                <para>For information on more fine-grained control of ignored items, see <xref linkend="svn.advanced.props.special.ignore"/>.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>enable-auto-props</literal>
+              </term>
+              <listitem>
+                <para>这里指示Subversion自动对新加的或者导入的文件设置属性，缺省值是<literal>no</literal>，可以设置为<literal>yes</literal>来开启自动添加属性，这个文件的<literal>auto-props</literal>小节会说明哪些属性会被设置到哪些文件。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>log-encoding</literal>
+              </term>
+              <listitem>
+                <para>这个变量设置提交日志缺省的字符集，是<option>--encoding</option>选项(见<xref linkend="svn.ref.svn.sw"/>)的永久形式，Subversion版本库保存了一些UTF-8的日志信息，并且假定你的日志信息是用操作系统的本地编码，如果你提交的信息使用别的编码方式，你一定要指定不同的编码。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>use-commit-times</literal>
+              </term>
+              <listitem>
+                <para>通常你的工作拷贝文件会有最后一次被进程访问的时间戳，不管是你自己的编辑器还是用<command>svn</command>子命令。这通常对人们开发软件提供了便利，因为编译系统通常会通过查看时间戳来决定那些文件需要重新编译。</para>
+                <para>在其他情形，有时候如果工作拷贝的文件时间戳反映了上一次在版本库中更改的时间会非常好，<command>svn export</command>命令会一直放置这些<quote>上次提交的时间戳</quote>放到它创建的目录树。通过设置这个config参数为<literal>yes</literal>，<command>svn checkout</command>、<command>svn update</command>、 <command>svn switch</command>和<command>svn revert</command>命令也会为它们操作的文件设置上次提交的时间戳。</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>mime-types-file</literal>
+              </term>
+              <listitem>
+                <para>This option, new to Subversion 1.5, specifies the
+                path of a MIME types mapping file, such as the
+                <filename>mime.types</filename> file provided by the
+                Apache HTTP Server.  Subversion uses this file to
+                assign MIME types to newly added or imported files.
+                See <xref linkend="svn.advanced.props.auto"/> and
+                <xref linkend="svn.advanced.props.special.mime-type"/> for more about Subversion's detection and use of
+                file content types.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>preserved-conflict-file-exts</literal>
+              </term>
+              <listitem>
+                <para>The value of this option is a space-delimited list
+                of file extensions that Subversion should preserve
+                when generating conflict filenames.  By default, the
+                list is empty.  This option is new to Subversion
+                1.5.</para>
+                <para>When Subversion detects conflicting file content
+                changes, it defers resolution of those conflicts to the
+                user.  To assist in the resolution, Subversion keeps
+                pristine copies of the various competing versions of
+                the file in the working copy.  By default, those
+                conflict files have names constructed by appending to
+                the original filename a custom extension such as
+                <filename>.mine</filename> or
+                <filename>.<replaceable>REV</replaceable></filename>
+                (where <replaceable>REV</replaceable> is a revision
+                number).  A mild annoyance with this naming scheme is
+                that on operating systems where a file's extension
+                determines the default application used to open and
+                edit that file, appending a custom extension prevents
+                the file from being easily opened by its native
+                application.  For example, if the file
+                <filename>ReleaseNotes.pdf</filename> was conflicted,
+                the conflict files might be named
+                <filename>ReleaseNotes.pdf.mine</filename> or
+                <filename>ReleaseNotes.pdf.r4231</filename>.  While
+                your system might be configured to use Adobe's Acrobat
+                Reader to open files whose extensions are
+                <filename>.pdf</filename>, there probably isn't an
+                application configured on your system to open all
+                files whose extensions are
+                <filename>.r4231</filename>.</para>
+                <para>You can fix this annoyance by using this
+                configuration option, though.  For files with one of
+                the specified extensions, Subversion will append to
+                the conflict file names the custom extension just as
+                before, but then also reappend the file's original
+                extension.  Using the previous example, and assuming
+                that <literal>pdf</literal> is one of the extensions
+                configured in this list thereof, the conflict files
+                generated for <filename>ReleaseNotes.pdf</filename>
+                would instead be named
+                <filename>ReleaseNotes.pdf.mine.pdf</filename> and
+                <filename>ReleaseNotes.pdf.r4231.pdf</filename>.
+                Because each file ends in
+                <filename>.pdf</filename>, the correct default
+                application will be used to view them.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>交互式冲突</literal>
+              </term>
+              <listitem>
+                <para>This is a Boolean option that specifies whether
+                Subversion should try to resolve conflicts
+                interactively.  If its value is <literal>yes</literal>
+                (which is the default value), Subversion will prompt
+                the user for how to handle conflicts in the manner
+                demonstrated in <xref linkend="svn.tour.cycle.resolve"/>.  Otherwise, it will simply flag the conflict and
+                continue its operation, postponing resolution to a later
+                time.</para>
+              </listitem>
+            </varlistentry>
+            <varlistentry>
+              <term>
+                <literal>no-unlock</literal>
+              </term>
+              <listitem>
+                <para>This Boolean option corresponds to <command>svn
+                commit</command>'s <option>--no-unlock</option>
+                option, which tells Subversion not to release locks on
+                files you've just committed.  If this runtime option
+                is set to <literal>yes</literal>, Subversion will
+                never release locks automatically, leaving you to run
+                <command>svn unlock</command> explicitly.  It defaults
+                to <literal>no</literal>.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+          <para><literal>auto-props</literal>小节控制Subversion客户端自动设置提交和导入的文件的属性的能力，它可以包含任意数量的键-值对，格式是<literal>PATTERN = PROPNAME=PROPVALUE</literal>，其中<literal>PATTERN</literal>是一个文件模式，匹配一系列文件名，此行其它两项为属性和值。如果一个文件匹配多次，会导致有多个属性集；然而，没有手段保障自动属性不会按照配置文件中的顺序应用，所以你可以一个规则<quote>覆盖</quote>另一个。你可以在<filename>config</filename>文件找到许多自动属性的用法实例。最后，如果你希望开启自动属性，不要忘了设置<literal>miscellany</literal>小节的<literal>enable-auto-props</literal>为<literal>yes</literal>。</para>
+        </section>
+      </section>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.advanced.l10n">
+      <info>
+        <title>本地化</title>
+      </info>
+      <para><firstterm>本地化</firstterm>是让程序按照地区特定方式运行的行为，如果一个程序的格式、数字或者是日期是你的本地方式，或者是打印的信息(或者是接受的输入)是你本地的语言，这个程序被叫做已经<firstterm>本地化了</firstterm>，这部分描述了针对本地化的Subversion的步骤。</para>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.l10n.understanding">
+        <info>
+          <title>理解区域设置</title>
+        </info>
+        <para>许多现代操作系统都有一个<quote>当前地区</quote>的概念—也就是本地化习惯服务的国家和地区。这些习惯—通常是被一些运行配置机制选择—影响程序展现数据的方式，也有接受用户输入的方式。</para>
+        <para>在类Unix的系统，你可以运行<command>locale</command>命令来检查本地关联的运行配置的选项值：</para>
+        <screen>
+$ locale
+LANG=
+LC_COLLATE="C"
+LC_CTYPE="C"
+LC_MESSAGES="C"
+LC_MONETARY="C"
+LC_NUMERIC="C"
+LC_TIME="C"
+LC_ALL="C"
+$
+</screen>
+        <para>输出是一个本地相关的环境变量和它们的值，在这个例子里，所有的变量设置为缺省的<literal>C</literal>地区，但是用户可以设置这些变量为特定的国家/语言代码组合。举个例子，如果有人设置<literal>LC_TIME</literal>变量为<literal>fr_CA</literal>，然后程序会知道使用讲法语的加拿大期望的格式来显示时间和日期信息。如果一个人会设置<literal>LC_MESSAGES</literal>变量为<literal>zh_TW</literal>，程序会知道使用繁体中文显示可读信息。如果设置<literal>LC_ALL</literal>的效果同分别设置所有的位置变量为同一个值有相同的效果。<literal>LANG</literal>用来作为没有设置地区变量的缺省值，为了查看Unix系统所有的地区列表，运行<command>locale -a</command>命令。</para>
+        <para>在Windows，地区配置是通过<quote>地区和语言选项</quote>控制面板管理的，可以从已存在的地区查看选择，甚至可以自定义(会是个很讨厌的复杂事情)许多显示格式习惯。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.l10n.svnuse">
+        <info>
+          <title>Subversion 对区域设置的使用</title>
+        </info>
+        <para>Subversion客户端，<command>svn</command>通过两种方式支持当前的地区配置。首先，它会注意<literal>LC_MESSAGES</literal>的值，然后尝试使用特定的语言打印所有的信息，例如：</para>
+        <screen>
+$ export LC_MESSAGES=de_DE
+$ svn help cat
+cat: Gibt den Inhalt der angegebenen Dateien oder URLs aus.
+Aufruf: cat ZIEL[@REV]...
+…
+</screen>
+        <para>这个行为在Unix和Windows上同样工作，注意，尽管有时你的操作系统支持某个地区，Subversion客户端可能不能讲特定的语言。为了制作本地化信息，志愿者可以提供各种语言的翻译。翻译使用GNU gettext包编写，相关的翻译模块使用<filename>.mo</filename>作为后缀名。举个例子，德国翻译文件为<filename>de.mo</filename>。翻译文件安装到你的系统的某个位置，在Unix它们会在<filename>/usr/share/locale/</filename>，而在Windows它们通常会在Subversion安装的<filename>\share\locale\</filename>目录。一旦安装，一个命名在程序后面的模块会为此提供翻译。举个例子，<filename>de.mo</filename>会最终安装到<filename>/usr/share/locale/de/LC_MESSAGES/subversion.mo</filename>，通过查看安装的<filename>.mo</filename>文件，我们可以看到Subversion支持的语言。</para>
+        <para>第二种支持地区设置的方式包括<command>svn</command>怎样解释你的输入，版本库使用UTF-8保存了所有的路径，文件名和日志信息。在这种情况下，版本库是<firstterm>国际化的</firstterm>—也就是版本库准备接受任何人类的语言。这意味着，无论如何Subversion客户端要负责发送UTF-8的文件名和日志信息到版本库，为此，必须将数据从本地位置转化为UTF-8。</para>
+        <para>举个例子，你创建了一个文件叫做<filename>caffè.txt</filename>，然后提交了这个文件，你写的日志信息是<quote>Adesso il caffè è più forte</quote>，文件名和日志信息都包含非ASCII字符，但是因为你的位置设置为<literal>it_IT</literal>，Subversion知道把它们作为意大利语解释，在发送到版本库之前，它用意大利字符集转化数据为UTF-8。</para>
+        <para>注意当版本库要求UTF-8文件名和日志信息时，它<emphasis>不会</emphasis>注意到文件的内容，Subversion会把文件内容看作字节串，没有任何客户端和服务器会尝试理解或是编码这些内容。</para>
+        <sidebar>
+          <info>
+            <title>字符集转换错误</title>
+          </info>
+          <para>当使用Subversion，你或许会碰到一个字符集转化关联的错误：</para>
+          <screen>
+svn: Can't convert string from native encoding to 'UTF-8':
+…
+svn: Can't convert string from 'UTF-8' to native encoding:
+…
+</screen>
+          <para>这个错误信息通常会发生在Subversion客户端从版本库接收到一个UTF-8串，但字符不能转化为当前的地区文字时，举个例子，如果你的地区设置是<literal>en_US</literal>，但是一个写作者使用日本文件名提交，你会在<command>svn update</command>接受文件时会看到这个错误。</para>
+          <para>解决方案或者是设置你的地区为<emphasis>可以</emphasis>表示即将到来的UTF-8数据，或者是修改版本库的文件名或信息。(不要忘记和你的合作者拍拍手—项目必须首先决定通用的语言，这样所有的参与者会使用相同的地区设置。)</para>
+        </sidebar>
+      </section>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.advanced.externaleditors">
+      <info>
+        <title>使用外置编辑器</title>
+      </info>
+      <para>The most obvious way to get data into Subversion is through
+      the addition of files to version control, committing changes to
+      those files, and so on.  But other pieces of
+      information besides merely versioned file data live in your
+      Subversion repository.  Some of these bits of
+      information—commit log messages, lock comments, and some
+      property values—tend to be textual in nature and are
+      provided explicitly by users.  Most of this information can be
+      provided to the Subversion command-line client using the
+      <option>--message</option> (<option>-m</option>) and
+      <option>--file</option> (<option>-F</option>) options with the
+      appropriate subcommands.</para>
+      <para>Each of these options has its pros and cons.  For example,
+      when performing a commit, <option>--file</option>
+      (<option>-F</option>) works well if you've already prepared a
+      text file that holds your commit log message.  If you didn't,
+      though, you can use <option>--message</option>
+      (<option>-m</option>) to provide a log message on the command
+      line.  Unfortunately, it can be tricky to compose anything more
+      than a simple one-line message on the command line.  Users want
+      more flexibility—multiline, free-form log message editing
+      on demand.</para>
+      <para>Subversion supports this by allowing you to specify an
+      external text editor that it will launch as necessary
+      to give you a more powerful input mechanism for this textual
+      metadata.  There are several ways to tell Subversion which
+      editor you'd like use.  Subversion checks the following things,
+      in the order specified, when it wants to launch such an
+      editor:</para>
+      <orderedlist inheritnum="ignore" continuation="restarts">
+        <listitem>
+          <para>命令行选项<literal>--editor-cmd</literal></para>
+        </listitem>
+        <listitem>
+          <para><literal>SVN_EDITOR</literal> environment variable</para>
+        </listitem>
+        <listitem>
+          <para><literal>editor-cmd</literal> runtime configuration option</para>
+        </listitem>
+        <listitem>
+          <para><literal>VISUAL</literal> environment variable</para>
+        </listitem>
+        <listitem>
+          <para><literal>EDITOR</literal> environment variable</para>
+        </listitem>
+        <listitem>
+          <para>也有可能Subversion会有一个内置的缺省值(官方编译版本不是如此)</para>
+        </listitem>
+      </orderedlist>
+      <para>所有这些选项和变量(不像<literal>diff-cmd</literal>)的值的开头都是shell中要执行的命令行，Subversion会追加一个空格和一个需要编辑的临时文件，编辑器必须修改临时文件，并且返回一个0来表明成功。</para>
+      <para>As noted, external editors can be used to provide commit log
+      messages to any of the committing subcommands (such as
+      <command>svn commit</command> or <command>import</command>,
+      <command>svn mkdir</command> or <command>delete</command> when
+      provided a URL target, etc.), and Subversion will try to
+      launch the editor automatically if you don't specify either of
+      the <option>--message</option> (<option>-m</option>) or
+      <option>--file</option> (<option>-F</option>) options.  The
+      <command>svn propedit</command> command is built almost entirely
+      around the use of an external editor.  And beginning in version
+      1.5, Subversion will also use the configured external text
+      editor when the user asks it to launch an editor during
+      interactive conflict resolution.  Oddly, there doesn't appear to
+      be a way to use external editors to interactively provide lock
+      comments.</para>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.advanced.externaldifftools">
+      <info>
+        <title>使用外置比较与合并工具</title>
+      </info>
+      <para>Subversion与外置两向和三向区别工具的接口可以追溯到很久以前，当时Subversion的唯一文本比较能力是建立在GNU的工具链之上，特别是<command>diff</command>和<command>diff3</command>工具，为了得到Subversion需要的方式，它使用非常复杂的选项和参数调用这些工具，而这些选项和参数都是工具特定的，渐渐的，Subversion发展了自己的比较区别库作为备份机制。<placeholder-1/><option>--diff-cmd</option>和<option>--diff3-cmd</option>选项是添加到Subversion的命令行客户端，所以用户可以更加容易的指明他们最喜欢的使用的GNU diff和diff3工具，而不是新奇的内置比较库，如果使用了这些选项，Subversion会忽略内置的比较库，转而使用外置程序，使用冗长的参数列表，目前还是这种情况。</para>
+      <para>人们很快意识到使用简单的配置机制必须使Subversion使用位于特定位置的GNU diff和diff3工具，毕竟，Subversion并不验证其被告之要执行的程序是否是GNU的工具链的比较工具。唯一可以配置的方面是外置工具在系统的位置—而不是选项集，参数顺序等等。Subversion一直将这些GNU工具选项发给你的外置比较工具，而不管程序是否可以理解那些选项，那不是所有用户直觉的方式。</para>
+      <para>使用外置比较和合并工具的关键是使用包裹脚本将Subversion的输出转化为你的脚本程序可以理解的形式，然后将这些比较工具的输出转化为你的Subversion期望的格式—GNU工具可能使用的格式，下面的小节覆盖了那些期望格式的细节。</para>
+      <note>
+        <para>何时启动双向或三向的文本比较或合并的决定完全是Subversion的决定，而这个决定是根据文件的<literal>svn:mime-type</literal>属性作出的，这意味着，例如，即使你有一个可以识别Microsoft Word格式的比较或合并工具，当你对一个Word文件设置为非人工可读(例如<literal>application/msword</literal>)时，依然不会调用这个识别Word的工具。关于MIME type的设定，可以见<xref linkend="svn.advanced.props.special.mime-type"/>。</para>
+      </note>
+      <para>Subversion 1.5 introduces interactive resolution of
+      conflicts (described in <xref linkend="svn.tour.cycle.resolve"/>), and one of the options provided to users is the ability to
+      launch a third-party merge tool.  If this action is taken,
+      Subversion will consult the <literal>merge-tool-cmd</literal>
+      runtime configuration option to find the name of an external
+      merge tool and, upon finding one, will launch that tool with the
+      appropriate input files.  This differs from the configurable
+      three-way differencing tool in a couple of ways.  First, the
+      differencing tool is always used to handle three-way
+      differences, whereas the merge tool is employed only when
+      three-way difference application has detected a conflict.
+      Second, the interface is much cleaner—your configured
+      merge tool need only accept as command-line parameters four path
+      specifications:  the base file, the <quote>theirs</quote> file
+      (which contains upstream changes), the <quote>mine</quote> file
+      (which contains local modifications), and the path of the file
+      where the final resolved contents should be stored.</para>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.externaldifftools.diff">
+        <info>
+          <title>外置 diff</title>
+        </info>
+        <para>Subversion可以调用适合GNU参数的diff工具，并期望外置程序能够返回成功的错误代码。对于大多数可用的diff程序，只有第6、7参数，diff两边文件的路径。需要注意Subversion对于每个修改的文件都要以异步方式(或<quote>后台</quote>)运行diff程序，你会得到许多并行的实例。最后，Subversion期望你的程序在发现区别时返回错误代码1，没有区别则返回0—任何其他的返回值都被认为是严重错误。 <footnote><para>GNU的diff手册这样说的：<quote>返回0意味着没有区别，1是有有区别，其它值意味着出现问题。</quote></para></footnote></para>
+        <para><xref linkend="svn.advanced.externaldifftools.diff.ex-1"/>和<xref linkend="svn.advanced.externaldifftools.diff.ex-2"/>分别是Bourne shell和Windows批处理外置diff工具的包裹器模版。</para>
+        <example xml:id="svn.advanced.externaldifftools.diff.ex-1">
+          <info>
+            <title>diffwrap.py</title>
+          </info>
+          <programlisting>
+#!/bin/sh
+
+# Configure your favorite diff program here.
+DIFF="/usr/local/bin/my-diff-tool"
+
+# Subversion provides the paths we need as the sixth and seventh 
+# parameters.
+LEFT=${6}
+RIGHT=${7}
+
+# Call the diff command (change the following line to make sense for
+# your diff program).
+$DIFF --left $LEFT --right $RIGHT
+
+# Return an errorcode of 0 if no differences were detected, 1 if some were.
+# Any other errorcode will be treated as fatal.
+</programlisting>
+        </example>
+        <example xml:id="svn.advanced.externaldifftools.diff.ex-2">
+          <info>
+            <title>diffwrap.bat</title>
+          </info>
+          <programlisting>
+@ECHO OFF
+
+REM Configure your favorite diff program here.
+SET DIFF="C:\Program Files\Funky Stuff\My Diff Tool.exe"
+
+REM Subversion provides the paths we need as the sixth and seventh 
+REM parameters.
+SET LEFT=%6
+SET RIGHT=%7
+
+REM Call the diff command (change the following line to make sense for
+REM your diff program).
+%DIFF% --left %LEFT% --right %RIGHT%
+
+REM Return an errorcode of 0 if no differences were detected, 1 if some were.
+REM Any other errorcode will be treated as fatal.
+</programlisting>
+        </example>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.advanced.externaldifftools.diff3">
+        <info>
+          <title>外置 diff3</title>
+        </info>
+        <para>Subversion按照符合GNU的diff3的参数调用合并程序，期望外置程序会返回成功的错误代码，并且完整合并的文件结果打印到标准输出(这样Subversion可以重定向这些东西到适当的版本控制下的文件)。对于大多数可选的合并程序，只有第9、10和11参数，分别代表<quote>mine</quote>、<quote>older</quote>和<quote>yours</quote>的路径。需要注意，因为Subversion依赖于你的合并程序的输出，你的包裹脚本在输出发送到Subversion之前不要退出。当最终退出，如果合并成功返回0，如果有为解决的冲突则返回1—其它返回值都是严重错误。</para>
+        <para><xref linkend="svn.advanced.externaldifftools.diff3.ex-1"/>和<xref linkend="svn.advanced.externaldifftools.diff3.ex-2"/>分别是Bourne shell和Windows批处理外置diff工具的包裹器模版。</para>
+        <example xml:id="svn.advanced.externaldifftools.diff3.ex-1">
+          <info>
+            <title>diff3wrap.py</title>
+          </info>
+          <programlisting>
+#!/bin/sh
+
+# Configure your favorite diff3/merge program here.
+DIFF3="/usr/local/bin/my-merge-tool"
+
+# Subversion provides the paths we need as the ninth, tenth, and eleventh 
+# parameters.
+MINE=${9}
+OLDER=${10}
+YOURS=${11}
+
+# Call the merge command (change the following line to make sense for
+# your merge program).
+$DIFF3 --older $OLDER --mine $MINE --yours $YOURS
+
+# After performing the merge, this script needs to print the contents
+# of the merged file to stdout.  Do that in whatever way you see fit.
+# Return an errorcode of 0 on successful merge, 1 if unresolved conflicts
+# remain in the result.  Any other errorcode will be treated as fatal.
+</programlisting>
+        </example>
+        <example xml:id="svn.advanced.externaldifftools.diff3.ex-2">
+          <info>
+            <title>diff3wrap.bat</title>
+          </info>
+          <programlisting>
+@ECHO OFF
+
+REM Configure your favorite diff3/merge program here.
+SET DIFF3="C:\Program Files\Funky Stuff\My Merge Tool.exe"
+
+REM Subversion provides the paths we need as the ninth, tenth, and eleventh 
+REM parameters.  But we only have access to nine parameters at a time, so we
+REM shift our nine-parameter window twice to let us get to what we need.
+SHIFT
+SHIFT
+SET MINE=%7
+SET OLDER=%8
+SET YOURS=%9
+
+REM Call the merge command (change the following line to make sense for
+REM your merge program).
+%DIFF3% --older %OLDER% --mine %MINE% --yours %YOURS%
+
+REM After performing the merge, this script needs to print the contents
+REM of the merged file to stdout.  Do that in whatever way you see fit.
+REM Return an errorcode of 0 on successful merge, 1 if unresolved conflicts
+REM remain in the result.  Any other errorcode will be treated as fatal.
+</programlisting>
+        </example>
+      </section>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.customization.summary">
+      <info>
+        <title>总结</title>
+      </info>
+      <para>Sometimes there's a single right way to do things; sometimes
+      there are many.  Subversion's developers understand that while
+      the majority of its exact behaviors are acceptable to most of
+      its users, there are some corners of its functionality where
+      such a universally pleasing approach doesn't exist.  In those
+      places, Subversion offers users the opportunity to tell it how
+      <emphasis>they</emphasis> want it to behave.</para>
+      <para>In this chapter, we explored Subversion's runtime
+      configuration system and other mechanisms by which users can
+      control those configurable behaviors.  If you are a developer,
+      though, the next chapter will take you one step further.  It
+      describes how you can further customize your Subversion
+      experience by writing your own software against Subversion's
+      libraries.</para>
+    </section>
+  </chapter>
+  <!--
+local variables: 
+sgml-parent-document: ("book.xml" "chapter")
+end:
+-->
