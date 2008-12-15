@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-<!DOCTYPE book SYSTEM "../../tools/dtd/docbook-4.4/docbookx.dtd"
+<!DOCTYPE book SYSTEM "../tools/dtd/dblite.dtd"
 [
-<!ENTITY % vers   SYSTEM "version.xml">
-%vers;
+
 <!ENTITY foreword SYSTEM "foreword.xml">
 <!ENTITY ch00     SYSTEM "ch00-preface.xml">
 <!ENTITY ch01     SYSTEM "ch01-fundamental-concepts.xml">
@@ -22,13 +21,13 @@
 ]>
 
 <book id="svn">
-  <title>Ê¹ÓÃSubversion½øĞĞ°æ±¾¿ØÖÆ</title>
+  <title>ä½¿ç”¨Subversionè¿›è¡Œç‰ˆæœ¬æ§åˆ¶</title>
 
   <bookinfo>
 
-    <subtitle>Õë¶ÔSubversion 1.5(¸ù¾İr3331±àÒë)</subtitle>
+    <subtitle>é’ˆå¯¹Subversion 1.5(æ ¹æ®r3331ç¼–è¯‘)</subtitle>
 
-    <edition>µÚ¶ş°æ</edition>
+    <edition>ç¬¬äºŒç‰ˆ</edition>
     <biblioid class="isbn">?-?????-???-?</biblioid>
     <authorgroup>
       <author>
@@ -56,7 +55,7 @@
         <surname>Apandi</surname>
       </personname>
     </editor>
-    <pagenums>´óÔ¼ 350 Ò³</pagenums>
+    <pagenums>å¤§çº¦ 350 é¡µ</pagenums>
     <pubdate>(TBA)</pubdate>
     <copyright>
       <year>2002</year>
@@ -83,7 +82,7 @@
       <holder>Dongsheng Song (dongsheng.song@gmail.com)</holder>
     </copyright>
     <legalnotice>
-      <para>±¾×÷Æ·Ê¹ÓÃ¹²Í¬´´ÔìĞí¿ÉÖ¤£¬¿ÉÒÔ·ÃÎÊ<uri href="http://creativecommons.org/licenses/by/2.0/">http://creativecommons.org/licenses/by/2.0/</uri>»ò·¢ËÍÓÊ¼şµ½Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.²é¿´±¾Ğí¿ÉÖ¤¡£</para>
+      <para>æœ¬ä½œå“ä½¿ç”¨å…±åŒåˆ›é€ è®¸å¯è¯ï¼Œå¯ä»¥è®¿é—®<uri href="http://creativecommons.org/licenses/by/2.0/">http://creativecommons.org/licenses/by/2.0/</uri>æˆ–å‘é€é‚®ä»¶åˆ°Creative Commons, 559 Nathan Abbott Way, Stanford, California 94305, USA.æŸ¥çœ‹æœ¬è®¸å¯è¯ã€‚</para>
     </legalnotice>
 
   </bookinfo>
