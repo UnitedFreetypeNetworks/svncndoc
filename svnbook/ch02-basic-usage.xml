@@ -1,17 +1,17 @@
 <chapter xml:id="svn.tour">
     <info>
-      <title>����ʹ��</title>
+      <title>基本使用</title>
     </info>
-    <para>���ڣ����ǽ�Ҫ���뵽Subversion��ʹ��ϸ�ڵ��У���ɱ���ʱ���㽫ѧ������Subversion�ճ�ʹ�õ�����㽫�Ӱ����ݵ��뵽Subversion��ʼ�������ǳ�ʼ���ļ��(check out)��Ȼ���������޸Ĳ���飬��Ҳ����ѧ������ڹ��������л�ȡ���˵��޸ģ�������ǣ���������п��ܷ����ĳ�ͻ��</para>
-    <para>��һ�²�����Subversion�������ȫ�б��������㽫���������������Ľ��ܣ���һ�¼ٶ����Ѿ���������������<xref linkend="svn.basic"/>��������ϤSubversion��ģ�ͣ������鿴��������Ĳο�����<xref linkend="svn.ref"/>��</para>
+    <para>现在，我们将要深入到Subversion的使用细节当中，完成本章时，你将学会所有Subversion日常使用的命令，你将从把数据导入到Subversion开始，接着是初始化的检出(check out)，然后是做出修改并检查，你也将会学到如何在工作拷贝中获取别人的修改，检查他们，并解决所有可能发生的冲突。</para>
+    <para>这一章并不是Subversion命令的完全列表—而是你将会遇到的最常用任务的介绍，这一章假定你已经读过并且理解了<xref linkend="svn.basic"/>，而且熟悉Subversion的模型，如果想查看所有命令的参考，见<xref linkend="svn.ref"/>。</para>
     <!-- ================================================================= -->
     <!-- ================================================================= -->
     <!-- ================================================================= -->
     <section xml:id="svn.tour.help">
       <info>
-        <title>������</title>
+        <title>求助！</title>
       </info>
-      <para>�ڼ����Ķ�֮ǰ����Ҫ֪��Subversionʹ��������Ҫ�����<command>svn help</command>��Subversion�����й�����һ�����ĵ��Ĺ��ߡ����κ�ʱ�����������<command>svn help <replaceable>SUBCOMMAND</replaceable></command>���鿴��������﷨�������Լ���Ϊ��ʽ��</para>
+      <para>在继续阅读之前，需要知道Subversion使用中最重要的命令：<command>svn help</command>，Subversion命令行工具是一个自文档的工具—在任何时候你可以运行<command>svn help <replaceable>SUBCOMMAND</replaceable></command>来查看子命令的语法、参数以及行为方式。</para>
       <screen>
 $ svn help import
 import: Commit an unversioned file or tree into the repository.
@@ -30,13 +30,13 @@ Valid options:
   -N [--non-recursive]     : obsolete; try --depth=files or --depth=immediates
   --depth ARG              : limit operation by depth ARG ('empty', 'files',
                              'immediates', or 'infinity')
-��
+…
 </screen>
       <sidebar>
         <info>
-          <title>ѡ��(Options)������(Switches)�ͱ�־(Flags)�����ţ�</title>
+          <title>选项(Options)、开关(Switches)和标志(Flags)，天呐！</title>
         </info>
-        <para>Subversion�����пͻ����������������޸���(���ǽ���ѡ��)��������������ͬ���͵�ѡ���ѡ����һ���̺��߽���һ���������ַ�����ѡ����������̺��߽���һ���ַ�(����<literal>-s</literal>��<literal>--this-is-a-long-option</literal>��Ӧ)��ÿ��ѡ��г����У�����ֻ���ض�ѡ���и��ӵĶ̸�ʽ(ͨ���Ǿ���ʹ�õ�ѡ��)��Ϊ�˱�������������<emphasis>ͨ��</emphasis>�ڴ���ʵ����ʹ�ó���ʽ�����ǵ�Ҫ����ѡ��ʱ�������һ������ʽ�����ǻ��ṩ����ʽ(�Ľ�������)�Ͷ���ʽ(���ڼ���)�������ʹ�������������ʽ�����ǲ�Ҫ�������á�</para>
+        <para>Subversion命令行客户端有许多命令行修改器(我们叫做选项)，但是有两个不同类型的选项：短选项是一个短横线紧跟一个单独的字符，长选项包含两个短横线紧跟一组字符(例如<literal>-s</literal>和<literal>--this-is-a-long-option</literal>对应)。每个选项都有长葛市，但是只有特定选项有附加的短格式(通常是经常使用的选项)。为了保持清晰，我们<emphasis>通常</emphasis>在代码实例中使用长形式，但是当要描述选项时，如果有一个短形式，我们会提供长形式(改进清晰性)和短形式(便于记忆)，你可以使用你最舒服的形式，但是不要两个都用。</para>
       </sidebar>
     </section>
     <!-- ================================================================= -->
@@ -44,15 +44,15 @@ Valid options:
     <!-- ================================================================= -->
     <section xml:id="svn.tour.importing">
       <info>
-        <title>�������ݵ���İ汾��</title>
+        <title>导入数据到你的版本库</title>
       </info>
-      <para>�����ַ������Խ����ļ�����Subversion�汾�⣺<command>svn import</command>��<command>svn add</command>�����ǽ��ڱ�������<command>svn import</command>�������ڻع�Subversion�ĵ���һ��ʱ����<command>svn add</command>��</para>
+      <para>有两种方法可以将新文件引入Subversion版本库：<command>svn import</command>和<command>svn add</command>，我们将在本章讨论<command>svn import</command>，而会在回顾Subversion的典型一天时讨论<command>svn add</command>。</para>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.importing.import">
         <info>
           <title>svn import</title>
         </info>
-        <para><command>svn import</command>�ǽ�δ�汾���ļ�����汾�����췽�����������Ҫ�����н�Ŀ¼��<command>svn import</command>����Ҫһ����������������ļ���ֱ���ύ���汾�⣬��ͨ��������ϣ����һ���ļ����뵽Subversion�汾��ʱ�����磺</para>
+        <para><command>svn import</command>是将未版本化文件导入版本库的最快方法，会根据需要创建中介目录。<command>svn import</command>不需要一个工作拷贝，你的文件会直接提交到版本库，这通常用在你希望将一组文件加入到Subversion版本库时，例如：</para>
         <screen>
 $ svnadmin create /var/svn/newrepos
 $ svn import mytree file:///var/svn/newrepos/some/project \
@@ -64,28 +64,28 @@ Adding         mytree/subdir/quux.h
 
 Committed revision 1.
 </screen>
-        <para>����һ����������´��Ŀ¼<filename>mytree</filename>���汾���<filename>some/project</filename>�£�</para>
+        <para>在上一个例子里，将会拷贝目录<filename>mytree</filename>到版本库的<filename>some/project</filename>下：</para>
         <screen>
 $ svn list file:///var/svn/newrepos/some/project
 bar.c
 foo.c
 subdir/
 </screen>
-        <para>ע�⣬�ڵ���֮��ԭ����Ŀ¼����<emphasis>û��</emphasis>ת���ɹ���������Ϊ�˿�ʼ�������㻹����Ҫ����<command>svn checkout</command>����һ������������</para>
+        <para>注意，在导入之后，原来的目录树并<emphasis>没有</emphasis>转化成工作拷贝，为了开始工作，你还是需要运行<command>svn checkout</command>导出一个工作拷贝。</para>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.importing.layout">
         <info>
-          <title>�Ƽ��İ汾�Ⲽ��</title>
+          <title>推荐的版本库布局</title>
         </info>
-        <para>����Subversion����������������ɲ��ְ汾�⣬��������һ���Ƽ��ķ�ʽ������һ��<filename>trunk</filename>Ŀ¼�����濪����<quote>����</quote>��һ��<filename>branches</filename>Ŀ¼��ŷ�֧������<filename>tags</filename>Ŀ¼�����ǩ���������磺</para>
+        <para>尽管Subversion的灵活性允许你自由布局版本库，但我们有一套推荐的方式，创建一个<filename>trunk</filename>目录来保存开发的<quote>主线</quote>，一个<filename>branches</filename>目录存放分支拷贝，<filename>tags</filename>目录保存标签拷贝，例如：</para>
         <screen>
 $ svn list file:///var/svn/repos
 /trunk
 /branches
 /tags
 </screen>
-        <para>�㽫����<xref linkend="svn.branchmerge"/>������ǩ�ͷ�֧����ϸ���ݣ��������ö����Ŀ����Ϣ�����Կ�<xref linkend="svn.branchmerge.maint.layout"/>��<xref linkend="svn.reposadmin.projects.chooselayout"/>�й���<quote>��Ŀ��Ŀ¼</quote>�����ݡ�</para>
+        <para>你将会在<xref linkend="svn.branchmerge"/>看到标签和分支的详细内容，关于设置多个项目的信息，可以看<xref linkend="svn.branchmerge.maint.layout"/>和<xref linkend="svn.reposadmin.projects.chooselayout"/>中关于<quote>项目根目录</quote>的内容。</para>
       </section>
     </section>
     <!-- ================================================================= -->
@@ -93,9 +93,9 @@ $ svn list file:///var/svn/repos
     <!-- ================================================================= -->
     <section xml:id="svn.tour.initial">
       <info>
-        <title>��ʼ�����</title>
+        <title>初始化检出</title>
       </info>
-      <para>�����ʱ�����ʹ��<firstterm>checkout</firstterm>�Ӱ汾��ȡ��һ���¿�����ʼʹ��Subversion���������ڱ�������һ����Ŀ��<quote>���ؿ���</quote>���������������������ָ���汾���е�<literal>HEAD</literal>(���µ�)�汾��</para>
+      <para>大多数时候，你会使用<firstterm>checkout</firstterm>从版本库取出一个新拷贝开始使用Subversion，这样会在本机创建一个项目的<quote>本地拷贝</quote>，这个拷贝包括了命令行指定版本库中的<literal>HEAD</literal>(最新的)版本：</para>
       <screen>
 $ svn checkout http://svn.collab.net/repos/svn/trunk
 A    trunk/Makefile.in
@@ -103,19 +103,19 @@ A    trunk/ac-helpers
 A    trunk/ac-helpers/install.sh
 A    trunk/ac-helpers/install-sh
 A    trunk/build.conf
-��
+…
 Checked out revision 8810.
 </screen>
       <sidebar>
         <info>
-          <title>��������ʲô��</title>
+          <title>名称中有什么？</title>
         </info>
-        <para>SubversionŬ�����ư汾���������ݵ����ͣ��ļ������ݺ�����ֵ���ǰ��ն��������ݴ洢�ʹ��ݣ�����<xref linkend="svn.advanced.props.special.mime-type"/>��Subversion��ʾ��˵�������ض��ļ�<quote>�ı�����</quote>������û������ģ�Ҳ��һЩ�ط���Subversion�Դ�ŵ���Ϣ�����ơ�</para>
-        <para>Subversion�ڲ�ʹ�ö����ƴ������ݡ����磬�������ƣ�·��������־��Ϣ��UTF-8�����Unicode���Ⲣ����ζ����Subversion�Ľ���������ȫʹ��UTF-8����Ϊһ��������Subversion�Ŀͻ����ܹ�͸����ת��UTF-8������ʹ��ϵͳ�ı��룬ǰ���ǿ��Խ����������ת��(��Ȼ�Ǵ����Ŀǰ�����ı���)��</para>
-        <para>���⣬·��������WebDAV�����л���ΪXML����ֵ������Subversion�Ĺ����ļ�������ζ��·������ֻ�ܰ����Ϸ���XML(1.0)�ַ���SubversionҲ���ֹ·�������г���TAB��CR��LF�ַ����������ǲŲ���������������<xref linkend="svn.ref.svn.c.log"/>��<xref linkend="svn.ref.svn.c.status"/>����������жϵ���</para>
-        <para>��Ȼ������Ҫ��ס�ܶ����飬����ʵ������Щ���ƺ��ٻ��Ϊ���⡣ֻҪ��ı������ü���UTF-8��Ҳ����·��������ʹ�ÿ����ַ�����Subversion��ͨѶ�Ͳ��������⡣�����пͻ��˻�����һЩ����İ����ֽڡ��Զ����������URL·���ַ�ת��Ϊ<quote>�Ϸ���ȷ��</quote>�ڲ��ð汾��</para>
+        <para>Subversion努力控制版本控制下数据的类型，文件的内容和属性值都是按照二进制数据存储和传递，并且<xref linkend="svn.advanced.props.special.mime-type"/>给Subversion提示以说明对于特定文件<quote>文本化的</quote>操作是没有意义的，也有一些地方，Subversion对存放的信息有限制。</para>
+        <para>Subversion内部使用二进制处理数据—例如，属性名称，路径名和日志信息—UTF-8编码的Unicode，这并不意味着与Subversion的交互必须完全使用UTF-8。作为一个惯例，Subversion的客户端能够透明的转化UTF-8和你所使用系统的编码，前提是可以进行有意义的转换(当然是大多数目前常见的编码)。</para>
+        <para>此外，路径名称在WebDAV交换中会作为XML属性值，就像Subversion的管理文件。这意味着路径名称只能包含合法的XML(1.0)字符，Subversion也会禁止路径名称中出现TAB、CR或LF字符，所以它们才不会在区别程序或如<xref linkend="svn.ref.svn.c.log"/>和<xref linkend="svn.ref.svn.c.status"/>的输出命令中断掉。</para>
+        <para>虽然看起来要记住很多事情，但在实践中这些限制很少会成为问题。只要你的本地设置兼容UTF-8，也不在路径名称中使用控制字符，与Subversion的通讯就不会有问题。命令行客户端会添加一些额外的帮助字节—自动将你输入的URL路径字符转化为<quote>合法正确的</quote>内部用版本。</para>
       </sidebar>
-      <para>�������������ȡ����trunkĿ¼����Ҳ��ȫ����ͨ�������ض�URLȡ��������ȵ���Ŀ¼��</para>
+      <para>尽管上面的例子取出了trunk目录，你也完全可以通过输入特定URL取出任意深度的子目录：</para>
       <screen>
 $ svn checkout \
       http://svn.collab.net/repos/svn/trunk/subversion/tests/cmdline/
@@ -124,22 +124,22 @@ A    cmdline/diff_tests.py
 A    cmdline/autoprop_tests.py
 A    cmdline/xmltests
 A    cmdline/xmltests/svn-test.sh
-��
+…
 Checked out revision 8810.
 </screen>
-      <para>��ΪSubversionʹ��<quote>����-�޸�-�ϲ�</quote>ģ�Ͷ�����<quote>����-�޸�-����</quote>ģ��(��<xref linkend="svn.basic.vsn-models"/>)��������ڹ��������п�ʼ�޸ĵ�Ŀ¼���ļ�����Ĺ������������ϵͳ�е������ļ���Ŀ¼��ȫһ��������Ա༭���ı������ƶ�����Ҳ������ȫ��ɾ�������������ˡ�</para>
+      <para>因为Subversion使用<quote>拷贝-修改-合并</quote>模型而不是<quote>锁定-修改-解锁</quote>模型(见<xref linkend="svn.basic.vsn-models"/>)，你可以在工作拷贝中开始修改的目录和文件，你的工作拷贝和你的系统中的其它文件和目录完全一样，你可以编辑并改变它，移动它，也可以完全的删掉它，把它忘了。</para>
       <warning>
-        <para>��Ϊ��Ĺ�������<quote>ͬ��ϵͳ�ϵ��ļ���Ŀ¼û���κ�����</quote>������������޸��ļ���������������Subversion������<emphasis>�����κ���</emphasis>�����磬��ϣ���������ƶ�����������һ���ļ�����Ӧ��ʹ��<command>svn copy</command>���� <command>svn move</command>����Ҫʹ�ò���ϵͳ�Ŀ����ƶ�������ǻ��ڱ��º�����ϸ���ܡ�</para>
+        <para>因为你的工作拷贝<quote>同你系统上的文件和目录没有任何区别</quote>，你可以随意修改文件，但是你必须告诉Subversion你做的<emphasis>其他任何事</emphasis>。例如，你希望拷贝或移动工作拷贝的一个文件，你应该使用<command>svn copy</command>或者 <command>svn move</command>而不要使用操作系统的拷贝移动命令，我们会在本章后面详细介绍。</para>
       </warning>
-      <para>������׼�������ύһ�����ļ���Ŀ¼����ı����Ѵ��ڵģ�����û�б�Ҫ֪ͨSubversion������ʲô��</para>
+      <para>除非你准备好了提交一个新文件或目录，或改变了已存在的，否则没有必要通知Subversion你做了什么。</para>
       <sidebar>
         <info>
-          <title>Ŀ¼ .svn ����ʲô��</title>
+          <title>目录 .svn 中有什么？</title>
         </info>
-        <para>���������е��κ�һ��Ŀ¼����һ����Ϊ<filename>.svn</filename>��������ͨ���б���������ʾ���Ŀ¼��������Ȼ��һ���ǳ���Ҫ��Ŀ¼����������ʲô����Ҫɾ�����Ǹ����������������κζ�����Subversionʹ��������������������</para>
-        <para>����㲻С��ɾ������Ŀ¼<filename>.svn</filename>����򵥵Ľ���취��ɾ��������Ŀ¼(��ͨ���ļ�ϵͳɾ����������<command>svn delete</command>)��Ȼ���ڸ�Ŀ¼����<command>svn update</command>��Subversion�ͻ��˻�����������ɾ����Ŀ¼���������µ�<filename>.svn</filename>��</para>
+        <para>工作拷贝中的任何一个目录包括一个名为<filename>.svn</filename>管理区域，通常列表操作不显示这个目录，但它仍然是一个非常重要的目录，无论你做什么？不要删除或是更改这个管理区域的任何东西，Subversion使用它来管理工作拷贝。</para>
+        <para>如果你不小心删除了子目录<filename>.svn</filename>，最简单的解决办法是删除包含的目录(普通的文件系统删除，而不是<command>svn delete</command>)，然后在父目录运行<command>svn update</command>，Subversion客户端会重新下载你删除的目录，并包含新的<filename>.svn</filename>。</para>
       </sidebar>
-      <para>��Ϊ�����ʹ�ð汾���URL��ΪΨһ����ȡ��һ��������������Ҳ�����ڰ汾��URL֮��ָ��һ��Ŀ¼�������Ὣ��Ĺ���Ŀ¼�ŵ������Ŀ¼���ٸ����ӣ�</para>
+      <para>因为你可以使用版本库的URL作为唯一参数取出一个工作拷贝，你也可以在版本库URL之后指定一个目录，这样会将你的工作目录放到你的新目录，举个例子：</para>
       <screen>
 $  svn checkout http://svn.collab.net/repos/svn/trunk subv
 A    subv/Makefile.in
@@ -147,22 +147,22 @@ A    subv/ac-helpers
 A    subv/ac-helpers/install.sh
 A    subv/ac-helpers/install-sh
 A    subv/build.conf
-��
+…
 Checked out revision 8810.
 </screen>
-      <para>����������Ĺ��������ŵ�<literal>subv</literal>�����Ǻ�ǰ�������ŵ�<literal>trunk</literal>�����<literal>subv</literal>�����ڣ������Զ�������</para>
+      <para>这样将把你的工作拷贝放到<literal>subv</literal>而不是和前面那样放到<literal>trunk</literal>，如果<literal>subv</literal>不存在，将会自动创建。</para>
       <section xml:id="svn.tour.initial.disabling-password-caching">
         <info>
-          <title>�������뻺��</title>
+          <title>禁用密码缓存</title>
         </info>
-        <para>����ִ�е�Subversion������Ҫ��֤ʱ��ȱʡ�����Subversion���ڴ��̻�����֤��Ϣ�����������ڱ������ڽ������Ĳ�������Ϳ��Բ����������룬���������ں����뻺�棬<footnote><para>��Ȼ���㲻��̫�����ġ�������Ҫ֪���㲻���Subversion<emphasis>���</emphasis>ɾ���ļ����ڶ���Subversion���벻�Ǻ�����������������κ�һ����ͬ���԰ɣ��԰ɣ�</para></footnote>��������ùرջ����ÿ��ִ������ʱ˵����</para>
-        <para>��ĳ������ر����뻺�������������ʹ��<option>--no-auth-cache</option>ѡ����ϣ�����ùرջ��棬�����ڱ�����Subversion�����ļ�������<literal>store-passwords = no</literal>��һ�У��������<xref linkend="svn.serverconfig.netmodel.credcache"/>��</para>
+        <para>当你执行的Subversion命令需要认证时，缺省情况下Subversion会在磁盘缓存认证信息，这样做出于便利，在接下来的操作中你就可以不必输入密码，但如果你很在乎密码缓存，<footnote><para>当然，你不必太过担心—首先你要知道你不会从Subversion<emphasis>真的</emphasis>删除文件，第二，Subversion密码不是和你的三百万个密码的任何一个相同，对吧？对吧？</para></footnote>你可以永久关闭缓存或每次执行命令时说明。</para>
+        <para>在某次命令关闭密码缓存可以在命令中使用<option>--no-auth-cache</option>选项，如果希望永久关闭缓存，可以在本机的Subversion配置文件中添加<literal>store-passwords = no</literal>这一行，详情请见<xref linkend="svn.serverconfig.netmodel.credcache"/>。</para>
       </section>
       <section xml:id="svn.tour.initial.different-user">
         <info>
-          <title>��֤Ϊ�����û�</title>
+          <title>认证为其它用户</title>
         </info>
-        <para>��ΪSubversion��֤������ȱʡ����(�����û���������)��������ס��һ���޸Ĺ����������˷ǳ����㡣������ʱ��᲻���á��ر��������ʹ�õ��ǹ�����������������������£���ֻ��ҪΪ�����д���<option>--username</option>ѡ�Subversion�ͻ᳢��ʹ�ø��û���֤�������ҪҲ��ʾ���������롣</para>
+        <para>因为Subversion认证缓存是缺省设置(包含用户名和密码)，用来记住上一次修改工作拷贝的人非常方便。但是有时候会不好用—特别是如果你使用的是共享工作拷贝，在这种情况下，你只需要为命令行传递<option>--username</option>选项，Subversion就会尝试使用该用户认证，如果需要也提示你输入密码。</para>
       </section>
     </section>
     <!-- ================================================================= -->
@@ -170,13 +170,13 @@ Checked out revision 8810.
     <!-- ================================================================= -->
     <section xml:id="svn.tour.cycle">
       <info>
-        <title>�����Ĺ���ѭ��</title>
+        <title>基本的工作循环</title>
       </info>
-      <para>Subversion���������ԡ�ѡ��ͻ�����ʵ�ĸ߼����ܣ����ճ��Ĺ�������ֻʹ�����е�һС���֣�����һ������ǻ�������������ճ������г��õ����</para>
-      <para>���͵Ĺ��������������ģ�</para>
+      <para>Subversion有许多特性、选项和华而不实的高级功能，但日常的工作中你只使用其中的一小部分，在这一节里，我们会介绍许多你在日常工作中常用的命令。</para>
+      <para>典型的工作周期是这样的：</para>
       <orderedlist inheritnum="ignore" continuation="restarts">
         <listitem>
-          <para>������Ĺ���������</para>
+          <para>更新你的工作拷贝。</para>
           <itemizedlist>
             <listitem>
               <para>
@@ -186,7 +186,7 @@ Checked out revision 8810.
           </itemizedlist>
         </listitem>
         <listitem>
-          <para>�����޸�</para>
+          <para>做出修改</para>
           <itemizedlist>
             <listitem>
               <para>
@@ -211,7 +211,7 @@ Checked out revision 8810.
           </itemizedlist>
         </listitem>
         <listitem>
-          <para>�����޸�</para>
+          <para>检验修改</para>
           <itemizedlist>
             <listitem>
               <para>
@@ -226,7 +226,7 @@ Checked out revision 8810.
           </itemizedlist>
         </listitem>
         <listitem>
-          <para>���ܻ�ȡ��һЩ�޸�</para>
+          <para>可能会取消一些修改</para>
           <itemizedlist>
             <listitem>
               <para>
@@ -236,7 +236,7 @@ Checked out revision 8810.
           </itemizedlist>
         </listitem>
         <listitem>
-          <para>�����ͻ(�ϲ����˵��޸�)</para>
+          <para>解决冲突(合并别人的修改)</para>
           <itemizedlist>
             <listitem>
               <para>
@@ -251,7 +251,7 @@ Checked out revision 8810.
           </itemizedlist>
         </listitem>
         <listitem>
-          <para>�ύ����޸�</para>
+          <para>提交你的修改</para>
           <itemizedlist>
             <listitem>
               <para>
@@ -264,40 +264,40 @@ Checked out revision 8810.
       <!-- =============================================================== -->
       <section xml:id="svn.tour.cycle.update">
         <info>
-          <title>������Ĺ�������</title>
+          <title>更新你的工作副本</title>
         </info>
-        <para>������һ���Ŷӵ���Ŀ�﹤��ʱ����ϣ��������Ĺ��������õ��������������ʱ���������޸ģ�ʹ��<command>svn update</command>����Ĺ������������µİ汾ͬ����</para>
+        <para>当你在一个团队的项目里工作时，你希望更新你的工作拷贝得到所有其他人这段时间作出的修改，使用<command>svn update</command>让你的工作拷贝与最新的版本同步。</para>
         <screen>
 $ svn update
 U  foo.c
 U  bar.c
 Updated to revision 2.
 </screen>
-        <para>��������£������������ϴθ���֮���ύ�˶�<filename>foo.c</filename>��<filename>bar.c</filename>���޸ģ����Subversion������Ĺ���������������Щ���ġ�</para>
-        <para>��������ͨ��<command>svn update</command>���޸Ĵ��ݵ���Ĺ�������ʱ��ÿһ����Ŀ֮ǰ����һ����ĸ��������֪��SubversionΪ�������¶���Ĺ�������������Щ������������Щ��ĸ����ϸ���壬���Կ�<xref linkend="svn.ref.svn.c.update"/>��</para>
+        <para>这种情况下，其他人在你上次更新之后提交了对<filename>foo.c</filename>和<filename>bar.c</filename>的修改，因此Subversion更新你的工作拷贝来引入这些更改。</para>
+        <para>当服务器通过<command>svn update</command>将修改传递到你的工作拷贝时，每一个项目之前会有一个字母，来让你知道Subversion为保持最新对你的工作拷贝作了哪些工作。关于这些字母的详细含义，可以看<xref linkend="svn.ref.svn.c.update"/>。</para>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.cycle.edit">
         <info>
-          <title>�޸���Ĺ�������</title>
+          <title>修改你的工作副本</title>
         </info>
-        <para>��������Կ�ʼ���������޸���Ĺ��������ˣ�������׾�������һ���޸�(������һ��)����дһ���µ����ԣ�����һ������ȵȡ���ʱ����ʹ�õ�Subversion�������<command>svn add</command>�� <command>svn delete</command>��<command>svn copy</command>��<command>svn move</command>�������ֻ���޸İ汾�����Ѿ����ڵ��ļ��������ύ֮ǰ������ʹ��������κ�һ�����</para>
-        <para>����ԶԹ����������������޸ģ��ļ��޸ĺ�Ŀ¼���޸ġ��㲻��Ҫ����Subversion��ϣ���޸�һ���ļ���ֻ��Ҫ����ı༭�����ִ�������ͼ�γ�����κι��������޸ģ�Subversion�Զ���⵽�ļ��ĸ��ģ����⣬�������ļ��Ĵ�����ʽ���ı��ļ�һ����Ҳ��ͬ����Ч�ʡ�����Ŀ¼�����ģ�����Ը���Subversion���ļ���Ŀ¼Ԥ����ɾ�������ӡ��������ƶ���ǣ���Щ�������ڹ������������̷���Ч������ֻ���ύ��Ż��ڰ汾������Ч��</para>
+        <para>现在你可以开始工作并且修改你的工作拷贝了，你很容易决定作出一个修改(或者是一组)，像写一个新的特性，修正一个错误等等。这时可以使用的Subversion命令包括<command>svn add</command>、 <command>svn delete</command>、<command>svn copy</command>和<command>svn move</command>。如果你只是修改版本库中已经存在的文件，在你提交之前，不必使用上面的任何一个命令。</para>
+        <para>你可以对工作拷贝做出两种修改：文件修改和目录树修改。你不需要告诉Subversion你希望修改一个文件，只需要用你的编辑器、字处理器、图形程序或任何工具做出修改，Subversion自动监测到文件的更改，此外，二进制文件的处理方式和文本文件一样—也有同样的效率。对于目录树更改，你可以告诉Subversion将文件和目录预定的删除、添加、拷贝或移动标记，这些动作会在工作拷贝上立刻发生效果，但只有提交后才会在版本库里生效。</para>
         <sidebar>
           <info>
-            <title>�汾���Ʒ�������</title>
+            <title>版本控制符号连接</title>
           </info>
-          <para>�ڷ�Windowsƽ̨��Subversion���Խ���������<firstterm>��������</firstterm>(����<quote>symlink</quote>)�汾����һ�����������Ƕ��ļ�ϵͳ�����������͸�����ã�����ͨ���Է������Ӳ���ʵ�ֶ����ö���Ķ�д������</para>
-          <para>���������ύ��Subversion�汾�⣬Subversion���ס����ļ�ʵ������һ����������Ҳ��֪�����������ָ���<quote>����</quote>��������������������һ��֧�ַ������Ĳ���ϵͳ��ʱ��Subversion�����¹����ļ�ϵͳ���ķ������ӡ���Ȼ��������Ӱ����Windows���಻֧�ַ�������ϵͳ�ϣ��ڴ���ϵͳ�ϣ�Subversionֻ�ᴴ��һ������ָ�����·�����ı��ļ�����Ϊ����ļ�������Windowsϵͳ����Ϊ������ʹ�ã�������Ҳ���ֹWindows�û�������Subversion��صĲ�����</para>
+          <para>在非Windows平台，Subversion可以将特殊类型<firstterm>符号链接</firstterm>(或是<quote>symlink</quote>)版本化，一个符号链接是对文件系统中其他对象的透明引用，可以通过对符合链接操作实现对引用对象的读写操作。</para>
+          <para>当符号链提交到Subversion版本库，Subversion会记住这个文件实际上是一个符号链，也会知道这个符号链指向的<quote>对象</quote>。当这个符号链检出到另一个支持符号链的操作系统上时，Subversion会重新构建文件系统级的符号链接。当然这样不会影响在Windows这类不支持符号链的系统上，在此类系统上，Subversion只会创建一个包含指向对象路径的文本文件，因为这个文件不能在Windows系统上作为符号链使用，所以它也会防止Windows用户作其他Subversion相关的操作。</para>
         </sidebar>
-        <para>������Subversion�����޸�Ŀ¼���ṹ����������</para>
+        <para>下面是Subversion用来修改目录树结构的五个子命令。</para>
         <variablelist>
           <varlistentry>
             <term>
               <userinput>svn add foo</userinput>
             </term>
             <listitem>
-              <para>Ԥ�����ļ���Ŀ¼���߷�����<filename>foo</filename>���ӵ��汾�⣬�����´��ύ��<filename>foo</filename>���Ϊ�丸Ŀ¼��һ���Ӷ���ע�⣬���<filename>foo</filename>��Ŀ¼������foo�е�����Ҳ��Ԥ�����ӽ�ȥ�������ֻ������<filename>foo</filename>��������ʹ��<option>--non-recursive (-N)</option>������</para>
+              <para>预定将文件、目录或者符号链<filename>foo</filename>添加到版本库，当你下次提交后，<filename>foo</filename>会成为其父目录的一个子对象。注意，如果<filename>foo</filename>是目录，所有foo中的内容也会预定添加进去，如果你只想添加<filename>foo</filename>本身，请使用<option>--non-recursive (-N)</option>参数。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -305,7 +305,7 @@ Updated to revision 2.
               <userinput>svn delete foo</userinput>
             </term>
             <listitem>
-              <para>Ԥ�����ļ���Ŀ¼���߷�����<filename>foo</filename>�Ӱ汾����ɾ�������foo���ļ��������ϴӹ���������ɾ���������Ŀ¼�����ᱻɾ��������Subversion׼����ɾ���ˣ������ύ����޸ģ�<filename>foo</filename>�ͻ�����Ĺ��������Ͱ汾���б�ɾ����<footnote><para>��Ȼû���κζ������ڰ汾���ﱻɾ���ˡ�ֻ���ڰ汾���<literal>HEAD</literal>����ʧ�ˣ������ͨ�����(���߸�����Ĺ�������)������ɾ��������ǰһ���޶��汾���һ����еĶ�������ϸ���<xref linkend="svn.branchmerge.commonuses.resurrect"/>��</para></footnote></para>
+              <para>预定将文件、目录或者符号链<filename>foo</filename>从版本库中删除，如果foo是文件，它马上从工作拷贝中删除，如果是目录，不会被删除，但是Subversion准备好删除了，当你提交你的修改，<filename>foo</filename>就会在你的工作拷贝和版本库中被删除。<footnote><para>当然没有任何东西是在版本库里被删除了—只是在版本库的<literal>HEAD</literal>里消失了，你可以通过检出(或者更新你的工作拷贝)你做出删除操作的前一个修订版本来找回所有的东西，详细请见<xref linkend="svn.branchmerge.commonuses.resurrect"/>。</para></footnote></para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -313,7 +313,7 @@ Updated to revision 2.
               <userinput>svn copy foo bar</userinput>
             </term>
             <listitem>
-              <para>����һ���µ���Ŀ<filename>bar</filename>��Ϊ<filename>foo</filename>�ĸ���Ʒ�����Զ�Ԥ����<filename>bar</filename>���ӣ������´��ύʱ�Ὣ<filename>bar</filename>���ӵ��汾�⣬���ֿ�����ʷ���¼����(��������<filename>foo</filename>�ķ�ʽ��¼)�����������<option>--parents</option>��<command>svn copy</command>���������н�Ŀ¼��</para>
+              <para>建立一个新的项目<filename>bar</filename>作为<filename>foo</filename>的复制品，会自动预定将<filename>bar</filename>添加，当在下次提交时会将<filename>bar</filename>添加到版本库，这种拷贝历史会记录下来(按照来自<filename>foo</filename>的方式记录)。如果不传递<option>--parents</option>，<command>svn copy</command>并不建立中介目录。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -321,7 +321,7 @@ Updated to revision 2.
               <userinput>svn move foo bar</userinput>
             </term>
             <listitem>
-              <para>���������������<command>svn copy foo bar;svn delete foo</command>��ȫ��ͬ��<filename>bar</filename>��Ϊ<filename>foo</filename>�Ŀ���׼�����ӣ�<filename>foo</filename>�Ѿ�Ԥ����ɾ�������������<option>--parents</option>��<command>svn move</command>�������н��Ŀ¼��</para>
+              <para>这个命令与与运行<command>svn copy foo bar;svn delete foo</command>完全相同，<filename>bar</filename>作为<filename>foo</filename>的拷贝准备添加，<filename>foo</filename>已经预定被删除。如果不传递<option>--parents</option>，<command>svn move</command>不建立中介的目录。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
@@ -329,46 +329,46 @@ Updated to revision 2.
               <userinput>svn mkdir blort</userinput>
             </term>
             <listitem>
-              <para>�������ͬ���� <command>mkdir blort; svn add blort</command>��ͬ��Ҳ���Ǵ���һ������<filename>blort</filename>���ļ�������Ԥ�����ӵ��汾�⡣</para>
+              <para>这个命令同运行 <command>mkdir blort; svn add blort</command>相同，也就是创建一个叫做<filename>blort</filename>的文件，并且预定添加到版本库。</para>
             </listitem>
           </varlistentry>
         </variablelist>
         <sidebar>
           <info>
-            <title>��ͨ�����������޸İ汾��</title>
+            <title>不通过工作副本修改版本库</title>
           </info>
-          <para>��һЩ����»������ύĿ¼�����޸ĵ��汾�⣬��ֻ������������ֱ�Ӳ���URL�������ǹ�������·��ʱ�����ض��ķ�ʽʹ��<command>svn mkdir</command>��<command>svn copy</command>��<command>svn move</command>��<command>svn delete</command>�������URL����(���Ҳ�Ҫ����<command>svn import</command>ֻ���URL����)��</para>
-          <para>ָ��URL�Ĳ�����ʽ��һЩ������Ϊ��ʹ�ù���������������ʽʱ������������Ϊһ��<quote>�����</quote>���������ύ֮ǰ������֯��Ҫ�����޸ģ�ֱ�Ӷ�URL������û�������ݳޣ����Ե���ֱ�Ӳ���URL��ʱ���������ϵĶ�������һ���������ύ��</para>
+          <para>有一些情况下会立刻提交目录树的修改到版本库，这只发生在子命令直接操作URL，而不是工作拷贝路径时。以特定的方式使用<command>svn mkdir</command>、<command>svn copy</command>、<command>svn move</command>和<command>svn delete</command>可以针对URL操作(并且不要忘记<command>svn import</command>只针对URL操作)。</para>
+          <para>指定URL的操作方式有一些区别，因为在使用工作拷贝的运作方式时，工作拷贝成为一个<quote>集结地</quote>，可以在提交之前整理组织所要做的修改，直接对URL操作就没有这种奢侈，所以当你直接操作URL的时候，所有以上的动作代表一个立即的提交。</para>
         </sidebar>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.cycle.examine">
         <info>
-          <title>�������޸�</title>
+          <title>检查你的修改</title>
         </info>
-        <para>��������޸ģ�����Ҫ�ύ���ǵ��汾�⣬�����ڴ�֮ǰ�����һ������ʲô�޸��Ǹ������⣬ͨ���ύǰ�ļ�飬���������һ�ݾ�ȷ����־��Ϣ����Ҳ���Է����㲻С���޸ĵ��ļ���������һ�λָ��޸ĵĻ��ᡣ���⣬����һ��������ϸ�쿴�޸ĵĺû��ᣬ���ͨ������<command>svn status</command>����������޸ģ�ͨ��<command>svn diff</command>����޸ĵ���ϸ��Ϣ��</para>
+        <para>当你完成修改，你需要提交他们到版本库，但是在此之前，检查一下做过什么修改是个好主意，通过提交前的检查，你可以整理一份精确的日志信息，你也可以发现你不小心修改的文件，给了你一次恢复修改的机会。此外，这是一个审查和仔细察看修改的好机会，你可通过命令<command>svn status</command>浏览所做的修改，通过<command>svn diff</command>检查修改的详细信息。</para>
         <sidebar>
           <info>
-            <title>����û�����磡</title>
+            <title>看！没有网络！</title>
           </info>
-          <para>����������(<command>svn status</command>��<command>svn diff</command>��<command>svn revert</command>)��������û�����������¹���(�ٶ���İ汾����ͨ����������Ǳ��ط��ʵ�)����������û����������ʱ�Ĺ����޸Ĺ��̸������ף����ڷɻ������У����������������ں�̲�Ϸ�������ʱ��<footnote><para>������Ҳû��WLAN�������ǵ����������ǣ���!</para></footnote></para>
-          <para>Subversionͨ����<filename>.svn</filename>��������ʹ��ԭʼ�İ汾������������һ�㣬��ʹ�ñ���ͻָ������޸Ķ�<emphasis>���ط�������</emphasis>���������(����<quote>text-base</quote>)Ҳ����Subversion���Ը���ԭʼ�汾����һ��ѹ��������(<quote>����</quote>) �ύ����ʹ���и��ǳ�������磬������һ�������м���ĺô���ֻ��������ύ�޸ĵĲ��ֶ����������ļ���</para>
+          <para>这三个命令(<command>svn status</command>、<command>svn diff</command>和<command>svn revert</command>)都可以在没有网络的情况下工作(假定你的版本库是通过网络而不是本地访问的)，这让你在没有网络连接时的管理修改过程更加容易，像在飞机上旅行，乘坐火车往返或是在海滩上奋力工作时。<footnote><para>而且你也没有WLAN卡，考虑到你明白我们，哈!</para></footnote></para>
+          <para>Subversion通过在<filename>.svn</filename>管理区域使用原始的版本缓存来做到这一点，这使得报告和恢复本地修改而<emphasis>不必访问网络</emphasis>，这个缓存(叫做<quote>text-base</quote>)也允许Subversion可以根据原始版本生成一个压缩的增量(<quote>区别</quote>) 提交—即使你有个非常快的网络，有这样一个缓存有极大的好处，只向服务器提交修改的部分而不是整个文件。</para>
         </sidebar>
-        <para>Subversion�Ѿ����Ż������������������񣬿����ڲ���汾��ͨѶ����������������飬��ϸ��˵������ÿһ���ļ�����ĵĹ���������<filename>.svn</filename>������һ��<quote>ԭʼ��</quote>����������Subversion���Կ��ٵĸ�������Щ�ļ��޸��ˣ������������ڲ���汾��ͨѶ������»ָ��޸ġ�</para>
+        <para>Subversion已经被优化来帮助你完成这个任务，可以在不与版本库通讯的情况下做许多事情，详细来说，对于每一个文件，你的的工作拷贝在<filename>.svn</filename>包含了一个<quote>原始的</quote>拷贝，所以Subversion可以快速的告诉你那些文件修改了，甚至允许你在不与版本库通讯的情况下恢复修改。</para>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.examine.status">
           <info>
-            <title>�鿴����޸ĸſ�</title>
+            <title>查看你的修改概况</title>
           </info>
-          <para>Ϊ������޸ĵ����ݣ����ʹ�����<command>svn status</command>���������Subversion�����<command>svn status</command>���ܻ������õ��������</para>
+          <para>为了浏览修改的内容，你会使用这个<command>svn status</command>命令，在所有Subversion命令里，<command>svn status</command>可能会是你用的最多的命令。</para>
           <sidebar>
             <info>
-              <title>CVS �û�����������ĸ��£�</title>
+              <title>CVS 用户：控制另类的更新！</title>
             </info>
-            <para>��Ҳ��ʹ��<command>cvs update</command>������������Щ�޸ģ�<command>svn status</command>��������������ĸı䡪������Ҫ���ʰ汾�⣬���Ҳ����ڲ�֪���������������û����ĸ��ıȽϡ�</para>
-            <para>��Subversion��<command>update</command>ֻ��������¡��������������µ��汾������°汾�����������ʹ��<command>update</command>�쿴�����޸ĵ�ϰ�ߡ�</para>
+            <para>你也许使用<command>cvs update</command>来看你做了哪些修改，<command>svn status</command>会给你所有你做的改变—而不需要访问版本库，并且不会在不知情的情况下与其他用户作的更改比较。</para>
+            <para>在Subversion，<command>update</command>只是做这件事—将工作拷贝更新到版本库的最新版本，你可以消除使用<command>update</command>察看本地修改的习惯。</para>
           </sidebar>
-          <para>������ڹ��������Ķ���Ŀ¼���в���������<command>svn status</command>������������������е��ļ���Ŀ¼���޸ģ����µ���������չʾ<command>svn status</command>���ܷ��ص�״̬��(ע�⣬<literal>#</literal>֮��Ĳ���<command>svn status</command>��ӡ��)��</para>
+          <para>如果你在工作拷贝的顶级目录运行不带参数的<command>svn status</command>命令，它会检测你做的所有的文件或目录的修改，以下的例子是来展示<command>svn status</command>可能返回的状态码(注意，<literal>#</literal>之后的不是<command>svn status</command>打印的)。</para>
           <screen>
 ?       scratch.c           # file is not under version control
 A       stuff/loot/bloo.h   # file is scheduled for addition
@@ -376,14 +376,14 @@ C       stuff/loot/lump.c   # file has textual conflicts from an update
 D       stuff/fish.c        # file is scheduled for deletion
 M       bar.c               # the content in bar.c has local modifications
 </screen>
-          <para>�����ָ�ʽ�£�<command>svn status</command>��ӡ6���ַ�������һЩ�ո񣬽������ļ�����Ŀ¼������һ�и���һ���ļ���Ŀ¼��״̬���������ݣ����ش������£�</para>
+          <para>在这种格式下，<command>svn status</command>打印6列字符，紧跟一些空格，接着是文件或者目录名。第一列告诉一个文件或目录的状态或它的内容，返回代码如下：</para>
           <variablelist>
             <varlistentry>
               <term>
                 <computeroutput>A      item</computeroutput>
               </term>
               <listitem>
-                <para>Ԥ�����뵽�汾����ļ���Ŀ¼���������<filename>item</filename>��</para>
+                <para>预定加入到版本库的文件、目录或符号链的<filename>item</filename>。</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -391,7 +391,7 @@ M       bar.c               # the content in bar.c has local modifications
                 <computeroutput>C      item</computeroutput>
               </term>
               <listitem>
-                <para>�ļ�<filename>item</filename>������ͻ���ڴӷ���������ʱ�빤������(�������ʱû�н��)�ı��ذ汾���������������ύ���汾��ǰ�������ֹ��Ľ����ͻ��</para>
+                <para>文件<filename>item</filename>发生冲突，在从服务器更新时与工作拷贝(如果更新时没有解决)的本地版本发生交迭，在你提交到版本库前，必须手工的解决冲突。</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -399,7 +399,7 @@ M       bar.c               # the content in bar.c has local modifications
                 <computeroutput>D      item</computeroutput>
               </term>
               <listitem>
-                <para>�ļ���Ŀ¼���Ƿ�����<filename>item</filename>Ԥ���Ӱ汾����ɾ����</para>
+                <para>文件、目录或是符号链<filename>item</filename>预定从版本库中删除。</para>
               </listitem>
             </varlistentry>
             <varlistentry>
@@ -407,16 +407,16 @@ M       bar.c               # the content in bar.c has local modifications
                 <computeroutput>M      item</computeroutput>
               </term>
               <listitem>
-                <para>�ļ�<filename>item</filename>�����ݱ��޸��ˡ�</para>
+                <para>文件<filename>item</filename>的内容被修改了。</para>
               </listitem>
             </varlistentry>
           </variablelist>
-          <para>����㴫��һ��·����<command>svn status</command>����ֻ���������Ŀ����Ϣ��</para>
+          <para>如果你传递一个路径给<command>svn status</command>，它只给你这个项目的信息：</para>
           <screen>
 $ svn status stuff/fish.c
 D      stuff/fish.c
 </screen>
-          <para><command>svn status</command>Ҳ��һ��<option>--verbose</option>(<option>-v</option>)ѡ���������ʾ���������е�<emphasis>����</emphasis>��Ŀ����ʹû�иı���ģ�</para>
+          <para><command>svn status</command>也有一个<option>--verbose</option>(<option>-v</option>)选项，它可以显示工作拷贝中的<emphasis>所有</emphasis>项目，即使没有改变过的：</para>
           <screen>
 $ svn status -v
 M               44        23    sally     README
@@ -429,8 +429,8 @@ D               44        19    ira       stuff/fish.c
 A                0         ?     ?        stuff/things/bloo.h
                 44        36    harry     stuff/things/gloo.c
 </screen>
-          <para>����<command>svn status</command>��<quote>�ӳ���ʽ</quote>����һ�б�����ͬ���ڶ�����ʾһ�������汾�ţ������͵�������ʾ���һ���޸ĵİ汾�ź��޸���(��Щ�в��������Ǹղ��ᵽ���ַ�����)��</para>
-          <para>�������е�<command>svn status</command>���ò�û����ϵ�汾�⣬ֻ����<filename>.svn</filename>�е�ԭʼ���ݽ��бȽϵĽ���������<option>--show-updates</option>(<option>-u</option>)ѡ���������ϵ�汾��Ϊ�Ѿ���ʱ��������������Ϣ��</para>
+          <para>这是<command>svn status</command>的<quote>加长形式</quote>，第一列保持相同，第二列显示一个工作版本号，第三和第四列显示最后一次修改的版本号和修改人(这些列不会与我们刚才提到的字符混淆)。</para>
+          <para>上面所有的<command>svn status</command>调用并没有联系版本库，只是与<filename>.svn</filename>中的原始数据进行比较的结果，最后，是<option>--show-updates</option>(<option>-u</option>)选项，它将会联系版本库为已经过时的数据添加新信息：</para>
           <screen>
 $ svn status -u -v
 M      *        44        23    sally     README
@@ -440,15 +440,15 @@ D               44        19    ira       stuff/fish.c
 A                0         ?     ?        stuff/things/bloo.h
 Status against revision:   46
 </screen>
-          <para>ע���������Ǻţ����������ִ��<command>svn update</command>�����<filename>README</filename>��<filename>trout.c</filename>�ᱻ���£���������������õ���Ϣ����������ύ֮ǰ����Ҫʹ�ø��²����õ��ļ�<filename>README</filename>�ĸ��£�����˵�ļ��Ѿ���ʱ���汾���ܾ�������ύ��(���滹�и�����ڴ�����)��</para>
-          <para>�����ļ���Ŀ¼��<command>svn status</command>���Ա����ǵ�չʾ��ʾ��������ݣ�<command>svn status</command>�������������Կ�<xref linkend="svn.ref.svn.c.status"/>��</para>
+          <para>注意这两个星号：如果你现在执行<command>svn update</command>，你的<filename>README</filename>和<filename>trout.c</filename>会被更新，这告诉你许多有用的信息—你可以在提交之前，需要使用更新操作得到文件<filename>README</filename>的更新，或者说文件已经过时，版本库会拒绝了你的提交。(后面还有更多关于此主题)。</para>
+          <para>关于文件和目录，<command>svn status</command>可以比我们的展示显示更多的内容，<command>svn status</command>完整的描述可以看<xref linkend="svn.ref.svn.c.status"/>。</para>
         </section>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.examine.diff">
           <info>
-            <title>�����ı����޸ĵ�����</title>
+            <title>检查你的本地修改的详情</title>
           </info>
-          <para>��һ�ּ���޸ĵķ�ʽ��<command>svn diff</command>��������ͨ������������<command>svn diff</command><emphasis>��ȷ��</emphasis>�ҳ����������޸ģ�������<firstterm>ͳһ�����ʽ</firstterm>��������Ϣ��</para>
+          <para>另一种检查修改的方式是<command>svn diff</command>命令，你可以通过不带参数的<command>svn diff</command><emphasis>精确的</emphasis>找出你所做的修改，这会输出<firstterm>统一区别格式</firstterm>的区别信息：</para>
           <screen>
 $ svn diff
 Index: bar.c
@@ -489,27 +489,27 @@ Index: stuff/things/bloo.h
 +Here is a new file to describe
 +things about bloo.
 </screen>
-          <para><command>svn diff</command>����ͨ���Ƚ�����ļ���<filename>.svn</filename>��<quote>ԭʼ</quote>�ļ��������Ϣ��Ԥ��Ҫ���ӵ��ļ�����ʾ�������ӵ��ı���Ҫɾ�����ļ�����ʾ����Ҫɾ�����ı���</para>
-          <para>����ĸ�ʽΪͳһ�����ʽ(unified diff format)��ɾ������ǰ���һ��<literal>-</literal>�����ӵ���ǰ����һ��<literal>+</literal>��<command>svn diff</command>����Ҳ��ӡ�ļ�����<command>�򲹶�</command>��Ҫ����Ϣ�����������ͨ���ض���һ�������ļ�������<quote>����</quote>��</para>
+          <para><command>svn diff</command>命令通过比较你的文件和<filename>.svn</filename>的<quote>原始</quote>文件来输出信息，预定要增加的文件会显示所有增加的文本，要删除的文件会显示所有要删除的文本。</para>
+          <para>输出的格式为统一区别格式(unified diff format)，删除的行前面加一个<literal>-</literal>，添加的行前面有一个<literal>+</literal>，<command>svn diff</command>命令也打印文件名和<command>打补丁</command>需要的信息，所以你可以通过重定向一个区别文件来生成<quote>补丁</quote>：</para>
           <screen>
 $ svn diff &gt; patchfile
 </screen>
-          <para>�ٸ����ӣ�����԰Ѳ����ļ������ʼ������������ߣ����ύ֮ǰ��˺Ͳ��ԡ�</para>
-          <para>Subversionʹ�������������棬ȱʡ��������Ϊͳһ�����ʽ�������������ͬ�������ʽ�������ʹ��<option>--diff-cmd</option>ָ�����õ�������򣬲���ͨ��<option>--extensions</option>((<option>-x</option>)���������������ٸ����ӣ��쿴�����ļ�<filename>foo.c</filename>������ͬʱ���Դ�Сд���죬���������<command>svn diff --diff-cmd /usr/bin/diff --extensions '-i' foo.c</command>��</para>
+          <para>举个例子，你可以把补丁文件发送邮件到其他开发者，在提交之前审核和测试。</para>
+          <para>Subversion使用内置区别引擎，缺省情况下输出为统一区别格式。如果你期望不同的输出格式，你可以使用<option>--diff-cmd</option>指定外置的区别程序，并且通过<option>--extensions</option>((<option>-x</option>)传递其他参数，举个例子，察看本地文件<filename>foo.c</filename>的区别，同时忽略大小写差异，你可以运行<command>svn diff --diff-cmd /usr/bin/diff --extensions '-i' foo.c</command>。</para>
         </section>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.cycle.revert">
         <info>
-          <title>ȡ�������޸�</title>
+          <title>取消本地修改</title>
         </info>
-        <para>�ٶ������ڿ�<command>svn diff</command>��������㷢�ֶ�ĳ���ļ��������޸Ķ��Ǵ���ģ������������Ӧ���޸�����ļ��������Ǵӿ�ͷ�����޸Ļ�������ס�</para>
-        <para>����ʹ��<command>svn revert</command>�ĺû��᣺</para>
+        <para>假定我们在看<command>svn diff</command>的输出，你发现对某个文件的所有修改都是错误的，或许你根本不应该修改这个文件，或者是从开头重新修改会更加容易。</para>
+        <para>这是使用<command>svn revert</command>的好机会：</para>
         <screen>
 $ svn revert README
 Reverted 'README'
 </screen>
-        <para>Subversion���ļ��ָ���δ�޸ĵ�״̬������<filename>.svn</filename>Ŀ¼��<quote>ԭʼ</quote>������Ӧ��֪��<command>svn revert</command>���Իָ��κ�Ԥ��Ҫ���Ĳ������ٸ����ӣ��㲻��������һ���ļ���</para>
+        <para>Subversion把文件恢复到未修改的状态，叫做<filename>.svn</filename>目录的<quote>原始</quote>拷贝，应该知道<command>svn revert</command>可以恢复任何预定要做的操作，举个例子，你不再想添加一个文件：</para>
         <screen>
 $ svn status foo
 ?      foo
@@ -524,9 +524,9 @@ $ svn status foo
 ?      foo
 </screen>
         <note>
-          <para><command>svn revert</command><replaceable>ITEM</replaceable>��Ч����ɾ��<replaceable>ITEM</replaceable>Ȼ��ִ��<command>svn update -r BASE</command><replaceable>ITEM</replaceable>��ȫһ�������ǣ������ʹ��<command>svn revert</command>������֪ͨ�汾��Ϳ��Իָ��ļ���</para>
+          <para><command>svn revert</command><replaceable>ITEM</replaceable>的效果与删除<replaceable>ITEM</replaceable>然后执行<command>svn update -r BASE</command><replaceable>ITEM</replaceable>完全一样，但是，如果你使用<command>svn revert</command>它不必通知版本库就可以恢复文件。</para>
         </note>
-        <para>�����㲻С��ɾ����һ���ļ���</para>
+        <para>或许你不小心删除了一个文件：</para>
         <screen>
 $ svn status README
 
@@ -542,9 +542,9 @@ $ svn status README
       <!-- =============================================================== -->
       <section xml:id="svn.tour.cycle.resolve">
         <info>
-          <title>�����ͻ(�ϲ����˵��޸�)</title>
+          <title>解决冲突(合并别人的修改)</title>
         </info>
-        <para>���ǿ���ʹ��<command>svn status -u</command>��Ԥ���ͻ����������<command>svn update</command>һЩ��Ȥ�����鷢���ˣ�</para>
+        <para>我们可以使用<command>svn status -u</command>来预测冲突，当你运行<command>svn update</command>一些有趣的事情发生了：</para>
         <screen>
 $ svn update
 U  INSTALL
@@ -553,10 +553,10 @@ Conflict discovered in 'bar.c'.
 Select: (p) postpone, (df) diff-full, (e) edit,
         (h) help for more options:
 </screen>
-        <para><computeroutput>U</computeroutput>��<computeroutput>G</computeroutput>û��Ҫ���ģ��ļ��ɾ��Ľ����˰汾��ı仯���ļ���ʾΪ<computeroutput>U</computeroutput>��������û���޸ģ��ļ��Ѿ����ݰ汾����¡�<computeroutput>G</computeroutput>��ʾ�ϲ�����ʾ�����Ѿ��޸Ĺ�����汾��û���ص��ĵط����Ѿ��ϲ���</para>
-        <para>�������������ǽ���<firstterm>����ʽ�ĳ�ͻ���</firstterm>����(Subversion 1.5���µ�)��һ���֣�����ζ�ŷ������ı��������ص��ˣ������л����������ͻ����õ�ѡ�����ʾ���������������<replaceable>h</replaceable>��ʾȫ��ѡ�</para>
+        <para><computeroutput>U</computeroutput>和<computeroutput>G</computeroutput>没必要关心，文件干净的接受了版本库的变化，文件标示为<computeroutput>U</computeroutput>表明本地没有修改，文件已经根据版本库更新。<computeroutput>G</computeroutput>标示合并，标示本地已经修改过，与版本库没有重迭的地方，已经合并。</para>
+        <para>但是下面两行是叫做<firstterm>交互式的冲突解决</firstterm>特性(Subversion 1.5最新的)的一部分，这意味着服务器的变更和你的重叠了，而你有机会解决这个冲突，最常用的选项会显示，但是你可以输入<replaceable>h</replaceable>显示全部选项：</para>
         <screen>
-��
+…
   (p)  postpone    - mark the conflict to be resolved later
   (df) diff-full   - show all changes made to merged file
   (e)  edit        - change merged file in an editor
@@ -566,66 +566,66 @@ Select: (p) postpone, (df) diff-full, (e) edit,
   (l)  launch      - launch external tool to resolve conflict
   (h)  help        - show this list
 </screen>
-        <para>��������ϸ�鿴ÿ��ѡ���֮ǰ�������Ǽ�̵Ļع�һ��������Щѡ�</para>
+        <para>在我们详细查看每个选项含义之前，让我们简短的回顾一下所有这些选项。</para>
         <variablelist>
           <varlistentry>
             <term>(<computeroutput>p</computeroutput>)ostpone</term>
             <listitem>
-              <para>���ļ��ڸ������֮�󱣳ֳ�ͻ״̬��</para>
+              <para>让文件在更新完成之后保持冲突状态。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>d</computeroutput>)iff</term>
             <listitem>
-              <para>ʹ�ñ�׼�����ʽ��ʾbase�޶��汾�ͳ�ͻ�ļ�����������</para>
+              <para>使用标准区别格式显示base修订版本和冲突文件本身的区别。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>e</computeroutput>)dit</term>
             <listitem>
-              <para>����ϲ���ı༭���򿪳�ͻ���ļ����༭���ǻ�������<literal>EDITOR</literal>���õġ�</para>
+              <para>用你喜欢的编辑器打开冲突的文件，编辑器是环境变量<literal>EDITOR</literal>设置的。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>r</computeroutput>)esolved</term>
             <listitem>
-              <para>����ļ��༭֮��֪ͨ<command>svn</command>���Ѿ�������ļ��ĳ�ͻ����������ܵ�ǰ�����ݡ��ӱ����Ͻ��������Ѿ�<quote>�����</quote>��ͻ��</para>
+              <para>完成文件编辑之后，通知<command>svn</command>你已经解决了文件的冲突，它必须接受当前的内容—从本质上讲就是你已经<quote>解决了</quote>冲突。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>m</computeroutput>)ine-(<computeroutput>f</computeroutput>)ull</term>
             <listitem>
-              <para>�����´ӷ��������յı������ֻʹ����鿴�ļ��ı����޸ġ�</para>
+              <para>丢弃新从服务器接收的变更，并只使用你查看文件的本地修改。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>t</computeroutput>)heirs-(<computeroutput>f</computeroutput>)ull</term>
             <listitem>
-              <para>������Բ鿴�ļ��ı����޸ģ�ֻʹ�ôӷ������½��յı����</para>
+              <para>丢弃你对查看文件的本地修改，只使用从服务器新接收的变更。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>l</computeroutput>)aunch</term>
             <listitem>
-              <para>����һ�����ó�����ִ�г�ͻ���������ҪһЩԤ�ȵ�׼����</para>
+              <para>启动一个外置程序来执行冲突解决，这需要一些预先的准备。</para>
             </listitem>
           </varlistentry>
           <varlistentry>
             <term>(<computeroutput>h</computeroutput>)elp</term>
             <listitem>
-              <para>��ʾ�����ڳ�ͻ���ʱ����ʹ�õ����</para>
+              <para>显示所有在冲突解决时可能使用的命令。</para>
             </listitem>
           </varlistentry>
         </variablelist>
-        <para>�������ڻ����ϸ�ĸ�����Щ������ݹ������ܶ�����з��顣</para>
+        <para>我们现在会更详细的覆盖这些命令，根据关联功能对其进行分组。</para>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.resolve.diff">
           <info>
-            <title>����ʽ�Ĳ鿴��ͻ����</title>
+            <title>交互式的查看冲突区别</title>
           </info>
-          <para>�ھ�����ν���ʽ�Ľ��һ����ͻ����������ϣ��������ͻ�ľ�ȷ���ݣ��������ʹ��<firstterm>diff</firstterm> (<command>d</command>) ���</para>
+          <para>在决定如何交互式的解决一个冲突，可能你所希望看到冲突的精确内容，你会这样使用<firstterm>diff</firstterm> (<command>d</command>) 命令：</para>
           <screen>
-��
+…
 Select: (p) postpone, (df) diff-full, (e) edit,
         (h)elp for more options : d
 --- .svn/text-base/sandwich.txt.svn-base      Tue Dec 11 21:33:57 2007
@@ -637,45 +637,45 @@ Select: (p) postpone, (df) diff-full, (e) edit,
 +=======
 +Bring me a taco!
 +&gt;&gt;&gt;&gt;&gt;&gt;&gt; .r32
-��
+…
 </screen>
-          <para>�������ݵĵ�һ����ʾ���ǹ�������(<literal>BASE</literal>�޶��汾)��ǰ�����ݣ���һ������������޸ģ�����һ����������մӷ�����(<emphasis>ͨ��</emphasis>��<literal>HEAD</literal>�޶��汾)���յġ�����������Ϣ�����Ѿ�׼����������һ��������</para>
+          <para>区别内容的第一行显示的是工作拷贝(<literal>BASE</literal>修订版本)以前的内容，下一行内容是你的修改，最后的一行内容是你刚从服务器(<emphasis>通常</emphasis>是<literal>HEAD</literal>修订版本)接收的。手上有了信息，你已经准备好了做下一个动作。</para>
         </section>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.resolve.resolve">
           <info>
-            <title>����ʽ�Ľ����ͻ����</title>
+            <title>交互式的解决冲突区别</title>
           </info>
-          <para>����ʽ�����ͻ���ĸ���ͬ�ķ�ʽ��������������ѡ���Եĺϲ��ͱ༭�޸ģ�������������򵥵�ѡһ���ļ��İ汾��������</para>
-          <para>�����ϣ��ѡ��һЩ�����޸ĵ���ϣ������ʹ��<quote>edit</quote>����(<command>e</command>)�ڱ༭��(�ɻ�������<literal>EDITOR</literal>����)���ֹ��༭������ͻ��ǵ��ļ������ڽ����ͻ��ʹ���ı��༭���ֹ��༭�ļ�������һ��ͼ�������(���������ݿ�<xref linkend="svn.tour.cycle.resolve.byhand"/>)������һЩ��ϲ��ʹ�û��ڵ�ͼ�λ��ϲ����ߡ�</para>
-          <para>Ϊ��ʹ��һ���ϲ����ߣ�����Ҫ����<literal>SVN_MERGE</literal>������������Subversion�����ļ�(��ϸ��Ϣ��<xref linkend="svn.advanced.confarea.opts"/>)����<literal>merge-tool-cmd</literal>ѡ�Subversion����ϲ����ߴ����ĸ��������ļ���<literal>BASE</literal>�޶��汾���ӷ��������յ���Ϊ����һ���ֵ��ļ����޶��汾��������ı����޸ĵĿ�����������ļ��ϲ���Ŀ���(������ͻ���)�������ĺϲ�����������ͬ˳��͸�ʽ�Ĳ���������ҪΪSubversion�ĵ��ñ�д�����ű�������༭�ļ�֮���������������޸ĸе����⣬�����ʹ��<quote>resolve</quote>����(<literal>r</literal>)����Subversion�ļ��Ѿ�û�г�ͻ�ˡ�</para>
+          <para>交互式解决冲突有四个不同的方式—两个是允许你选择性的合并和编辑修改，两个是允许你简单的选一个文件的版本并继续。</para>
+          <para>如果你希望选择一些本地修改的组合，你可以使用<quote>edit</quote>命令(<command>e</command>)在编辑器(由环境变量<literal>EDITOR</literal>决定)中手工编辑包含冲突标记的文件。对于解决冲突，使用文本编辑器手工编辑文件看似有一点低技术含量(完整的内容看<xref linkend="svn.tour.cycle.resolve.byhand"/>)，所以一些人喜欢使用花哨的图形化合并工具。</para>
+          <para>为了使用一个合并工具，你需要设置<literal>SVN_MERGE</literal>环境变量或在Subversion配置文件(详细信息见<xref linkend="svn.advanced.confarea.opts"/>)定义<literal>merge-tool-cmd</literal>选项。Subversion会给合并工具传递四个参数：文件的<literal>BASE</literal>修订版本，从服务器接收的作为更新一部分的文件的修订版本，包含你的本地修改的拷贝，最后是文件合并后的拷贝(包含冲突标记)。如果你的合并工具期望不同顺序和格式的参数，你需要为Subversion的调用编写包裹脚本。在你编辑文件之后，如果你对你做的修改感到满意，你可以使用<quote>resolve</quote>命令(<literal>r</literal>)告诉Subversion文件已经没有冲突了。</para>
           <!-- TODO(fitz): I think the above detail on the merge tool -->
           <!-- should probably be in ch07 -->
-          <para>������������Ҫ�ϲ��κα������ֻ�ǽ���ĳ���汾���ļ��������ͨ��<quote>mine-full</quote>����(<command>mf</command>)ѡ������޸�(����<quote>mine</quote>)��ʹ��<quote>theirs-full</quote>����(<command>tf</command>)ѡ����˵ġ�</para>
+          <para>如果你决定不需要合并任何变更，而只是接受某个版本的文件，你可以通过<quote>mine-full</quote>命令(<command>mf</command>)选择你的修改(叫做<quote>mine</quote>)或使用<quote>theirs-full</quote>命令(<command>tf</command>)选择别人的。</para>
         </section>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.resolve.pending">
           <info>
-            <title>�Ӻ�����ͻ</title>
+            <title>延后解决冲突</title>
           </info>
-          <para>������������Է�ֹ</para>
-          <para>����<computeroutput>C</computeroutput>��ʾ��ͻ��˵���������ϵĸĶ�ͬ��ĸĶ���ͻ�ˣ�����Ҫ�ڸ�������Լ��ֹ�ȥ���������ѡ���Ӻ�����ͻ��<command>svn</command>ͨ������������������֪ͨ������ͻ��</para>
+          <para>这可能听起来对防止</para>
+          <para>但是<computeroutput>C</computeroutput>表示冲突，说明服务器上的改动同你的改动冲突了，你需要在更新完成自己手工去解决。当你选择延后解决冲突，<command>svn</command>通常会做三件事来辅助通知你解决冲突。</para>
           <itemizedlist>
             <listitem>
-              <para>Subversion�ڸ���ʱ��ӡ<computeroutput>C</computeroutput>��ǣ����ұ������ļ��ѳ�ͻ��</para>
+              <para>Subversion在更新时打印<computeroutput>C</computeroutput>标记，并且标记这个文件已冲突。</para>
             </listitem>
             <listitem>
-              <para>���Subversion��Ϊ����ļ��ǿɺϲ��ģ���������<firstterm>��ͻ���</firstterm>������ĺ��߷ֿ���ͻ��<quote>����</quote>�����ļ�����ӻ��������ص��Ĳ���(Subversionʹ��<literal>svn:mime-type</literal>����������һ���ļ��Ƿ����ʹ�������ĵģ�����Ϊ�����ĺϲ���������Ϣ���Կ�<xref linkend="svn.advanced.props.special.mime-type"/>��)</para>
+              <para>如果Subversion认为这个文件是可合并的，它会置入<firstterm>冲突标记</firstterm>—特殊的横线分开冲突的<quote>两面</quote>—在文件里可视化的描述重叠的部分(Subversion使用<literal>svn:mime-type</literal>属性来决定一个文件是否可以使用上下文的，以行为基础的合并，更多信息可以看<xref linkend="svn.advanced.props.special.mime-type"/>。)</para>
             </listitem>
             <listitem>
-              <para>����ÿһ����ͻ���ļ���Subversion�������������δ�汾���ļ�����Ĺ���������</para>
+              <para>对于每一个冲突的文件，Subversion放置三个额外的未版本化文件到你的工作拷贝：</para>
               <variablelist>
                 <varlistentry>
                   <term>
                     <filename>filename.mine</filename>
                   </term>
                   <listitem>
-                    <para>�����ǰ���ļ���û�г�ͻ��־��ֻ�������¸��ĵ����ݡ�(���Subversion��Ϊ����ļ������Ժϲ���<filename>.mine</filename>�ļ����ᴴ������Ϊ���͹����ļ���ͬ��)</para>
+                    <para>你更新前的文件，没有冲突标志，只是你最新更改的内容。(如果Subversion认为这个文件不可以合并，<filename>.mine</filename>文件不会创建，因为它和工作文件相同。)</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -683,7 +683,7 @@ Select: (p) postpone, (df) diff-full, (e) edit,
                     <filename>filename.r<replaceable>OLDREV</replaceable></filename>
                   </term>
                   <listitem>
-                    <para>������������²�����ǰ��<literal>BASE</literal>�汾�ļ������������ϴθ���֮��δ�����ĵİ汾��</para>
+                    <para>这是你的做更新操作以前的<literal>BASE</literal>版本文件，就是你在上次更新之后未作更改的版本。</para>
                   </listitem>
                 </varlistentry>
                 <varlistentry>
@@ -691,14 +691,14 @@ Select: (p) postpone, (df) diff-full, (e) edit,
                     <filename>filename.r<replaceable>NEWREV</replaceable></filename>
                   </term>
                   <listitem>
-                    <para>�������Subversion�ͻ��˴ӷ������ո��յ��İ汾������ļ���Ӧ�汾���<literal>HEAD</literal>�汾��</para>
+                    <para>这是你的Subversion客户端从服务器刚刚收到的版本，这个文件对应版本库的<literal>HEAD</literal>版本。</para>
                   </listitem>
                 </varlistentry>
               </variablelist>
-              <para>����<literal>OLDREV</literal>�����<filename>.svn</filename>Ŀ¼�е��޶��汾�ţ�<literal>NEWREV</literal>�ǰ汾����<literal>HEAD</literal>�İ汾�š�</para>
+              <para>这里<literal>OLDREV</literal>是你的<filename>.svn</filename>目录中的修订版本号，<literal>NEWREV</literal>是版本库中<literal>HEAD</literal>的版本号。</para>
             </listitem>
           </itemizedlist>
-          <para>��һ�����ӣ�Sally�޸���<filename>sandwich.txt</filename>��Harry�ոոı������ı��ؿ����е�����ļ������ύ����������Sally���ύ֮ǰ�������Ĺ��������õ��˳�ͻ��</para>
+          <para>举一个例子，Sally修改了<filename>sandwich.txt</filename>，Harry刚刚改变了他的本地拷贝中的这个文件并且提交到服务器，Sally在提交之前更新它的工作拷贝得到了冲突：</para>
           <screen>
 $ svn update
 Conflict discovered in 'sandwich.txt'.
@@ -712,18 +712,18 @@ sandwich.txt.mine
 sandwich.txt.r1
 sandwich.txt.r2
 </screen>
-          <para>����������£�Subversion<emphasis>��</emphasis>���������ύ<filename>sandwich.txt</filename>��ֱ�����������ʱ�ļ���ɾ����</para>
+          <para>在这种情况下，Subversion<emphasis>不</emphasis>会允许你提交<filename>sandwich.txt</filename>，直到你的三个临时文件被删掉。</para>
           <screen>
 $ svn commit -m "Add a few more things"
 svn: Commit failed (details follow):
 svn: Aborting commit: '/home/sally/svn-work/sandwich.txt' remains in conflict
 </screen>
-          <para>������Ӱ�һ����ͻ������Ҫ��Subversion�������ύ����޸�֮ǰ�����ͻ�������ͨ��<command>svn resolve</command>�����<option>--accept</option>ѡ��Ķ��������һ����ɡ�</para>
-          <para>�����ϣ��ѡ���ϴμ�����޸�֮ǰ���ļ��汾��ѡ��<replaceable>base</replaceable>������</para>
-          <para>�����ϣ��ѡ��ֻ�������޸ĵİ汾��ѡ��<replaceable>mine-full</replaceable>������</para>
-          <para>�����ϣ��ѡ������ӷ��������µİ汾(��˻ᶪ��������Ա༭)��ѡ��<replaceable>theirs-full</replaceable>������</para>
-          <para>Ȼ���������ϣ��</para>
-          <para><command>svn resolve</command>ɾ��������ʱ�ļ���ʹ��<option>--accept</option>ѡ����ָ���ļ��İ汾��Subversion��������Ϊ�ļ����ڳ�ͻ״̬��</para>
+          <para>如果你延办一个冲突，你需要在Subversion允许你提交你的修改之前解决冲突，你可以通过<command>svn resolve</command>命令和<option>--accept</option>选项的多个参数的一个完成。</para>
+          <para>如果你希望选择上次检出后修改之前的文件版本，选择<replaceable>base</replaceable>参数。</para>
+          <para>如果你希望选择只包含你修改的版本，选择<replaceable>mine-full</replaceable>参数。</para>
+          <para>如果你希望选择最近从服务器更新的版本(因此会丢弃你的所以编辑)，选择<replaceable>theirs-full</replaceable>参数。</para>
+          <para>然而，如果你希望</para>
+          <para><command>svn resolve</command>删除三个临时文件，使用<option>--accept</option>选项来指定文件的版本，Subversion不会再认为文件处于冲突状态。</para>
           <screen>
 $ svn resolve --accept working sandwich.txt
 Resolved conflicted state of 'sandwich.txt'
@@ -732,10 +732,10 @@ Resolved conflicted state of 'sandwich.txt'
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.resolve.byhand">
           <info>
-            <title>�ֹ��ϲ���ͻ</title>
+            <title>手工合并冲突</title>
           </info>
-          <para>��һ�γ��Խ����ͻ���˸о��ܺ��£�������һ��ѵ�������򵥵��������ų������¡�</para>
-          <para>����һ���򵥵����ӣ����ڹ�ͨ���������ͬ��Sally��ͬʱ�༭��<filename>sandwich.txt</filename>��Sally�ύ���޸ģ�����׼��������Ĺ�����������ͻ�����ˣ����ǲ��ò�ȥ�޸�<filename>sandwich.txt</filename>�����������⡣���ȣ���һ������ļ���</para>
+          <para>第一次尝试解决冲突让人感觉很害怕，但经过一点训练，它简单的像是骑着车子下坡。</para>
+          <para>这里一个简单的例子，由于沟通不畅，你和同事Sally，同时编辑了<filename>sandwich.txt</filename>。Sally提交了修改，当你准备更新你的工作拷贝，冲突发生了，我们不得不去修改<filename>sandwich.txt</filename>来解决这个问题。首先，看一下这个文件：</para>
           <screen>
 $ cat sandwich.txt
 Top piece of bread
@@ -754,7 +754,7 @@ Grilled Chicken
 Creole Mustard
 Bottom piece of bread
 </screen>
-          <para>С�ںš����ںźʹ��ںŴ��ǳ�ͻ��ǣ������ǳ�ͻ�����ݣ���һ��Ҫȷ����Щ�������´��ύ֮ǰ�õ�ɾ����ǰ�����־�м�����������ڳ�ͻ���������޸ģ�</para>
+          <para>小于号、等于号和大于号串是冲突标记，并不是冲突的数据，你一定要确定这些内容在下次提交之前得到删除，前两组标志中间的内容是你在冲突区所做的修改：</para>
           <screen>
 &lt;&lt;&lt;&lt;&lt;&lt;&lt; .mine
 Salami
@@ -762,14 +762,14 @@ Mortadella
 Prosciutto
 =======
 </screen>
-          <para>������֮�����Sally�ύ���޸ĳ�ͻ��</para>
+          <para>后两组之间的是Sally提交的修改冲突：</para>
           <screen>
 =======
 Sauerkraut
 Grilled Chicken
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; .r2
 </screen>
-          <para>ͨ���㲢��ϣ��ֻ��ɾ����ͻ��־��Sally���޸ġ������յ�������ʱ����ǳ��ĳԾ���������Ӧ���ߵ����İ칫�һ�������绰����Sally����û�취�Ӵ��������ʳ��õ���Ҫ���ݲˡ�<footnote><para>�����������ѯ�ʣ����Ƿǳ������ɰ����������������ϡ�</para></footnote>һ������ȷ�����ύ���ݺ��޸��ļ�����ɾ����ͻ��־��</para>
+          <para>通常你并不希望只是删除冲突标志和Sally的修改—当她收到三明治时，会非常的吃惊。所以你应该走到她的办公室或是拿起电话告诉Sally，你没办法从从意大利熟食店得到想要的泡菜。<footnote><para>如果你向他们询问，他们非常有理由把你带到城外的铁轨上。</para></footnote>一旦你们确认了提交内容后，修改文件并且删除冲突标志。</para>
           <screen>
 Top piece of bread
 Mayonnaise
@@ -782,21 +782,21 @@ Prosciutto
 Creole Mustard
 Bottom piece of bread
 </screen>
-          <para>��������<command>svn resolve</command>�����Ѿ�׼�����ύ�ˣ�</para>
+          <para>现在运行<command>svn resolve</command>，你已经准备好提交了：</para>
           <screen>
 $ svn resolve --accept working sandwich.txt
 Resolved conflicted state of 'sandwich.txt'
 $ svn commit -m "Go ahead and use my sandwich, discarding Sally's edits."
 </screen>
-          <para>��������׼�����ύ�޸��ˣ�ע��<command>svn resolve</command>�������Ǳ���ѧ������������һ����Ҫ���������κ�����Ϊ����˳�ͻ��ʱ��ֻ��ҪС������<command>svn resolve</command>����һ��ɾ������ʱ�ļ���Subversion�������ύ���ļ�����ʹ�ļ��л����ڳ�ͻ��ǡ�</para>
-          <para>��ס��������޸ĳ�ͻʱ�е����ң�����Բο�subversion���ɵ������ļ���������δ�����µ��ļ�����Ҳ����ʹ�����������ϲ����߼����������ļ���</para>
+          <para>现在我们准备好提交修改了，注意<command>svn resolve</command>不像我们本章学过的其他命令一样需要参数，在任何你认为解决了冲突的时候，只需要小心运行<command>svn resolve</command>，—一旦删除了临时文件，Subversion会让你提交这文件，即使文件中还存在冲突标记。</para>
+          <para>记住，如果你修改冲突时感到混乱，你可以参考subversion生成的三个文件—包括你未作更新的文件。你也可以使用三方交互合并工具检验这三个文件。</para>
         </section>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.resolve.theirsfull">
           <info>
-            <title>��������޸Ķ������»�ȡ���޶��汾</title>
+            <title>丢弃你的修改而接收新获取的修订版本</title>
           </info>
-          <para>�����ֻ��ϣ��ȡ������޸ģ����������<command>svn resolve --accept theirs-full</command>��Subversion�ᶪ���������޸Ĳ�ɾ����ʱ�ļ���</para>
+          <para>如果你只是希望取消你的修改，你可以运行<command>svn resolve --accept theirs-full</command>，Subversion会丢弃你做的修改并删除临时文件：</para>
           <screen>
 $ svn update
 Conflict discovered in 'sandwich.txt'.
@@ -813,41 +813,41 @@ Resolved conflicted state of 'sandwich.txt'
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.cycle.resolve.revert">
           <info>
-            <title>��ע��ʹ��<command>svn revert</command></title>
+            <title>脚注：使用<command>svn revert</command></title>
           </info>
-          <para>�����õ���ͻ��������������ȡ���Լ����޸Ĳ������±༭(�����Ƿ����ڳ�ͻ֮��������)������Իָ�����޸ģ�</para>
+          <para>如果你得到冲突，经过检查你决定取消自己的修改并且重新编辑(无论是发生在冲突之后还是其他)，你可以恢复你的修改：</para>
           <screen>
 $ svn revert sandwich.txt
 Reverted 'sandwich.txt'
 $ ls sandwich.*
 sandwich.txt
 </screen>
-          <para>ע�⣬����ָ�һ����ͻ���ļ�ʱ������Ҫ������<command>svn resolve</command>��</para>
+          <para>注意，当你恢复一个冲突的文件时，不需要再运行<command>svn resolve</command>。</para>
         </section>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.cycle.commit">
         <info>
-          <title>�ύ����޸�</title>
+          <title>提交你的修改</title>
         </info>
-        <para>�������޸Ľ����ˣ���ϲ��˷����������е��޸ģ���׼�����ύ�޸ĵ��汾�⡣</para>
-        <para><command>svn commit</command>��������е��޸ĵ��汾�⣬�����ύ�޸�ʱ������Ҫ�ṩһЩ�����޸ĵ�<firstterm>��־��Ϣ</firstterm>�������Ϣ�ḽ������޶��汾�ϣ������Ϣ�ܼ�̣����������������ʹ��<option>--message</option>(��<option>-m</option>)ѡ�</para>
+        <para>最后！你的修改结束了，你合并了服务器上所有的修改，你准备好提交修改到版本库。</para>
+        <para><command>svn commit</command>命令发送所有的修改到版本库，当你提交修改时，你需要提供一些描述修改的<firstterm>日志信息</firstterm>，你的信息会附到这个修订版本上，如果信息很简短，你可以在命令行中使用<option>--message</option>(或<option>-m</option>)选项：</para>
         <screen>
 $ svn commit -m "Corrected number of cheese slices."
 Sending        sandwich.txt
 Transmitting file data .
 Committed revision 3.
 </screen>
-        <para>Ȼ����������д��־��Ϣ����������һ���֣���Ҳ����ϣ������Subversionͨ��һ���ļ����õ���־��Ϣ��ʹ��<option>--file</option>(<option>-F</option>)ѡ�</para>
+        <para>然而，如果你把写日志信息当作工作的一部分，你也许会希望告诉Subversion通过一个文件名得到日志信息，使用<option>--file</option>(<option>-F</option>)选项：</para>
         <screen>
 $ svn commit -F logmsg
 Sending        sandwich.txt
 Transmitting file data .
 Committed revision 4.
 </screen>
-        <para>�����û��ָ��<option>--message</option>����<option>--file</option>ѡ�Subversion���Զ�����������ϲ���ı༭��(��<xref linkend="svn.advanced.confarea.opts.config"/>��<literal>editor-cmd</literal>����)���༭��־��Ϣ��</para>
+        <para>如果你没有指定<option>--message</option>或者<option>--file</option>选项，Subversion会自动地启动你最喜欢的编辑器(见<xref linkend="svn.advanced.confarea.opts.config"/>的<literal>editor-cmd</literal>部分)来编辑日志信息。</para>
         <tip>
-          <para>�����ʹ�ñ༭��׫д��־��Ϣʱϣ��ȡ���ύ�������ֱ�ӹص��༭������Ҫ���棬������Ѿ��������棬ֻҪ�򵥵�ɾ�����е��ı����ٴα��棬Ȼ���˳���</para>
+          <para>如果你使用编辑器撰写日志信息时希望取消提交，你可以直接关掉编辑器，不要保存，如果你已经做过保存，只要简单的删掉所有的文本并再次保存，然后退出。</para>
           <screen>
 $ svn commit
 Waiting for Emacs...Done
@@ -858,17 +858,17 @@ a
 $
 </screen>
         </tip>
-        <para>�汾�ⲻ֪��Ҳ����������޸���Ϊһ�������Ƿ������壬��ֻ����Ƿ����������޸���ͬһ���ļ����������<emphasis>�Ѿ�</emphasis>�������ˣ���������ύ��ʧ�ܣ�������ʾ��һ�������ļ��Ѿ���ʱ�ˣ�</para>
+        <para>版本库不知道也不关心你的修改作为一个整体是否有意义，它只检查是否有其他人修改了同一个文件，如果别人<emphasis>已经</emphasis>这样做了，你的整个提交会失败，并且提示你一个或多个文件已经过时了：</para>
         <screen>
 $ svn commit -m "Add another rule"
 Sending        rules.txt
 svn: Commit failed (details follow):
 svn: File '/sandwich.txt' is out of date
-��
+…
 </screen>
-        <para>(������Ϣ�ľ�ȷ�������������Э�����ʹ�õķ����������������е��������˼����ȫһ����)</para>
-        <para>�˿̣�����Ҫ����<command>svn update</command>���������еĺϲ��ͳ�ͻ��Ȼ���ٳ����ύ��</para>
-        <para>�����Ѿ�������Subversion�����Ĺ������ڣ����������������Կ��Թ�����ð汾��͹�������������ֻʹ��ǰ����ܵ�������Ϳ��Ժܽ����ճ������ˣ����ǻ��Ḳ�Ǹ����õĻ���Ƶ�������</para>
+        <para>(错误信息的精确措辞依赖于网络协议和你使用的服务器，但对于所有的情况，其思想完全一样。)</para>
+        <para>此刻，你需要运行<command>svn update</command>来处理所有的合并和冲突，然后再尝试提交。</para>
+        <para>我们已经覆盖了Subversion基本的工作周期，还有许多其它特性可以管理你得版本库和工作拷贝，但是只使用前面介绍的命令你就可以很进行日常工作了，我们还会覆盖更多用的还算频繁的命令。</para>
       </section>
     </section>
     <!-- ================================================================= -->
@@ -876,17 +876,17 @@ svn: File '/sandwich.txt' is out of date
     <!-- ================================================================= -->
     <section xml:id="svn.tour.history">
       <info>
-        <title>������ʷ</title>
+        <title>检验历史</title>
       </info>
-      <para>��İ汾�������һ̨ʱ�����������¼�������ύ���޸ģ����������ļ���Ŀ¼�Լ����Ԫ���ݵ���ʷ��ͨ��һ��Subversion��������Ը���ʱ����޶���ȡ��һ����ȥ�İ汾(���߻ָ����ڵĹ�������)��Ȼ������ʱ������ֻ����<emphasis>����</emphasis>��ʷ������<emphasis>�ص�</emphasis>��ʷ��</para>
-      <para>�������������Ϊ���ṩ�汾����ʷ��</para>
+      <para>你的版本库就像是一台时间机器，它记录了所有提交的修改，允许你检查文件或目录以及相关元数据的历史。通过一个Subversion命令你可以根据时间或修订号取出一个过去的版本(或者恢复现在的工作拷贝)，然而，有时候我们只是想<emphasis>看看</emphasis>历史而不想<emphasis>回到</emphasis>历史。</para>
+      <para>有许多命令可以为你提供版本库历史：</para>
       <variablelist>
         <varlistentry>
           <term>
             <command>svn log</command>
           </term>
           <listitem>
-            <para>չʾ������Ҫ��Ϣ��ÿ���汾�����ڰ汾�ϵ�������������Ϣ������·���޸ġ�</para>
+            <para>展示给你主要信息：每个版本附加在版本上的作者与日期信息和所有路径修改。</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -894,7 +894,7 @@ svn: File '/sandwich.txt' is out of date
             <command>svn diff</command>
           </term>
           <listitem>
-            <para>��ʾ�ض��޸ĵ��м���ϸ��Ϣ��</para>
+            <para>显示特定修改的行级详细信息。</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -902,7 +902,7 @@ svn: File '/sandwich.txt' is out of date
             <command>svn cat</command>
           </term>
           <listitem>
-            <para>ȡ�����ض��汾��ĳһ���ļ���ʾ�ڵ�ǰ��Ļ��</para>
+            <para>取得在特定版本的某一个文件显示在当前屏幕。</para>
           </listitem>
         </varlistentry>
         <varlistentry>
@@ -910,16 +910,16 @@ svn: File '/sandwich.txt' is out of date
             <command>svn list</command>
           </term>
           <listitem>
-            <para>��ʾһ��Ŀ¼��ĳһ�汾���ڵ��ļ���</para>
+            <para>显示一个目录在某一版本存在的文件。</para>
           </listitem>
         </varlistentry>
       </variablelist>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.history.log">
         <info>
-          <title>������ʷ�޸��б�</title>
+          <title>产生历史修改列表</title>
         </info>
-        <para>�ҳ�һ���ļ���Ŀ¼����ʷ��Ϣ��ʹ��<command>svn log</command>���<command>svn log</command>�����ṩ��һ����¼��������˭���ļ���Ŀ¼�����޸ġ��ĸ��޶��汾�����޸ġ��޶��汾�����ں�ʱ�䡢��������㵱ʱ�ṩ����־��Ϣ��Ҳ����ʾ��</para>
+        <para>找出一个文件或目录的历史信息，使用<command>svn log</command>命令，<command>svn log</command>将会提供你一条记录，包括：谁对文件或目录作了修改、哪个修订版本作了修改、修订版本的日期和时间、还有如果你当时提供了日志信息，也会显示。</para>
         <screen>
 $ svn log
 ------------------------------------------------------------------------
@@ -936,7 +936,7 @@ r1 | sally | Mon, 15 Jul 2002 17:40:08 -0500 | 1 line
 Initial import
 ------------------------------------------------------------------------
 </screen>
-        <para>ע����־��Ϣȱʡ����<emphasis>ʱ����������</emphasis>�����ϣ���쿴�ض�˳���һ���޶��汾���ߵ�һ�汾��ʹ��<option>--revision</option> (<option>-r</option>)ѡ�</para>
+        <para>注意日志信息缺省根据<emphasis>时间逆序排列</emphasis>，如果希望察看特定顺序的一段修订版本或者单一版本，使用<option>--revision</option> (<option>-r</option>)选项：</para>
         <screen>
 $ svn log -r 5:19    # shows logs 5 through 19 in chronological order
 
@@ -944,21 +944,21 @@ $ svn log -r 19:5    # shows logs 5 through 19 in reverse order
 
 $ svn log -r 8       # shows log for revision 8
 </screen>
-        <para>��Ҳ���Լ�鵥���ļ���Ŀ¼����־��ʷ���ٸ����ӣ�</para>
+        <para>你也可以检查单个文件或目录的日志历史，举个例子：</para>
         <screen>
 $ svn log foo.c
-��
+…
 $ svn log http://foo.com/svn/trunk/code/foo.c
-��
+…
 </screen>
-        <para>����<emphasis>ֻ��</emphasis>��ʾ��������ļ�(����URL)�����޶��İ汾����־��Ϣ��</para>
+        <para>这样<emphasis>只会</emphasis>显示这个工作文件(或者URL)做过修订的版本的日志信息。</para>
         <sidebar>
           <info>
-            <title>Ϊʲô <command>svn log</command> ������ʾ�Ҹո��ύ�����ݣ�</title>
+            <title>为什么 <command>svn log</command> 不会显示我刚刚提交的内容？</title>
           </info>
-          <para>����������ύ����������û�в�����<command>svn log</command>�������ע�⵽��־�б���û����������ύ��������Ϊ<command>svn commit</command>����Ϊ��ʽ��<command>svn log</command>��ȱʡ��Ϊ��ʽ����ϡ����ȣ������ύ�޸ĵ��汾�⣬<command>svn</command>ֻ���޸����ύ�ļ����޶��汾��������ʱ��Ŀ¼��Ȼ�Ǿɵ��޶��汾(<xref linkend="svn.basic.in-action.mixedrevs.update-commit"/>������ԭ��)��Ȼ��<command>svn log</command>ȱʡ��ӵ�ǰ�޶��汾��ȡĿ¼����ʷ�����ῴ�������µ��ύ�޸ģ�����ͨ�����µĹ�����������ʹ�ð���<option>--revision</option> (<option>-r</option>)ѡ���<command>svn log</command>�����������⡣</para>
+          <para>如果你做出提交并立刻输入没有参数的<command>svn log</command>，你可能注意到日志列表中没有你最近的提交，这是因为<command>svn commit</command>的行为方式和<command>svn log</command>的缺省行为方式的组合。首先，当你提交修改到版本库，<command>svn</command>只会修改它提交文件的修订版本，所以有时候父目录仍然是旧的修订版本(<xref linkend="svn.basic.in-action.mixedrevs.update-commit"/>解释了原因)。然后<command>svn log</command>缺省会从当前修订版本获取目录的历史因此你会看不到最新的提交修改，可以通过更新的工作拷贝或者使用包含<option>--revision</option> (<option>-r</option>)选项的<command>svn log</command>来解决这个问题。</para>
         </sidebar>
-        <para>�����ϣ���õ�Ŀ¼���ļ��������Ϣ������Զ�<command>svn log</command>����ʹ��<option>--verbose </option>(<option>-v</option>)���أ���ΪSubversion�����ƶ��͸����ļ���Ŀ¼�����Ը���·���޸ķǳ���Ҫ������ϸģʽ�£�<command>svn log</command> ����л����һ��·���޸ĵ���ʷ��</para>
+        <para>如果你希望得到目录和文件更多的信息，你可以对<command>svn log</command>命令使用<option>--verbose </option>(<option>-v</option>)开关，因为Subversion允许移动和复制文件和目录，所以跟踪路径修改非常重要，在详细模式下，<command>svn log</command> 输出中会包括一个路径修改的历史：</para>
         <screen>
 $ svn log -r 8 -v
 ------------------------------------------------------------------------
@@ -972,44 +972,44 @@ Frozzled the sub-space winch.
 
 ------------------------------------------------------------------------
 </screen>
-        <para><command>svn log</command>Ҳ��һ��<option>--quiet</option> (<option>-q</option>)ѡ����ֹ��־��Ϣ����Ҫ���֣�����<option>--verbose</option>���ʹ�ã�������ʾ�޸ĵ��ļ�����</para>
+        <para><command>svn log</command>也有一个<option>--quiet</option> (<option>-q</option>)选项，会禁止日志信息的主要部分，当与<option>--verbose</option>结合使用，仅会显示修改的文件名。</para>
         <sidebar>
           <info>
-            <title>Ϊʲô <command>svn log</command> ����һ���յĻ�Ӧ��</title>
+            <title>为什么 <command>svn log</command> 给我一个空的回应？</title>
           </info>
-          <para>��ʹ��SubversionһЩʱ��������û����������������</para>
+          <para>当使用Subversion一些时间后，许多用户会遇到这种情况：</para>
           <screen>
 $ svn log -r 2
 ------------------------------------------------------------------------
 $
 </screen>
-          <para>էһ����������һ�����󣬵�����һ���޶��汾���������ڰ汾������֮�ϵģ������û���ṩ·����<command>svn log</command>��ʹ�õ�ǰĿ¼��ΪĬ�ϵ�Ŀ�꣬���ԣ���Ϊ�����������һ����������Ŀ¼��ָ���汾������û�������޸ĵ�Ŀ¼�������������õ��յ���־�������ϣ���쿴ĳ���汾�����޸ĵ���־��ֻ��Ҫֱ�Ӹ���<command>svn log</command>ʹ�ð汾�ⶥ����Ŀ¼��Ϊ����������<command>svn log -r 2 http://svn.collab.net/repos/svn</command>��</para>
+          <para>乍一看，好像是一个错误，但是想一下修订版本号是作用在版本库整体之上的，如果你没有提供路径，<command>svn log</command>会使用当前目录作为默认的目标，所以，作为结果，如果你对一个本身和子目录在指定版本到现在没有做过修改的目录运行这个命令，你会得到空的日志。如果你希望察看某个版本做的修改的日志，只需要直接告诉<command>svn log</command>使用版本库顶级的目录作为参数，例如<command>svn log -r 2 http://svn.collab.net/repos/svn</command>。</para>
         </sidebar>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.history.diff">
         <info>
-          <title>�����ʷ�޸�����</title>
+          <title>检查历史修改详情</title>
         </info>
-        <para>�����Ѿ�����<command>svn diff</command>��ʹ�ñ�׼�����ļ���ʽ��ʾ���������ύǰ������ʾ���ع���������汾�������</para>
-        <para>��ʵ�ϣ�<command>svn diff</command>��<emphasis>��</emphasis>�ֲ�ͬ���÷���</para>
+        <para>我们已经看过<command>svn diff</command>—使用标准区别文件格式显示区别，它在提交前用来显示本地工作拷贝与版本库的区别。</para>
+        <para>事实上，<command>svn diff</command>有<emphasis>三</emphasis>种不同的用法：</para>
         <itemizedlist>
           <listitem>
-            <para>��鱾���޸�</para>
+            <para>检查本地修改</para>
           </listitem>
           <listitem>
-            <para>�ȽϹ���������汾��</para>
+            <para>比较工作拷贝与版本库</para>
           </listitem>
           <listitem>
-            <para>�Ƚϰ汾����汾��</para>
+            <para>比较版本库与版本库</para>
           </listitem>
         </itemizedlist>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.history.diff.local">
           <info>
-            <title>��鱾���޸�</title>
+            <title>检查本地修改</title>
           </info>
-          <para>�����ǿ����ģ���ʹ���κβ�������ʱ��<command>svn diff</command>����Ƚ���Ĺ����ļ��뻺����<filename>.svn</filename>��<quote>ԭʼ</quote>������</para>
+          <para>像我们看到的，不使用任何参数调用时，<command>svn diff</command>将会比较你的工作文件与缓存在<filename>.svn</filename>的<quote>原始</quote>拷贝：</para>
           <screen>
 $ svn diff
 Index: rules.txt
@@ -1029,9 +1029,9 @@ $
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.history.diff.wcrepos">
           <info>
-            <title>�ȽϹ��������Ͱ汾��</title>
+            <title>比较工作副本和版本库</title>
           </info>
-          <para>�������һ��<option>--revision</option>(<option>-r</option>)��������Ĺ�����������ָ���İ汾�Ƚϡ�</para>
+          <para>如果传递一个<option>--revision</option>(<option>-r</option>)参数，你的工作拷贝会与指定的版本比较。</para>
           <screen>
 $ svn diff -r 3 rules.txt
 Index: rules.txt
@@ -1051,9 +1051,9 @@ $
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.history.diff.reposrepos">
           <info>
-            <title>�Ƚϰ汾����汾��</title>
+            <title>比较版本库与版本库</title>
           </info>
-          <para>���ͨ��<option>--revision</option>(<option>-r</option>)��������ͨ��ð�ŷֿ��İ汾�ţ��������汾����бȽϡ�</para>
+          <para>如果通过<option>--revision</option>(<option>-r</option>)传递两个通过冒号分开的版本号，这两个版本会进行比较。</para>
           <screen>
 $ svn diff -r 2:3 rules.txt
 Index: rules.txt
@@ -1068,7 +1068,7 @@ Index: rules.txt
  Chew with your mouth open
 $
 </screen>
-          <para>��ǰһ���޶��汾�Ƚϸ�����İ취��ʹ��<option>--change</option>(<option>-c</option>)ѡ�</para>
+          <para>与前一个修订版本比较更方便的办法是使用<option>--change</option>(<option>-c</option>)选项：</para>
           <screen>
 $ svn diff -c 3 rules.txt
 Index: rules.txt
@@ -1083,10 +1083,10 @@ Index: rules.txt
  Chew with your mouth open
 $
 </screen>
-          <para>��󣬼�ʹ���ڱ���û�й������������ǿ��ԱȽϰ汾����޶��汾��ֻ��Ҫ����������������ʵ�URL��</para>
+          <para>最后，即使你在本机没有工作拷贝，还是可以比较版本库的修订版本，只需要在命令行中输入合适的URL：</para>
           <screen>
 $ svn diff -c 5 http://svn.example.com/repos/example/trunk/text/rules.txt
-��
+…
 $
 </screen>
         </section>
@@ -1094,15 +1094,15 @@ $
       <!-- =============================================================== -->
       <section xml:id="svn.tour.history.browsing">
         <info>
-          <title>����汾��</title>
+          <title>浏览版本库</title>
         </info>
-        <para>ͨ��<command>svn cat</command>��<command>svn list</command>���������δ�޸Ĺ����޶��汾������²鿴�ļ���Ŀ¼�����ݣ�ʵ���ϣ�������Ҳ����Ҫ��һ������������</para>
+        <para>通过<command>svn cat</command>和<command>svn list</command>，你可以在未修改工作修订版本的情况下查看文件和目录的内容，实际上，你甚至也不需要有一个工作拷贝。</para>
         <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
         <section xml:id="svn.tour.history.browsing.cat">
           <info>
             <title>svn cat</title>
           </info>
-          <para>�����ֻ��ϣ�����һ����ȥ�İ汾����ϣ���쿴���ǵ�����ʹ��<command>svn cat</command>��</para>
+          <para>如果你只是希望检查一个过去的版本而不希望察看它们的区别，使用<command>svn cat</command>：</para>
           <screen>
 $ svn cat -r 2 rules.txt
 Be kind to others
@@ -1111,7 +1111,7 @@ Everything in moderation
 Chew with your mouth open
 $
 </screen>
-          <para>������ض��������һ���ļ���</para>
+          <para>你可以重定向输出到一个文件：</para>
           <screen>
 $ svn cat -r 2 rules.txt &gt; rules.txt.v2
 $
@@ -1122,7 +1122,7 @@ $
           <info>
             <title>svn list</title>
           </info>
-          <para><command>svn list</command>�����ڲ������ļ�������Ŀ¼����������쿴Ŀ¼�е��ļ���</para>
+          <para><command>svn list</command>可以在不下载文件到本地目录的情况下来察看目录中的文件：</para>
           <screen>
 $ svn list http://svn.collab.net/repos/svn
 README
@@ -1131,7 +1131,7 @@ clients/
 tags/
 trunk/
 </screen>
-          <para>�����ϣ���쿴��ϸ��Ϣ�������ʹ��<option>--verbose</option>(<option>-v</option>) ������</para>
+          <para>如果你希望察看详细信息，你可以使用<option>--verbose</option>(<option>-v</option>) 参数：</para>
           <screen>
 $ svn list -v http://svn.collab.net/repos/svn
   20620 harry            1084 Jul 13  2006 README
@@ -1140,34 +1140,34 @@ $ svn list -v http://svn.collab.net/repos/svn
   23198 harry                 Jan 23 17:17 tags/
   23351 sally                 Feb 05 13:26 trunk/
 </screen>
-          <para>��Щ�и������ļ���Ŀ¼����޸ĵ��޶��汾�������޸ĵ��û���������ļ��������ļ��Ĵ�С��������޸����ں���Ŀ�����֡�</para>
+          <para>这些列告诉你文件和目录最后修改的修订版本、做出修改的用户、如果是文件还会有文件的大小，最后是修改日期和项目的名字。</para>
           <warning>
-            <para>û���κβ�����<command>svn list</command>����ȱʡʹ�õ�ǰ����������<emphasis>�汾��URL</emphasis>����<emphasis>����</emphasis>���ع���������Ŀ¼���Ͼ��������ϣ���г�����Ŀ¼����ֻ��Ҫʹ��<command>ls</command>(���κκ����ķ�UNIX�ȼ���)��</para>
+            <para>没有任何参数的<command>svn list</command>命令缺省使用当前工作拷贝的<emphasis>版本库URL</emphasis>，而<emphasis>不是</emphasis>本地工作拷贝的目录。毕竟，如果你希望列出本地目录，你只需要使用<command>ls</command>(或任何合理的非UNIX等价物)。</para>
           </warning>
         </section>
       </section>
       <!-- =============================================================== -->
       <section xml:id="svn.tour.history.snapshots">
         <info>
-          <title>��þɵİ汾�����</title>
+          <title>获得旧的版本库快照</title>
         </info>
-        <para>�������ϵ���������ʹ�ô�����<option>--revision</option>��<command>svn update</command>��<command>svn checkout</command>��ʹ������������<quote>�ص���ȥ</quote><footnote><para>�����˰ɣ�����˵��Subversion��һ��ʱ�������</para></footnote>��</para>
+        <para>除了以上的命令，你可以使用带参数<option>--revision</option>的<command>svn update</command>和<command>svn checkout</command>来使整个工作拷贝<quote>回到过去</quote><footnote><para>看到了吧？我们说过Subversion是一个时间机器。</para></footnote>：</para>
         <screen>
 $ svn checkout -r 1729 # Checks out a new working copy at r1729
-��
+…
 $ svn update -r 1729 # Updates an existing working copy to r1729
-��
+…
 </screen>
         <tip>
-          <para>����Subversion����ʹ��ǰ���<command>svn update</command>ʵ����<quote>����</quote>�޸ģ������㲻���ύ�޸ģ����������޶��汾�Ĺ�ʱ��������Ҳ��û���õġ��������<quote>����</quote>�����ǿ��Կ�<xref linkend="svn.branchmerge.basicmerging.resurrect"/>��</para>
+          <para>许多Subversion新手使用前面的<command>svn update</command>实例来<quote>回退</quote>修改，但是你不能提交修改，你获得有新修订版本的过时工作拷贝也是没有用的。关于如何<quote>回退</quote>，我们可以看<xref linkend="svn.branchmerge.basicmerging.resurrect"/>。</para>
         </tip>
-        <para>�������㹹����һ���汾������ϣ����Subversion����ļ��������㲻ϣ���������.svnĿ¼����ʱ����Ե����汾���һ�����ļ���û��.svnĿ¼������<command>svn update</command>��<command>svn checkout</command>����Ҳ���Դ���<option>--revision</option>ѡ���<command>svn export</command>��</para>
+        <para>最后，如果你构建了一个版本，并且希望从Subversion打包文件，但是你不希望有讨厌的.svn目录，这时你可以导出版本库的一部分文件而没有.svn目录。就像<command>svn update</command>和<command>svn checkout</command>，你也可以传递<option>--revision</option>选项给<command>svn export</command>：</para>
         <screen>
 $ svn export http://svn.example.com/svn/repos1 # Exports latest revision
-��
+…
 $ svn export http://svn.example.com/svn/repos1 -r 1729
 # Exports revision r1729
-��
+…
 </screen>
       </section>
     </section>
@@ -1176,23 +1176,23 @@ $ svn export http://svn.example.com/svn/repos1 -r 1729
     <!-- ================================================================= -->
     <section xml:id="svn.tour.cleanup">
       <info>
-        <title>��ʱ��ֻ��Ҫ����</title>
+        <title>有时你只需要清理</title>
       </info>
-      <para>���������Ѿ�������ʹ��Subversion���ճ��������ǻ����һЩ����������صĹ�������</para>
+      <para>现在我们已经覆盖了使用Subversion的日常任务，我们会检阅一些工作拷贝相关的管理任务。</para>
       <section xml:id="svn.tour.cleanup.disposal">
         <info>
-          <title>������Ĺ�������</title>
+          <title>处理你的工作副本</title>
         </info>
-        <para>Subversion������ٷ������Ϲ���������״̬�ʹ����ԣ�����û�б�Ҫ���ֹ��������ķ�����������û�б�Ҫ�÷�����֪�����ɾ��һ������������</para>
-        <para>����㻹��ϲ��ʹ�ù���������ֱ�����ٴ�ʹ����֮ǰ�����䱣���ڴ���û���κδ����κ�ʱ��һ��<command>svn update</command>���������ʹ�õ��ļ���Ϊ���¡�</para>
-        <para>Ȼ������������ղ����ټ���ʹ�ù�������������԰�ȫ��ɾ�����������������������ϸ�Ŀ�һ�¹���������δ�汾�����ļ���Ϊ�˲�����Щ�ļ������ǿ�������<command>svn status</command>�����鿴������<literal>?</literal>ǰ׺���ļ���ȷ�������Ƿ���Ҫ������������֮������԰�ȫ��ɾ����Ĺ���������</para>
+        <para>Subversion不会跟踪服务器上工作拷贝的状态和存在性，所以没有必要保持工作拷贝的服务器负担，没有必要让服务器知道你会删除一个工作拷贝。</para>
+        <para>如果你还是喜欢使用工作拷贝，直到你再次使用它之前，把其保留在磁盘没有任何错误，任何时候一个<command>svn update</command>命令可以让使用的文件成为最新。</para>
+        <para>然而，如果你最终不会再继续使用工作拷贝，你可以安全的删除整个东西，但是你最好仔细的看一下工作拷贝中未版本化的文件，为了查找这些文件，我们可以运行<command>svn status</command>，并查看所有以<literal>?</literal>前缀的文件以确认它们是否重要。在你完成审计之后，你可以安全的删除你的工作拷贝。</para>
       </section>
       <section xml:id="svn.tour.cleanup.interruption">
         <info>
-          <title>���ж��лָ�</title>
+          <title>从中断中恢复</title>
         </info>
-        <para>��Subversion�ı���Ĺ�������(����<filename>.svn</filename>�е��κ���Ϣ)�����ᾡ���ܵ�С�ģ����޸��κ�����֮ǰ��������ͼд����־�ļ���ȥ��Ȼ��ִ��log�ļ��е��������ִ�й������ڹ�����������ز��ֱ���һ������ ��ֹSubversion�ͻ����ڱ�������з��ʹ���������Ȼ��ɾ����־�ļ�����������Ե��ļ�ϵͳ�ܹ����ơ����Subversion�Ĳ����ж���(�ٸ����ӣ����̱�ɱ���ˣ�����������)����־�ļ��ᱣ����Ӳ���ϣ�ͨ������ִ����־�ļ���Subversion���������һ�ο�ʼ�Ĳ�������Ĺ����������Իص�һ�µ�״̬��</para>
-        <para>�����<command>svn cleanup</command>�����ģ������ҹ��������е�������������־�ļ���ɾ�������й����������������Subversion�����㹤�������е�һ�����Ѿ�<quote>����</quote>�ˣ������Ҫ������������ˡ�ͬ����<command>svn status</command>����ʹ��<literal>L</literal> ��ʾ��������Ŀ��</para>
+        <para>当Subversion改变你的工作拷贝(或是<filename>.svn</filename>中的任何信息)，它会尽可能的小心，在修改任何事情之前，它把意图写到日志文件中去，然后执行log文件中的命令，并且执行过程中在工作拷贝的相关部分保存一个锁— 防止Subversion客户端在变更过程中访问工作拷贝。然后删掉日志文件，这与记帐试的文件系统架构类似。如果Subversion的操作中断了(举个例子：进程被杀死了，机器死掉了)，日志文件会保存在硬盘上，通过重新执行日志文件，Subversion可以完成上一次开始的操作，你的工作拷贝可以回到一致的状态。</para>
+        <para>这就是<command>svn cleanup</command>所作的：它查找工作拷贝中的所有遗留的日志文件，删除进程中工作拷贝的锁。如果Subversion告诉你工作拷贝中的一部分已经<quote>锁定</quote>了，你就需要运行这个命令了。同样，<command>svn status</command>将会使用<literal>L</literal> 标示锁定的项目：</para>
         <screen>
 $ svn status
   L    somedir
@@ -1202,7 +1202,7 @@ $ svn cleanup
 $ svn status
 M      somedir/foo.c
 </screen>
-        <para>��Ҫ��������������Subversion�û�ʹ�ò����汾���Ƶ�<quote>����-�޸�-����</quote>ģ�ʹ�����������������ϸ�ڼ�<xref linkend="svn.advanced.locking.meanings"/>��</para>
+        <para>不要将工作拷贝锁与Subversion用户使用并发版本控制的<quote>锁定-修改-解锁</quote>模型创建的锁混淆；更多细节见<xref linkend="svn.advanced.locking.meanings"/>。</para>
       </section>
     </section>
     <!-- ================================================================= -->
@@ -1210,9 +1210,9 @@ M      somedir/foo.c
     <!-- ================================================================= -->
     <section xml:id="svn.tour.summary">
       <info>
-        <title>�ܽ�</title>
+        <title>总结</title>
       </info>
-      <para>�����Ѿ������˴����Subversion�Ŀͻ����������עĿ�������Ǵ�����֧��ϲ�(��<xref linkend="svn.branchmerge"/>)�Լ�����(��<xref linkend="svn.advanced.props"/>)�����Ȼ����Ҳ����ϣ������<xref linkend="svn.ref"/>���쿴���в�ͬ�����������������ʹ��Ĺ��������ס�</para>
+      <para>我们已经覆盖了大多数Subversion的客户端命令，引人注目的例外是处理分支与合并(见<xref linkend="svn.branchmerge"/>)以及属性(见<xref linkend="svn.advanced.props"/>)的命令，然而你也许会希望跳到<xref linkend="svn.ref"/>来察看所有不同的命令—怎样利用它们使你的工作更容易。</para>
     </section>
   </chapter>
   <!--
