@@ -1,0 +1,446 @@
+<preface xml:id="svn.preface">
+    <info>
+      <title>序言</title>
+    </info>
+    <blockquote>
+      <attribution>Greg Hudson，Subversion开发者</attribution>
+      <para>
+        <quote>即使你能确认什么是完美，也不要让完美成为好的敌人，更何况你不能确认。因为落入过去陷阱的不悦，你会在设计时因为担心自己的缺陷而无所作为。</quote>
+      </para>
+    </blockquote>
+    <para><indexterm><primary>并行版本系统(CVS)</primary></indexterm>在开源软件世界，长久以来，并行版本系统(CVS)一直是版本控制工具的唯一选择。事实证明，这个选择不错。CVS的自由软件身份，无约束的<foreignphrase>处事态度</foreignphrase>，和对网络化操作的支持(网络使众多身处不同地方的程序员可以共享他们的工作成果)，正符合了开源世界协作的精神，CVS和它半混乱状态的开发模式已成为开源文化的基石。</para>
+    <para>但是，CVS也并不是没有缺陷，而修正这些缺陷必定要耗费很大的精力。而Subversion则是以CVS继任者的面目出现的新型版本控制系统。Subversion的设计者们力图通过两方面的努力赢得CVS用户的青睐：保持开源系统的设计(以及<quote>界面风格</quote>)与CVS尽可能类似，同时尽力弥补CVS许多显著的缺陷。这些努力的结果使得从CVS迁移到Subversion不需要作出重大的变革，Subversion确实是非常强大、非常有用和非常灵活的工具。并且很重要的一点，几乎新开发的开源项目都选择了Subversion替代CVS。</para>
+    <para>本书是为Subversion 1.5系列撰写的。在书中，我们尽力涵盖Subversion的所有内容。但是，Subversion有一个兴盛和充满活力的开发社区，已有许多新的特性和改进措施计划在Subversion新版本中实现，本书中讲述的命令和特性可能会有所变化。</para>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.preface.audience">
+      <info>
+        <title>读者</title>
+      </info>
+      <para>本书是为了那些在计算机领域有丰富知识，并且希望使用Subversion管理数据的人士准备的。尽管Subversion可以在多种不同的操作系统上运行，但其基本用户操作界面是基于命令行的，也就是我们将要在本书中讲述和使用的命令行工具(<command>svn</command>)。</para>
+      <para>出于一致性的考虑，本书的例子假定读者使用的是类Unix的操作系统，并且熟悉Unix和命令行界面。当然，<command>svn</command>程序也可以在入Microsoft Windows这样的非Unix平台上运行，除了一些微小的不同，如使用反斜线(<literal>\</literal>)代替正斜线(<literal>/</literal>)作为路径分隔符，在Windows上运行svn程序的输入和输出与在Unix平台上运行完全一致。</para>
+      <para>大多数读者可能是那些需要跟踪代码变化的程序员或者系统管理员，这是Subversion最普遍的用途，因此这个场景贯穿于整本书的例子中。但是Subversion可以用来管理任何类型的数据：图像、音乐、数据库、文档等等。对于Subversion，数据就是数据而已。</para>
+      <para>本书假定读者从来没有使用过任何版本控制工具，同时，我们也努力使CVS(或其他系统)用户能够轻松的投入到Subversion使用当中，在侧栏不时会出现一些涉及CVS的内容，此外，在附录的一个章节中总结了Subversion和CVS的区别。</para>
+      <para>需要说明的是，所有源代码示例仅仅是例子而已。这些例子需要通过正确编译参数进行编译，在这里列举它们只是为了说明特定的场景，并非为了展示优秀的编码风格。</para>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.preface.howread">
+      <info>
+        <title>怎样阅读本书</title>
+      </info>
+      <para>技术书籍经常要面对这样两难的困境：是迎合<firstterm>自上至下</firstterm>的初学者，还是<firstterm>自下至上</firstterm>的初学者。一个自上至下的学习者会喜欢略读文档，得到对系统工作原理的总体看法；然后她才会开始实际使用软件。而一个自下至上的学习者，是<quote>通过实践学习</quote>的人，他们希望快速的开始使用软件，自己领会软件的使用，只在必要时读取相关章节。大多数图书会倾向于针对某一类读者，而本书毫无疑问倾向于自上至下的方法。(如果你阅读了本节，那你也一定是一个自上至下的学习者！)然而，如果你是自下至上的人，不要失望，本书以Subversion主题的广泛观察进行组织，每个章节都包含了大量可以尝试的详细实例。如果你希望马上开工，没有耐心等待，你可以看<xref linkend="svn.intro"/>。</para>
+      <para>本书适用于具有不同背景知识的各个层次的读者—从未使用过版本控制的新手到经验丰富的系统管理员都能够从本书中获益。根据基础的不同，某些的章节可能对某些读者更有价值。下面的内容可以看作是为不同类型的读者提供的<quote>推荐阅读清单</quote>：</para>
+      <variablelist>
+        <varlistentry>
+          <term>资深系统管理员</term>
+          <listitem>
+            <para>假定你从前使用过版本控制，并且迫切需要建立起Subversion服务器并尽快运行起来，<xref linkend="svn.reposadmin"/>和<xref linkend="svn.serverconfig"/>将会告诉你如何建立起一个版本库，并将其在网络上发布。此后，依靠你的CVS使用经验，<xref linkend="svn.tour"/>和<xref linkend="svn.forcvs"/>将向你展示怎样使用Subversion客户端软件。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>新用户</term>
+          <listitem>
+            <para>如果管理员已经为你准备好了Subversion服务，你所需要的是学习如何使用客户端。如果你没有使用版本控制系统(像CVS)的经验，那么<xref linkend="svn.basic"/>和<xref linkend="svn.tour"/>是重要的入门教程，其中介绍了版本控制的重要思想。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>高级用户</term>
+          <listitem>
+            <para>无论是用户还是管理员，项目终将会壮大起来。那时，就需要学习更多Subversion的高级功能，像如何使用分支和执行合并(<xref linkend="svn.branchmerge"/>)、怎样使用Subversion的属性(<xref linkend="svn.advanced"/>)、怎样配制运行参数(<xref linkend="svn.customization"/>)等等。这两章在学习的初期并不重要，但熟悉了基本操作之后还是非常有必要了解一下。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>开发者</term>
+          <listitem>
+            <para>你应该已经很熟悉Subversion了，并且想扩展它或使用它的API开发新软件。<xref linkend="svn.developer"/>将最适合你。</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>本书以参考材料作为结束—<xref linkend="svn.ref"/>是一部Subversion全部命令的详细指南，此外，在附录中还有许多很有意义的主题。阅读完本书后，这些章节将会是你经常查阅的内容。</para>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.preface.conventions">
+      <info>
+        <title>本书约定</title>
+      </info>
+      <para>本节描述了本书中使用的各种约定。</para>
+      <variablelist>
+        <varlistentry>
+          <term>
+            <userinput>等宽字体</userinput>
+          </term>
+          <listitem>
+            <para>用于命令输入，命令输出和选项</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <filename>斜体</filename>
+          </term>
+          <listitem>
+            <para>Used for program and Subversion tool subcommand
+            names, file and directory names, and new terms</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <replaceable>等宽字体</replaceable>
+          </term>
+          <listitem>
+            <para>用于代码和文本中的可替换部分</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+      <para>Also, we sprinkled especially helpful or important bits of
+      information throughout the book (in contextually relevant
+      locations), set off visually so they're easy to find.  Look for
+      the following icons as you read:</para>
+      <note>
+        <para>此图标表示旁边的内容需特别注意。</para>
+      </note>
+      <tip>
+        <para>此图标表示旁边的内容描述了一个有用的小技巧。</para>
+      </tip>
+      <warning>
+        <para>此图标表示旁边的内容是警告信息。</para>
+      </warning>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.preface.organization">
+      <info>
+        <title>本书的结构</title>
+      </info>
+      <para>以下是各个章节的内容介绍：</para>
+      <variablelist>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.basic"/>
+          </term>
+          <listitem>
+            <para>介绍了版本控制的基础知识及不同的版本模型，同时讲述了Subversion版本库，工作拷贝和修订版本的概念。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.tour"/>
+          </term>
+          <listitem>
+            <para>引领你开始一个Subversion用户的工作。示范怎样使用Subversion获得、修改和提交数据。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.advanced"/>
+          </term>
+          <listitem>
+            <para>覆盖了许多普通用户最终要面对的复杂特性，例如版本化的元数据、文件锁定和peg修订版本。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.branchmerge"/>
+          </term>
+          <listitem>
+            <para>讨论分支、合并与标签，包括最佳实践的介绍，常见用例的描述，怎样取消修改，以及怎样从一个分支转到另一个分支。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.reposadmin"/>
+          </term>
+          <listitem>
+            <para>讲述Subversion版本库的基本概念，怎样建立、配置和维护版本库，以及哪些工具可以完成上述的工作。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.serverconfig"/>
+          </term>
+          <listitem>
+            <para>描述了如何配置Subversion服务器，以及三种访问版本库的方式，<literal>HTTP</literal>、<literal>svn</literal>协议和本地磁盘访问。这里也介绍了认证，授权与匿名访问的细节。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.customization"/>
+          </term>
+          <listitem>
+            <para>研究了Subversion的客户端配置文件，对国际化字符的处理，以及Subversion如何与外置工具交互。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.developer"/>
+          </term>
+          <listitem>
+            <para>介绍了Subversion的核心部件、Subversion的文件系统，以及程序员眼中的工作拷贝管理区域，展示了如何使用公共API编写Subversion应用程序。最重要的内容是，如何为Subversion的开发贡献力量。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.ref"/>
+          </term>
+          <listitem>
+            <para>以大量的实例，详细描述了<command>svn</command>、<command>svnadmin</command>和<command>svnlook</command>的所有子命令。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.intro"/>
+          </term>
+          <listitem>
+            <para>因为缺乏耐心，我们会立刻解释如何安装和使用Subversion，我们已经告诉你了。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.forcvs"/>
+          </term>
+          <listitem>
+            <para>详细比较了Subversion与CVS的异同，并针对如何消除多年使用CVS养成的坏习惯提出建议。内容包括Subversion修订版本号、版本化的目录、离线操作、<command>update</command>与<command>status</command>的对比、分支、标签、元数据、冲突处理和认证。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.webdav"/>
+          </term>
+          <listitem>
+            <para>描述了WebDAV与DeltaV的细节，并介绍了如何将Subversion版本库作为可读/写的DAV共享装载。</para>
+          </listitem>
+        </varlistentry>
+        <varlistentry>
+          <term>
+            <xref linkend="svn.copyright"/>
+          </term>
+          <listitem>
+            <para>Creative Commons Attribution License的拷贝，本书的许可证。</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.preface.free">
+      <info>
+        <title>本书是免费的</title>
+      </info>
+      <para>本书最初是作为Subversion项目的文档并由Subversion的开发者开始撰写的，后来成为一个独立的项目并进行了重写。与Subversion相同，它始终按免费许可证(见<xref linkend="svn.copyright"/>)发布。事实上，本书是在公众的关注中写出来的，最初是Subversion项目的一部分，这有两种含义：</para>
+      <itemizedlist>
+        <listitem>
+          <para>总可以在Subversion的版本库里找到本书的最新版本。</para>
+        </listitem>
+        <listitem>
+          <para>可以任意分发或修改本书—它在免费许可证的控制之下，你的唯一限制是必须保留正确的最初作者。当然，与其独自发布私有版本，不如向Subversion开发社区提供反馈和修正信息。</para>
+        </listitem>
+      </itemizedlist>
+      <!-- O'REILLY SHOULD TWEAK THIS PARAGRAPH -->
+      <para>本书的在线主页在<uri href="http://svnbook.red-bean.com">http://svnbook.red-bean.com</uri>，有许多志愿的翻译工作。在网站上，你可以找到许多本书最新快照和标签版本的链接，也可以访问到本书的Subversion版本库(存放了DocBook XML源文件)。我们欢迎反馈—也愿意接受鼓励。请将所有的评论、抱怨和对本书源文件的补丁发送到<email>svnbook-dev@red-bean.com</email>。本书的中文版主要是由Subversion中文站的志愿者翻译的，可以在<uri href="http://www.subversion.org.cn/">http://www.subversion.org.cn/</uri>看到本书的最新版本和其他资料，也要感谢i18n-zh的朋友的一些支持。</para>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.preface.acks">
+      <info>
+        <title>致谢</title>
+      </info>
+      <para>没有Subversion就不可能有(即使有也没什么价值)这本书。所以作者衷心感谢Brian Behlendorf和CollabNet，他们独到的眼光开创了这个充满冒险但雄心勃勃的开源项目；Jim Blandy贡献了Subversion最初的名字和设计—我们爱你，Jim。还有Karl Fogel，一个好朋友和伟大的社区领袖。<footnote><para>噢，还要感谢Karl为了本书所付出的辛勤工作。</para></footnote></para>
+      <para>感谢O'Reilly和我们的编辑Linda Mui和Tatiana对我们的耐心和支持。</para>
+      <para>最后，我们要感谢数不清的曾经为本书作出贡献的人们，他们进行了非正式的审阅，并给出了大量建议和修改意见。虽然无法列出一个完整的列表，但本书的完整和正确离不开他们：David Anderson, Jani Averbach, Ryan Barrett, Francois Beausoleil, Jennifer Bevan, Matt Blais, Zack Brown, Martin Buchholz, Brane Cibej, John R. Daily, Peter Davis, Olivier Davy, Robert P. J. Day, Mo DeJong, Brian Denny, Joe Drew, Nick Duffek, Ben Elliston, Justin Erenkrantz, Shlomi Fish, Julian Foad, Chris Foote, Martin Furter, Vlad Georgescu, Dave Gilbert, Eric Gillespie, David Glasser, Matthew Gregan, Art Haas, Eric Hanchrow, Greg Hudson, Alexis Huxley, Jens B. Jorgensen, Tez Kamihira, David Kimdon, Mark Benedetto King, Andreas J. Koenig, Nuutti Kotivuori, Matt Kraai, Scott Lamb, Vincent Lefevre, Morten Ludvigsen, Paul Lussier, Bruce A. Mah, Philip Martin, Feliciano Matias, Patrick Mayweg, Gareth McCaughan, Jon Middleton, Tim Moloney, Christopher Ness, Mats Nilsson, Joe Orton, Amy Lyn Pilato, Kevin Pilch-Bisson, Dmitriy Popkov, Michael Price, Mark Proctor, Steffen Prohaska, Daniel Rall, Jack Repenning, Tobias Ringstrom, Garrett Rooney, Joel Rosdahl, Christian Sauer, Larry Shatzer, Russell Steicke, Sander Striker, Erik Sjoelund, Johan Sundstroem, John Szakmeister, Mason Thomas, Eric Wadsworth, Colin Watson, Alex Waugh, Chad Whitacre, Josef Wolf, Blair Zajac, 以及整个Subversion社区。</para>
+      <!-- =============================================================== -->
+      <section xml:id="svn.preface.acks.sussman">
+        <info>
+          <title>来自 Ben Collins-Sussman</title>
+        </info>
+        <para>感谢我的妻子Frances，在好几个月里，我一直在对你说：<quote>但是亲爱的，我还在为这本书工作</quote>，除此之外还有，<quote>但是亲爱的，我还在处理邮件</quote>。我不知道她为什么会如此耐心！她是我完美的平衡点。</para>
+        <para>感谢我的家人对我的鼓励，无论他们是否真的对我的课题感兴趣。(你知道的，一个人说 <quote>哇，你正在写一本书？</quote>，然后当他知道你是写一本计算机书时，那种惊讶就变得没有那么多了。)</para>
+        <para>感谢我身边让我富有的朋友，不要那样看我—你们知道你们是谁。</para>
+        <para>感谢父母对我的低级格式化，和难以置信的角色典范 ，感谢儿子给我机会传承这些东西。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.preface.acks.fitz">
+        <info>
+          <title>来自 Brian W. Fitzpatrick</title>
+        </info>
+        <para>非常非常感谢我的妻子Marie的理解，支持和最重要的耐心。感谢引导我学会UNIX编程的兄弟Eric，感谢我的母亲和祖母的支持，对我在圣诞夜里埋头工作的理解。</para>
+        <para>我要对Mike和Ben说：与你们一起工作非常快乐，Heck，我们在一起工作很愉快！</para>
+        <para>感谢所有在Subversion和Apache软件基金会的人们给我机会与你们在一起，没有一天我不从你们那里学到知识。</para>
+        <para>最后，感谢我的祖父，他一直跟我说<quote>自由等于责任</quote>，我深信不疑。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.preface.acks.cmpilato">
+        <info>
+          <title>来自 C. Michael Pilato</title>
+        </info>
+        <para>特别感谢Amy，我最好的朋友和9年里不可思议的妻子，因为她的爱和耐心支持，因为她提供的深夜工作，因为她对我强加给她的版本控制过程的优雅忍受 。不要担心，甜心—你会立刻成为TortoiseSVN巫师！</para>
+        <para>Gavin，或许现在本书的很多词你还不能读出来，但是当你最终能够书写我们所说的疯狂语言时，希望你会为你的父亲感到骄傲，就像他对你一样。</para>
+        <para>妈妈和爸爸，感谢你们的支持和热情，岳父岳母，以同样的理由感谢你们，还要感谢你们难以置信的女儿。</para>
+        <para>向你们致敬，Shep Kendall，为我打开了通向计算机世界的大门；Ben Collins Sussman，我在开源世界的导师；Karl Fogel—你<emphasis>是</emphasis>我的<filename>.emacs</filename>；Greg Stain，让我在困境中知道怎样编程；Brain Fitzpatrick—同我分享他的写作经验。所有我曾经从你们那里获得知识的人—尽管又不断忘记。</para>
+        <para>最后，对所有为我展现完美卓越创造力的人们—感谢。</para>
+      </section>
+    </section>
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <!-- ================================================================= -->
+    <section xml:id="svn.intro.whatis">
+      <info>
+        <title>Subversion 是什么？</title>
+      </info>
+      <para>Subversion是一个自由/开源的版本控制系统。也就是说，在Subversion管理下，文件和目录可以超越时空。也就是Subversion允许你数据恢复到早期版本，或者是检查数据修改的历史。正因为如此，许多人将版本控制系统当作一种神奇的<quote>时间机器</quote>。</para>
+      <para>Subversion的版本库可以通过网络访问，从而使用户可以在不同的电脑上进行操作。从某种程度上来说，允许用户在各自的空间里修改和管理同一组数据可以促进团队协作。因为修改不再是单线进行，开发速度会更快。此外，由于所有的工作都已版本化，也就不必担心由于错误的更改而影响软件质量—如果出现不正确的更改，只要撤销那一次更改操作即可。</para>
+      <para>某些版本控制系统本身也是软件配置管理(SCM)系统，这种系统经过精巧的设计，专门用来管理源代码树，并且具备许多与软件开发有关的特性—比如，对编程语言的支持，或者提供程序构建工具。不过Subversion并不是这样的系统。它是一个通用系统，可以管理<emphasis>任何</emphasis>类型的文件集。对你来说，这些文件这可能是源程序—而对别人，则可能是一个货物清单或者是数字电影。</para>
+      <!-- =============================================================== -->
+      <section xml:id="svn.intro.righttool">
+        <info>
+          <title>Subversion 是正确的工具吗？</title>
+        </info>
+        <para>如果你是一个考虑如何使用Subversion的用户或管理员，你要问自己的第一件事就是： "这是这项工作的正确工具吗？"，Subversion是一个梦幻般的锤子，但要小心不要把任何问题当作钉子。</para>
+        <para>如果你希望归档文件和目录旧版本，有可能要恢复或需要查看日志获得其修改的历史，那么Subversion是你需要的工具。如果你需要和别人协作文档(通常通过网络)并跟踪所做的修改，那么Subversion也适合。这是Subversion为什么使用在软件开发环境—编程是一件天性的社会活动，Subversion使得与其他程序员的交互变得简单。当然，使用Subversion也有代价：管理负担。你会需要管理一个存放所有历史的数据版本库，并需要经常的备份。而在日常的工作中，你不能像往常一样拷贝、移动、重命名或删除文件，相反，你需要通过Subversion完成这些工作。</para>
+        <para>假定你能够接受额外的工作流程，你一定要确定不要使用Subversion来解决其他工具能够完成的很好的工作。例如，因为Subversion会复制所有的数据到参与者，一个常见的误用是将其作为普通的分布式系统。问题是此类数据通常很少修改，在这种情况下，使用Subversion有点<quote>过了</quote>。<footnote><para>或者像一个朋友说的，<quote>用别克拍苍蝇。</quote></para></footnote>有一些可以复制数据更简单的工具，没有必要过度的跟踪变更，例如<command>rsync</command>或<command>unison</command>。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.intro.history">
+        <info>
+          <title>Subversion 的历史</title>
+        </info>
+        <para>早在2000年，CollabNet, Inc. (<uri href="http://www.collab.net">http://www.collab.net</uri>)就开始寻找CVS替代产品的开发人员。CollabNet提供了一个名为CollabNet企业版(CEE)的协作软件套件。这个软件套件的一个组成部分就是版本控制系统。尽管CEE在最初采用了CVS作为其版本控制系统，但是CVS的局限性从一开始就很明显，CollabNet知道，迟早要找到一个更好的替代品。遗憾的是，CVS已经成为开源世界事实上的标准，很大程度上是因为<emphasis>没有</emphasis>更好的替代品，至少是没有可以自由使用的替代品。所以CollabNet决定从头编写一个新的版本控制系统，这个系统保留CVS的基本思想，但是要修正其中错误和不合理的特性。</para>
+        <para>2000年2月，他们联系到<citetitle>Open Source Development with CVS</citetitle>(Coriolis, 1999)的作者Karl Fogel，并且询问他是否希望为这个新项目工作。巧合的是，当时Karl正在与朋友Jim Blandy讨论设计一个新的版本控制系统。1995年时，他们两人曾经开办了一个提供CVS支持的公司Cyclic Software，尽管他们最终卖掉了公司，但还是天天使用CVS进行日常工作。使用CVS时的挫折促使Jim认真的思考如何管理版本化的数据，并且他当时不仅使用了<quote>Subversion</quote>这个名字，并且已经完成了Subversion版本库的最初设计。所以当CollabNet提出邀请的时候，Karl马上同意为这个项目工作，同时Jim也找到了他的雇主—Red Hat软件公司允许他到这个项目工作，并且没有限定最终的期限。CollabNet雇佣了Karl和Ben Collins Sussman，详细设计工作从三月开始，在Behlendorf 、CollabNet、Jason Robbins和Greg Stein(当时是一个独立开发者，活跃在WebDAV/DeltaV系统规范制订工作中)恰到好处的激励下，Subversion很快吸引了许多活跃的开发者，结果是许多对CVS有过失望经历的人很乐于为这个项目做些事情。</para>
+        <para>最初的设计小组设定了简单的开发目标。他们不想在版本控制方法学中开垦处女地，他们只是希望修正CVS。他们决定Subversion应符合CVS的特性，并保留相同的开发模型，但不再重复CVS的一些显著缺陷。尽管Subversion并不需要成为CVS的完全替代品，但它应该与CVS保持足够的相似性，以使CVS用户可以轻松的转移到Subversion上。</para>
+        <para>经过14个月的编码，2001年8月31日，Subversion能够<quote>自己管理自己</quote>了，开发者停止使用CVS保存Subversion的代码，而使用Subversion本身。</para>
+        <para>虽然CollabNet启动了这个项目，并且一直提供了大量的工作支持(它为一些全职的Subversion开发者提供薪水)，但Subversion像其它许多开源项目一样，被松散的、透明的规则管理着，这样的规则激励着知识界的精英们。CollabNet的版权许可证完全符合Debian的自由软件方针。也就是说，任何人都可以根据自己的意愿自由的下载、修改和重新发布Subversion，不需要CollabNet或其他人的授权。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.intro.architecture">
+        <info>
+          <title>Subversion 的架构</title>
+        </info>
+        <para><xref linkend="svn.intro.architecture.dia-1"/>给出了Subversion设计总体上的<quote>俯视图</quote>。</para>
+        <figure xml:id="svn.intro.architecture.dia-1">
+          <info>
+            <title>Subversion 的架构</title>
+          </info>
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/ch01dia1.png"/>
+            </imageobject>
+          </mediaobject>
+        </figure>
+        <para>图中的一端是保存所有版本数据的Subversion版本库，另一端是Subvesion的客户程序，管理着所有版本数据的本地影射(称为<quote>工作拷贝</quote>)，在这两极之间是各种各样的版本库访问(RA)层，某些使用电脑网络通过网络服务器访问版本库，某些则绕过网络服务器直接访问版本库。</para>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.intro.components">
+        <info>
+          <title>Subversion 的组件</title>
+        </info>
+        <para>安装好的Subversion由几个部分组成，下面将简单的介绍一下这些组件。下文的描述或许过于简略，不易理解，但不用担心—本书后面的章节中会用<emphasis>更多的</emphasis>内容来详细阐述这些组件。</para>
+        <variablelist>
+          <varlistentry>
+            <term>svn</term>
+            <listitem>
+              <para>命令行客户端程序</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>svnversion</term>
+            <listitem>
+              <para>此工具用来显示工作拷贝的状态(用术语来说，就是当前项目的修订版本)</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>svnlook</term>
+            <listitem>
+              <para>直接查看Subversion版本库的工具</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>svnadmin</term>
+            <listitem>
+              <para>建立、调整和修复Subversion版本库的工具</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>mod_dav_svn</term>
+            <listitem>
+              <para>Apache HTTP服务器的一个插件，使版本库可以通过网络访问</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>svnserve</term>
+            <listitem>
+              <para>一个单独运行的服务器程序，可以作为守护进程或由SSH调用。这是另一种使版本库可以通过网络访问的方式。</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>svndumpfilter</term>
+            <listitem>
+              <para>过滤Subversion版本库转储数据流的工具</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>svnsync</term>
+            <listitem>
+              <para>一个通过网络增量镜像版本库的程序</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+      <!-- =============================================================== -->
+      <section xml:id="svn.intro.whatsnew">
+        <info>
+          <title>Subversion 有什么新东西？</title>
+        </info>
+        <para>此书的第一版在2004年发布，也就是Subversion1.5发布后不久。经过4年，Subversion发布了5个主要的新版本，修正了bug，增加了主要的新特性。我们一直保持本书在线版本的更新，我们现在很兴奋的是O'Reilly将会发布包含Subversion的1.5版本的第二版，1.5版本是项目的一个主要里程碑。下面是从Subversion 1.0以来主要变更的总结，注意这不是完整的列表；详细信息可以访问Subversion的网站<uri href="http://subversion.tigris.org">http://subversion.tigris.org</uri>。</para>
+        <variablelist>
+          <varlistentry>
+            <term>Subversion 1.1 (2004年9月)</term>
+            <listitem>
+              <para>1.1版本引入了FSFS，纯文件的版本库存储选项。虽然BerkeleyDB后端被广泛的使用，但因为FSFS其较低的门槛和较小的管理需要，FSFS还是成为新建版本库的<quote>缺省的</quote>选项。另外这个版本能够将符号链纳入版本控制，能够自动回避URL，还有本地化的用户界面。</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Subversion 1.2 (2005年5月)</term>
+            <listitem>
+              <para>1.2版本引入了为文件在服务器端创建<quote>锁定</quote>的功能，实现对特定资源的顺序访问。虽然Subversion一直基本上是一个并行版本控制系统，特定类型的的二进制文件(艺术作品，例如)不能合并在一起，锁定特性填补了对此类资源的版本化保护。随着锁定也引入了一个完整的<quote>auto-versioning</quote>实现，允许Subversion版本库作为网络文件夹加载，最后，Subversion 1.2开始使用新的，更快的二进制区别算法来压缩和检索文件旧的版本。</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Subversion 1.3 (2005年12月)</term>
+            <listitem>
+              <para>1.3版本为<command>svnserve</command>服务器引入路径为基础的授权控制，与Apache服务器对应的特性匹配。Apache服务器自己也获得了新的日志特性，Subversion其他语言的API绑定也取得了巨大的进步。</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>针对Subversion1.4(2006年9月)</term>
+            <listitem>
+              <para>1.4版本引入了完全的新工具—<command>svnsync</command>—用来通过网络完成单向的版本库复制。一个重要的部分是工作拷贝元数据得到修补，不再使用XML(获得客户端的速度改善)，而BerkeleyDB版本库后端获得了在发生冲突时自动<quote>恢复</quote>的能力。</para>
+            </listitem>
+          </varlistentry>
+          <varlistentry>
+            <term>Subversion 1.5 (2008年6月)</term>
+            <listitem>
+              <para>1.5版本花费了比以前版本更长的时间，但是头号特性是巨大的：分支和合并的半自动跟踪，这是用户带来巨大便利，也将Subversion的能力远远超越CVS，进入了商业竞争者Perforce和Clearcase的级别，Subversion 1.5也引入了一些其他用户关注的特性，例如交互式的冲突解决，部分检出，变更列表的客户端管理，<literal>svn:externals</literal>特性的强大新语法，以及对<command>svnserve</command>服务器的SASL认证支持。</para>
+            </listitem>
+          </varlistentry>
+          <!-- TODO:  Yep.  -->
+          <varlistentry>
+            <term>Subversion 1.6 (???)</term>
+            <listitem>
+              <para>???</para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+    </section>
+  </preface>
+  <!--
+local variables: 
+sgml-parent-document: ("book.xml" "chapter")
+end:
+-->
