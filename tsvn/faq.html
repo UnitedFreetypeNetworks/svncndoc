@@ -563,16 +563,9 @@ local file.</p> </div>
 <p>这个错误通常是在你更新工作拷贝时发生。之所以抛出这个错误是因为 Subversion 绝对不会擅自删除或者覆盖你已有的本地文件。有三个可能原因会导致这个错误：</p>
 <ol>
 <li>你有一个未纳入版本控制的本地文件，名字跟其他人已添加的文件一样。这种情况下你可以先移走或者重命名你的本地文件再更新。之后你可以决定是需要合并还是把你的文件改个名字。</li>
-<li>A file has been renamed in the repository, but it differs only in case, 
-like <cite>Install.txt</cite> to <cite>install.txt</cite>, and you have local 
-changes. When you update, you end up in a situation (1), where the modified 
-local file appears as unversioned. Move it somewhere else, update, then sort 
-out the mess.</li>
-<li>There are actually 2 different files in the repository whose names differ 
-only in case. This <em>cannot</em> work on a Windows checkout, 
-because the Windows file system is not case-sensitive. It is likely that one of 
-the files got added by mistake, so you need to find out which one, make sure 
-there are no changes committed to the wrong file, then delete it.</li>
+<li>版本库中的一个文件被重命名了，但只是大小写不一样，如 <cite>Install.txt</cite> 改为 <cite>install.txt</cite>，而你在本地作了修改。当你更新时就会遇到第一种情况，你修改过的本地文件被视为未纳入版本控制。将它移到其它地方，再更新，问题解决。</li>
+<li>版本库中有两个文件的名字只是大小写不同，这在 Windows 下是 <em>不</em> 允许签出的，因为 Windows 的文件系统是大小写不敏感的。很可能其中一个文件是误添加的，所以你要找出是哪一个，然后删除它，以确保不
+会把更改提交到错误的文件。</li>
 </ol>
 </div>
 
@@ -603,23 +596,16 @@ for the repository access than you use for logging in to your workstations
 </div>
 
 <div class="h3" id="clientold" title="clientold">
-<h3>This client is too old to work with working copy 'XXX'</h3>
-<p>The full error message is: This client is too old to work with working copy 
-'.'; please get a newer Subversion client.</p>
-<p>You will get this error message once you have used a Subversion client linked 
-with a higher Subversion version, and then try to execute a command with a 
-Subversion client linked with an older version, e.g., you used an 1.4.x client 
-on your working copy, and now you try an svn 1.3.x client on the same working copy.</p>
-<p>The reason for this is that Subversion 1.4 and 1.5 upgrade the working copies 
-transparently on every command. But once the working copy format is upgraded, 
-older clients can't access the working copy anymore because they don't know the new format.</p>
-<p>The only solution to 'fix' this is to upgrade whatever client you use and 
-that gave you this error message. Or do a fresh checkout with the older client.</p>
+<h3>客户端版本太旧，不能操作工作拷贝‘XXX’</h3>
+<p>完整的错误信息是：客户端版本太旧，不能操作工作拷贝'.'；请下载更高版本的 Subversion 客户端。</p>
+<p>当先使用一个比较高版本的 Subversion 客户端，然后又用比较低版本的客户端来执行命令，就会发生这个错误。比如你先用了 1.4.x 版的客户端操作工作拷贝，然后用 1.3.x 版的操作同一个工作拷贝。</p>
+<p>这是因为 Subversion 1.4 和 1.5 会自动更新工作拷贝的格式，而老版本的客户端不认新的格式。</p>
+<p>唯一的解决办法是升级你的客户端，或者用你老版本的客户端重新签出。</p>
 </div>
 
 <div class="h3" id="wcoutofdate" title="wcoutofdate">
 <h3>Working copy is out-of-date</h3>
-<p>You will get this error message when you are trying to commit changes you 
+<p>这个错误是在提交修改的时候出现的，通常是因为其他人已经更新You will get this error message when you are trying to commit changes you 
 made to your working copy. Normally this happens, because somebody else has 
 changed the same file(s) in the repository as you have.</p>
 <p>That means you need to use the <cite>Update</cite> command to update your 
@@ -671,44 +657,35 @@ to this user.</p>
 <div class="h3" id="four00" title="four00">
 <h3>400 Bad Request</h3>
 <p>REPORT request failed on '...' REPORT of '...': 400 Bad Request (http://...)</p>
-<p>You're behind a firewall which blocks DAV requests. Most firewalls do that.
-Either ask your Administrator to change the firewall, or access the repository 
-with <strong>https://</strong> instead of <strong>http://</strong> like in 
-<a href='https://svn.collab.net/repos/svn/'>https://svn.collab.net/repos/svn/</a>
-That way you connect to the repository with SSL encryption, which firewalls 
-can't interfere with (if they don't block the SSL port completely).
+<p>你的 DAV 请求被防火墙阻止了，多数防火墙都会这么这么干。你可以让你的管理员更改防火墙的设置，或者以 <strong>https</strong> 访问，如 <a href='https://svn.collab.net/repos/svn/'>https://svn.collab.net/repos/svn/</a> ，这样你与版本库之间的通信是经过 SSL 加密的，防火墙无法阻止（如果它没有封掉 SSL 端口的话）。
 </p>
-<p>Also some virus scanners (i.e. Kapersky) are known to interfere and cause
-this error.</p>
+<p>另外，现已确认某些病毒扫描程序（如卡巴斯基）也会导致这个错误。</p>
 </div>
 
 <div class="h3" id="four03" title="four03">
 <h3>403 Forbidden</h3>
 <p>PROPFIND request failed: 403 Forbidden</p>
-<p>It's probably because you've entered the parent path of your repository 
-instead of the actual repository path.  Try appending the name of the repository 
-you wish to access to the URL.  You also need to append the URL with a 
-trailing '/' slash, after the repository name.</p>
-<p>For more information about the actual error, seek out the Apache error log.</p>
+<p>这有可能因为你试图访问版本库的父目录（而不是版本库本身）。你可以试着在 URL 尾部指定版本库的名字，还有别忘了名字后面的斜杠 ‘/’。</p>
+<p>有关导致此错误的真正原因，请查看 Apache 的错误日志。</p>
 </div>
 
 <div class="h3" id="four05" title="four05">
 <h3>405 HTTP Method Not Allowed</h3>
 <p>PROPFIND Request Failed - Error 405 HTTP Method Not Allowed</p>
-<p>This message comes in different flavours. You might be seeing this error when:</p>
+<p>这个错误有几种形式，可能的原因有以下几个：</p>
 <ul>
 <li><strong>PROPFIND Request Failed</strong>
-You tried to browse the parent path of a repository instead of the repository itself using an older version of TortoiseSVN.  Try appending the name of the repository you wish to access, or upgrade TortoiseSVN to 1.2.3 or newer.</li>
+你试图使用较低版本的 TortoiseSVN 浏览版本库的父目录。你可以试着在 URL 尾部指定版本库的名字，或者升级 TortoiseSVN 到 1.2.3 版或更高。</li>
 <li><strong>PROPFIND Request Failed</strong>
-You forgot to append a '/' slash to the end of the URL you entered.  Older versions of TSVN require that there be a '/' after the repository name.  If you forget this, TSVN will strip the repository name from the URL and therefore try to access the parent directory.</li>
+你漏了 URL 末尾的斜杠 ‘/’，较旧版本的 TSVN 要求在版本库名字后必须有斜杠，否则它会砍掉版本库名字，等于试图访问它的父目录。</li>
 <li><strong>PROPFIND Request Failed</strong>
-You try to access the repository through a proxy which does not allow DAV requests. Usually you can browse your repository with your webbrowser just fine, only if you use a svn client you get this error. You have to configure your proxy/firewall server to let DAV requests through. Or try using https instead of http: most proxies can't analyze encrypted network packets and therefore can't block DAV requests anymore.
+你可能正尝试通过一个不允许 DAV 请求的代理访问版本库。通常你用网页浏览器浏览版本库是没问题的，只在使用 svn 客户端时才出错。你必须配置你的代理服务器或防火墙，以让 DAV 请求通过，或者使用 https 来访问，多数代理服务器无法分析加密过的信息包，因而也就无法阻止 DAV 请求了。
 <br />
-Another possibility for this error is a virus scanner/firewall you have running on your machine. A lot of those filter out DAV requests without you even noticing it. Try disabling the scanner/firewalll.</li>
+另一个可能是你正在运行病毒扫描程序或防火墙，很多此类软件会在你根本不知道的情况下就阻止了 DAV 请求，可以试一下禁用它们。</li>
 <li><strong>Lock Request Failed</strong>
-You tried to lock a file in your working copy which no longer exists in the repository. Update your working copy before trying to lock files.</li>
+你尝试在工作拷贝中锁定一个文件，而这个文件在版本库中已经不存在了。你需要先更新工作拷贝。</li>
 </ul>
-<p>For more information about what actually caused the error, seek out the Apache error log.</p>
+<p>有关导致此错误的真正原因，请查看 Apache 的错误日志。</p>
 </div>
 
 </div>
