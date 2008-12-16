@@ -512,16 +512,18 @@ correct, which means it would be worse than useless.</p>
 <p>有些人不喜欢 Subversion 
 在更新时自动合并其他人的修改和自己的本地修改，如果要强制这些文件为冲突状态，之后再自己手工合并，可以这么做：</p>
 <ol> 
-<li>在 TortoiseSVN-
->Settings->Subversion configuration file, 点编辑按钮</li> 
-<li>Change the [helpers] section by adding diff-cmd = "C:\\false.bat" diff3-cmd 
-= "C:\\false.bat" (note the double backslash)</li> <li>Create the file 
-C:\false.bat which contains two lines <pre> @type %9 @exit 1 </pre> </li> </ol> 
-<p>This effectively makes auto-merge fail every time, forcing the file into 
-conflict.</p> <p>The reason for the curious 'type %9' line is that the diff3-cmd 
-sends the merged output to stdout. Subversion then takes this and overwrites 
-your local file with the merge results. Adding this line avoids getting an empty 
-local file.</p> </div>
+<li>在 TortoiseSVN -> 设置 -> Subversion 配置文件, 点编辑按钮</li> 
+<li>修改 [helpers] 部分，添加 diff-cmd = "C:\\false.bat" diff3-cmd 
+= "C:\\false.bat" （注意，有两个反斜杠）</li> 
+<li>创建文件 C:\false.bat，输入两行
+<pre>@type %9 
+@exit 1 
+</pre> 
+</li> 
+</ol>
+
+<p>这可以令自动合并总是失败，从而强制文件变为冲突状态。</p> 
+<p>写上 'type %9' 这行是因为 diff3-cmd 会将合并结果输出到标准输出，然后 Subversion 会以这个合并结果覆盖你的本地文件。写上这句，你的本地文件就不会变成一个空文件。</p> </div>
 
 <div class="h3" id="currentrepo" title="currentrepo">
 <h3>……我当前是在哪一个沙盒/版本库？</h3>
@@ -604,54 +606,32 @@ for the repository access than you use for logging in to your workstations
 </div>
 
 <div class="h3" id="wcoutofdate" title="wcoutofdate">
-<h3>Working copy is out-of-date</h3>
-<p>这个错误是在提交修改的时候出现的，通常是因为其他人已经更新You will get this error message when you are trying to commit changes you 
-made to your working copy. Normally this happens, because somebody else has 
-changed the same file(s) in the repository as you have.</p>
-<p>That means you need to use the <cite>Update</cite> command to update your 
-working copy to the same level as the repository.</p>
-<p>It may not be obvious why you need to do this, especially if you <em>know</em> 
-the repository has not changed. The answer is simply that your working copy is 
-not completely updated by a commit. Only changed files and folders get updated 
-automatically. Consider this example on a newly created repository:</p>
+<h3>工作拷贝已过期</h3>
+<p>这个错误是在提交修改的时候出现的，通常是因为在版本库里，你想要提交的文件已经被其他人修改了。</p>
+<p>这时你要先用 <cite>更新</cite> 命令更新的的工作拷贝到版本库当前的版本。</p>
+<p>你可能会不明白为什么要这么做，尤其是在你 <em>确知</em> 版本库并没有被修改过的情况下。答案很简单，因为提交的时候，并不会彻底更新你的工作拷贝，而只是那些修改的文件会被自动更新。举个例子，有个新建的版本库：</p>
 <pre>
 Add Folder in revision 1
 Add File1 and File2 in revision 2
 Modify File1 and commit in revision 3
 </pre>
-<p>Now the repository is at revision 3, but in your working copy the revisions look like this:</p>
+<p>现在版本库处于修订版本 3，但你的工作拷贝的版本会是这个样子：</p>
 <pre>
 Folder       : revision 1
 Folder/File1 : revision 3
 Folder/File2 : revision 2
 </pre>
-<p>Now if you modify File2 and try to commit, it fails. The client tells the 
-repository that File2 is at revision 2 with local modifications, but the repository 
-is already at revision 3. If you then do an update, File2 will be at revision 3 
-as well (and of course your local changes will still be there).</p>
-<p>The same thing may happen if you try to create a branch or tag. The answer 
-is always the same: If your working copy is out-of-date, update it!</p>
+<p>这时如果你修改 File2 然后提交，就会失败。因为客户端告诉版本库 File2 是在版本 2 的基础上作修改的，但是版本库已经处于版本 3 了。如果此时你执行更新命令，就会将 File2 也变成版本 3 （当然，你的本地修改还会在的）。</p>
+<p>这个错误还可能在你试图创建分支或标签时出现。答案永远都是：如果工作拷贝已经过期，那就更新呗！</p>
 </div>
 
 <div class="h3" id="standardout" title="standardout">
-<h3>Unable to write to Standard output</h3>
-<p>TortoisePlink uses the standard plink code, but is compiled as a Windowless 
-app, so there's nowhere to send the error messages to. In TSVN settings->network, 
-set the SSH client box to use standard plink, where the error messages are 
-displayed in a command box. Once that is working, use TortoisePlink with the 
-same parameters.</p>
-<p>"could not write to standard output" means that Plink wanted to throw an error, 
-but since TortoisePlink doesn't provide a DOS-box there's no standard output to 
-write the error message to.</p>
-<p>So something with the setup is wrong. Try with the normal plink program and 
-see there what error message really is thrown and then fix the setup.</p>
-<p>If normal plink just hangs, then the wrong params are passed to it 
-(settings dialog, network tab).</p>
-<p>Another possibility is that the SSH daemon is most likely not able to find the 
-svnserve binary. Login with your target user (here myuser) into the server and 
-type &quot;which svnserve&quot;. If you don't see the path to the binary, make 
-this file (and most likely the other subversion binaries) globally accessible 
-to this user.</p>
+<h3>无法写到标准输出</h3>
+<p>TortoisePlink 使用的是标准的 plink 代码，但不是针对 Windows 编译的，因而无法正常发送错误信息。在 TSVN 的设置 -> 网络里，将 SSH 客户端指向标准 plink，错误信息就会输出到一个命令行窗口中。设置好之后再像之前一样运行 TortoisePlink。</p>
+<p>“无法写到标准输出” 表示 Plink 想要抛出一个错误，但是因为 TortoisePlink 并没有提供一个 DOS 窗口，所以就没没有标准输出来接收这个错误信息。</p>
+<p>知道是设置有问题后，可以先使用普通的 plink 程序，看到底是什么错误，解决它。</p>
+<p>如果普通 plink 挂住了，那就是参数不对（设置 -> 网络）。</p>
+<p>另一个可能是 SSH 后台程序找不到 svnserve 可执行文件。以你将要使用的用户（此处为 myuser）登录到服务器，输入 &quot;which svnserve&quot;，如果没有显示指向可执行文件的路径，就把该文件（以及其它 Subversion可执行文件）设为对于该用户可全局访问。</p>
 </div>
 
 <div class="h3" id="four00" title="four00">
