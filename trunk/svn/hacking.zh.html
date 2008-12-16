@@ -1299,19 +1299,9 @@ Yoshiki Hayashi最近在发送他写的补丁的时候一直都附带着测试�
 
 <p>日志信息是对修改内容的一个介绍。可以以一行先简单概述修改的摘要信息，然后如果需要的话，再细述修改的内容的细节。以摘要方式写日志这种方式不仅可以让开发人员更好的看懂剩余的日志信息，而且对于像“CIA”这种类似IRC即时通讯软件的可以自动将提交信息中的首行发布到实时论坛上面的机器人程序也是有利的。（细节请参考：<a href="http://cia.navi.cx/">http://cia.navi.cx/</a>。）不过，如果当次提交只是对一个文件做了简单的修改的话，那么你可以省掉开头的摘要信息，直接描述细节的内容，格式就像你下面看到的这种“文件名-符号”的形式。</p>
 
-<p>在日志信息中，要使用完整的语句去描述，而不要使用Throughout the log message, use full sentences, not sentence
-fragments.  Fragments are more often ambiguous, and it takes only a
-few more seconds to write out what you mean.  Certain fragments like
-"Doc fix", "New file", or "New function" are acceptable because they
-are standard idioms, and all further details should appear in the
-source code.</p>
+<p>在日志信息中，要使用完整的语句去描述清楚，而不要过分讲究言简意赅，那样容易让人产生歧义，况且把你想要表达的意思写清楚了也不过需要多花你几秒钟的时间而已。不过有些表述像“文档修订”，“新文件”虽然用词比较少，但是也是可以接受的，因为大家都已经非常熟悉这些用词的意思了，更细节的内容就应该放到源代码里面了。</p>
 
-<p>The log message should name every affected function, variable,
-macro, makefile target, grammar rule, etc, including the names of
-symbols that are being removed in this commit.  This helps people
-searching through the logs later.  Don't hide names in wildcards,
-because the globbed portion may be what someone searches for later.
-For example, this is bad:</p>
+<p>日志信息应该把受影响的函数，变量，宏，makefile目标，语法规则等的名称都写清楚，这还包括那些在此次提交中被删除的符号。这能够帮助其他人以后更好的检索日志内容。不要使用通配符来代替这些名称，因为这些名称可能以后有人检索的时候会用到。例如下面这样的日志格式就不是很好：</p>
 
 <pre>
    * subversion/libsvn_ra_pigeons/twirl.c
@@ -1322,9 +1312,7 @@ For example, this is bad:</p>
    * subversion/libsvn_ra_pigeons/twirl.h: Fix indentation.
 </pre>
 
-<p>Later on, when someone is trying to figure out what happened to
-`twirling_baton_fast', they may not find it if they just search for
-"_fast".  A better entry would be:</p>
+<p>以后，当有人想要查看‘twirling_baton_fast’文件的历史操作的时候，如果他们使用“_fast”去搜索的话，那么他们可能就找不到相应的内容了。一个比较好的日志格式应该是：</p>
 
 <pre>
    * subversion/libsvn_ra_pigeons/twirl.c
@@ -1336,20 +1324,11 @@ For example, this is bad:</p>
    * subversion/libsvn_ra_pigeons/twirl.h: Fix indentation.
 </pre>
 
-<p>The wildcard is okay in the description for
-`handle_parser_warning', but only because the two structures were
-mentioned by full name elsewhere in the log entry.</p>
+<p>只有当上面两个结构（译者注：twirling_baton_fast，twirling_baton_slow）的完整名称在日志的其他地方被引用了的时候，我们才可以在描述‘handle_parser_warning’的时候才可以使用通配符。</p>
 
-<p>Note how each file gets its own entry prefixed with an "*", and the
-changes within a file are grouped by symbol, with the symbols listed
-in parentheses followed by a colon, followed by text describing the
-change.  Please adhere to this format, even when only one file is
-changed&nbsp;&mdash;&nbsp;not only does consistency aid readability,
-it also allows software to colorize log entries automatically.</p>
+<p>注意到每个文件都以“*”号开头放到单独一个条目中，文件内的修改以符号作为分组依次列举，符号使用括号包起来然后后面跟着一个冒号，最后是描述修改内容的文字。请遵循这样的格式，即使只修改了一个文件&nbsp;&mdash;&nbsp;这样不仅仅保证了一致性和可读性，还允许软件自动为日志信息的每个条目加上不同的颜色。</p>
 
-<p>As an exception to the above, if you make exactly the same change
-in several files, list all the changed files in one entry. For
-example:</p>
+<p>不过也有例外情况，就是当你对多个文件做同样内容的修改的时候，要把所有修改的文件放置到一个条目中去。例如下面这样：</p>
 
 <pre>
    * subversion/libsvn_ra_pigeons/twirl.c,
@@ -1357,9 +1336,7 @@ example:</p>
      Include svn_private_config.h.
 </pre>
 
-<p>If all the changed files are deep inside the source tree, you can
-shorten the file name entries by noting the common prefix before the
-change entries:</p>
+<p>如果所有改动的文件都位于源代码树上比较深的层次的时候，你可以在条目之前注明公共的文件路径前缀，这样文件名就不用使用完整路径了，例如：</p>
 
 <pre>
    [in subversion/bindings/swig/birdsong]
@@ -1372,10 +1349,7 @@ change entries:</p>
      extremely low brain-to-body mass ratio.
 </pre>
 
-<p>If your change is related to a specific issue in the issue tracker,
-then include a string like "issue #N" in the log message, but make
-sure you still summarize what the change is about.  For example, if a
-patch resolves issue #1729, then the log message might be:</p>
+<p>如果你的更改是针对issue tracker工具中的特定的issue的时候，那么在日志中要包含类似“issue #N”这样的字符串，但还是要写清楚更改的内容。例如，如果一个补丁解决了issue #1729，那么日志信息可能像下面这样：</p>
 
 <pre>
    Fix issue #1729: Don't crash because of a missing file.
@@ -1384,9 +1358,7 @@ patch resolves issue #1729, then the log message might be:</p>
      (frobnicate_file): Check that file exists before frobnicating.
 </pre>
 
-<p>Try to put related changes together.  For example, if you create
-svn_ra_get_ansible2(), deprecating svn_ra_get_ansible(), then those
-two things should be near each other in the log message:</p>
+<p>尽量把相关修改内容放在一起。例如，如果你创建了svn_ra_get_ansible2()，然后把svn_ra_get_ansible()废弃了，那么关于这两个修改的描述信息在日志信息中应该放到一块：</p>
 
 <pre>
    * subversion/include/svn_ra.h
@@ -1394,28 +1366,18 @@ two things should be near each other in the log message:</p>
      (svn_ra_get_ansible): Deprecate.
 </pre>
 
-<p>For large changes or change groups, group the log entry into
-paragraphs separated by blank lines.  Each paragraph should be a set
-of changes that accomplishes a single goal, and each group should
-start with a sentence or two summarizing the change.  Truly
-independent changes should be made in separate commits, of course.</p>
+<p>对于比较大的修改或者修改集，使用空行对这些修改集分段落进行记录。每一段应该描述完成同一目标的修改集的内容，并且在段落之前加上一两句概述的信息。当然，对于非常独立的修改，最好是独立提交。</p>
 
-<p>See <a href="#crediting">Crediting</a> for how to give credit to
-someone else if you are committing their patch, or committing a change
-they suggested.</p>
+<p>关于提交别人编写的补丁或者别人建议的更改的时候如何注明他们的贡献的问题，参考 <a href="#crediting">贡献</a>。 </p>
 
-<p>One should never need the log entries to understand the current
-code.  If you find yourself writing a significant explanation in the
-log, you should consider carefully whether your text doesn't actually
-belong in a comment, alongside the code it explains.  Here's an
-example of doing it right:</p>
+<p>一个人不应该需要通过日志条目去了解当前的代码。如果你发现自己在日志中对更改的内容做了很详尽的解释的话，那么你应该考虑清楚，你所写的内容是不是应该和需要解释的代码一起放到代码注释里头。下面这个例子才是正确的做法：</p>
 
 <pre>
    (consume_count): If `count' is unreasonable, return 0 and don't
     advance input pointer.
 </pre>
 
-<p>And then, in `consume_count' in `cplus-dem.c':</p>
+<p>然后在‘cplus-dem.c’文件中的‘consume_count’处：</p>
 
 <pre>
    while (isdigit((unsigned char)**type))
@@ -1433,33 +1395,15 @@ example of doing it right:</p>
         }
 </pre>
 
-<p>This is why a new function, for example, needs only a log entry
-saying "New Function" --- all the details should be in the source.</p>
+<p>这就是为什么当我们添加了一个新函数的时候，我们只需要在日志中注明“新函数”——因为所有的细节内容都应该放在源代码中。</p>
 
-<p>You can make common-sense exceptions to the need to name everything
-that was changed.  For example, if you have made a change which
-requires trivial changes throughout the rest of the program (e.g.,
-renaming a variable), you needn't name all the functions affected, you
-can just say "All callers changed".  When renaming any symbol, please
-remember to mention both the old and new names, for traceability; see
-r20946 for an example.</p>
+<p>我们并不需要每次更改都把受影响的所有内容都注明清楚，有时候你需要凭常识去排除一些例外的情况。例如，当你做了一些更改，但是并不会对其他程序产生什么影响（例如，重命名一个变量），那么你不需要把所有受影响的函数都列举出来，你只需要注明“所有调用者都受影响”（All Caller Changed）即可。当重命名一个符号的时候，记住要注明旧名称和新名称，这样便于跟踪；示例参考r20946。</p>
 
-<p>In general, there is a tension between making entries easy to find
-by searching for identifiers, and wasting time or producing unreadable
-entries by being exhaustive.  Use the above guidelines and your best
-judgment, and be considerate of your fellow developers.  (Also, <a
+<p>通常来说，写出便于检索的日志条目，和浪费时间或者写一大堆详尽的可读性非常差的条目之间就像拉力赛一样。你需要使用上面提出的指导意见，还有你自己做出最好的判断，并且多考虑一下你的同事。（还有，<a
 href="http://subversion.tigris.org/servlets/BrowseList?listName=svn">
-run "svn log"</a> to see how others have been writing their log
-entries.)</p>
+运行"svn log"</a>看看其他人都是怎么写日志的。）</p>
 
-<p>Log messages for documentation or translation have somewhat looser
-guidelines.  The requirement to name every symbol obviously does not
-apply, and if the change is just one more increment in a continuous
-process such as translation, it's not even necessary to name every
-file.  Just briefly summarize the change, for example: "More work on
-Malagasy translation."  Please write your log messages in English, so
-everybody involved in the project can understand the changes you
-made.</p>
+<p>对文档或者翻译的日志信息格式要求比较松一些。如果要求对每个符号都命名的话那也太不现实了，甚至如果只是在一个连续的过程里面对例如翻译做了一些增量的改动的话，那么甚至都不需要把每个文件的名称都写到日志里头。只需要简单的概述一下更改内容，例如：“More work on Malagasy translation.”请用英语来写日志，这样所有参与项目的成员才都能看懂日志，了解你做的更改。</p>
 
 </div>
 
