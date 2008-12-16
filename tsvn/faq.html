@@ -573,27 +573,18 @@ correct, which means it would be worse than useless.</p>
 
 <div class="h3" id="four01" title="four01">
 <h3>OPTIONS of '&lt;path&gt;': 401 Authorization Required &lt;url&gt;</h3>
-<p>When upgrading to version 1.4.x, you suddenly can't access your repository 
-anymore. Every try is rejected with the error message: <em>OPTIONS of 'path': 401 Authorization Required 'url'</em></p>
-<p>The reason for this is the automatic authentication with SSPI which is 
-activated in version 1.4.x. That means TortoiseSVN now tries to authenticate 
+<p>升级到 1.4.x 版之后，你发现无法访问版本库了，每次都出这个错： <em>OPTIONS of 'path': 401 Authorization Required 'url'</em>。 </p>
+<p>这是因为 1.4.x 版使用了 SSPI 自动验证，这意味着 TortoiseSVN That means TortoiseSVN now tries to authenticate 
 automatically with the credentials of the user logged on to the Windows domain 
 controller.</p>
-<p>If you have set up your server to authenticate with SSPI against a domain 
-controller, and the domain controller does not have the user account GUEST 
-enabled, you should be fine. But if the user account GUEST is active, then all 
-authentication succeeds with that user - and you usually won't give the user 
-GUEST access to your repository. That's why the <em>authentication</em> succeeds, 
-but the <em>authorization</em> fails.</p>
-<p>Another reason why it can fail is if you have set up different accounts 
-for the repository access than you use for logging in to your workstations 
-(although then I wonder why you are using SSPI authentication in the first place).</p>
-<p>To solve this issue you have the following options:</p>
+<p>如果你设置你的服务器以 SSPI 的方式向域控制器作身份验证，而域控制器又没开放 GUEST 用户的话，不会有问题。但是如果开放了 GUEST 用户，自然所有以 GUEST 用户进行的验证都会通过——但是一般来说你是不会授权 GUEST 访问你的版本库的。这就造成了 <em>验证</em> 通过了，但 <em>授权</em> 不成功。</p>
+<p>另一个失败的原因是，你设置用来访问版本库的用户跟你用来登录工作站的用户不一致（那我就奇怪了，如果是这样你根本就不应该以 SSPI 方式来验证呀）。</p>
+<p>有几个方法可以解决此问题：</p>
 <ul>
-<li>disable the GUEST account on the domain controller</li>
-<li>use the same accounts for your workstations and access to the repository</li>
-<li>disable SSPI authentication for the repository</li>
-<li>Check the case of the usernames. Changing the usernames in the access files to lowercase also might solve this problem</li>
+<li>在域控制器中禁用 GUEST 用户</li>
+<li>将登录工作站的用户和访问版本库的用户设为一样</li>
+<li>不用 SSPI 来做版本库验证</li>
+<li>检查用户名的大小写，将控制文件中的用户名改为小写对解决问题也可能有帮助</li>
 </ul>
 </div>
 
