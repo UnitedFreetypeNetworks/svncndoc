@@ -12,9 +12,11 @@ Checkout               签出
 Update                 更新
 Commit                 提交
 Change                 更改
-Revert                 恢复
+Revert                 还原
 Conflict               冲突
-Revision Graph         版本图
+Revision Graph         版本分支图
+Tag                    标记
+
 
 --------- 在下面添加新的 -----------
 (add here)
