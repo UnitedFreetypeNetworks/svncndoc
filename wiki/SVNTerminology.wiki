@@ -14,7 +14,7 @@ Commit                 提交
 Change                 更改
 Revert                 恢复
 Conflict               冲突
-Revision Graph         修订版本
+Revision Graph         版本图
 
 --------- 在下面添加新的 -----------
 (add here)
